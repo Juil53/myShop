@@ -1,9 +1,13 @@
 import React from "react";
 import { lazy } from "react";
 
-const DashboardPage = lazy(() => import("../Pages/AdminPage/Dashboard"));
-const UserManagementPage = lazy(() => import("../Pages/AdminPage/UserManagement"));
-const ProductManagementPage = lazy(() => import("../Pages/AdminPage/ProductManagement"));
+const DashboardPage = lazy(() => import("../pages/Admin/AdminPage/Dashboard"));
+const UserManagementPage = lazy(() =>
+  import("../pages/Admin/AdminPage/UserManagement")
+);
+const ProductManagementPage = lazy(() =>
+  import("../pages/Admin/AdminPage/ProductManagement")
+);
 
 const routeAdmin = [
   {
@@ -14,7 +18,7 @@ const routeAdmin = [
       <React.Suspense fallback={<>...</>}>
         <DashboardPage />
       </React.Suspense>
-    )
+    ),
   },
   {
     page: "UserManagement",
@@ -22,9 +26,9 @@ const routeAdmin = [
     path: "/user-management",
     element: (
       <React.Suspense fallback={<>...</>}>
-        <UserManagementPage/>
+        <UserManagementPage />
       </React.Suspense>
-    )
+    ),
   },
   {
     page: "ProductManagement",
@@ -32,10 +36,10 @@ const routeAdmin = [
     path: "/product-management",
     element: (
       <React.Suspense fallback={<>...</>}>
-        <ProductManagementPage/>
+        <ProductManagementPage />
       </React.Suspense>
-    )
-  }
-]
+    ),
+  },
+];
 
 export default routeAdmin;
