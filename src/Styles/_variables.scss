@@ -1,0 +1,30 @@
+//Color
+$mainColor: #35c0c5;
+$blackColor: #212529;
+$blackColor-2: #363636;
+$whiteColor: #fff;
+$grayColor: #cccccc;
+$grayColor-2: #acacac;
+$grayColor-3: #898989;
+$grayColor-4: #ebebeb;
+
+//Container Width
+$container-lg: 100%;
+$container-md: 90%;
+
+@mixin btnStyle {
+    height: 2.1875rem;
+    width: max-content;
+    line-height: 2.1875rem;
+    border: 1px solid $grayColor-4;
+    padding: 0 0.625rem;
+    box-shadow: none;
+
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+
+    color: $blackColor;
+    background-color: $whiteColor;
+}
