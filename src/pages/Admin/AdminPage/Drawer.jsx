@@ -10,9 +10,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
-
-import "../../Styles/main.scss";
-
 function MyDrawer(props) {
   const { history } = props;
   // const navigate = useNavigate();
@@ -49,7 +46,7 @@ function MyDrawer(props) {
             const { text, icon, href } = item;
             return (
               <Link to={href} key={index}>
-                <ListItem button >
+                <ListItem button>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
@@ -62,4 +59,4 @@ function MyDrawer(props) {
   );
 }
 
-export default (MyDrawer);
+export default MyDrawer;
