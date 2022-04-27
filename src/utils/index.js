@@ -5,4 +5,4 @@ export const delay = (time) =>
     }, time);
   });
 
-export const clone = (obj) => JSON.parse(JSON.stringify(obj)); //tao vung nho moi, khong tro truc tiep vao data goc tranh truong hop thay doi du lieu khong mong muon
+export const clone = (obj) => JSON.parse(JSON.stringify(obj));

@@ -1,5 +1,4 @@
 import { delay, clone } from "../../utils";
-
 import products from "./mock/products";
 
 const data = {
