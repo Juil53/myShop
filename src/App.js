@@ -1,10 +1,7 @@
-import AdminPage from "./Pages/AdminPage";
-
-
+import AdminPage from "./pages/Admin/AdminPage";
+import Product from "./components/product";
 function App() {
-  return (
-    <AdminPage/>
-  );
+  return <Product />;
 }
 
 export default App;
