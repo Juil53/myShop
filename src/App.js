@@ -1,9 +1,7 @@
+import "./App.css";
 import AdminPage from "./Pages/Admin/AdminPage";
-// import Product from "./components/product";
 function App() {
-  return (
-    <AdminPage/>
-  );
+  return <AdminPage />;
 }
 
 export default App;
