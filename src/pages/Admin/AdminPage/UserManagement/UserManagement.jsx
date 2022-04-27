@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../Styles/main.scss"
+import "../../../../scss/App.scss"
 import SearchIcon from '@mui/icons-material/Search';
 import UserTable from "./UserTable";
 
