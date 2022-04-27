@@ -15,7 +15,6 @@ import "../../Styles/main.scss";
 
 function MyDrawer(props) {
   const { history } = props;
-  // const navigate = useNavigate();
   const itemList = [
     {
       text: "Dashboard",

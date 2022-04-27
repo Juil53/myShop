@@ -1,9 +1,9 @@
 import React from "react";
 import { lazy } from "react";
 
-const DashboardPage = lazy(() => import("../Pages/AdminPage/Dashboard"));
-const UserManagementPage = lazy(() => import("../Pages/AdminPage/UserManagement"));
-const ProductManagementPage = lazy(() => import("../Pages/AdminPage/ProductManagement"));
+const DashboardPage = lazy(() => import("../Pages/AdminPage/Dashboard/Dashboard"));
+const UserManagementPage = lazy(() => import("../Pages/AdminPage/UserManagement/UserManagement"));
+const ProductManagementPage = lazy(() => import("../Pages/AdminPage/ProductManagement/ProductManagement"));
 
 const routeAdmin = [
   {

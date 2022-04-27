@@ -1,0 +1,35 @@
+.btn--success {
+    background-color: $successColor;
+    color: $whiteColor;
+}
+
+.btn--danger {
+    background-color: $dangerColor;
+    color: $whiteColor;
+}
+
+.btn-warning {
+    background-color: $warningColor;
+    color: $whiteColor;
+}
+
+.search__box {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin: 20px 0;
+    width: 100%;
+    height: 50px;
+}
+
+.search__box--input {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    margin-left: 1rem;
+    
+    font-weight: 700;
+    line-height: 20px;
+    font-size: 20px;
+}
