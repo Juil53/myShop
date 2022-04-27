@@ -1,12 +1,14 @@
 import React from "react";
 import { lazy } from "react";
 
-const DashboardPage = lazy(() => import("../pages/Admin/AdminPage/Dashboard"));
+const DashboardPage = lazy(() =>
+  import("../pages/Admin/AdminPage/Dashboard/Dashboard")
+);
 const UserManagementPage = lazy(() =>
-  import("../pages/Admin/AdminPage/UserManagement")
+  import("../pages/Admin/AdminPage/UserManagement/UserManagement")
 );
 const ProductManagementPage = lazy(() =>
-  import("../pages/Admin/AdminPage/ProductManagement")
+  import("../pages/Admin/AdminPage/ProductManagement/ProductManagement")
 );
 
 const routeAdmin = [

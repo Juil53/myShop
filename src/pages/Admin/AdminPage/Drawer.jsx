@@ -12,7 +12,6 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
 function MyDrawer(props) {
   const { history } = props;
-  // const navigate = useNavigate();
   const itemList = [
     {
       text: "Dashboard",
