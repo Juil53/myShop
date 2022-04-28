@@ -18,18 +18,18 @@ ul > li {
   list-style: none; }
 
 .btn {
-  height: 2.1875rem;
   width: max-content;
-  line-height: 2.1875rem;
   border: 1px solid #ebebeb;
-  padding: 0 0.625rem;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
   box-shadow: none;
   font-size: 0.8125rem;
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
   color: #212529;
-  background-color: #fff; }
+  background-color: #fff;
+  cursor: pointer; }
 
 .container {
   width: 100%;
@@ -72,27 +72,54 @@ ul > li {
 .grid {
   display: grid; }
 
+.usermanagement {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
 .btn--success {
   background-color: green;
-  color: #fff; }
+  color: #fff;
+  transition: all 400ms; }
+  .btn--success:hover {
+    border: 1px solid green;
+    background-color: #fff;
+    color: green; }
 
 .btn--danger {
   background-color: #e63b3b;
-  color: #fff; }
+  color: #fff;
+  transition: all 400ms; }
+  .btn--danger:hover {
+    border: 1px solid #e63b3b;
+    background-color: #fff;
+    color: #e63b3b; }
 
 .btn-warning {
   background-color: #f1f140;
-  color: #fff; }
+  color: #fff;
+  transition: all 400ms; }
+  .btn-warning:hover {
+    border: 1px solid #f1f140;
+    background-color: #fff;
+    color: #f1f140; }
 
-.search__box {
+.search {
   display: flex;
+  justify-content: flex-start;
   align-items: center;
+  width: 20%;
+  height: 40px;
+  padding: 0 1rem;
+  border-radius: 5px;
   font-size: 16px;
-  margin: 20px 0;
-  width: 100%;
-  height: 50px; }
+  background-color: #acacac;
+  transition: all 400ms; }
+  .search:hover {
+    width: 25%;
+    background-color: #cccccc; }
 
-.search__box--input {
+.search__input {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -100,16 +127,8 @@ ul > li {
   margin-left: 1rem;
   font-weight: 700;
   line-height: 20px;
-  font-size: 20px; }
-
-.admin {
-  display: flex; }
-
-.drawer {
-  width: 15.3125rem; }
-
-.content {
-  width: 80%;
-  height: 80vh;
-  margin-top: 5rem;
-  margin-left: 1rem; }
+  font-size: 20px;
+  background-color: #acacac;
+  transition: all 400ms; }
+  .search__input:hover {
+    background-color: #cccccc; }

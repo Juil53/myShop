@@ -1,21 +1,26 @@
 import React from "react";
-import "../../../../scss/App.scss"
-import SearchIcon from '@mui/icons-material/Search';
-import UserTable from "./UserTable";
-
+import "../../../../scss/App.scss";
+import SearchIcon from "@mui/icons-material/Search";
+import { UserTable } from "./UserTable";
 
 function UserManagement() {
   return (
-    <div className="content">
-      <button className="btn btn--success">Thêm</button>
-      <div className="search__box">
-        <SearchIcon/>
-        <input className="search__box--input" type="text" placeholder="search"/>
+    <>
+      <div className="container usermanagement">
+        <div className="search">
+          <SearchIcon />
+          <input placeholder="Search..." type="text" className="search__input"/>
+        </div>
+
+        <div className="add-btn">
+          <button className="btn btn--success">Thêm</button>
+        </div>
       </div>
-      <div>
-        <UserTable/>
+      <div className="table">
+        <UserTable />
       </div>
-    </div>
+      {/* <UserModal/> */}
+    </>
   );
 }
 

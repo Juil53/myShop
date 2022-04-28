@@ -1,0 +1,75 @@
+.usermanagement {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn--success {
+    background-color: $successColor;
+    color: $whiteColor;
+    transition: $transition;
+    &:hover {
+        border: 1px solid $successColor;
+        background-color:$whiteColor;
+        color:$successColor;
+    }
+}
+
+.btn--danger {
+    background-color: $dangerColor;
+    color: $whiteColor;
+    transition: $transition;
+    &:hover {
+        border: 1px solid $dangerColor;
+        background-color:$whiteColor;
+        color:$dangerColor;
+    }
+}
+
+.btn-warning {
+    background-color: $warningColor;
+    color: $whiteColor;
+    transition: $transition;
+    &:hover {
+        border: 1px solid $warningColor;
+        background-color:$whiteColor;
+        color:$warningColor;
+    }
+}
+
+.search {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 20%;
+    height: 40px;
+    padding: 0 1rem;
+
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: $grayColor-2;
+    transition: $transition;
+    &:hover {
+        width: 25%;
+        background-color:$grayColor;
+    }
+}
+
+
+.search__input {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    margin-left: 1rem;
+    
+    font-weight: 700;
+    line-height: 20px;
+    font-size: 20px;
+
+    background-color: $grayColor-2;
+    transition: $transition;
+    &:hover {
+        background-color:$grayColor;
+    }
+}
