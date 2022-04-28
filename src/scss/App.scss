@@ -1,7 +1,6 @@
 @import "./variables";
+@import "./base";
 @import "./shape";
 @import "./color";
 @import "./layout";
-@import "./base";
-@import "./usermanagement";
-@import "./adminpage";
+@import "../pages/Admin/AdminPage/UserManagement/usermanagement"

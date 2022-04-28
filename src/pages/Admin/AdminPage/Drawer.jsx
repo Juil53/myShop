@@ -1,17 +1,36 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import { ListItemIcon, Toolbar } from "@mui/material";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Toolbar,
+  AppBar,
+  Typography,
+  Box,
+  CssBaseline,
+} from "@mui/material";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+
+const drawerWidth = "14rem";
 
 function MyDrawer(props) {
   const { history } = props;
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const itemList = [
     {
       text: "Dashboard",
@@ -33,28 +52,93 @@ function MyDrawer(props) {
     },
   ];
 
-  return (
-    <div className="drawer">
-      {/* Drawer */}
-      <Drawer variant="permanent">
-        <Toolbar>
-          <h1>Shopping</h1>
-        </Toolbar>
-        <List>
-          {itemList.map((item, index) => {
-            const { text, icon, href } = item;
-            return (
-              <Link to={href} key={index}>
-                <ListItem button>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              </Link>
-            );
-          })}
-        </List>
-      </Drawer>
+  const drawer = (
+    <div>
+      <Toolbar>
+        <Typography variant="h6" noWrap component="h6">
+          Dashboard
+        </Typography>
+      </Toolbar>
+      <List>
+        {itemList.map((item, index) => {
+          const { text, icon, href } = item;
+          return (
+            <Link to={href} key={index}>
+              <ListItem button>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </Link>
+          );
+        })}
+      </List>
     </div>
+  );
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "block", lg: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Box
+        component="nav"
+        sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", lg: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+    </Box>
   );
 }
 

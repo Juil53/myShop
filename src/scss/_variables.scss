@@ -12,17 +12,18 @@ $successColor: green;
 $dangerColor: rgb(230, 59, 59);
 $warningColor: rgb(241, 241, 64);
 
+//Transition
+$transition: all 400ms;
 
 //Container Width
 $container-lg: 100%;
 $container-md: 90%;
 
 @mixin btnStyle {
-    height: 2.1875rem;
     width: max-content;
-    line-height: 2.1875rem;
     border: 1px solid $grayColor-4;
-    padding: 0 0.625rem;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
     box-shadow: none;
 
     font-size: 0.8125rem;
@@ -32,4 +33,6 @@ $container-md: 90%;
 
     color: $blackColor;
     background-color: $whiteColor;
+
+    cursor: pointer;
 }

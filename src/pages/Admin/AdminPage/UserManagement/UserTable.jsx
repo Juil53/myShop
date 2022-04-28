@@ -1,18 +1,38 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { TablePagination } from "@mui/material";
+import { Box, TablePagination } from "@mui/material";
+import { actGetUser } from "../../../../store/services/userActions";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-const rows = [
-  //data
-];
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function BasicTable() {
+export const theme = createTheme({
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet: 480,
+      pc: 700,
+    },
+  },
+});
+
+export function UserTable() {
+  const rows = useSelector((state) => state.userReducer.userData);
+  console.log(rows);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(actGetUser());
+  }, []);
+
   // Table config
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -23,44 +43,78 @@ export default function BasicTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+  const tableHead = [
+    "First Name",
+    "Last Name",
+    "Email",
+    "Password",
+    "Phone number",
+    "Role",
+    "Actions",
+  ];
+
+  //renderTableHead
+  const renderTableHead = () => {
+    return tableHead.map((column, index) => {
+      return (
+        <TableCell key={index} align="center">
+          {column}
+        </TableCell>
+      );
+    });
+  };
+
+  //renderTableBody
+  const renderTable = () => {
+    return rows?.map((user, index) => {
+      return (
+        <TableRow key={index}>
+          <TableCell>{user.id}</TableCell>
+          <TableCell align="center">{user.firstname}</TableCell>
+          <TableCell align="center">{user.lastname}</TableCell>
+          <TableCell align="center">{user.email}</TableCell>
+          <TableCell align="center">{user.password}</TableCell>
+          <TableCell align="center">{user.phonenumber}</TableCell>
+          <TableCell align="center">{user.role}</TableCell>
+          <TableCell align="center">
+            <IconButton color="error">
+              <DeleteIcon />
+            </IconButton>
+            <IconButton color="warning">
+              <EditIcon />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+      );
+    });
+  };
+
+  const tablePc = (
+    <TableContainer>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Full Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Phone number</TableCell>
-            <TableCell align="right">Password</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell>ID</TableCell>
+            {renderTableHead()}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-          <TablePagination
-            component="div"
-            page={page}
-            count={100}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[5, 10, 20]}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </TableBody>
+        <TableBody>{renderTable()}</TableBody>
       </Table>
+      <TablePagination
+        component="div"
+        page={page}
+        count={100}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[5, 10, 20]}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </TableContainer>
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Box>{tablePc}</Box>
+    </ThemeProvider>
   );
 }
