@@ -1,0 +1,107 @@
+//product info popup
+.productinfopopup{  
+  position: relative;
+  background-color: $whiteColor;
+width: 70%;
+  &__img{
+    width: 40%;
+    .img-container{
+      width: 100%;
+      padding-top: 100%;
+    }
+  }
+  &__info{   
+    padding: 0.1rem;
+    margin-left: 0.5rem;
+    width: 60%;
+    &-name{
+      font-size: 1.5rem;
+      max-width: 90%;
+    }
+    &-name:hover{
+      color: $mainColor;
+      cursor: pointer;
+    }
+    &-vend{
+      margin-top: 0.3rem;
+      color: $blackColor-3;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid $grayColor-1;
+      .left{
+        border-right: 1px solid $grayColor-1;
+        padding: 0 0.5rem 0 0;
+      }
+      .right{
+        margin-left: 0.5rem;
+      }
+      span{
+        margin-left: 0.3rem;
+      }
+    }
+    &-price{
+      font-size: 1.3rem;
+      span{
+        color: $grayColor-2;
+        text-decoration: line-through;
+        font-weight: 500;
+        font-size: 1rem;
+        margin-left: 1rem;
+      }
+    }
+    &-attributes{
+      margin-top: 1.73em;
+      color: $blackColor-3;
+      div{
+        margin-top: 0.5rem;
+      }
+    }
+    &-color{
+     
+    }
+    &-quantity{
+      padding-top: 1rem;
+      button {
+        padding: 8px 15px 8px 15px;
+        border: 1px solid $grayColor-1;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+      button:hover{
+        background-color: $mainColor;
+        color: $whiteColor;
+      }
+      button:disabled{
+        background-color: $grayColor-2;
+      }
+      input {
+        width: 4rem;
+        text-align: center;
+        outline: none;
+        font-size: 20px;
+        border: 1px solid $grayColor-1;
+      }
+    }
+    .addcart-btn{
+      margin-top: 1rem;
+      font-size: 1rem;
+      width: 14rem;
+      background-color: $mainColor;
+      color: $whiteColor;
+      height: 2.5rem;
+    }
+    .addcart-btn:hover{
+      background-color: $blueColor;
+    }
+  }
+  &__cancel-btn{
+    position: absolute;
+    top: -0.6rem;
+    right: -0.6rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: $whiteColor;
+    text-align: center;
+    line-height: 1.2rem;
+    background-color: $dangerColor;
+  }
+}

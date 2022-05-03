@@ -1,7 +1,11 @@
 @import "./variables";
 @import "./shape";
 @import "./color";
+@import "./typography";
 @import "./layout";
 @import "./base";
 @import "./usermanagement";
 @import "./adminpage";
+@import "../components/ProductCard/productcard";
+@import "../components/ProductSection/productsection";
+@import "../components/Popup/popup";

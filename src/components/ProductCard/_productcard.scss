@@ -1,0 +1,109 @@
+.productcard{
+  width: 100%;
+  transition: all ease 0.3s;  
+  position: relative;
+}
+.productcard__image {
+  width: 100%;
+  cursor: pointer;
+  .img-container{
+    width: 100%;
+    padding-top: 110%;
+  }
+}
+.productcard__image-overlay{
+  width: 100%;
+  height: 17.1875rem;
+  position: absolute;
+  background-color: $blackColor;
+  z-index: 1;
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.productcard__discount{
+  padding: 0.1875rem 0.625rem;
+  line-height: 1.5rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5em;
+  background-color: $mainColor;
+  color: $whiteColor;
+}
+.productcard:hover .productcard__image-overlay{
+  display: block;
+}
+.productcard__info{
+  margin-top: 1rem;  
+  text-align: center;
+  .productcard__info-name{
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    transition: all ease 0.3s;
+  }
+  .productcard__info-name:hover{
+    color: $mainColor;
+  }
+  .productcard__info__price{
+    margin-top: 0.5rem;
+  }
+  .productcard__info__price span{
+    margin-left: 0.3rem;
+    color: $grayColor;
+    font-weight: 500;
+    text-decoration: line-through;
+  }
+  .productcard__info-feature{
+    margin-top: 1rem;
+    .detail-btn{
+      height: 2.1875rem;
+      border: 1px solid $grayColor-1;
+      text-transform: uppercase;
+      color: $blackColor;
+      padding: 0 0.6rem;
+      transition: all ease 0.3s;
+    }
+    .detail-btn:hover{
+      background-color: $mainColor;
+      color: $whiteColor;
+    }
+    .showpopup-btn{
+      width: 2.1875rem;
+      height: 2.1875rem;
+      margin: 0 0.2rem;
+      background-color: $grayColor;
+      color: $whiteColor;
+      transition: all ease 0.3s;
+      box-sizing: border-box;
+    }
+    .showpopup-btn:hover{
+      background-color: $mainColor;
+    }
+  }
+}
+.productcard__info-row{
+  margin-left: 0.5rem;
+  margin-top: 0;
+  text-align: left;
+}
+@media only screen and (min-width: 600px) {
+  .productcard{
+    width: 13.125rem;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .productcard{
+    width: 15.625rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .productcard{
+    width: 15.625rem;
+  }
+}
