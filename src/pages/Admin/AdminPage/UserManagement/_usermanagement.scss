@@ -1,5 +1,5 @@
 .usermanagement {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
@@ -10,8 +10,8 @@
     transition: $transition;
     &:hover {
         border: 1px solid $successColor;
-        background-color:$whiteColor;
-        color:$successColor;
+        background-color: $whiteColor;
+        color: $successColor;
     }
 }
 
@@ -21,8 +21,8 @@
     transition: $transition;
     &:hover {
         border: 1px solid $dangerColor;
-        background-color:$whiteColor;
-        color:$dangerColor;
+        background-color: $whiteColor;
+        color: $dangerColor;
     }
 }
 
@@ -32,8 +32,8 @@
     transition: $transition;
     &:hover {
         border: 1px solid $warningColor;
-        background-color:$whiteColor;
-        color:$warningColor;
+        background-color: $whiteColor;
+        color: $warningColor;
     }
 }
 
@@ -43,33 +43,55 @@
     align-items: center;
     width: 20%;
     height: 40px;
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
 
-    border-radius: 5px;
+    border-radius: 10px;
+    border: 1px solid $mainColor;
+    background-color: rgba(255, 255, 255, 0.706);
+
     font-size: 16px;
-    background-color: $grayColor-2;
     transition: $transition;
     &:hover {
-        width: 25%;
-        background-color:$grayColor;
+        background-color: $grayColor-4;
     }
 }
 
+.search__icon {
+    color: $mainColor;
+    opacity: 0.8;
+    transition: $transition;
+    cursor: pointer;
+    &:hover {
+        opacity: 1;
+        font-size: 2rem;
+    }
+}
 
 .search__input {
     display: inline-block;
     width: 100%;
     height: 100%;
-    padding: 10px;
     margin-left: 1rem;
-    
-    font-weight: 700;
+
+    font-weight: 400;
     line-height: 20px;
     font-size: 20px;
 
-    background-color: $grayColor-2;
+    background-color: transparent;
     transition: $transition;
-    &:hover {
-        background-color:$grayColor;
+
+}
+
+.admin__title {
+    margin-bottom: 1rem;
+}
+
+.admin__form {
+    .MuiFormControl-root {
+        margin: 5px 0;
+    }
+    .MuiTextField-root {
+        width: 100%;
     }
 }

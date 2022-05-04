@@ -16,8 +16,10 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import logo from "../../../../assets/logo.jpg"
 
 const drawerWidth = "14rem";
 
@@ -54,10 +56,8 @@ function MyDrawer(props) {
 
   const drawer = (
     <div>
-      <Toolbar>
-        <Typography variant="h6" noWrap component="h6">
-          Dashboard
-        </Typography>
+      <Toolbar className="adminToolbar">
+          <img src={logo} alt="logo" />
       </Toolbar>
       <List>
         {itemList.map((item, index) => {
@@ -76,8 +76,10 @@ function MyDrawer(props) {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <CssBaseline />
+
+      {/* Header */}
       <AppBar
         position="fixed"
         sx={{
@@ -91,7 +93,7 @@ function MyDrawer(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "block", lg: "none" } }}
+            sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
@@ -103,7 +105,7 @@ function MyDrawer(props) {
 
       <Box
         component="nav"
-        sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
         <Drawer
@@ -121,19 +123,6 @@ function MyDrawer(props) {
               width: drawerWidth,
             },
           }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", lg: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
         >
           {drawer}
         </Drawer>

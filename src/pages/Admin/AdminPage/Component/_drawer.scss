@@ -1,0 +1,14 @@
+.MuiListItem-root {
+  &:hover {
+    background-color: $mainColor;
+  }
+}
+
+img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.adminToolbar{
+  padding: 0;
+}

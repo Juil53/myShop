@@ -1,5 +1,5 @@
 import React from "react";
-import MyDrawer from "./AdminPage/Drawer";
+import MyDrawer from "./AdminPage/Component/Drawer";
 import routeAdmin from "../../routes/AdminRoute";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box, Toolbar } from "@mui/material";
@@ -20,7 +20,6 @@ function AdminPage() {
             sx={{
               flexGrow: 1,
               p: 3,
-              width: { sm: `calc(100% - ${drawerWidth}px)` },
             }}
           >
             <Toolbar />
