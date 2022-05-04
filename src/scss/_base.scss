@@ -5,29 +5,36 @@
   border: none;
   outline: none;
 }
+
 html{
   font-size: 62.5%;
 }
+
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   line-height: 1.15;
-  font-size: 1.4rem;
+  font-size: 0.875rem;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
 a {
   text-decoration: none;
   color:$blackColor;
 }
+
 button,a{
   cursor: pointer;
 }
+
 ul > li {
   list-style: none;
 }
@@ -40,6 +47,7 @@ ul > li {
   width: $container-lg;
   margin:0 auto;
 }
+
 .img-container {
   display: block;
   position: relative;
@@ -67,14 +75,17 @@ ul > li {
   display: none;
   background: rgba($color: #000000, $alpha: 0.2);
 }
+
 .modal.active {
   display: block;
 }
+
 .center {
   display: flex !important;
   justify-content: center;
   align-items: center;
 }
+
 .slick-prev,
 .slick-next {
   background-color: rgba($color: #000000, $alpha: 0.2) !important;
@@ -84,9 +95,11 @@ ul > li {
   z-index: 3;
   border-radius: 4px;
 }
+
 .slick-next {
   right: 0px;
 }
+
 .slick-prev {
   left: 0px;
 }
