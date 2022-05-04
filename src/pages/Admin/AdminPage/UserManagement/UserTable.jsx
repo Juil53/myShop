@@ -1,19 +1,18 @@
-import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { Box, IconButton, TablePagination } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Box, TablePagination } from "@mui/material";
-import { actGetUser } from "../../../../store/services/userActions";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actDeleteUser, actGetUser, actGetUserInfo } from "../../../../store/actions/user";
 
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+
 
 export const theme = createTheme({
   breakpoints: {
@@ -27,11 +26,21 @@ export const theme = createTheme({
 
 export function UserTable() {
   const rows = useSelector((state) => state.userReducer.userData);
-  console.log(rows);
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(actGetUser());
   }, []);
+
+  //Handle Delete User
+  const handleDelete = (userId) => {
+    dispatch(actDeleteUser(userId));
+  };
+
+  //Handle Edit User
+  const handleGetUserInfo = (user) => {
+    dispatch({ type: "OPEN_MODAL" });
+    dispatch(actGetUserInfo(user))
+  }
 
   // Table config
   const [page, setPage] = React.useState(0);
@@ -77,10 +86,14 @@ export function UserTable() {
           <TableCell align="center">{user.phonenumber}</TableCell>
           <TableCell align="center">{user.role}</TableCell>
           <TableCell align="center">
-            <IconButton color="error">
+            <IconButton color="error" onClick={()=>{
+              handleDelete(user.id)
+            }}>
               <DeleteIcon />
             </IconButton>
-            <IconButton color="warning">
+            <IconButton color="warning" onClick={()=>{
+              handleGetUserInfo(user)
+            }}>
               <EditIcon />
             </IconButton>
           </TableCell>
