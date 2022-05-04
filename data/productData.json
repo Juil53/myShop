@@ -1,4 +1,4 @@
-[
+expost const dataProduct = [
     {
       "categoryName": "Shoes",
       "product": [
