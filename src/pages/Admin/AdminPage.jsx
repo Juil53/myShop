@@ -4,7 +4,6 @@ import routeAdmin from "../../routes/AdminRoute";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box, Toolbar } from "@mui/material";
 
-const drawerWidth = "14rem";
 const routes = routeAdmin.map((route, index) => (
   <Route key={index} path={route.path} element={route.element} />
 ));
@@ -20,9 +19,9 @@ function AdminPage() {
             sx={{
               flexGrow: 1,
               p: 3,
+              mt:8,
             }}
           >
-            <Toolbar />
             <Routes>{routes}</Routes>
           </Box>
         </Box>

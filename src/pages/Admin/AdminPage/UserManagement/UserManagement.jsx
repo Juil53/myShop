@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../../../../scss/App.scss";
 import { UserTable } from "./UserTable";
-import { actGetUserInfo } from "../../../../store/actions/user";
+import { actGetKeyword, actGetUserInfo } from "../../../../store/actions/user";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
@@ -11,11 +11,14 @@ import UserModal from "./UserModal";
 
 function UserManagement() {
   const dispatch = useDispatch();
+  const keyword = useSelector((state) => state.userReducer.keyword);
   const handleOpen = () => dispatch({ type: "OPEN_MODAL" });
+  const handleChange = (event) => dispatch(actGetKeyword(event.target.value));
   const handleResetModal = () => dispatch(actGetUserInfo(null));
-  const handleClearSeach = () => {
-    document.querySelector(".search__input").value = "";
-  };
+  const handleClearSeach = () => (
+    (document.querySelector(".search__input").value = null),
+    dispatch(actGetKeyword(null))
+  );
 
   return (
     <>
@@ -23,9 +26,10 @@ function UserManagement() {
         <div className="search">
           <SearchIcon className="search__icon" />
           <input
-            placeholder="Search..."
+            placeholder="Search by Email..."
             type="text"
             className="search__input"
+            onChange={handleChange}
           />
           <CloseIcon
             className="search__icon"
@@ -38,8 +42,8 @@ function UserManagement() {
         <div className="add-btn">
           <Button
             variant="contained"
-            color="success"
-            startIcon={<AddBoxRoundedIcon />}
+            color="primary"
+            startIcon={<AddBoxRoundedIcon/>}
             onClick={() => {
               handleResetModal();
               handleOpen();
@@ -49,9 +53,11 @@ function UserManagement() {
           </Button>
         </div>
       </div>
+
       <div className="table">
-        <UserTable />
+        <UserTable keyword={keyword} />
       </div>
+      
       <UserModal />
     </>
   );

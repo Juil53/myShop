@@ -6,15 +6,19 @@
   outline: none;
 }
 
+html{
+  font-size: 62.5%;
+}
+
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.15;
-  font-size: 0.875rem;
+  font-size: 1.4rem;
 }
 
 a {
   text-decoration: none;
-  color:$blackColor;
+  color: $blackColor;
 }
 
 ul > li {
@@ -22,10 +26,24 @@ ul > li {
 }
 
 .btn {
-  @include btnStyle
+  width: max-content;
+  border: 1px solid $grayColor-4;
+  border-radius: 5px;
+  padding: 1rem 2rem;
+  box-shadow: none;
+
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+
+  color: $blackColor;
+  background-color: $whiteColor;
+
+  cursor: pointer;
 }
 
 .container {
   width: $container-lg;
-  margin:0 auto;
+  margin: 0 auto;
 }

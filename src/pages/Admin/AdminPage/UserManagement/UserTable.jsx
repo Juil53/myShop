@@ -1,7 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, IconButton, TablePagination } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Box, IconButton, Pagination } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,48 +9,45 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actDeleteUser, actGetUser, actGetUserInfo } from "../../../../store/actions/user";
+import {
+  actDeleteUser,
+  actGetUser,
+  actGetUserInfo,
+  actGetUserPagination,
+} from "../../../../store/actions/user";
 
-
-
-export const theme = createTheme({
-  breakpoints: {
-    values: {
-      mobile: 0,
-      tablet: 480,
-      pc: 700,
-    },
-  },
-});
-
-export function UserTable() {
-  const rows = useSelector((state) => state.userReducer.userData);
+export function UserTable({ keyword }) {
   const dispatch = useDispatch();
+  const rows = useSelector((state) => state.userReducer.userData);
+  const rowsPagination = useSelector((state) => state.userReducer.userDataPagination);
+  const searchData = keyword ? rowsPagination?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1) : rowsPagination;
+
+  //Get All User Data
   React.useEffect(() => {
     dispatch(actGetUser());
   }, []);
 
   //Handle Delete User
-  const handleDelete = (userId) => {
-    dispatch(actDeleteUser(userId));
-  };
+  const handleDelete = (userId) => dispatch(actDeleteUser(userId));
 
   //Handle Edit User
   const handleGetUserInfo = (user) => {
     dispatch({ type: "OPEN_MODAL" });
-    dispatch(actGetUserInfo(user))
-  }
+    dispatch(actGetUserInfo(user));
+  };
 
   // Table config
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState(1);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+
+  // Get User Data Pagination
+  const rowsPerPage = 10;
+  React.useEffect(() => {
+    dispatch(actGetUserPagination(page, rowsPerPage));
+  }, [page]);
+
   const tableHead = [
     "First Name",
     "Last Name",
@@ -75,7 +71,7 @@ export function UserTable() {
 
   //renderTableBody
   const renderTable = () => {
-    return rows?.map((user, index) => {
+    return searchData?.map((user, index) => {
       return (
         <TableRow key={index}>
           <TableCell>{user.id}</TableCell>
@@ -86,15 +82,24 @@ export function UserTable() {
           <TableCell align="center">{user.phonenumber}</TableCell>
           <TableCell align="center">{user.role}</TableCell>
           <TableCell align="center">
-            <IconButton color="error" onClick={()=>{
-              handleDelete(user.id)
-            }}>
-              <DeleteIcon />
+            <IconButton
+              size="small"
+              sx={{color:'error.light'}}
+              onClick={() => {
+                window.alert("Are you sure?")
+                handleDelete(user.id);
+              }}
+            >
+              <DeleteIcon fontSize="inherit" />
             </IconButton>
-            <IconButton color="warning" onClick={()=>{
-              handleGetUserInfo(user)
-            }}>
-              <EditIcon />
+            <IconButton
+              size="small"
+              sx={{color:'info.dark'}}
+              onClick={() => {
+                handleGetUserInfo(user);
+              }}
+            >
+              <EditIcon fontSize="inherit" />
             </IconButton>
           </TableCell>
         </TableRow>
@@ -113,21 +118,21 @@ export function UserTable() {
         </TableHead>
         <TableBody>{renderTable()}</TableBody>
       </Table>
-      <TablePagination
-        component="div"
-        page={page}
-        count={100}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 20]}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      <Box sx={{ textAlign: "center" }}>
+        <Pagination
+          showFirstButton
+          showLastButton
+          page={page}
+          onChange={handleChangePage}
+          sx={{ mt: 5 }}
+          size="small"
+          count={Math.ceil(rows?.length / 10) ?? 0}
+          shape="rounded"
+          variant="outlined"
+        />
+      </Box>
     </TableContainer>
   );
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Box>{tablePc}</Box>
-    </ThemeProvider>
-  );
+  return <Box>{tablePc}</Box>;
 }

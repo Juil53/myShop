@@ -1,5 +1,5 @@
 //Color
-$mainColor: #35c0c5;
+$mainColor: #efa5a6;
 $blackColor: #212529;
 $blackColor-2: #363636;
 $whiteColor: #fff;
@@ -18,21 +18,3 @@ $transition: all 400ms;
 //Container Width
 $container-lg: 100%;
 $container-md: 90%;
-
-@mixin btnStyle {
-    width: max-content;
-    border: 1px solid $grayColor-4;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    box-shadow: none;
-
-    font-size: 0.8125rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-align: center;
-
-    color: $blackColor;
-    background-color: $whiteColor;
-
-    cursor: pointer;
-}
