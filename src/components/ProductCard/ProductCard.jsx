@@ -1,7 +1,6 @@
 import { utils } from "../../utils";
 import { useDispatch } from "react-redux";
 import { constant } from "../../constants";
-import Popup from "../Popup/Popup";
 import { appActions } from "../../store/actions/appActions";
 export default function ProductCard(props) {
   const dispatch = useDispatch();
@@ -27,21 +26,28 @@ export default function ProductCard(props) {
     );
   }
   return (
-    <div className="productcard">
+    <div className="w-full relative productcard">
       <div className={cardDirection}>
-        <div className="productcard__image">
+        <div
+          className={
+            cardDirection === "row"
+              ? "productcard__image-row"
+              : "productcard__image"
+          }
+        >
           <div className="img-container">
             <img src={img} alt="" />
           </div>
+          {cardDirection !== "row" && (
+            <div className="productcard__image-overlay"></div>
+          )}
         </div>
-        {cardDirection !== "row" && utils.discount(700000, 500000) > 0 && (
-          <div className="productcard__discount">
-            -{utils.discount(700000, 500000)}%
-          </div>
-        )}
-        {cardDirection !== "row" && (
-          <div className="productcard__image-overlay"></div>
-        )}
+        {cardDirection !== "row" &&
+          utils.discount(price_before_discount, price_after_discount) > 0 && (
+            <div className="productcard__discount">
+              -{utils.discount(price_before_discount, price_after_discount)}%
+            </div>
+          )}
         <div
           className={
             cardDirection === "row"

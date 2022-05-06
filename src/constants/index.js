@@ -9,4 +9,10 @@ export const constant = {
   //product
   GET_PRODUCTS_SUCCESS: "GET_PRODUCTS_SUCCESS",
   GET_PRODUCTS_FAILURE: "GET_PRODUCTS_FAILURE",
+  //language
+  ENG: "ENG",
+  VI: "VI",
+  CHANGE_LANGUAGE: "CHANGE_LANGUAGE",
+  //category
+  GET_CATEGORY: "GET_CATEGORY",
 };

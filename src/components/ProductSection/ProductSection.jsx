@@ -5,11 +5,12 @@ import { constant } from "../../constants";
 import { productActions } from "../../store/actions/productActions";
 import Popup from "../Popup/Popup";
 import ProductCard from "../ProductCard/ProductCard";
+import NextButton from "./child/NextButton";
+import PreButton from "./child/PreButton";
 export default function ProductSection(props) {
   let { data, title } = props;
   const dispatch = useDispatch();
   const product = useSelector((store) => store.product.products);
-  console.log("abx");
   useEffect(() => {
     if (product.status === constant.LOADING) {
       dispatch(productActions.getAllProduct());
@@ -17,103 +18,52 @@ export default function ProductSection(props) {
       console.log(product);
     }
   });
-  let att = [
-    {
-      name: "Thương hiệu",
-      value: "Giày da cao cấp",
-    },
-    {
-      name: "Bảo hành",
-      value: "12 tháng",
-    },
-    {
-      name: "Chất liệu",
-      value: "Da",
-    },
-  ];
   const settings = {
     infinite: true,
     speed: 800,
     slidesToShow: 3,
     slidesToScroll: 2,
+    nextArrow: <NextButton />,
+    prevArrow: <PreButton />,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
-  function createProductCard() {
-    data.map((v) => {
-      return (
-        <div>
-          <ProductCard
-            carDirection="vertical"
-            name={v.name}
-            price_after_discount={v.price_after_discount}
-            price_before_discount={v.price_before_discount}
-            img={v.img}
-            attributes={v.attributes}
-            quantity={v.quantity}
-          />
-        </div>
-      );
-    });
+  function createProductCard(data) {
+    return data.map((v) => (
+      <div className="productsection__slide-container">
+        <ProductCard
+          cardDirection="vertical"
+          name={v.name}
+          price_after_discount={v.price_after_discount}
+          price_before_discount={v.price_before_discount}
+          img={v.image}
+          attributes={v.attributes}
+          quantity={v.quantity}
+        />
+      </div>
+    ));
   }
   return (
     <div className="productsection">
       <h3 className="productsection__title">{title}</h3>
       <div className="productsection__slide">
-        <Slider {...settings}>
-          <ProductCard
-            carDirection="vertical"
-            name="Giày da cá sấu cao cấp thương hiệu Nhật Bản Anh Mỹ Pháp đình"
-            price_after_discount="500000"
-            price_before_discount="700000"
-            img="./img/sp1.png"
-            attributes={att}
-            quantity="10"
-          />
-          <ProductCard
-            carDirection="vertical"
-            name="Giày da cá sấu cao cấp thương hiệu Nhật Bản Anh Mỹ Pháp đình"
-            price_after_discount="500000"
-            price_before_discount="700000"
-            img="./img/sp1.png"
-            attributes={att}
-            quantity="10"
-          />
-          <ProductCard
-            carDirection="vertical"
-            name="Giày da cá sấu cao cấp thương hiệu Nhật Bản Anh Mỹ Pháp đình"
-            price_after_discount="500000"
-            price_before_discount="700000"
-            img="./img/sp1.png"
-            attributes={att}
-            quantity="10"
-          />
-          <ProductCard
-            carDirection="vertical"
-            name="Giày da cá sấu cao cấp thương hiệu Nhật Bản Anh Mỹ Pháp đình"
-            price_after_discount="500000"
-            price_before_discount="700000"
-            img="./img/sp1.png"
-            attributes={att}
-            quantity="10"
-          />
-          <ProductCard
-            carDirection="vertical"
-            name="Giày da cá sấu cao cấp thương hiệu Nhật Bản Anh Mỹ Pháp đình"
-            price_after_discount="500000"
-            price_before_discount="700000"
-            img="./img/sp1.png"
-            attributes={att}
-            quantity="10"
-          />
-          <ProductCard
-            carDirection="vertical"
-            name="Giày da cá sấu cao cấp thương hiệu Nhật Bản Anh Mỹ Pháp đình"
-            price_after_discount="500000"
-            price_before_discount="700000"
-            img="./img/sp1.png"
-            attributes={att}
-            quantity="10"
-          />
-        </Slider>
+        {product.status !== constant.LOADING && (
+          <Slider {...settings}>{createProductCard(product.data)}</Slider>
+        )}
       </div>
       <Popup />
     </div>
