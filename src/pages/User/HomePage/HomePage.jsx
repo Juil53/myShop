@@ -6,6 +6,7 @@ import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 import Footer from "../../../components/Footer/Footer";
 import NextButton from "../../../components/ProductSection/child/NextButton";
 import PreButton from "../../../components/ProductSection/child/PreButton";
+import Popup from "../../../components/Popup/Popup";
 import Slider from "react-slick";
 import Banner from "./child/Banner";
 export default function HomePage() {
@@ -18,7 +19,7 @@ export default function HomePage() {
     prevArrow: <PreButton />,
   };
   return (
-    <React.Fragment>
+    <div className="page" id="page">
       <Header currentactive="home" />
       <div className="home-page">
         <div className="home-page__slider">
@@ -82,8 +83,8 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
       <Footer />
-    </React.Fragment>
+      <Popup />
+    </div>
   );
 }

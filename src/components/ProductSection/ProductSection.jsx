@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import { constant } from "../../constants";
 import { productActions } from "../../store/actions/productActions";
-import Popup from "../Popup/Popup";
 import ProductCard from "../ProductCard/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";
@@ -65,7 +64,6 @@ export default function ProductSection(props) {
           <Slider {...settings}>{createProductCard(product.data)}</Slider>
         )}
       </div>
-      <Popup />
     </div>
   );
 }

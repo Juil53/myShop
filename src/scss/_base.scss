@@ -78,9 +78,10 @@ ul>li {
   background: rgba($color: #000000, $alpha: 0.2);
 }
 
-.page {
-  margin: 12rem 0 0 5%;
-  width: 90%;
+//Block scroll screen when showing pop up
+.haspopup {
+  height: 100vh;
+  overflow: hidden;
 }
 
 .modal.active {

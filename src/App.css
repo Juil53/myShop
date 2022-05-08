@@ -164,9 +164,9 @@ ul > li {
   display: none;
   background: rgba(0, 0, 0, 0.2); }
 
-.page {
-  margin: 12rem 0 0 5%;
-  width: 90%; }
+.haspopup {
+  height: 100vh;
+  overflow: hidden; }
 
 .modal.active {
   display: block; }
