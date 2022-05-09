@@ -16,10 +16,8 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../../../../assets/logo.jpg"
 
 const drawerWidth = "25rem";
 
@@ -55,9 +53,9 @@ function MyDrawer(props) {
   ];
 
   const drawer = (
-    <div>
+    <Box>
       <Toolbar className="adminToolbar">
-          <img src={logo} alt="logo" />
+          <Typography variant="h3">Bershka</Typography>
       </Toolbar>
       <List>
         {itemList.map((item, index) => {
@@ -72,7 +70,7 @@ function MyDrawer(props) {
           );
         })}
       </List>
-    </div>
+    </Box>
   );
 
   return (

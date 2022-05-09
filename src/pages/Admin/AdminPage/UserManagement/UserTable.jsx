@@ -19,8 +19,16 @@ import {
 export function UserTable({ keyword }) {
   const dispatch = useDispatch();
   const rows = useSelector((state) => state.userReducer.userData);
-  const rowsPagination = useSelector((state) => state.userReducer.userDataPagination);
-  const searchData = keyword ? rowsPagination?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1) : rowsPagination;
+  const count = rows ? Math.ceil(rows?.length / 10) : 0;
+  const rowsPagination = useSelector(
+    (state) => state.userReducer.userDataPagination
+  );
+  const paginationData = keyword
+    ? rows?.filter(
+        (user) =>
+          user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1
+      )
+    : rowsPagination;
 
   //Get All User Data
   React.useEffect(() => {
@@ -38,9 +46,7 @@ export function UserTable({ keyword }) {
 
   // Table config
   const [page, setPage] = React.useState(1);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  const handleChangePage = (event, newPage) => setPage(newPage);
 
   // Get User Data Pagination
   const rowsPerPage = 10;
@@ -48,6 +54,7 @@ export function UserTable({ keyword }) {
     dispatch(actGetUserPagination(page, rowsPerPage));
   }, [page]);
 
+  //renderTableHead
   const tableHead = [
     "First Name",
     "Last Name",
@@ -57,8 +64,6 @@ export function UserTable({ keyword }) {
     "Role",
     "Actions",
   ];
-
-  //renderTableHead
   const renderTableHead = () => {
     return tableHead.map((column, index) => {
       return (
@@ -70,8 +75,8 @@ export function UserTable({ keyword }) {
   };
 
   //renderTableBody
-  const renderTable = () => {
-    return searchData?.map((user, index) => {
+  const renderTableBody = () => {
+    return paginationData?.map((user, index) => {
       return (
         <TableRow key={index}>
           <TableCell>{user.id}</TableCell>
@@ -84,9 +89,9 @@ export function UserTable({ keyword }) {
           <TableCell align="center">
             <IconButton
               size="small"
-              sx={{color:'error.light'}}
+              sx={{ color: "error.light" }}
               onClick={() => {
-                window.alert("Are you sure?")
+                window.alert("Are you sure?");
                 handleDelete(user.id);
               }}
             >
@@ -94,7 +99,7 @@ export function UserTable({ keyword }) {
             </IconButton>
             <IconButton
               size="small"
-              sx={{color:'info.dark'}}
+              sx={{ color: "info.dark" }}
               onClick={() => {
                 handleGetUserInfo(user);
               }}
@@ -116,17 +121,17 @@ export function UserTable({ keyword }) {
             {renderTableHead()}
           </TableRow>
         </TableHead>
-        <TableBody>{renderTable()}</TableBody>
+        <TableBody>{renderTableBody()}</TableBody>
       </Table>
       <Box sx={{ textAlign: "center" }}>
         <Pagination
           showFirstButton
           showLastButton
           page={page}
+          count={count}
           onChange={handleChangePage}
           sx={{ mt: 5 }}
           size="small"
-          count={Math.ceil(rows?.length / 10) ?? 0}
           shape="rounded"
           variant="outlined"
         />
