@@ -5,8 +5,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import HomePage from "./pages/User/HomePage/HomePage";
 import routeAdmin from "./routes/AdminRoute";
-
-import { CssBaseline } from "@mui/material";
 import "./scss/App.scss";
 
 const routesAdmin = routeAdmin.map((route, index) => (
