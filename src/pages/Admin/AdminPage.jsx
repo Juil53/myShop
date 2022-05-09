@@ -19,7 +19,7 @@ function AdminPage() {
             sx={{
               flexGrow: 1,
               p: 3,
-              mt:8,
+              mt: 8,
             }}
           >
             <Routes>{routes}</Routes>
