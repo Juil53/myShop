@@ -2,23 +2,26 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../../../../scss/App.scss";
 import { UserTable } from "./UserTable";
-import { actGetKeyword, actGetUserInfo } from "../../../../store/actions/user";
+import { actGetKeyword } from "../../../../store/actions/user";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import UserModal from "./UserModal";
+import AddUserModal from "./AddUserModal";
 
 function UserManagement() {
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = React.useState(false);
   const keyword = useSelector((state) => state.userReducer.keyword);
-  const handleOpen = () => dispatch({ type: "OPEN_MODAL" });
+
   const handleChange = (event) => dispatch(actGetKeyword(event.target.value));
-  const handleResetModal = () => dispatch(actGetUserInfo(null));
+
   const handleClearSeach = () => (
     (document.querySelector(".search__input").value = null),
     dispatch(actGetKeyword(null))
   );
+
 
   return (
     <>
@@ -43,10 +46,9 @@ function UserManagement() {
           <Button
             variant="contained"
             color="primary"
-            startIcon={<AddBoxRoundedIcon/>}
+            startIcon={<AddBoxRoundedIcon />}
             onClick={() => {
-              handleResetModal();
-              handleOpen();
+              setShowModal(true);
             }}
           >
             Add
@@ -57,8 +59,14 @@ function UserManagement() {
       <div className="table">
         <UserTable keyword={keyword} />
       </div>
-      
+
       <UserModal />
+      <AddUserModal
+        show={showModal}
+        close={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 }

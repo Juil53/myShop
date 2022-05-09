@@ -6,9 +6,9 @@ export const theme = createTheme({
   },
   palette: {
     primary: {
-      main: "#eb8f90",
-      light: "#efa5a6",
-      dark: "#a46464",
+      main: "#35c0c5",
+      light: "#5dccd0",
+      dark: "#258689",
       contrastText: "#fff",
     },
     secondary: {
@@ -21,7 +21,7 @@ export const theme = createTheme({
     MuiToolbar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#efa5a6",
+          backgroundColor: "#5dccd0",
         },
       },
     },

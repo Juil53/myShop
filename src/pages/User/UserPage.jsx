@@ -1,19 +1,17 @@
 import React from "react";
-import MyDrawer from "./AdminPage/Component/Drawer";
-import routeAdmin from "../../routes/AdminRoute";
+import routeUser from "../../routes/UserRoute";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Box, Toolbar } from "@mui/material";
+import { Box } from "@mui/material";
 
-const routes = routeAdmin.map((route, index) => (
+const routes = routeUser.map((route, index) => (
   <Route key={index} path={route.path} element={route.element} />
 ));
 
-function AdminPage() {
+function UserPage() {
   return (
     <div>
-      {/* <BrowserRouter> */}
+      <BrowserRouter>
         <Box sx={{ display: "flex" }}>
-          <MyDrawer />
           <Box
             component="main"
             sx={{
@@ -22,12 +20,12 @@ function AdminPage() {
               mt:8,
             }}
           >
-            {/* <Routes>{routes}</Routes> */}
+            <Routes>{routes}</Routes>
           </Box>
         </Box>
-      {/* </BrowserRouter> */}
+      </BrowserRouter>
     </div>
   );
 }
 
-export default AdminPage;
+export default UserPage;

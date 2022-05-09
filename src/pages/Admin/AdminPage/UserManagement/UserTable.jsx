@@ -15,6 +15,14 @@ import {
   actGetUserInfo,
   actGetUserPagination,
 } from "../../../../store/actions/user";
+import { styled } from '@mui/material/styles';
+
+const StyledPagination = styled(Pagination)(() => ({
+  color: "#fff",
+  "&.Mui-active": {
+    backgroundColor: "red",
+  },
+}));
 
 export function UserTable({ keyword }) {
   const dispatch = useDispatch();
@@ -124,7 +132,7 @@ export function UserTable({ keyword }) {
         <TableBody>{renderTableBody()}</TableBody>
       </Table>
       <Box sx={{ textAlign: "center" }}>
-        <Pagination
+        <StyledPagination
           showFirstButton
           showLastButton
           page={page}

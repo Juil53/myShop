@@ -61,8 +61,7 @@ export const actAddUser = (user) => {
       .post("http://localhost:3000/user", user)
       .then((result) => {
         dispatch(actAddUserSuccess(result.data));
-        console.log(result.data);
-        actGetUser();
+        actGetUserPagination();
       })
       .catch((error) => {
         console.log(error);
@@ -96,7 +95,7 @@ export const actDeleteUser = (userId) => {
       .delete(`http://localhost:3000/user/${userId}`)
       .then((result) => {
         alert("Delete Success");
-        dispatch(actGetUser());
+        dispatch(actGetUserPagination());
       })
       .catch((error) => {
         console.log(error);
@@ -120,7 +119,7 @@ export const actUpdateUserInfo = (user, userId) => {
       .put(`http://localhost:3000/user/${userId}`, user)
       .then((result) => {
         dispatch(actUpdateUserSuccess(result.data));
-        dispatch(actGetUser());
+        dispatch(actGetUserPagination());
       })
       .catch((error) => {
         dispatch(actUpdateUserFailed(error));

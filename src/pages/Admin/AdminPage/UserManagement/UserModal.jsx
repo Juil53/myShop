@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { actUpdateUserInfo } from "../../../../store/actions/user";
 
-
 // Modal Style
 const style = {
   position: "absolute",
@@ -44,21 +43,6 @@ export default function BasicModal() {
   });
   const handleClose = () => dispatch({ type: "CLOSE_MODAL" });
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     firstname: "",
-  //     lastname: "",
-  //     password: "",
-  //     email: "",
-  //     phonenumber: "",
-  //     role: "",
-  //   },
-  //   validationSchema:validation,
-  //   onSubmit: (values) => {
-  //     alert(JSON.stringify(values, null, 2));
-  //   },
-  // });
-
   //CHECK SHOW USER INFO TO MODAL
   React.useEffect(() => {
     if (userInfo) {
@@ -79,7 +63,7 @@ export default function BasicModal() {
         phonenumber: "",
         role: "",
       });
-      setRole("")
+      setRole("");
     }
   }, [userInfo]);
 
@@ -96,8 +80,8 @@ export default function BasicModal() {
   //SUBMIT USER
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (userInfo !== null) return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
-    // return dispatch(actAddUser(state)), handleClose();
+    if (userInfo !== null)
+      return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
   };
 
   return (
@@ -116,9 +100,7 @@ export default function BasicModal() {
               "& .MuiTextField-root": { m: 1, width: "25ch" },
             }}
           >
-            <h1 className="admin__title">
-              Edit User
-            </h1>
+            <h1 className="admin__title">Edit User</h1>
             <div className="admin__form">
               <TextField
                 variant="standard"
