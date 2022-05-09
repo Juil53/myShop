@@ -741,11 +741,9 @@ img {
   margin-top: 11.5rem;
   overflow: hidden;
   width: 100%; }
-  .home-page__slider .slide {
-    width: 100%; }
-    .home-page__slider .slide .img-container {
-      width: 100%;
-      padding-top: 25%; }
+  .home-page__slider .slide .img-container {
+    width: 100%;
+    padding-top: 25%; }
 
 .home-page__main {
   font-size: 1.4rem;

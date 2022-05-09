@@ -38,6 +38,7 @@ export default function Header(props) {
       );
     });
   }
+
   function createSubCategory(data) {
     return data.map((v) => {
       return (
