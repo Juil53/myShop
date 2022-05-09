@@ -10,11 +10,13 @@ import Popup from "../../../components/Popup/Popup";
 import Slider from "react-slick";
 import Banner from "./child/Banner";
 export default function HomePage() {
-  const settings = {
+  const bannerSettings = {
     infinite: true,
     speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
     nextArrow: <NextButton />,
     prevArrow: <PreButton />,
   };
@@ -23,7 +25,7 @@ export default function HomePage() {
       <Header currentactive="home" />
       <div className="home-page">
         <div className="home-page__slider">
-          <Slider {...settings}>
+          <Slider {...bannerSettings}>
             <div className="slide">
               <div className="img-container">
                 <img src="./img/banner1.jpeg" alt="" />

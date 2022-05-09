@@ -1,72 +1,137 @@
 import { utils } from "../../../utils";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Slider from "react-slick";
 export default function ProductInfoPopup(props) {
   let { closePopup } = props;
+  const [mainSlider, setMainSlider] = useState();
+  const [subSlider, setSubSlider] = useState();
+  const settings_mainSlider = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: true,
+  };
+  const settings_subSlider = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: true,
+    focusOnSelect: true,
+  };
   const [number, setNumber] = useState(1);
   const popup = useSelector((store) => store.app.popup);
+  const productInfo = popup.additionalInfo;
   function handleDecrease() {
     if (number - 1 > 0) {
       return setNumber(number - 1);
     }
   }
-  console.log(popup.additionalInfo.attributes);
   function handleIncrease() {
-    if (number + 1 <= popup.additionalInfo.quantity) {
+    if (number + 1 <= productInfo.quantity) {
       return setNumber(number + 1);
     }
   }
   function handleChangeInput(e) {
     let tmp = parseInt(e.target.value);
-    if (tmp !== number && tmp <= popup.additionalInfo.quantity) {
+    if (tmp !== number && tmp <= productInfo.quantity) {
       return setNumber(tmp);
-    } else if (tmp > popup.additionalInfo.quantity) {
-      return setNumber(popup.additionalInfo.quantity);
+    } else if (tmp > productInfo.quantity) {
+      return setNumber(productInfo.quantity);
     }
   }
+
   return (
     <div className="modal center">
       <div className="productinfopopup row">
-        <div className="productinfopopup__img">
-          <div className="img-container">
-            <img src={popup.additionalInfo.img} alt="" />
+        <div className="productinfopopup__left">
+          <div className="main-img">
+            <Slider
+              {...settings_mainSlider}
+              asNavFor={subSlider}
+              ref={(slider1) => setMainSlider(slider1)}
+            >
+              <div className="img-container">
+                <img src={productInfo.img} alt="" />
+              </div>
+              <div className="img-container">
+                <img src="./img/sp1sub.png" alt="" />
+              </div>
+              <div className="img-container">
+                <img src={productInfo.img} alt="" />
+              </div>
+            </Slider>
+          </div>
+          <div className="subimg-container">
+            <Slider
+              {...settings_subSlider}
+              asNavFor={mainSlider}
+              ref={(slider2) => setSubSlider(slider2)}
+            >
+              <div className="subimg">
+                <div className="img-container">
+                  <img src={productInfo.img} alt="" />
+                </div>
+              </div>
+              <div className="subimg">
+                <div className="img-container">
+                  <img src="./img/sp1sub.png" alt="" />
+                </div>
+              </div>
+              <div className="subimg">
+                <div className="img-container">
+                  <img src={productInfo.img} alt="" />
+                </div>
+              </div>
+            </Slider>
           </div>
         </div>
         <div className="productinfopopup__info">
           <div className="productinfopopup__info-name font-bold">
-            {popup.additionalInfo.name}
+            {productInfo.name}
           </div>
           <div className="productinfopopup__info-vend row">
             <div className="left">
               Thương hiệu:
-              <span>Giày da cao cấp</span>
+              <span>{productInfo.brand}</span>
             </div>
             <div className="right">
-              Tình trạng:
-              <span>Còn hàng</span>
+              Status:
+              <span>{productInfo.status}</span>
             </div>
           </div>
           <div className="productinfopopup__info-price text-brand font-bold">
-            {utils.priceBreak(popup.additionalInfo.price_after_discount)}₫
-            {popup.additionalInfo.price_after_discount !==
-              popup.additionalInfo.price_before_discount && (
+            {utils.priceBreak(productInfo.price_after_discount)}₫
+            {productInfo.price_after_discount !==
+              productInfo.price_before_discount && (
               <span className="price-compare">
-                {utils.priceBreak(popup.additionalInfo.price_after_discount)}₫
+                {utils.priceBreak(productInfo.price_before_discount)}₫
               </span>
             )}
           </div>
           <div className="productinfopopup__info-attributes">
-            {popup.additionalInfo.attributes.map((v) => (
-              <div>
+            {productInfo.attributes.map((v) => (
+              <div key={v.name + "att"}>
                 - {v.name}: <span>{v.value}</span>
               </div>
             ))}
           </div>
           <div className="productinfopopup__info-color"></div>
           <div className="productinfopopup__info-quantity row">
-            <button onClick={handleDecrease}>-</button>
+            <button
+              id="descrease-btn"
+              onClick={handleDecrease}
+              disabled={number - 1 < 1}
+            >
+              -
+            </button>
             <input type="number" value={number} onChange={handleChangeInput} />
-            <button onClick={handleIncrease}>+</button>
+            <button
+              id="increase-btn"
+              onClick={handleIncrease}
+              disabled={number + 1 > productInfo.quantity}
+            >
+              +
+            </button>
           </div>
           <button className="addcart-btn">Add cart</button>
         </div>
@@ -74,7 +139,7 @@ export default function ProductInfoPopup(props) {
           className="productinfopopup__cancel-btn round"
           onClick={closePopup}
         >
-          <i class="fa-solid fa-xmark"></i>
+          <i className="fa-solid fa-xmark"></i>
         </div>
       </div>
     </div>

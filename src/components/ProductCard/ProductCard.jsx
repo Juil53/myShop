@@ -12,6 +12,8 @@ export default function ProductCard(props) {
     img,
     attributes,
     quantity,
+    status,
+    brand,
   } = props;
   function handleShowPopup() {
     dispatch(
@@ -22,6 +24,8 @@ export default function ProductCard(props) {
         img: img,
         attributes: attributes,
         quantity: quantity,
+        status: status,
+        brand: brand,
       })
     );
   }
@@ -60,7 +64,7 @@ export default function ProductCard(props) {
             {utils.priceBreak(price_after_discount)}₫
             {price_after_discount !== price_before_discount && (
               <span className="price-compare">
-                {utils.priceBreak(price_after_discount)}₫
+                {utils.priceBreak(price_before_discount)}₫
               </span>
             )}
           </div>

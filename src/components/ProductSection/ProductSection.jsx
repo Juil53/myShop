@@ -43,8 +43,9 @@ export default function ProductSection(props) {
   };
   function createProductCard(data) {
     return data.map((v) => (
-      <div className="productsection__slide-container">
+      <div className="productsection__slide-container" key={v.id}>
         <ProductCard
+          id={v.id}
           cardDirection="vertical"
           name={v.name}
           price_after_discount={v.price_after_discount}
@@ -52,6 +53,8 @@ export default function ProductSection(props) {
           img={v.image}
           attributes={v.attributes}
           quantity={v.quantity}
+          status={v.status}
+          brand={v.brand}
         />
       </div>
     ));
