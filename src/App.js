@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import HomePage from "./pages/User/HomePage/HomePage";
 import { Routes, Route } from "react-router-dom";
 import routeAdmin from "./routes/AdminRoute";
-import "./App.css";
+import "./scss/App.scss";
 import { CssBaseline, Typography } from "@mui/material";
 // import Product from "./components/product";
 const routesAdmin = routeAdmin.map((route, index) => (
