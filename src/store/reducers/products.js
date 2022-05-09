@@ -5,6 +5,7 @@ const initialState = {
     status: constant.LOADING,
   },
 };
+
 export function product(state = initialState, action) {
   switch (action.type) {
     case constant.GET_PRODUCTS_SUCCESS:
@@ -15,6 +16,7 @@ export function product(state = initialState, action) {
           data: action.data,
         },
       };
+
     default:
       return state;
   }

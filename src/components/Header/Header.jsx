@@ -5,21 +5,23 @@ import { categoryAction } from "../../store/actions/categoryAction";
 import { languageActions } from "../../store/actions/languageActions";
 
 export default function Header(props) {
-  let { currentactive } = props;
+  const { currentactive } = props;
   const language = useSelector((store) => store.language);
   const category = useSelector((store) => store.category.category);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (category.status === constant.LOADING) {
       dispatch(categoryAction.getAllCategory());
     }
   });
 
-  const dispatch = useDispatch();
   function changeLanguage(code) {
     if (code !== language.current) {
       dispatch(languageActions.changeLanguage(code));
     }
   }
+
   function createMegaDropdown(data) {
     return data.map((v) => {
       return (
@@ -36,6 +38,7 @@ export default function Header(props) {
       );
     });
   }
+
   function createSubCategory(data) {
     return data.map((v) => {
       return (
@@ -45,6 +48,7 @@ export default function Header(props) {
       );
     });
   }
+
   return (
     <div className="header">
       <div className="header__top row">
