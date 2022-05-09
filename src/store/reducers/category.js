@@ -1,20 +1,22 @@
 import { constant } from "../../constants";
 
 const initialState = {
-  products: {
+  category: {
     status: constant.LOADING,
   },
 };
-export function product(state = initialState, action) {
+
+export function category(state = initialState, action) {
   switch (action.type) {
-    case constant.GET_PRODUCTS_SUCCESS:
+    case constant.GET_CATEGORY:
       return {
         ...state,
-        products: {
+        category: {
           status: constant.SUCCESS,
           data: action.data,
         },
       };
+
     default:
       return state;
   }

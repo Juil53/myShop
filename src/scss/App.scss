@@ -2,6 +2,16 @@
 @import "./base";
 @import "./shape";
 @import "./color";
+@import "./position";
+@import "./size";
+@import "./typography";
 @import "./layout";
 @import "../pages/Admin/AdminPage/UserManagement/usermanagement";
 @import "../pages/Admin/AdminPage/Component/drawer";
+@import "../components/ProductSection/productsection";
+@import "../components/ProductCard/productcard";
+@import "../components/Popup/popup";
+@import "../components/Header/header";
+@import "../components/Footer/footer";
+@import "../components/CategoryCard/category";
+@import "../pages/User/HomePage/homepage";

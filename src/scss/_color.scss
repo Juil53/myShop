@@ -1,15 +1,23 @@
-.text-brand{
-  color:$mainColor;
+.text-brand {
+  color: $mainColor;
 }
-.border-brand{
+
+.border-brand {
   border-color: $mainColor;
 }
-.border-gray{
+
+.border-gray {
   border-color: $grayColor;
 }
-.bg-brand{
+
+.bg-brand {
   background-color: $mainColor;
 }
-.bg-white{
+
+.bg-white {
   background-color: $whiteColor;
+}
+
+.bg-transparent {
+  background-color: transparent;
 }
