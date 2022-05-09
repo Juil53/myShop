@@ -1,0 +1,109 @@
+.footer {
+  background-color: $blackColor-4;
+  font-size: 1.4rem;
+  color: $whiteColor;
+
+  .footer__top {
+    justify-content: space-between;
+    align-items: center;
+
+    .footer__top-left {
+      width: 35%;
+
+      .logo {
+        width: 80%;
+        padding: 1rem;
+
+        .img-container {
+          width: 100%;
+          padding-top: 30%;
+        }
+      }
+
+      .nav {
+        padding: 1rem;
+
+        .nav-btn {
+          color: $whiteColor;
+          padding: 0 0.5rem;
+          transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+          color: $mainColor;
+        }
+      }
+
+    }
+
+    .footer__top-mid {
+      width: 30%;
+
+      .info {
+        padding: 1rem;
+        width: 100%;
+
+        i {
+          margin-right: 1rem;
+        }
+      }
+
+      .phone,
+      .mail {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .phone:hover,
+      .mail:hover {
+        color: $mainColor;
+      }
+    }
+
+    .footer__top-right {
+      width: 30%;
+      padding: 1rem;
+
+      .about {
+        .title {
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+
+        .about-content {
+          padding-top: 1rem;
+          font-size: 1.2rem;
+          color: $grayColor-3;
+        }
+      }
+
+      .contact {
+        margin-top: 1rem;
+
+        .contact-btn {
+          margin-right: 1rem;
+          background-color: $blackColor-3;
+          width: 3rem;
+          height: 3rem;
+          text-align: center;
+          line-height: 3rem;
+          font-size: 2rem;
+          color: $whiteColor;
+          transition: all ease 0.3s;
+        }
+
+        .contact-btn:hover {
+          background-color: $mainColor;
+        }
+      }
+    }
+
+  }
+
+  .footer__source {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: $grayColor-3;
+  }
+}

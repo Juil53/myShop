@@ -6,7 +6,7 @@
   outline: none;
 }
 
-html{
+html {
   font-size: 62.5%;
 }
 
@@ -16,12 +16,27 @@ body {
   font-size: 1.4rem;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 a {
   text-decoration: none;
   color: $blackColor;
 }
 
-ul > li {
+button,
+a {
+  cursor: pointer;
+}
+
+ul>li {
   list-style: none;
 }
 
