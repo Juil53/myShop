@@ -1,6 +1,6 @@
 import React from "react";
 import MyDrawer from "./AdminPage/Drawer";
-import routeAdmin from "../../Routes/AdminRoute";
+import routeAdmin from "../../routes/AdminRoute";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const routes = routeAdmin.map((route, index) => (
