@@ -5,7 +5,6 @@ import "./App.css";
 import { CssBaseline, Typography } from "@mui/material";
 // import Product from "./components/product";
 
-
 function App() {
   return (
     <ThemeProvider theme={theme}>
