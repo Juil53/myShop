@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
-import { actAddUser, actUpdateUserInfo } from "../../../../store/actions/user";
+import { actUpdateUserInfo } from "../../../../store/actions/user";
+
 
 // Modal Style
 const style = {
@@ -43,10 +44,24 @@ export default function BasicModal() {
   });
   const handleClose = () => dispatch({ type: "CLOSE_MODAL" });
 
+  // const formik = useFormik({
+  //   initialValues: {
+  //     firstname: "",
+  //     lastname: "",
+  //     password: "",
+  //     email: "",
+  //     phonenumber: "",
+  //     role: "",
+  //   },
+  //   validationSchema:validation,
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // });
+
   //CHECK SHOW USER INFO TO MODAL
   React.useEffect(() => {
     if (userInfo) {
-      console.log(userInfo.id);
       setState({
         firstname: userInfo.firstname,
         lastname: userInfo.lastname,
@@ -64,6 +79,7 @@ export default function BasicModal() {
         phonenumber: "",
         role: "",
       });
+      setRole("")
     }
   }, [userInfo]);
 
@@ -77,15 +93,11 @@ export default function BasicModal() {
     });
   };
 
-
   //SUBMIT USER
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (userInfo !== null) {
-      return dispatch(actUpdateUserInfo(state,userInfo.id)), handleClose();
-    } else {
-      return dispatch(actAddUser(state)), handleClose();
-    }
+    if (userInfo !== null) return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
+    // return dispatch(actAddUser(state)), handleClose();
   };
 
   return (
@@ -103,11 +115,9 @@ export default function BasicModal() {
             sx={{
               "& .MuiTextField-root": { m: 1, width: "25ch" },
             }}
-            noValidate
-            autoComplete="off"
           >
             <h1 className="admin__title">
-              {userInfo ? "Edit User" : "Add User"}
+              Edit User
             </h1>
             <div className="admin__form">
               <TextField

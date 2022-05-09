@@ -16,12 +16,10 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../../../../assets/logo.jpg"
 
-const drawerWidth = "14rem";
+const drawerWidth = "25rem";
 
 function MyDrawer(props) {
   const { history } = props;
@@ -36,28 +34,28 @@ function MyDrawer(props) {
   const itemList = [
     {
       text: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <DashboardIcon/>,
       onClick: () => history.push("/dashboard"),
       href: "/dashboard",
     },
     {
       text: "User Management",
-      icon: <AccountCircleIcon />,
+      icon: <AccountCircleIcon/>,
       onClick: () => history.push("/user-management"),
       href: "/user-management",
     },
     {
       text: "Product Management",
-      icon: <LibraryBooksIcon />,
+      icon: <LibraryBooksIcon/>,
       onClick: () => history.push("/product-management"),
       href: "/product-management",
     },
   ];
 
   const drawer = (
-    <div>
+    <Box>
       <Toolbar className="adminToolbar">
-          <img src={logo} alt="logo" />
+          <Typography variant="h3">Bershka</Typography>
       </Toolbar>
       <List>
         {itemList.map((item, index) => {
@@ -72,7 +70,7 @@ function MyDrawer(props) {
           );
         })}
       </List>
-    </div>
+    </Box>
   );
 
   return (

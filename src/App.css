@@ -5,10 +5,13 @@
   border: none;
   outline: none; }
 
+html {
+  font-size: 62.5%; }
+
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.15;
-  font-size: 0.875rem; }
+  font-size: 1.4rem; }
 
 a {
   text-decoration: none;
@@ -21,9 +24,9 @@ ul > li {
   width: max-content;
   border: 1px solid #ebebeb;
   border-radius: 5px;
-  padding: 0.5rem 1rem;
+  padding: 1rem 2rem;
   box-shadow: none;
-  font-size: 0.8125rem;
+  font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
@@ -45,16 +48,16 @@ ul > li {
   border-radius: 50%; }
 
 .text-brand {
-  color: #35c0c5; }
+  color: #efa5a6; }
 
 .border-brand {
-  border-color: #35c0c5; }
+  border-color: #efa5a6; }
 
 .border-gray {
   border-color: #cccccc; }
 
 .bg-brand {
-  background-color: #35c0c5; }
+  background-color: #efa5a6; }
 
 .bg-white {
   background-color: #fff; }
@@ -75,7 +78,8 @@ ul > li {
 .usermanagement {
   display: flex;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  margin-bottom: 2rem; }
 
 .btn--success {
   background-color: green;
@@ -113,21 +117,22 @@ ul > li {
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
   border-radius: 10px;
-  border: 1px solid #35c0c5;
+  border: 1px solid #efa5a6;
   background-color: rgba(255, 255, 255, 0.706);
-  font-size: 16px;
+  font-size: 1rem;
   transition: all 400ms; }
   .search:hover {
     background-color: #ebebeb; }
 
 .search__icon {
-  color: #35c0c5;
+  color: #efa5a6;
   opacity: 0.8;
   transition: all 400ms;
+  font-size: 1.6rem;
   cursor: pointer; }
   .search__icon:hover {
     opacity: 1;
-    font-size: 2rem; }
+    transform: scale(1.5); }
 
 .search__input {
   display: inline-block;
@@ -135,8 +140,8 @@ ul > li {
   height: 100%;
   margin-left: 1rem;
   font-weight: 400;
-  line-height: 20px;
-  font-size: 20px;
+  line-height: 1.6rem;
+  font-size: 1.6rem;
   background-color: transparent;
   transition: all 400ms; }
 
@@ -144,10 +149,20 @@ ul > li {
   margin-bottom: 1rem; }
 
 .admin__form .MuiFormControl-root {
-  margin: 5px 0; }
+  margin: 0.5rem 0; }
 
 .admin__form .MuiTextField-root {
   width: 100%; }
 
-.MuiListItem-root:hover {
-  background-color: red; }
+.MuiPagination-ul {
+  justify-content: center; }
+
+.MuiToolbar-root {
+  background-color: #efa5a6; }
+
+img {
+  width: 100%;
+  object-fit: cover; }
+
+.adminToolbar {
+  padding: 0; }

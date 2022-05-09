@@ -1,9 +1,11 @@
 const initialState = {
   userData: null,
+  userDataPagination: null,
   userInfo: null,
   error: null,
   loading: false,
   open: false,
+  keyword: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -25,6 +27,23 @@ const userReducer = (state = initialState, action) => {
       state.error = action.payload;
       return { ...state };
 
+    //GET USER PAGINATION
+    case "GET_USER_PAGINATION_REQUEST":
+      state.loading = true;
+      state.userDataPagination = null;
+      state.error = null;
+      return { ...state };
+    case "GET_USER_PAGINATION_SUCCESS":
+      state.loading = false;
+      state.userDataPagination = action.payload;
+      state.error = null;
+      return { ...state };
+    case "GET_USER_PAGINATION_FAILED":
+      state.loading = false;
+      state.userDataPagination = null;
+      state.error = action.payload;
+      return { ...state };
+
     //SUBMIT USER
     case "SUBMIT_USER_REQUEST":
       state.loading = true;
@@ -37,7 +56,7 @@ const userReducer = (state = initialState, action) => {
 
       if (action.payload.email) {
         const index = userList.findIndex(
-          (user) => (user.email === action.payload.email)
+          (user) => user.email === action.payload.email
         );
         if (index !== -1) {
           userList[index] = action.payload;
@@ -68,6 +87,12 @@ const userReducer = (state = initialState, action) => {
       state.open = false;
       return { ...state };
 
+    //SEARCH
+    case "GET_KEYWORD":
+      state.keyword = action.payload;
+      return { ...state };
+
+    
     default:
       return { ...state };
   }
