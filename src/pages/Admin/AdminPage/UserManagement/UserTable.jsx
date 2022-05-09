@@ -1,66 +1,143 @@
-import * as React from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { Box, IconButton, Pagination } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { TablePagination } from "@mui/material";
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  actDeleteUser,
+  actGetUser,
+  actGetUserInfo,
+  actGetUserPagination,
+} from "../../../../store/actions/user";
 
-const rows = [
-  //data
-];
+export function UserTable({ keyword }) {
+  const dispatch = useDispatch();
+  const rows = useSelector((state) => state.userReducer.userData);
+  const count = rows ? Math.ceil(rows?.length / 10) : 0;
+  const rowsPagination = useSelector(
+    (state) => state.userReducer.userDataPagination
+  );
+  const paginationData = keyword
+    ? rows?.filter(
+        (user) =>
+          user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1
+      )
+    : rowsPagination;
 
-export default function BasicTable() {
+  //Get All User Data
+  React.useEffect(() => {
+    dispatch(actGetUser());
+  }, []);
+
+  //Handle Delete User
+  const handleDelete = (userId) => dispatch(actDeleteUser(userId));
+
+  //Handle Edit User
+  const handleGetUserInfo = (user) => {
+    dispatch({ type: "OPEN_MODAL" });
+    dispatch(actGetUserInfo(user));
+  };
+
   // Table config
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const [page, setPage] = React.useState(1);
+  const handleChangePage = (event, newPage) => setPage(newPage);
+
+  // Get User Data Pagination
+  const rowsPerPage = 10;
+  React.useEffect(() => {
+    dispatch(actGetUserPagination(page, rowsPerPage));
+  }, [page]);
+
+  //renderTableHead
+  const tableHead = [
+    "First Name",
+    "Last Name",
+    "Email",
+    "Password",
+    "Phone number",
+    "Role",
+    "Actions",
+  ];
+  const renderTableHead = () => {
+    return tableHead.map((column, index) => {
+      return (
+        <TableCell key={index} align="center">
+          {column}
+        </TableCell>
+      );
+    });
   };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+
+  //renderTableBody
+  const renderTableBody = () => {
+    return paginationData?.map((user, index) => {
+      return (
+        <TableRow key={index}>
+          <TableCell>{user.id}</TableCell>
+          <TableCell align="center">{user.firstname}</TableCell>
+          <TableCell align="center">{user.lastname}</TableCell>
+          <TableCell align="center">{user.email}</TableCell>
+          <TableCell align="center">{user.password}</TableCell>
+          <TableCell align="center">{user.phonenumber}</TableCell>
+          <TableCell align="center">{user.role}</TableCell>
+          <TableCell align="center">
+            <IconButton
+              size="small"
+              sx={{ color: "error.light" }}
+              onClick={() => {
+                window.alert("Are you sure?");
+                handleDelete(user.id);
+              }}
+            >
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+            <IconButton
+              size="small"
+              sx={{ color: "info.dark" }}
+              onClick={() => {
+                handleGetUserInfo(user);
+              }}
+            >
+              <EditIcon fontSize="inherit" />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+      );
+    });
   };
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+
+  const tablePc = (
+    <TableContainer>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Full Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Phone number</TableCell>
-            <TableCell align="right">Password</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell>ID</TableCell>
+            {renderTableHead()}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-          <TablePagination
-            component="div"
-            page={page}
-            count={100}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[5, 10, 20]}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </TableBody>
+        <TableBody>{renderTableBody()}</TableBody>
       </Table>
+      <Box sx={{ textAlign: "center" }}>
+        <Pagination
+          showFirstButton
+          showLastButton
+          page={page}
+          count={count}
+          onChange={handleChangePage}
+          sx={{ mt: 5 }}
+          size="small"
+          shape="rounded"
+          variant="outlined"
+        />
+      </Box>
     </TableContainer>
   );
+
+  return <Box>{tablePc}</Box>;
 }

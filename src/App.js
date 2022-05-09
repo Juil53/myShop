@@ -1,3 +1,4 @@
+import AdminPage from "./pages/Admin/AdminPage";
 import { theme } from "./styles/muiStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import HomePage from "./pages/User/HomePage/HomePage";
