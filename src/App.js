@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { theme } from "./styles/muiStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import HomePage from "./pages/User/HomePage/HomePage";
+import HomePage from "./pages/User/HomePage/Homepage";
 import routeAdmin from "./routes/AdminRoute";
 import "./scss/App.scss";
 
@@ -15,7 +15,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         
