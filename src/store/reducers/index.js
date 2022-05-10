@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import { app } from "./app";
-import { product } from "./products";
-import { language } from "./language";
-import { category } from "./category";
-import userReducer from "./users";
+import { app } from "./Popup";
+import { product } from "./Products";
+import { language } from "./Language";
+import { category } from "./Category";
+import userReducer from "./Users";
 const rootReducer = combineReducers({
   app,
   product,

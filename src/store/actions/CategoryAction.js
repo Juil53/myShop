@@ -1,5 +1,5 @@
 import { constant } from "../../constants";
-import { categoryService } from "../services/categoryService";
+import { categoryService } from "../services/CategoryService";
 
 function getAllCategory() {
   return (dispatch) => {

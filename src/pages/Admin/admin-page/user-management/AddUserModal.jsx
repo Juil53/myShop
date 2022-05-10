@@ -1,7 +1,9 @@
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
-import { actUpdateUserInfo } from "../../../../store/actions/user";
+import { useFormik } from "formik";
+import { validation } from "../../../../validation/Validation";
+import { actAddUser, actGetUser } from "../../../../store/actions/User";
 
 // Modal Style
 const style = {
@@ -28,68 +30,30 @@ const roles = [
   },
 ];
 
-export default function BasicModal() {
+export default function AddUserModal(props) {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.userReducer.open);
-  const userInfo = useSelector((state) => state.userReducer.userInfo);
   const [role, setRole] = React.useState("");
-  const [state, setState] = React.useState({
-    firstname: "",
-    lastname: "",
-    password: "",
-    email: "",
-    phonenumber: "",
-    role: "",
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      password: "",
+      email: "",
+      phonenumber: "",
+      role: role,
+    },
+    validationSchema: validation,
+    onSubmit: (values) => {
+      dispatch(actAddUser(values));
+      props.close();
+    },
   });
-  const handleClose = () => dispatch({ type: "CLOSE_MODAL" });
-
-  //CHECK SHOW USER INFO TO MODAL
-  React.useEffect(() => {
-    if (userInfo) {
-      setState({
-        firstname: userInfo.firstname,
-        lastname: userInfo.lastname,
-        password: userInfo.password,
-        email: userInfo.email,
-        phonenumber: userInfo.phonenumber,
-      });
-      setRole(userInfo.role);
-    } else {
-      setState({
-        firstname: "",
-        lastname: "",
-        password: "",
-        email: "",
-        phonenumber: "",
-        role: "",
-      });
-      setRole("");
-    }
-  }, [userInfo]);
-
-  //GET VALUE FROM FORM
-  const handleOnChange = (event) => {
-    const { name, value } = event.target;
-    setRole(event.target.value);
-    setState({
-      ...state,
-      [name]: value,
-    });
-  };
-
-  //SUBMIT USER
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (userInfo !== null)
-      return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
-  };
 
   return (
-
     <div>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={props.show}
+        onClose={props.close}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -100,32 +64,40 @@ export default function BasicModal() {
             sx={{
               "& .MuiTextField-root": { m: 1, width: "25ch" },
             }}
+            onSubmit={formik.handleSubmit}
           >
-            <h1 className="admin__title">Edit User</h1>
+            <h1 className="admin__title">Add User</h1>
+
             <div className="admin__form">
               <TextField
                 variant="standard"
                 required
                 label="First Name"
                 name="firstname"
-                value={state.firstname}
-                onChange={handleOnChange}
+                onChange={formik.handleChange}
+                value={formik.values.firstname}
+                helperText={formik.errors.firstname}
+                error={formik.errors.firstname}
               />
               <TextField
                 variant="standard"
                 required
                 label="Last Name"
                 name="lastname"
-                value={state.lastname}
-                onChange={handleOnChange}
+                onChange={formik.handleChange}
+                value={formik.values.lastname}
+                helperText={formik.errors.lastname}
+                error={formik.errors.lastname}
               />
               <TextField
                 variant="standard"
                 required
                 label="Email Name"
                 name="email"
-                value={state.email}
-                onChange={handleOnChange}
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                helperText={formik.errors.email}
+                error={formik.errors.email}
               />
               <TextField
                 variant="standard"
@@ -133,16 +105,20 @@ export default function BasicModal() {
                 required
                 label="Password"
                 name="password"
-                value={state.password}
-                onChange={handleOnChange}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                helperText={formik.errors.password}
+                error={formik.errors.password}
               />
               <TextField
                 variant="standard"
                 required
                 label="Phone number"
                 name="phonenumber"
-                value={state.phonenumber}
-                onChange={handleOnChange}
+                onChange={formik.handleChange}
+                value={formik.values.phonenumber}
+                helperText={formik.errors.phonenumber}
+                error={formik.errors.phonenumber}
               />
               <TextField
                 variant="standard"
@@ -150,9 +126,10 @@ export default function BasicModal() {
                 select
                 label="Select Role"
                 name="role"
-                value={role}
-                onChange={handleOnChange}
-                helperText="Please select your role"
+                value={formik.values.role}
+                onChange={formik.handleChange}
+                helperText={formik.errors.role}
+                error={formik.errors.role}
               >
                 {roles.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -161,12 +138,9 @@ export default function BasicModal() {
                 ))}
               </TextField>
             </div>
+
             <div className="admin__btn">
-              <button
-                className="btn btn--success"
-                type="submit"
-                onClick={handleSubmit}
-              >
+              <button className="btn btn--success" type="submit">
                 Submit
               </button>
             </div>
@@ -174,6 +148,5 @@ export default function BasicModal() {
         </Box>
       </Modal>
     </div>
-    
   );
 }

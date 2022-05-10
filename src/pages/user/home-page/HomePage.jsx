@@ -1,31 +1,29 @@
 import React from "react";
-import ProductSection from "../../../components/ProductSection/ProductSection";
-import ProductCard from "../../../components/ProductCard/ProductCard";
+import ProductSection from "../../../components/product-section/ProductSection";
+import ProductCard from "../../../components/product-card/ProductCard";
 import Header from "../../../components/Header/Header";
-import CategoryCard from "../../../components/CategoryCard/CategoryCard";
+import CategoryCard from "../../../components/category-card/CategoryCard";
 import Footer from "../../../components/Footer/Footer";
-import NextButton from "../../../components/ProductSection/child/NextButton";
-import PreButton from "../../../components/ProductSection/child/PreButton";
-import Popup from "../../../components/Popup/Popup";
+import NextButton from "../../../components/product-section/child/NextButton";
+import PreButton from "../../../components/product-section/child/PreButton";
 import Slider from "react-slick";
 import Banner from "./child/Banner";
+
 export default function HomePage() {
-  const bannerSettings = {
+  const settings = {
     infinite: true,
     speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
     nextArrow: <NextButton />,
     prevArrow: <PreButton />,
   };
   return (
-    <div className="page" id="page">
+    <React.Fragment>
       <Header currentactive="home" />
       <div className="home-page">
         <div className="home-page__slider">
-          <Slider {...bannerSettings}>
+          <Slider {...settings}>
             <div className="slide">
               <div className="img-container">
                 <img src="./img/banner1.jpeg" alt="" />
@@ -85,8 +83,8 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
       <Footer />
-      <Popup />
-    </div>
+    </React.Fragment>
   );
 }
