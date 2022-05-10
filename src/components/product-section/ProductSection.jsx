@@ -9,7 +9,7 @@ import PreButton from "./child/PreButton";
 export default function ProductSection(props) {
   let { data, title } = props;
   const dispatch = useDispatch();
-  const product = useSelector((store) => store.product.products);
+  const product = useSelector((state) => state.product.products);
   useEffect(() => {
     if (product.status === constant.LOADING) {
       dispatch(productActions.getAllProduct());

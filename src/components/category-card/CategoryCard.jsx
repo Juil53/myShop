@@ -4,7 +4,7 @@ import { constant } from "../../constants";
 import { categoryAction } from "../../store/actions/CategoryAction";
 
 export default function CategoryCard() {
-  const category = useSelector((store) => store.category.category);
+  const category = useSelector((state) => state.category.category);
   const dispatch = useDispatch();
   const [active, setActive] = useState([]);
 
