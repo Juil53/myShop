@@ -5,7 +5,7 @@ import { categoryAction } from "../../store/actions/CategoryAction";
 import { languageActions } from "../../store/actions/LanguageActions";
 
 export default function Header(props) {
-  const { currentactive } = props;
+  const { currentActive } = props;
   const language = useSelector((store) => store.language);
   const category = useSelector((store) => store.category.category);
   const dispatch = useDispatch();
@@ -95,7 +95,7 @@ export default function Header(props) {
         <div className="header__nav-left row">
           <div
             className={
-              currentactive === "home"
+              currentActive === "home"
                 ? "active header__nav-btn home-btn"
                 : "header__nav-btn home-btn"
             }
@@ -107,7 +107,7 @@ export default function Header(props) {
           </div>
           <div
             className={
-              currentactive === "product" ? "active product-btn" : "product-btn"
+              currentActive === "product" ? "active product-btn" : "product-btn"
             }
           >
             <a href="#">
@@ -121,7 +121,7 @@ export default function Header(props) {
           </div>
           <div
             className={
-              currentactive === "about"
+              currentActive === "about"
                 ? "active header__nav-btn about-btn"
                 : "header__nav-btn about-btn"
             }
@@ -130,7 +130,7 @@ export default function Header(props) {
           </div>
           <div
             className={
-              currentactive === "news"
+              currentActive === "news"
                 ? "active header__nav-btn news-btn"
                 : "header__nav-btn news-btn"
             }
@@ -139,7 +139,7 @@ export default function Header(props) {
           </div>
           <div
             className={
-              currentactive === "map"
+              currentActive === "map"
                 ? "active header__nav-btn map-btn"
                 : "header__nav-btn map-btn"
             }
@@ -148,7 +148,7 @@ export default function Header(props) {
           </div>
           <div
             className={
-              currentactive === "contact"
+              currentActive === "contact"
                 ? "active header__nav-btn contact-btn"
                 : "header__nav-btn contact-btn"
             }

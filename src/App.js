@@ -1,9 +1,8 @@
-import { theme } from "./styles/muiStyles";
+import { theme } from "./styles/MuiStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { renderRouteAdmin } from "./routes/AdminRoute";
 import "./scss/App.scss";
-
 
 function App() {
   return (

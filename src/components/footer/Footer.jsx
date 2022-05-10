@@ -6,6 +6,7 @@ export default function Footer() {
   const footer_top_left = footer.top_footer.left;
   const footer_top_mid = footer.top_footer.mid;
   const footer_top_right = footer.top_footer.right;
+
   return (
     <div className="footer">
       <div className="footer__top row">
