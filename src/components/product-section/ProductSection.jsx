@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import { constant } from "../../constants";
-import { productActions } from "../../store/actions/ProductActions";
-import ProductCard from "../productcard/ProductCard";
+import { productActions } from "../../store/products/actions";
+import ProductCard from "../product-card/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";
 
 export default function ProductSection(props) {
   const { data, title } = props;
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.products);
+  const product = useSelector((state) => state.products.products);
 
   useEffect(() => {
     if (product.status === constant.LOADING) {

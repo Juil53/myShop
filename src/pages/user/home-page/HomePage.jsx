@@ -1,9 +1,9 @@
 import React from "react";
 import ProductSection from "../../../components/product-section/ProductSection";
 import ProductCard from "../../../components/product-card/ProductCard";
-import Header from "../../../components/Header/Header";
+import Header from "../../../components/header/Header";
 import CategoryCard from "../../../components/category-card/CategoryCard";
-import Footer from "../../../components/Footer/Footer";
+import Footer from "../../../components/footer/Footer";
 import NextButton from "../../../components/product-section/child/NextButton";
 import PreButton from "../../../components/product-section/child/PreButton";
 import Slider from "react-slick";
@@ -21,7 +21,7 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <Header currentactive="home" />
+      {/* <Header currentactive="home" /> */}
       <div className="home-page">
         <div className="home-page__slider">
           <Slider {...settings}>
@@ -84,7 +84,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <Footer />
     </React.Fragment>
   );
 }

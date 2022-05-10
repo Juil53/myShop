@@ -1,15 +1,19 @@
 import React from "react";
-import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 
-const Homepage = lazy(() => import("../pages/user/home-page/Homepage"));
+import Home from "../pages/user/home-page/HomePage";
+import ProductDetail from "../pages/user/product-detail/ProductDetail";
+import Wrapper from "../pages/user/Wrapper";
 
-const routeUser = [
-  {
-    page: "Homepage",
-    exact: false,
-    path: "/home",
-    element: <Homepage />,
-  },
-];
+function UserRoutes() {
+  return (
+    <Routes>
+      <Route path="" element={<Wrapper />}>
+        <Route path="" element={<Home />} />
+        <Route path="product" element={<ProductDetail />} />
+      </Route>
+    </Routes>
+  );
+}
 
-export default routeUser;
+export default UserRoutes;
