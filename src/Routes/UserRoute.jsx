@@ -2,7 +2,7 @@ import React from "react";
 import { lazy } from "react";
 
 
-const Homepage = lazy(() => import("../pages/User/HomePage/Homepage"))
+const Homepage = lazy(() => import("../pages/user/HomePage/Homepage"))
 
 const routeUser = [
   {

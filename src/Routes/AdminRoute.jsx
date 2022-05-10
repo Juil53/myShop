@@ -1,47 +1,41 @@
-import React from "react";
+import AdminContainer from "../pages/admin/AdminContainer";
+import Dashboard from "../pages/admin/AdminPage/Dashboard/Dashboard";
+import UserManagement from "../pages/admin/AdminPage/UserManagement/UserManagement"
+import ProductManagement from "../pages/admin/AdminPage/ProductManagement/ProductManagement"
 import { lazy } from "react";
-
-const DashboardPage = lazy(() =>
-  import("../pages/Admin/AdminPage/Dashboard/Dashboard")
-);
-const UserManagementPage = lazy(() =>
-  import("../pages/Admin/AdminPage/UserManagement/UserManagement")
-);
-const ProductManagementPage = lazy(() =>
-  import("../pages/Admin/AdminPage/ProductManagement/ProductManagement")
-);
 
 const routeAdmin = [
   {
     page: "Dashboard",
     exact: false,
-    path: "/dashboard",
-    element: (
-      <React.Suspense fallback={<>...</>}>
-        <DashboardPage />
-      </React.Suspense>
-    ),
+    path: "/admin/dashboard",
+    element: <Dashboard/>
   },
   {
     page: "UserManagement",
     exact: false,
-    path: "/user-management",
-    element: (
-      <React.Suspense fallback={<>...</>}>
-        <UserManagementPage />
-      </React.Suspense>
-    ),
+    path: "/admin/user-management",
+    element: <UserManagement/>
   },
   {
     page: "ProductManagement",
     exact: false,
-    path: "/product-management",
-    element: (
-      <React.Suspense fallback={<>...</>}>
-        <ProductManagementPage />
-      </React.Suspense>
-    ),
+    path: "/admin/product-management",
+    element: <ProductManagement/>
   },
 ];
 
-export default routeAdmin;
+const renderRouteAdmin = () => {
+  return routeAdmin.map((route, index) => {
+    return (
+      <AdminContainer
+        key={index}
+        exact={route.exact}
+        path={route.path}
+        element={route.element}
+      />
+    );
+  });
+};
+
+export { renderRouteAdmin };
