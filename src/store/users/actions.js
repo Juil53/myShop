@@ -1,57 +1,66 @@
 import axios from "axios";
+import {
+  getUserRequest,
+  getUserSuccess,
+  getUserFailed,
+  getUserPaginationRequest,
+  getUserPaginationSuccess,
+  getUserPaginationFailed,
+} from "./usersSlice";
 
-//GET USER DATA
+//GET USER DATA == thunk => Saga
 export const actGetUser = () => {
   return (dispatch) => {
-    dispatch(actGetUserRequest());
+    dispatch(getUserRequest());
     axios
       .get("http://localhost:3000/user")
       .then((result) => {
-        dispatch(actGetUserSuccess(result.data));
+        dispatch(getUserSuccess(result.data));
       })
       .catch((error) => {
-        dispatch(actGetUserFailed(error));
+        dispatch(getUserFailed(error));
       });
   };
 };
 
-const actGetUserRequest = () => ({
-  type: "GET_USER_DATA",
-});
-const actGetUserSuccess = (data) => ({
-  type: "GET_USER_SUCCESS",
-  payload: data,
-});
-const actGetUserFailed = (error) => ({
-  type: "GET_USER_FAILED",
-  payload: error,
-});
+// GET USER DATA == Actions => Slice
+// const actGetUserRequest = () => ({
+//   type: "GET_USER_DATA",
+// });
+// const actGetUserSuccess = (data) => ({
+//   type: "GET_USER_SUCCESS",
+//   payload: data,
+// });
+// const actGetUserFailed = (error) => ({
+//   type: "GET_USER_FAILED",
+//   payload: error,
+// });
 
 // GET USER DATA PAGINATION
 export const actGetUserPagination = (page, limit) => {
   return (dispatch) => {
-    dispatch(actGetUserPaginationRequest());
+    dispatch(getUserPaginationRequest());
     axios
       .get(`http://localhost:3000/user?_page=${page}&_limit=${limit}`)
       .then((result) => {
-        dispatch(actGetUserPaginationSuccess(result.data));
+        dispatch(getUserPaginationSuccess(result.data));
       })
       .catch((error) => {
-        dispatch(actGetUserPaginationFailed(error));
+        dispatch(getUserPaginationFailed(error));
       });
   };
 };
-const actGetUserPaginationRequest = () => ({
-  type: "GET_USER_PAGINATION_REQUEST",
-});
-const actGetUserPaginationSuccess = (data) => ({
-  type: "GET_USER_PAGINATION_SUCCESS",
-  payload: data,
-});
-const actGetUserPaginationFailed = (error) => ({
-  type: "GET_USER_PAGINATION_FAILED",
-  payload: error,
-});
+// const actGetUserPaginationRequest = () => ({
+//   type: "GET_USER_PAGINATION_REQUEST",
+// });
+// const actGetUserPaginationSuccess = (data) => ({
+//   type: "GET_USER_PAGINATION_SUCCESS",
+//   payload: data,
+// });
+// const actGetUserPaginationFailed = (error) => ({
+//   type: "GET_USER_PAGINATION_FAILED",
+//   payload: error,
+// });
 
 // ADD USER
 export const actAddUser = (user) => {
