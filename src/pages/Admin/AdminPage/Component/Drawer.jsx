@@ -35,20 +35,20 @@ function MyDrawer(props) {
     {
       text: "Dashboard",
       icon: <DashboardIcon/>,
-      onClick: () => history.push("/dashboard"),
-      href: "/dashboard",
+      onClick: () => history.push("/admin/dashboard"),
+      href: "/admin/dashboard",
     },
     {
       text: "User Management",
       icon: <AccountCircleIcon/>,
-      onClick: () => history.push("/user-management"),
-      href: "/user-management",
+      onClick: () => history.push("/admin/user-management"),
+      href: "/admin/user-management",
     },
     {
       text: "Product Management",
       icon: <LibraryBooksIcon/>,
-      onClick: () => history.push("/product-management"),
-      href: "/product-management",
+      onClick: () => history.push("/admin/product-management"),
+      href: "/admin/product-management",
     },
   ];
 
@@ -74,9 +74,8 @@ function MyDrawer(props) {
   );
 
   return (
-    <Box>
-      <CssBaseline />
 
+    <Box>
       {/* Header */}
       <AppBar
         position="fixed"
@@ -126,6 +125,7 @@ function MyDrawer(props) {
         </Drawer>
       </Box>
     </Box>
+
   );
 }
 

@@ -51,6 +51,7 @@ export default function AddUserModal(props) {
 
 
   return (
+
     <div>
       <Modal
         open={props.show}
@@ -149,5 +150,6 @@ export default function AddUserModal(props) {
         </Box>
       </Modal>
     </div>
+    
   );
 }

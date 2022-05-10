@@ -85,6 +85,7 @@ export default function BasicModal() {
   };
 
   return (
+
     <div>
       <Modal
         open={open}
@@ -173,5 +174,6 @@ export default function BasicModal() {
         </Box>
       </Modal>
     </div>
+    
   );
 }

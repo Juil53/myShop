@@ -7,7 +7,7 @@ const routes = routeUser.map((route, index) => (
   <Route key={index} path={route.path} element={route.element} />
 ));
 
-function UserPage() {
+function UserContainer() {
   return (
     <div>
       <BrowserRouter>
@@ -28,4 +28,4 @@ function UserPage() {
   );
 }
 
-export default UserPage;
+export default UserContainer;

@@ -1,14 +1,10 @@
 import React from "react";
-import MyDrawer from "./AdminPage/Component/Drawer";
-import routeAdmin from "../../routes/AdminRoute";
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
+import MyDrawer from "./AdminPage/Component/Drawer";
 
-const routes = routeAdmin.map((route, index) => (
-  <Route key={index} path={route.path} element={route.element} />
-));
-
-function AdminPage() {
+export default function AdminContainer(props) {
+  const { exact, path, element } = props;
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -22,11 +18,11 @@ function AdminPage() {
             mt: 8,
           }}
         >
-          {routes}
+          <Routes>
+            <Route exact={exact} path={path} element={element} />
+          </Routes>
         </Box>
       </Box>
     </>
   );
 }
-
-export default AdminPage;

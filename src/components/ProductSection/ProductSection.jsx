@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import { constant } from "../../constants";
 import { productActions } from "../../store/actions/productActions";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../productcard/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";
 export default function ProductSection(props) {
