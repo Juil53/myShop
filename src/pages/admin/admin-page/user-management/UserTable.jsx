@@ -17,6 +17,12 @@ import {
 } from "../../../../store/users/actions";
 import { styled } from "@mui/material/styles";
 
+//import action from userSlice
+
+
+
+
+
 const StyledPagination = styled(Pagination)(() => ({
   color: "#fff",
   "&.Mui-active": {
@@ -26,10 +32,10 @@ const StyledPagination = styled(Pagination)(() => ({
 
 export function UserTable({ keyword }) {
   const dispatch = useDispatch();
-  const rows = useSelector((state) => state.userReducer.userData);
+  const rows = useSelector((state) => state.user.userData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
   const rowsPagination = useSelector(
-    (state) => state.userReducer.userDataPagination
+    (state) => state.user.userDataPagination
   );
   const paginationData = keyword
     ? rows?.filter(

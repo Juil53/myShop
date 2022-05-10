@@ -30,8 +30,8 @@ const roles = [
 
 export default function BasicModal() {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.userReducer.open);
-  const userInfo = useSelector((state) => state.userReducer.userInfo);
+  const open = useSelector((state) => state.user.open);
+  const userInfo = useSelector((state) => state.user.userInfo);
   const [role, setRole] = React.useState("");
   const [state, setState] = React.useState({
     firstname: "",
