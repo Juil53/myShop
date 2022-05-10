@@ -21,7 +21,7 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <Header currentactive="home" />
+      {/* <Header currentactive="home" /> */}
       <div className="home-page">
         <div className="home-page__slider">
           <Slider {...settings}>
@@ -84,7 +84,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <Footer />
     </React.Fragment>
   );
 }

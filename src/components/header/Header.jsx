@@ -6,8 +6,8 @@ import { languageActions } from "../../store/languages/actions";
 
 export default function Header(props) {
   const { currentActive } = props;
-  const language = useSelector((state) => state.language);
-  const category = useSelector((state) => state.category.category);
+  const language = useSelector((state) => state.languages);
+  const category = useSelector((state) => state.categories.category);
   const dispatch = useDispatch();
 
   useEffect(() => {

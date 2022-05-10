@@ -2,7 +2,7 @@ import { theme } from "./styles/MuiStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { renderRouteAdmin } from "./routes/AdminRoute";
-import UserRoute from "./pages/user/UserContainer";
+import UserRoute from "./routes/UserRoute";
 import "./scss/App.scss";
 
 function App() {
