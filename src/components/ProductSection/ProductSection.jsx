@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import { constant } from "../../constants";
-import { productActions } from "../../store/actions/productActions";
+import { productActions } from "../../store/actions/ProductActions";
 import ProductCard from "../productcard/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";

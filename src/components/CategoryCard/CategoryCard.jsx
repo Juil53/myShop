@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { constant } from "../../constants";
-import { categoryAction } from "../../store/actions/categoryAction";
+import { categoryAction } from "../../store/actions/CategoryAction";
 
 export default function CategoryCard() {
   const category = useSelector((store) => store.category.category);
