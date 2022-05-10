@@ -1,8 +1,14 @@
 import { combineReducers } from "redux";
-// import { product } from "./products";
+import { app } from "./app";
+import { product } from "./products";
+import { language } from "./language";
+import { category } from "./category";
 import userReducer from "./users";
 const rootReducer = combineReducers({
-  // product,
+  app,
+  product,
+  language,
+  category,
   userReducer,
 });
 export default rootReducer;

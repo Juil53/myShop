@@ -1,9 +1,17 @@
-import AdminPage from "./pages/Admin/AdminPage";
-import "./App.css";
-// import Product from "./components/product";
+import { theme } from "./styles/muiStyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { renderRouteAdmin } from "./routes/AdminRoute";
+import "./scss/App.scss";
+
 
 function App() {
-  return <AdminPage />;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {renderRouteAdmin()}
+    </ThemeProvider>
+  );
 }
 
 export default App;

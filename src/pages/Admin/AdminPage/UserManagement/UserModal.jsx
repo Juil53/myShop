@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
-import { actAddUser, actUpdateUserInfo } from "../../../../store/actions/user";
+import { actUpdateUserInfo } from "../../../../store/actions/user";
 
 // Modal Style
 const style = {
@@ -46,7 +46,6 @@ export default function BasicModal() {
   //CHECK SHOW USER INFO TO MODAL
   React.useEffect(() => {
     if (userInfo) {
-      console.log(userInfo.id);
       setState({
         firstname: userInfo.firstname,
         lastname: userInfo.lastname,
@@ -64,6 +63,7 @@ export default function BasicModal() {
         phonenumber: "",
         role: "",
       });
+      setRole("");
     }
   }, [userInfo]);
 
@@ -77,18 +77,15 @@ export default function BasicModal() {
     });
   };
 
-
   //SUBMIT USER
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (userInfo !== null) {
-      return dispatch(actUpdateUserInfo(state,userInfo.id)), handleClose();
-    } else {
-      return dispatch(actAddUser(state)), handleClose();
-    }
+    if (userInfo !== null)
+      return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
   };
 
   return (
+
     <div>
       <Modal
         open={open}
@@ -103,12 +100,8 @@ export default function BasicModal() {
             sx={{
               "& .MuiTextField-root": { m: 1, width: "25ch" },
             }}
-            noValidate
-            autoComplete="off"
           >
-            <h1 className="admin__title">
-              {userInfo ? "Edit User" : "Add User"}
-            </h1>
+            <h1 className="admin__title">Edit User</h1>
             <div className="admin__form">
               <TextField
                 variant="standard"
@@ -181,5 +174,6 @@ export default function BasicModal() {
         </Box>
       </Modal>
     </div>
+    
   );
 }
