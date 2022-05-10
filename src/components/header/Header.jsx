@@ -58,11 +58,11 @@ export default function Header(props) {
           </div>
         </div>
         <div className="header__top-nav row">
-          <div className="header__top-nav-btn">
+          <div className="nav-btn">
             <i className="fa-solid fa-phone"></i>
             19009597
           </div>
-          <div className="header__top-nav-btn search-box">
+          <div className="nav-btn search-box">
             <button>
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -71,19 +71,19 @@ export default function Header(props) {
               placeholder={language.header.top_nav.search[language.current]}
             />
           </div>
-          <div className="header__top-nav-btn login-btn">
+          <div className="nav-btn login-btn">
             <button>
               <i className="fa-solid fa-user"></i>
               {language.header.top_nav.login[language.current]}
             </button>
           </div>
-          <div className="header__top-nav-btn register-btn">
+          <div className="nav-btn register-btn">
             <button>
               <i className="fa-solid fa-lock-open"></i>
               {language.header.top_nav.register[language.current]}
             </button>
           </div>
-          <div className="header__top-nav-btn cart-btn">
+          <div className="nav-btn cart-btn">
             <button>
               <i className="fa-solid fa-cart-shopping"></i>
               {language.header.top_nav.login[language.current]}

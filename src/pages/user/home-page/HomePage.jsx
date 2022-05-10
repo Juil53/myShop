@@ -18,6 +18,7 @@ export default function HomePage() {
     nextArrow: <NextButton />,
     prevArrow: <PreButton />,
   };
+
   return (
     <React.Fragment>
       <Header currentactive="home" />
@@ -83,7 +84,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
       <Footer />
     </React.Fragment>
   );

@@ -46,15 +46,12 @@ ul>li {
   border-radius: 5px;
   padding: 1rem 2rem;
   box-shadow: none;
-
   font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: 700;
   text-align: center;
-
   color: $blackColor;
   background-color: $whiteColor;
-
   cursor: pointer;
 }
 
@@ -78,4 +75,12 @@ ul>li {
     height: 100%;
     object-fit: cover;
   }
+}
+
+.row {
+  display: flex;
+}
+
+.font-bold {
+  font-weight: 700;
 }
