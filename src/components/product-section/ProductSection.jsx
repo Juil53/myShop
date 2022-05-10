@@ -6,10 +6,12 @@ import { productActions } from "../../store/actions/ProductActions";
 import ProductCard from "../productcard/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";
+
 export default function ProductSection(props) {
-  let { data, title } = props;
+  const { data, title } = props;
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.products);
+
   useEffect(() => {
     if (product.status === constant.LOADING) {
       dispatch(productActions.getAllProduct());
@@ -17,6 +19,7 @@ export default function ProductSection(props) {
       console.log(product);
     }
   });
+
   const settings = {
     infinite: true,
     speed: 800,
@@ -41,6 +44,7 @@ export default function ProductSection(props) {
       },
     ],
   };
+
   function createProductCard(data) {
     return data.map((v) => (
       <div className="productsection__slide-container" key={v.id}>
@@ -59,6 +63,7 @@ export default function ProductSection(props) {
       </div>
     ));
   }
+
   return (
     <div className="productsection">
       <h3 className="productsection__title">{title}</h3>

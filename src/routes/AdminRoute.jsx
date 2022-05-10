@@ -2,7 +2,6 @@ import AdminContainer from "../pages/admin/AdminContainer";
 import Dashboard from "../pages/admin/admin-page/dashboard/Dashboard";
 import UserManagement from "../pages/admin/admin-page/user-management/UserManagement";
 import ProductManagement from "../pages/admin/admin-page/product-management/ProductManagement";
-import { lazy } from "react";
 
 const routeAdmin = [
   {

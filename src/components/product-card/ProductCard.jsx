@@ -2,9 +2,10 @@ import { utils } from "../../utils";
 import { useDispatch } from "react-redux";
 import { constant } from "../../constants";
 import { appActions } from "../../store/actions/PopupActions";
+
 export default function ProductCard(props) {
   const dispatch = useDispatch();
-  let {
+  const {
     price_after_discount,
     price_before_discount,
     cardDirection,
@@ -15,6 +16,7 @@ export default function ProductCard(props) {
     status,
     brand,
   } = props;
+
   function handleShowPopup() {
     dispatch(
       appActions.changePopup(constant.PRODUCT_INFO_POPUP, {
@@ -29,6 +31,7 @@ export default function ProductCard(props) {
       })
     );
   }
+
   return (
     <div className="w-full relative productcard">
       <div className={cardDirection}>

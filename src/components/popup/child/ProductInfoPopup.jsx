@@ -2,8 +2,9 @@ import { utils } from "../../../utils";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
+
 export default function ProductInfoPopup(props) {
-  let { closePopup } = props;
+  const { closePopup } = props;
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
   const settings_mainSlider = {
@@ -21,16 +22,19 @@ export default function ProductInfoPopup(props) {
   const [number, setNumber] = useState(1);
   const popup = useSelector((state) => state.app.popup);
   const productInfo = popup.additionalInfo;
+
   function handleDecrease() {
     if (number - 1 > 0) {
       return setNumber(number - 1);
     }
   }
+
   function handleIncrease() {
     if (number + 1 <= productInfo.quantity) {
       return setNumber(number + 1);
     }
   }
+
   function handleChangeInput(e) {
     let tmp = parseInt(e.target.value);
     if (tmp !== number && tmp <= productInfo.quantity) {
