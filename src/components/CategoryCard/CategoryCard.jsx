@@ -9,7 +9,7 @@ export default function CategoryCard() {
   const [active, setActive] = useState([]);
 
   function handleActiveDropdown(cate) {
-    let tmp = [...active];
+    const tmp = [...active];
     if (active.includes(cate)) {
       tmp.splice(tmp.indexOf(cate), 1);
     } else {
@@ -60,6 +60,7 @@ export default function CategoryCard() {
       );
     });
   }
+
   function createSubCateDropdown(data) {
     return data.map((v) => {
       return (
@@ -70,6 +71,7 @@ export default function CategoryCard() {
       );
     });
   }
+
   return (
     <div className="categorycard">
       <div className="title">Danh mục sản phẩm</div>
