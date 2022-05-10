@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UserTable } from "./UserTable";
-import { actGetKeyword } from "../../../../store/actions/user";
+import { actGetKeyword } from "../../../../store/actions/User";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
@@ -20,9 +20,7 @@ function UserManagement() {
     dispatch(actGetKeyword(null))
   );
 
-
   return (
-
     <>
       <div className="container usermanagement">
         <div className="search">
@@ -54,7 +52,7 @@ function UserManagement() {
           </Button>
         </div>
       </div>
-      
+
       {/* DataTable */}
       <div className="table">
         <UserTable keyword={keyword} />
@@ -69,7 +67,6 @@ function UserManagement() {
         }}
       />
     </>
-
   );
 }
 
