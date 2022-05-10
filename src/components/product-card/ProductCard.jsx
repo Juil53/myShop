@@ -1,7 +1,7 @@
 import { utils } from "../../utils";
 import { useDispatch } from "react-redux";
 import { constant } from "../../constants";
-import { appActions } from "../../store/actions/PopupActions";
+import { appActions } from "../../store/popup/actions";
 
 export default function ProductCard(props) {
   const dispatch = useDispatch();

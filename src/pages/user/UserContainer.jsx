@@ -1,7 +1,8 @@
 import React from "react";
 import routeUser from "../../routes/UserRoute";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+
+import Home from "./home-page/HomePage";
 
 const routes = routeUser.map((route, index) => (
   <Route key={index} path={route.path} element={route.element} />
@@ -9,22 +10,9 @@ const routes = routeUser.map((route, index) => (
 
 function UserContainer() {
   return (
-    <div>
-      <BrowserRouter>
-        <Box sx={{ display: "flex" }}>
-          <Box
-            component="main"
-            sx={{
-              flexGrow: 1,
-              p: 3,
-              mt:8,
-            }}
-          >
-            <Routes>{routes}</Routes>
-          </Box>
-        </Box>
-      </BrowserRouter>
-    </div>
+    <Routes>
+      <Route path="/" element={Home} />
+    </Routes>
   );
 }
 

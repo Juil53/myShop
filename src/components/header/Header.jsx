@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { constant } from "../../constants";
-import { categoryAction } from "../../store/actions/CategoryAction";
-import { languageActions } from "../../store/actions/LanguageActions";
+import { categoryAction } from "../../store/categories/actions";
+import { languageActions } from "../../store/languages/actions";
 
 export default function Header(props) {
   const { currentActive } = props;
