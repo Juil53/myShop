@@ -19,7 +19,7 @@ export default function ProductInfoPopup(props) {
     focusOnSelect: true,
   };
   const [number, setNumber] = useState(1);
-  const popup = useSelector((store) => store.app.popup);
+  const popup = useSelector((state) => state.app.popup);
   const productInfo = popup.additionalInfo;
   function handleDecrease() {
     if (number - 1 > 0) {

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 export default function Footer() {
-  const language = useSelector((store) => store.language);
+  const language = useSelector((state) => state.language);
   const footer = language.footer;
   const footer_top_left = footer.top_footer.left;
   const footer_top_mid = footer.top_footer.mid;

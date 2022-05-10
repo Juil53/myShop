@@ -5,7 +5,7 @@ import { constant } from "../../constants";
 import ProductInfoPopup from "./child/ProductInfoPopup";
 import { useEffect } from "react";
 export default function Popup(props) {
-  const popup = useSelector((store) => store.app.popup);
+  const popup = useSelector((state) => state.app.popup);
   const dispatch = useDispatch();
   function handleClosePopup() {
     dispatch(appActions.changePopup(constant.NO_POPUP));
