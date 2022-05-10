@@ -1,5 +1,5 @@
 import { constant } from "../../constants";
-import { productService } from "../services/ProductService";
+import { productService } from "./services";
 function getAllProduct() {
   return (dispatch) => {
     productService.getAllProduct().then((res) => {

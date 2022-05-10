@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UserTable } from "./UserTable";
-import { actGetKeyword } from "../../../../store/actions/User";
+import { actGetKeyword } from "../../../../store/users/actions";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";

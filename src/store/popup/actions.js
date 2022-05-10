@@ -1,6 +1,6 @@
 import { constant } from "../../constants";
 function changePopup(popupType, additionalInfo, message) {
-  console.log(popupType);
+
   return (dispatch) => {
     dispatch({
       popupType,

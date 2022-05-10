@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { useFormik } from "formik";
 import { validation } from "../../../../validation/Validation";
-import { actAddUser, actGetUser } from "../../../../store/actions/User";
+import { actAddUser } from "../../../../store/users/actions";
 
 // Modal Style
 const style = {

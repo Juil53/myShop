@@ -6,7 +6,7 @@ const initialState = {
     additionalInfo: {},
   },
 };
-export function app(state = initialState, action) {
+export function popup(state = initialState, action) {
   switch (action.type) {
     case constant.CHANGE_POPUP:
       return {

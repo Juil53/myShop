@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
-import { actUpdateUserInfo } from "../../../../store/actions/User";
+import { actUpdateUserInfo } from "../../../../store/users/actions";
 
 // Modal Style
 const style = {

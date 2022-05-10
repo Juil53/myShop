@@ -16,11 +16,13 @@ const userReducer = (state = initialState, action) => {
       state.userData = null;
       state.error = null;
       return { ...state };
+
     case "GET_USER_SUCCESS":
       state.loading = false;
       state.userData = action.payload;
       state.error = null;
       return { ...state };
+
     case "GET_USER_FAILED":
       state.loading = false;
       state.userData = null;
@@ -33,11 +35,13 @@ const userReducer = (state = initialState, action) => {
       state.userDataPagination = null;
       state.error = null;
       return { ...state };
+
     case "GET_USER_PAGINATION_SUCCESS":
       state.loading = false;
       state.userDataPagination = action.payload;
       state.error = null;
       return { ...state };
+      
     case "GET_USER_PAGINATION_FAILED":
       state.loading = false;
       state.userDataPagination = null;
@@ -49,11 +53,10 @@ const userReducer = (state = initialState, action) => {
       state.loading = true;
       state.error = null;
       return { ...state };
+
     case "SUBMIT_USER_SUCCESS":
       state.loading = false;
-
       const userList = [...state.userData];
-
       if (action.payload.email) {
         const index = userList.findIndex(
           (user) => user.email === action.payload.email
@@ -68,6 +71,7 @@ const userReducer = (state = initialState, action) => {
       state.userData = userList;
       state.error = null;
       return { ...state };
+
     case "SUBMIT_USER_FAILED":
       state.loading = false;
       state.userData = null;
@@ -83,6 +87,7 @@ const userReducer = (state = initialState, action) => {
     case "OPEN_MODAL":
       state.open = true;
       return { ...state };
+
     case "CLOSE_MODAL":
       state.open = false;
       return { ...state };
@@ -92,7 +97,6 @@ const userReducer = (state = initialState, action) => {
       state.keyword = action.payload;
       return { ...state };
 
-    
     default:
       return { ...state };
   }

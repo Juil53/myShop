@@ -102,7 +102,7 @@ const initialState = {
   },
 };
 
-export function language(state = initialState, action) {
+export function languages(state = initialState, action) {
   switch (action.type) {
     case constant.CHANGE_LANGUAGE:
       return {

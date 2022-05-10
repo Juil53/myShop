@@ -4,6 +4,7 @@ function getAllCategory() {
   const reqObj = {
     method: "GET",
   };
+  
   return fetch(constant.API_URL + "/category", reqObj)
     .then((res) => res.json())
     .then((json) => json)
@@ -15,3 +16,4 @@ function getAllCategory() {
 export const categoryService = {
   getAllCategory,
 };
+
