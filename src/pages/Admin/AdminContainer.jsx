@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
-import MyDrawer from "./AdminPage/Component/Drawer";
+import MyDrawer from "./admin-page/component/Drawer";
 
 export default function AdminContainer(props) {
   const { exact, path, element } = props;

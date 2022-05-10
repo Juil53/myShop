@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
-import { actUpdateUserInfo } from "../../../../store/actions/user";
+import { actUpdateUserInfo } from "../../../../store/actions/User";
 
 // Modal Style
 const style = {
@@ -85,7 +85,6 @@ export default function BasicModal() {
   };
 
   return (
-
     <div>
       <Modal
         open={open}
@@ -174,6 +173,5 @@ export default function BasicModal() {
         </Box>
       </Modal>
     </div>
-    
   );
 }

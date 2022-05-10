@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { useFormik } from "formik";
 import { validation } from "../../../../validation/Validation";
-import { actAddUser, actGetUser } from "../../../../store/actions/user";
+import { actAddUser, actGetUser } from "../../../../store/actions/User";
 
 // Modal Style
 const style = {
@@ -45,13 +45,11 @@ export default function AddUserModal(props) {
     validationSchema: validation,
     onSubmit: (values) => {
       dispatch(actAddUser(values));
-      props.close()
+      props.close();
     },
   });
 
-
   return (
-
     <div>
       <Modal
         open={props.show}
@@ -150,6 +148,5 @@ export default function AddUserModal(props) {
         </Box>
       </Modal>
     </div>
-    
   );
 }

@@ -14,8 +14,8 @@ import {
   actGetUser,
   actGetUserInfo,
   actGetUserPagination,
-} from "../../../../store/actions/user";
-import { styled } from '@mui/material/styles';
+} from "../../../../store/actions/User";
+import { styled } from "@mui/material/styles";
 
 const StyledPagination = styled(Pagination)(() => ({
   color: "#fff",
