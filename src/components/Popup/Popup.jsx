@@ -1,4 +1,4 @@
-import { appActions } from "../../store/actions/appActions";
+import { appActions } from "../../store/actions/PopupActions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { constant } from "../../constants";
