@@ -15,7 +15,7 @@ export default function AdminContainer(props) {
           sx={{
             flexGrow: 1,
             p: 3,
-            mt: 8,
+            mt: 2,
           }}
         >
           <Routes>
