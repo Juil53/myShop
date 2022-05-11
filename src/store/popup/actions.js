@@ -10,6 +10,6 @@ function changePopup(popupType, additionalInfo, message) {
     });
   };
 }
-export const appActions = {
+export const popupActions = {
   changePopup,
 };

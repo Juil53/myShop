@@ -6,6 +6,10 @@ import {
   getUserPaginationRequest,
   getUserPaginationSuccess,
   getUserPaginationFailed,
+  submitUserRequest,
+  submitUserSuccess,
+  submitUserFailed,
+  getUserInfo
 } from "./usersSlice";
 
 //GET USER DATA == thunk => Saga
@@ -65,37 +69,37 @@ export const actGetUserPagination = (page, limit) => {
 // ADD USER
 export const actAddUser = (user) => {
   return (dispatch) => {
-    dispatch(actAddUserRequest());
+    dispatch(submitUserRequest());
     axios
       .post("http://localhost:3000/user", user)
       .then((result) => {
-        dispatch(actAddUserSuccess(result.data));
+        dispatch(submitUserSuccess(result.data));
         actGetUserPagination();
       })
       .catch((error) => {
         console.log(error);
-        dispatch(actAddUserFailed(error));
+        dispatch(submitUserFailed(error));
       });
   };
 };
 
-const actAddUserRequest = () => {
-  return {
-    type: "SUBMIT_USER_REQUEST",
-  };
-};
-const actAddUserSuccess = (data) => {
-  return {
-    type: "SUBMIT_USER_SUCCESS",
-    payload: data,
-  };
-};
-const actAddUserFailed = (error) => {
-  return {
-    type: "SUBMIT_USER_FAILED",
-    payload: error,
-  };
-};
+// const actAddUserRequest = () => {
+//   return {
+//     type: "SUBMIT_USER_REQUEST",
+//   };
+// };
+// const actAddUserSuccess = (data) => {
+//   return {
+//     type: "SUBMIT_USER_SUCCESS",
+//     payload: data,
+//   };
+// };
+// const actAddUserFailed = (error) => {
+//   return {
+//     type: "SUBMIT_USER_FAILED",
+//     payload: error,
+//   };
+// };
 
 // DELETE USER
 export const actDeleteUser = (userId) => {
