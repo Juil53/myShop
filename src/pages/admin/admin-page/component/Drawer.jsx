@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import {
   Drawer,
   List,
-  ListItem,
   ListItemText,
   ListItemIcon,
   Toolbar,
   AppBar,
   Typography,
   Box,
-  CssBaseline,
+  ListItemButton,
+  Collapse,
 } from "@mui/material";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -18,11 +18,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
-const drawerWidth = "25rem";
+const drawerWidth = "30rem";
 
 function MyDrawer(props) {
-  const { history } = props;
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const container =
@@ -31,50 +34,83 @@ function MyDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const [open, setOpen] = React.useState(true);
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   const itemList = [
     {
       text: "Dashboard",
-      icon: <DashboardIcon/>,
-      onClick: () => history.push("/admin/dashboard"),
+      icon: <DashboardIcon />,
       href: "/admin/dashboard",
     },
     {
       text: "User Management",
-      icon: <AccountCircleIcon/>,
-      onClick: () => history.push("/admin/user-management"),
+      icon: <AccountCircleIcon />,
       href: "/admin/user-management",
     },
+  ];
+
+  const nestedList = [
     {
-      text: "Product Management",
-      icon: <LibraryBooksIcon/>,
-      onClick: () => history.push("/admin/product-management"),
+      text: "Product List",
+      icon: <FormatListBulletedIcon />,
       href: "/admin/product-management",
+    },
+    {
+      text: "Add Product",
+      icon: <AddIcon />,
+      href: "/admin/add-product",
     },
   ];
 
   const drawer = (
     <Box>
       <Toolbar className="adminToolbar">
-          <Typography variant="h3">Bershka</Typography>
+        <Typography variant="h3">Bershka</Typography>
       </Toolbar>
       <List>
         {itemList.map((item, index) => {
           const { text, icon, href } = item;
           return (
             <Link to={href} key={index}>
-              <ListItem button>
+              <ListItemButton>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItem>
+              </ListItemButton>
             </Link>
           );
         })}
+
+        <ListItemButton onClick={handleClick}>
+          <ListItemIcon>
+            <LibraryBooksIcon />
+          </ListItemIcon>
+          <ListItemText primary="Product Management" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List>
+            {nestedList.map((nestedPage, index) => {
+              const { text, icon, href } = nestedPage;
+              return (
+                <Link to={href} key={index}>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </Link>
+              );
+            })}
+          </List>
+        </Collapse>
       </List>
     </Box>
   );
 
   return (
-
     <Box>
       {/* Header */}
       <AppBar
@@ -94,9 +130,6 @@ function MyDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
         </Toolbar>
       </AppBar>
 
@@ -125,7 +158,6 @@ function MyDrawer(props) {
         </Drawer>
       </Box>
     </Box>
-
   );
 }
 

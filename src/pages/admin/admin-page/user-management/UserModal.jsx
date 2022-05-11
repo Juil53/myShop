@@ -2,6 +2,8 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { actUpdateUserInfo } from "../../../../store/users/actions";
+import { closeModal } from "../../../../store/users/usersSlice";
+import { selectUserInfo, selectUserOpen } from "../../../../store/users/selector";
 
 // Modal Style
 const style = {
@@ -30,8 +32,8 @@ const roles = [
 
 export default function BasicModal() {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.user.open);
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const open = useSelector(selectUserOpen);
+  const userInfo = useSelector(selectUserInfo);
   const [role, setRole] = React.useState("");
   const [state, setState] = React.useState({
     firstname: "",
@@ -41,7 +43,6 @@ export default function BasicModal() {
     phonenumber: "",
     role: "",
   });
-  const handleClose = () => dispatch({ type: "CLOSE_MODAL" });
 
   //CHECK SHOW USER INFO TO MODAL
   React.useEffect(() => {
@@ -81,8 +82,16 @@ export default function BasicModal() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (userInfo !== null)
-      return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
+      return (
+        dispatch(actUpdateUserInfo(state, userInfo.id)),
+        dispatch(closeModal())
+        )
   };
+
+  //HANDLE CLOSE MODAL
+  const handleClose = () => {
+    dispatch(closeModal())
+  }
 
   return (
     <div>

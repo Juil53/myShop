@@ -17,13 +17,50 @@ export const theme = createTheme({
       dark: "#798593",
     },
   },
+
+  
   components: {
     MuiToolbar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#5dccd0",
+          backgroundColor: theme.palette.secondary.main,
         },
       },
     },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            color: "primary.main",
+            "& .MuiListItemIcon-root": {
+              color: "primary.main",
+            },
+          },
+        },
+      },
+    },
+
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#5dccd0",
+          border: "1px solid",
+        },
+      },
+    },
+    MuiTableBody: {
+      styleOverrides: {
+        root: {
+          border: "1px solid",
+        },
+      },
+    },
+    MuiDrawer:{
+      styleOverrides:{
+        paper:{
+          backgroundColor:"#154f51"
+        }
+      }
+    }
   },
 });
