@@ -1,10 +1,11 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { Box } from "@mui/material";
 import MyDrawer from "./admin-page/component/Drawer";
+import { Routes } from "react-router-dom";
+import { Box } from "@mui/material";
+import { renderRouteAdmin } from "../../routes/AdminRoute";
+
 
 export default function AdminContainer(props) {
-  const { exact, path, element } = props;
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -19,7 +20,7 @@ export default function AdminContainer(props) {
           }}
         >
           <Routes>
-            <Route exact={exact} path={path} element={element} />
+            {renderRouteAdmin()}
           </Routes>
         </Box>
       </Box>

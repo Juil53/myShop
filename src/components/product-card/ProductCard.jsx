@@ -1,8 +1,7 @@
 import { utils } from "../../utils";
 import { useDispatch } from "react-redux";
 import { constant } from "../../constants";
-import { appActions } from "../../store/popup/actions";
-
+import { popupActions } from "../../store/popup/actions";
 export default function ProductCard(props) {
   const dispatch = useDispatch();
   const {
@@ -19,7 +18,7 @@ export default function ProductCard(props) {
 
   function handleShowPopup() {
     dispatch(
-      appActions.changePopup(constant.PRODUCT_INFO_POPUP, {
+      popupActions.changePopup(constant.PRODUCT_INFO_POPUP, {
         name: name,
         price_after_discount: price_after_discount,
         price_before_discount: price_before_discount,
