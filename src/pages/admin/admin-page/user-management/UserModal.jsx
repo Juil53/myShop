@@ -2,6 +2,7 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { actUpdateUserInfo } from "../../../../store/users/actions";
+import { closeModal, openModal } from "../../../../store/users/usersSlice";
 
 // Modal Style
 const style = {
@@ -41,7 +42,6 @@ export default function BasicModal() {
     phonenumber: "",
     role: "",
   });
-  const handleClose = () => dispatch({ type: "CLOSE_MODAL" });
 
   //CHECK SHOW USER INFO TO MODAL
   React.useEffect(() => {
@@ -81,8 +81,16 @@ export default function BasicModal() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (userInfo !== null)
-      return dispatch(actUpdateUserInfo(state, userInfo.id)), handleClose();
+      return (
+        dispatch(actUpdateUserInfo(state, userInfo.id)),
+        dispatch(closeModal())
+        )
   };
+
+  //HANDLE CLOSE MODAL
+  const handleClose = () => {
+    dispatch(closeModal())
+  }
 
   return (
     <div>

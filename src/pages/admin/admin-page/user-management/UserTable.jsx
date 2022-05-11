@@ -12,16 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   actDeleteUser,
   actGetUser,
-  actGetUserInfo,
   actGetUserPagination,
 } from "../../../../store/users/actions";
 import { styled } from "@mui/material/styles";
-
-//import action from userSlice
-
-
-
-
+import {
+  getUserInfo,
+  openModal,
+  closeModal,
+} from "../../../../store/users/usersSlice";
 
 const StyledPagination = styled(Pagination)(() => ({
   color: "#fff",
@@ -34,9 +32,7 @@ export function UserTable({ keyword }) {
   const dispatch = useDispatch();
   const rows = useSelector((state) => state.user.userData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
-  const rowsPagination = useSelector(
-    (state) => state.user.userDataPagination
-  );
+  const rowsPagination = useSelector((state) => state.user.userDataPagination);
   const paginationData = keyword
     ? rows?.filter(
         (user) =>
@@ -54,8 +50,8 @@ export function UserTable({ keyword }) {
 
   //Handle Edit User
   const handleGetUserInfo = (user) => {
-    dispatch({ type: "OPEN_MODAL" });
-    dispatch(actGetUserInfo(user));
+    dispatch(openModal());
+    dispatch(getUserInfo(user));
   };
 
   // Table config

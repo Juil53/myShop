@@ -1,24 +1,24 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { getKeyword } from "../../../../store/users/usersSlice";
 import { UserTable } from "./UserTable";
-import { actGetKeyword } from "../../../../store/users/actions";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import UserModal from "./UserModal";
 import AddUserModal from "./AddUserModal";
+
 import "../../../../scss/App.scss";
 
 function UserManagement() {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = React.useState(false);
-  // const keyword = useSelector((state) => state.userReducer.keyword);
   const keyword = useSelector((state) => state.user.keyword);
-  const handleChange = (event) => dispatch(actGetKeyword(event.target.value));
+  const handleChange = (event) => dispatch(getKeyword(event.target.value));
   const handleClearSeach = () => (
     (document.querySelector(".search__input").value = null),
-    dispatch(actGetKeyword(null))
+    dispatch(getKeyword(null))
   );
 
   return (
