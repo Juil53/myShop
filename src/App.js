@@ -2,8 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { theme } from "./styles/MuiStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import Wrapper from "./pages/user/Wrapper";
-// import UserContainer from "./pages/user/UserContainer";
+
 import AdminContainer from "./pages/admin/AdminContainer";
 import "./scss/App.scss";
 import UserRoutes from "./routes/UserRoute";

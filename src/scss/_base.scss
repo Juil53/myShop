@@ -81,6 +81,11 @@ ul>li {
   display: flex;
 }
 
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
 .font-bold {
   font-weight: 700;
 }

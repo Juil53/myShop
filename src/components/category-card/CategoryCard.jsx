@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { constant } from "../../constants";
-import { categoryAction } from "../../store/categories/actions";
+//import { categoryAction } from "../../store/categories/actions";
+import { fetchCategories } from "../../store/categories/actions";
 
 export default function CategoryCard() {
-  const category = useSelector((state) => state.categories.category);
+  const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const [active, setActive] = useState([]);
 
@@ -19,8 +20,8 @@ export default function CategoryCard() {
   }
 
   useEffect(() => {
-    if (category.status === constant.LOADING) {
-      dispatch(categoryAction.getAllCategory());
+    if (categories.status === constant.LOADING) {
+      dispatch(fetchCategories());
     }
   });
 
@@ -76,7 +77,8 @@ export default function CategoryCard() {
     <div className="categorycard">
       <div className="title">Danh mục sản phẩm</div>
       <div className="categorycard__content">
-        {category.status === constant.SUCCESS && createCategory(category.data)}
+        {categories.status === constant.GET_CATEGORY_SUCCESS &&
+          createCategory(categories.data)}
       </div>
     </div>
   );

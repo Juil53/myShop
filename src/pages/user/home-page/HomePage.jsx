@@ -10,21 +10,22 @@ import Slider from "react-slick";
 import Banner from "./child/Banner";
 
 export default function HomePage() {
-  const settings = {
+  const banner_settings = {
     infinite: true,
     speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <NextButton />,
     prevArrow: <PreButton />,
+    autoplay: true,
+    autoplaySpeed: 4000,
   };
 
   return (
     <React.Fragment>
-      {/* <Header currentactive="home" /> */}
       <div className="home-page">
         <div className="home-page__slider">
-          <Slider {...settings}>
+          <Slider {...banner_settings}>
             <div className="slide">
               <div className="img-container">
                 <img src="./img/banner1.jpeg" alt="" />
