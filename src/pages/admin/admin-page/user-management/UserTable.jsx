@@ -1,38 +1,35 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box, IconButton, Pagination } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  Box,
+  IconButton,
+  Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  styled
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   actDeleteUser,
   actGetUser,
   actGetUserPagination,
 } from "../../../../store/users/actions";
-import { styled } from "@mui/material/styles";
-import {
-  getUserInfo,
-  openModal,
-  closeModal,
-} from "../../../../store/users/usersSlice";
+import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
+import { selectUserData, selectUserDataPagination } from "../../../../store/users/selector";
 
-const StyledPagination = styled(Pagination)(() => ({
-  color: "#fff",
-  "&.Mui-active": {
-    backgroundColor: "red",
-  },
-}));
+
 
 export function UserTable({ keyword }) {
+  
   const dispatch = useDispatch();
-  const rows = useSelector((state) => state.user.userData);
+  const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
-  const rowsPagination = useSelector((state) => state.user.userDataPagination);
+  const rowsPagination = useSelector(selectUserDataPagination);
   const paginationData = keyword
     ? rows?.filter(
         (user) =>
@@ -88,7 +85,7 @@ export function UserTable({ keyword }) {
   const renderTableBody = () => {
     return paginationData?.map((user, index) => {
       return (
-        <TableRow key={index}>
+        <TableRow key={index} hover={true} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
           <TableCell>{user.id}</TableCell>
           <TableCell align="center">{user.firstname}</TableCell>
           <TableCell align="center">{user.lastname}</TableCell>
@@ -126,7 +123,7 @@ export function UserTable({ keyword }) {
     <TableContainer>
       <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
         <TableHead>
-          <TableRow>
+          <TableRow hover="true">
             <TableCell>ID</TableCell>
             {renderTableHead()}
           </TableRow>
@@ -134,7 +131,7 @@ export function UserTable({ keyword }) {
         <TableBody>{renderTableBody()}</TableBody>
       </Table>
       <Box sx={{ textAlign: "center" }}>
-        <StyledPagination
+        <Pagination
           showFirstButton
           showLastButton
           page={page}

@@ -89,11 +89,3 @@ export const actUpdateUserInfo = (user, userId) => {
       });
   };
 };
-
-// SEARCH
-export const actGetKeyword = (keyword) => {
-  return {
-    type: "GET_KEYWORD",
-    payload: keyword,
-  };
-};

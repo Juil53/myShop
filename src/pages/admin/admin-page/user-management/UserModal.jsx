@@ -2,7 +2,8 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { actUpdateUserInfo } from "../../../../store/users/actions";
-import { closeModal, openModal } from "../../../../store/users/usersSlice";
+import { closeModal } from "../../../../store/users/usersSlice";
+import { selectUserInfo, selectUserOpen } from "../../../../store/users/selector";
 
 // Modal Style
 const style = {
@@ -31,8 +32,8 @@ const roles = [
 
 export default function BasicModal() {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.user.open);
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const open = useSelector(selectUserOpen);
+  const userInfo = useSelector(selectUserInfo);
   const [role, setRole] = React.useState("");
   const [state, setState] = React.useState({
     firstname: "",
