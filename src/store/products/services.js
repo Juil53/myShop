@@ -12,6 +12,19 @@ function getAllProduct() {
       return [];
     });
 }
+
+export const getHotProduct = async () => {
+  try {
+    const data = await fetch(constant.API_URL + "/product", {
+      method: "GET",
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
 export const productService = {
   getAllProduct,
 };

@@ -14,5 +14,5 @@ export const constant = {
   VI: "VI",
   CHANGE_LANGUAGE: "CHANGE_LANGUAGE",
   //category
-  GET_CATEGORY: "GET_CATEGORY",
+  GET_CATEGORY_SUCCESS: "GET_CATEGORY_SUCCESS",
 };

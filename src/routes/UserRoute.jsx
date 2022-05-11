@@ -9,7 +9,7 @@ function UserRoutes() {
   return (
     <Routes>
       <Route path="" element={<Wrapper />}>
-        <Route path="" element={<Home />} />
+        <Route path="" element={<Home currentPage="home" />} />
         <Route path="product" element={<ProductDetail />} />
       </Route>
     </Routes>

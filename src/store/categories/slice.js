@@ -14,7 +14,17 @@ const categoriesSlice = createSlice({
   initialState,
 
   reducers: {}, // action dong bo
-  extraReducers: {}, //action bat dong bo
+
+  extraReducers: {
+    [fetchCategories.fulfilled]: (state, action) => {
+      state.data = action.payload;
+      state.status = c.GET_CATEGORY_SUCCESS;
+    },
+
+    [fetchCategories.pending]: (state) => {
+      state.status = c.LOADING;
+    },
+  }, //action bat dong bo
 });
 
 export default categoriesSlice.reducer;
