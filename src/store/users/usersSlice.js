@@ -71,6 +71,18 @@ const usersSlice = createSlice({
 
     getUserInfo(state,action){
         state.userInfo = action.payload;
+    },
+
+    openModal(state,action){
+      state.open = true;
+    },
+
+    closeModal(state,action){
+      state.open = false;
+    },
+
+    getKeyword(state,action){
+      state.keyword = action.payload
     }
 
   },
@@ -86,7 +98,10 @@ export const {
   submitUserRequest,
   submitUserSuccess,
   submitUserFailed,
-  getUserInfo
+  getUserInfo,
+  openModal,
+  closeModal,
+  getKeyword
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
