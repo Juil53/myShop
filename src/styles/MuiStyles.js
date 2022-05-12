@@ -23,7 +23,7 @@ export const theme = createTheme({
     MuiToolbar: {
       styleOverrides: {
         root: {
-          backgroundColor: theme.palette.secondary.main,
+          
         },
       },
     },

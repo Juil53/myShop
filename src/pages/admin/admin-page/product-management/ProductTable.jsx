@@ -26,7 +26,7 @@ const CustomizeTableRow = styled(TableRow)`
 
 export default function ProductTable() {
   const dispatch = useDispatch();
-  const productData = useSelector((state) => state.products.products.data);
+  const productData = useSelector((state) => state.products.data);
 
   React.useEffect(() => {
     dispatch(productActions.getAllProduct());

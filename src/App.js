@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { theme } from "./styles/MuiStyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-
-import AdminContainer from "./pages/admin/AdminContainer";
-import "./scss/App.scss";
 import UserRoutes from "./routes/UserRoute";
+import AdminContainer from "./pages/admin/AdminContainer";
+
+import "./scss/App.scss";
 
 function App() {
   return (
