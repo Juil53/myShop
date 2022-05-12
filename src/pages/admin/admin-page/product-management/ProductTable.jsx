@@ -16,13 +16,29 @@ import { styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { productActions } from "../../../../store/products/actions";
 
-const CustomizeTableRow = styled(TableRow)`
-  background-color: #fff;
-  transition: all 200ms;
-  :hover {
-    background-color: #bdcbdb;
-  }
-`;
+//Styled Component
+const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+}));
+
+const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
+  transition: "all 100ms",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.light,
+    "& .MuiTableCell-root": {
+      color: "#Fff",
+    },
+  },
+
+  "&:last-child td, &:last-child th": {
+    border: "1px dashed gray !important",
+  },
+}));
+
+const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
+  border: "1px dashed gray",
+  padding: 3,
+}));
 
 export default function ProductTable() {
   const dispatch = useDispatch();
@@ -39,23 +55,27 @@ export default function ProductTable() {
           key={index}
           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
         >
-          <TableCell align="left">{product.id}</TableCell>
-          <TableCell align="left">{product.name}</TableCell>
-          <TableCell align="left">
+          <CustomizeTableCell align="center">{product.id}</CustomizeTableCell>
+          <CustomizeTableCell align="center">{product.name}</CustomizeTableCell>
+          <CustomizeTableCell align="center">
             <img
               src={product.image}
               alt="product"
               style={{
-                width: "60px",
-                height: "60px",
+                width: "40px",
+                height: "40px",
                 borderRadius: "50%",
                 objectFit: "contain",
               }}
             />
-          </TableCell>
-          <TableCell align="center">{product.quantity}</TableCell>
-          <TableCell align="center">{product.price_before_discount}$</TableCell>
-          <TableCell align="center">
+          </CustomizeTableCell>
+          <CustomizeTableCell align="center">
+            {product.quantity}
+          </CustomizeTableCell>
+          <CustomizeTableCell align="center">
+            {product.price_before_discount}$
+          </CustomizeTableCell>
+          <CustomizeTableCell align="center">
             <IconButton
               size="small"
               sx={{ color: "error.light" }}
@@ -75,7 +95,7 @@ export default function ProductTable() {
             >
               <EditIcon fontSize="inherit" />
             </IconButton>
-          </TableCell>
+          </CustomizeTableCell>
         </CustomizeTableRow>
       );
     });
@@ -84,16 +104,16 @@ export default function ProductTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
+        <CustomizedTableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="left">PRODUCT NAME</TableCell>
-            <TableCell align="left">IMAGE</TableCell>
-            <TableCell align="center">QUANTITY</TableCell>
-            <TableCell align="center">PRICE</TableCell>
-            <TableCell align="center">ACTION</TableCell>
+            <CustomizeTableCell align="center">ID</CustomizeTableCell>
+            <CustomizeTableCell align="center">PRODUCT NAME</CustomizeTableCell>
+            <CustomizeTableCell align="center">IMAGE</CustomizeTableCell>
+            <CustomizeTableCell align="center">QUANTITY</CustomizeTableCell>
+            <CustomizeTableCell align="center">PRICE</CustomizeTableCell>
+            <CustomizeTableCell align="center">ACTION</CustomizeTableCell>
           </TableRow>
-        </TableHead>
+        </CustomizedTableHead>
         <TableBody>{renderTableBody()}</TableBody>
       </Table>
     </TableContainer>
