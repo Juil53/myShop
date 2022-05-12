@@ -13,12 +13,6 @@ export default function ProductSection(props) {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.products.hotproduct);
 
-  useEffect(() => {
-    if (product.status === constant.LOADING) {
-      dispatch(fetchHotProduct());
-    }
-  });
-
   const settings = {
     infinite: true,
     speed: 800,
@@ -43,6 +37,12 @@ export default function ProductSection(props) {
       },
     ],
   };
+
+  useEffect(() => {
+    if (product.status === constant.LOADING) {
+      dispatch(fetchHotProduct());
+    }
+  });
 
   function createProductCard(data) {
     return data.map((v) => (

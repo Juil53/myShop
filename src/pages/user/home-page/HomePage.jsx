@@ -23,7 +23,7 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <div className="home-page">
+      <div className="home-page page">
         <div className="home-page__slider">
           <Slider {...banner_settings}>
             <div className="slide">
