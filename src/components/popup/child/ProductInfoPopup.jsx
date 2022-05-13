@@ -7,6 +7,11 @@ export default function ProductInfoPopup(props) {
   const { closePopup } = props;
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
+
+  const [number, setNumber] = useState(1);
+  const popup = useSelector((state) => state.popup.popup);
+  const productInfo = popup.additionalInfo;
+
   const settings_mainSlider = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -14,14 +19,11 @@ export default function ProductInfoPopup(props) {
     fade: true,
   };
   const settings_subSlider = {
-    slidesToShow: 3,
+    slidesToShow: productInfo.img.length > 2 ? 3 : productInfo.img.length,
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,
   };
-  const [number, setNumber] = useState(1);
-  const popup = useSelector((state) => state.app.popup);
-  const productInfo = popup.additionalInfo;
 
   function handleDecrease() {
     if (number - 1 > 0) {
@@ -44,49 +46,53 @@ export default function ProductInfoPopup(props) {
     }
   }
 
+  function createSubSlider(data) {
+    return (
+      <Slider
+        {...settings_subSlider}
+        asNavFor={mainSlider}
+        ref={(slider2) => setSubSlider(slider2)}
+      >
+        {data.map((v) => (
+          <div className="subimg">
+            <div className="img-container">
+              <img src={v} alt="" />
+            </div>
+          </div>
+        ))}
+      </Slider>
+    );
+  }
+
+  function createMainSlider(data) {
+    return (
+      <Slider
+        {...settings_mainSlider}
+        asNavFor={subSlider}
+        ref={(slider1) => setMainSlider(slider1)}
+      >
+        {data.map((v) => (
+          <div className="img-container">
+            <img src={v} alt="" />
+          </div>
+        ))}
+      </Slider>
+    );
+  }
+
   return (
     <div className="modal center">
       <div className="productinfopopup row">
         <div className="productinfopopup__left">
-          <div className="main-img">
-            <Slider
-              {...settings_mainSlider}
-              asNavFor={subSlider}
-              ref={(slider1) => setMainSlider(slider1)}
-            >
-              <div className="img-container">
-                <img src={productInfo.img} alt="" />
-              </div>
-              <div className="img-container">
-                <img src="./img/sp1sub.png" alt="" />
-              </div>
-              <div className="img-container">
-                <img src={productInfo.img} alt="" />
-              </div>
-            </Slider>
-          </div>
-          <div className="subimg-container">
-            <Slider
-              {...settings_subSlider}
-              asNavFor={mainSlider}
-              ref={(slider2) => setSubSlider(slider2)}
-            >
-              <div className="subimg">
-                <div className="img-container">
-                  <img src={productInfo.img} alt="" />
-                </div>
-              </div>
-              <div className="subimg">
-                <div className="img-container">
-                  <img src="./img/sp1sub.png" alt="" />
-                </div>
-              </div>
-              <div className="subimg">
-                <div className="img-container">
-                  <img src={productInfo.img} alt="" />
-                </div>
-              </div>
-            </Slider>
+          <div className="main-img">{createMainSlider(productInfo.img)}</div>
+          <div
+            className={
+              productInfo.img.length > 1
+                ? "subimg-container"
+                : "subimg-container special"
+            }
+          >
+            {createSubSlider(productInfo.img)}
           </div>
         </div>
         <div className="productinfopopup__info">
