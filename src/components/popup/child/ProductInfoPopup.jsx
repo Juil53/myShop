@@ -54,7 +54,7 @@ export default function ProductInfoPopup(props) {
         ref={(slider2) => setSubSlider(slider2)}
       >
         {data.map((v) => (
-          <div className="subimg">
+          <div className="subimg" key={v}>
             <div className="img-container">
               <img src={v} alt="" />
             </div>
@@ -72,7 +72,7 @@ export default function ProductInfoPopup(props) {
         ref={(slider1) => setMainSlider(slider1)}
       >
         {data.map((v) => (
-          <div className="img-container">
+          <div className="img-container" key={v}>
             <img src={v} alt="" />
           </div>
         ))}
@@ -101,7 +101,7 @@ export default function ProductInfoPopup(props) {
           </div>
           <div className="productinfopopup__info-vend row">
             <div className="left">
-              Thương hiệu:
+              Brand:
               <span>{productInfo.brand}</span>
             </div>
             <div className="right">

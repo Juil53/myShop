@@ -10,8 +10,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  styled
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -21,7 +21,6 @@ import {
 } from "../../../../store/users/actions";
 import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
 import { selectUserData, selectUserDataPagination } from "../../../../store/users/selector";
-
 
 
 export function UserTable({ keyword }) {
@@ -71,6 +70,7 @@ export function UserTable({ keyword }) {
     "Role",
     "Actions",
   ];
+  
   const renderTableHead = () => {
     return tableHead.map((column, index) => {
       return (
