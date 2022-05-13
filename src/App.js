@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { theme } from "./styles/MuiStyles";
+import { theme } from "./styles/muiThemes";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import UserRoutes from "./routes/UserRoute";

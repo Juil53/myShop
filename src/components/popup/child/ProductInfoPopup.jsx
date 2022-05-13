@@ -101,7 +101,7 @@ export default function ProductInfoPopup(props) {
           </div>
           <div className="productinfopopup__info-vend row">
             <div className="left">
-              Thương hiệu:
+              Brand:
               <span>{productInfo.brand}</span>
             </div>
             <div className="right">

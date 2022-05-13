@@ -38,6 +38,12 @@ const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
   },
 }));
 
+const CustomDrawer = styled(Drawer)(({ theme }) => ({
+  "& .MuiToolbar-root": {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
+
 function MyDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -80,9 +86,12 @@ function MyDrawer(props) {
 
   const drawer = (
     <Box>
+      {/* Drawer Header Txt*/}
       <Toolbar className="adminToolbar">
         <Typography variant="h3">Bershka</Typography>
       </Toolbar>
+
+      {/* List Page */}
       <List>
         {itemList.map((item, index) => {
           const { text, icon, href } = item;
@@ -95,7 +104,9 @@ function MyDrawer(props) {
             </Link>
           );
         })}
+        {/* End List Page */}
 
+        {/* Nested Button */}
         <CustomizedListItemButton onClick={handleClick}>
           <ListItemIcon>
             <LibraryBooksIcon />
@@ -103,7 +114,9 @@ function MyDrawer(props) {
           <ListItemText primary="Product Management" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </CustomizedListItemButton>
+        {/* End Nested Button */}
 
+        {/* Nested Page */}
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List>
             {nestedList.map((nestedPage, index) => {
@@ -119,6 +132,7 @@ function MyDrawer(props) {
             })}
           </List>
         </Collapse>
+        {/* End Nested Page */}
       </List>
     </Box>
   );
@@ -151,7 +165,7 @@ function MyDrawer(props) {
         sx={{ flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
+        <CustomDrawer
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -168,7 +182,7 @@ function MyDrawer(props) {
           }}
         >
           {drawer}
-        </Drawer>
+        </CustomDrawer>
       </Box>
     </Box>
   );
