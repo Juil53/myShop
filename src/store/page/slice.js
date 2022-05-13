@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { constant as c } from "../../constants";
+import { constant as c, constant } from "../../constants";
+import { fetchHome } from "./action";
 
 const initialState = {
   currentPage: "home",
@@ -10,7 +11,7 @@ const initialState = {
 };
 
 const pageSlice = createSlice({
-  name: page,
+  name: "page",
   initialState,
 
   reducers: {
@@ -19,7 +20,12 @@ const pageSlice = createSlice({
     },
   },
 
-  extraReducers: {},
+  extraReducers: {
+    [fetchHome.fulfilled]: (state, action) => {
+      state.banners.data = action.payload;
+      state.banners.status = constant.GET_HOME_SUCCESS;
+    },
+  },
 });
-1;
+
 export default pageSlice.reducer;
