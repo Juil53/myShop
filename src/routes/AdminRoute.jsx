@@ -26,6 +26,14 @@ const routeAdmin = [
       import("../pages/admin/admin-page/product-management/ProductManagement")
     ),
   },
+  {
+    page: "AddProduct",
+    exact: true,
+    path: "/add-product",
+    element: lazy(() =>
+      import("../pages/admin/admin-page/product-management/AddProduct")
+    ),
+  },
 ];
 
 const renderRouteAdmin = () => {

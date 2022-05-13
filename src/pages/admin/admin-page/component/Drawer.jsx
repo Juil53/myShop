@@ -12,6 +12,7 @@ import {
   ListItemButton,
   Collapse,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -24,6 +25,18 @@ import AddIcon from "@mui/icons-material/Add";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 const drawerWidth = "30rem";
+
+//Styled Component
+const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
+  "&:hover": {
+    "&.MuiButtonBase-root": {
+      color: theme.palette.primary.light,
+    },
+    "& .MuiListItemIcon-root": {
+      color: theme.palette.primary.light,
+    },
+  },
+}));
 
 function MyDrawer(props) {
   const { window } = props;
@@ -75,21 +88,21 @@ function MyDrawer(props) {
           const { text, icon, href } = item;
           return (
             <Link to={href} key={index}>
-              <ListItemButton>
+              <CustomizedListItemButton>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
-              </ListItemButton>
+              </CustomizedListItemButton>
             </Link>
           );
         })}
 
-        <ListItemButton onClick={handleClick}>
+        <CustomizedListItemButton onClick={handleClick}>
           <ListItemIcon>
             <LibraryBooksIcon />
           </ListItemIcon>
           <ListItemText primary="Product Management" />
           {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
+        </CustomizedListItemButton>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List>
@@ -97,10 +110,10 @@ function MyDrawer(props) {
               const { text, icon, href } = nestedPage;
               return (
                 <Link to={href} key={index}>
-                  <ListItemButton sx={{ pl: 4 }}>
+                  <CustomizedListItemButton sx={{ pl: 4 }}>
                     <ListItemIcon>{icon}</ListItemIcon>
                     <ListItemText primary={text} />
-                  </ListItemButton>
+                  </CustomizedListItemButton>
                 </Link>
               );
             })}
