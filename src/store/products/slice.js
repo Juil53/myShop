@@ -4,7 +4,7 @@ import { constant as c } from "../../constants";
 import { fetchHotProduct } from "./actions";
 
 const initialState = {
-  hotproduct: {
+  product: {
     status: c.LOADING,
     data: [],
   },
@@ -16,8 +16,8 @@ const productSlice = createSlice({
 
   extraReducers: {
     [fetchHotProduct.fulfilled]: (state, action) => {
-      state.hotproduct.data = action.payload;
-      state.hotproduct.status = c.GET_PRODUCTS_SUCCESS;
+      state.product.data = action.payload;
+      state.product.status = c.GET_PRODUCTS_SUCCESS;
     },
   },
 });

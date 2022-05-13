@@ -11,7 +11,7 @@ import PreButton from "./child/PreButton";
 export default function ProductSection(props) {
   const { data, title } = props;
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.products.hotproduct);
+  const product = useSelector((state) => state.products.product);
 
   const settings = {
     infinite: true,

@@ -15,4 +15,6 @@ export const constant = {
   CHANGE_LANGUAGE: "CHANGE_LANGUAGE",
   //category
   GET_CATEGORY_SUCCESS: "GET_CATEGORY_SUCCESS",
+  //home
+  GET_HOME_SUCCESS: "GET_HOME_SUCCESS",
 };

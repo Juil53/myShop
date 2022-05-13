@@ -8,6 +8,7 @@ import { languages } from "./languages/reducer";
 import usersReducer from "./users/usersSlice";
 import categoriesSlice from "./categories/slice";
 import productSlice from "./products/slice";
+import pageSlice from "./page/slice";
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   languages,
   categories: categoriesSlice,
   user: usersReducer,
+  page: pageSlice,
 });
 
 export const store = configureStore(
