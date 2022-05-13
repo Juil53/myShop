@@ -1,11 +1,11 @@
 import React from "react";
 import Slider from "react-slick";
 
-import ProductSection from "../../../components/product-section/ProductSection";
-import ProductCard from "../../../components/product-card/ProductCard";
-import CategoryCard from "../../../components/category-card/CategoryCard";
-import NextButton from "../../../components/product-section/child/NextButton";
-import PreButton from "../../../components/product-section/child/PreButton";
+import ProductSection from "../../../components/product_section/ProductSection";
+import ProductCard from "../../../components/product_card/ProductCard";
+import CategoryCard from "../../../components/category_card/CategoryCard";
+import NextButton from "../../../components/product_section/child/NextButton";
+import PreButton from "../../../components/product_section/child/PreButton";
 import Banner from "./child/Banner";
 import Popup from "../../../components/popup/Popup";
 

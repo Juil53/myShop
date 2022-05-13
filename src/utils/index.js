@@ -11,6 +11,7 @@ function priceBreak(price) {
   }
   return giatien;
 }
+
 function discount(pricebefore, priceafter) {
   let kq = 0;
   if (pricebefore !== priceafter) {
@@ -18,6 +19,7 @@ function discount(pricebefore, priceafter) {
   }
   return kq;
 }
+
 export const delay = (time) =>
   new Promise((resolve) => {
     setTimeout(() => {
