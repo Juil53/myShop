@@ -1,4 +1,4 @@
-import { appActions } from "../../store/popup/actions";
+import { popupActions } from "../../store/popup/actions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { constant } from "../../constants";
@@ -6,7 +6,7 @@ import ProductInfoPopup from "./child/ProductInfoPopup";
 import { useEffect } from "react";
 
 export default function Popup(props) {
-  const popup = useSelector((state) => state.app.popup);
+  const popup = useSelector((state) => state.popup.popup);
   const dispatch = useDispatch();
   //Define popups
   const popups = {
@@ -17,7 +17,7 @@ export default function Popup(props) {
   };
 
   function handleClosePopup() {
-    dispatch(appActions.changePopup(constant.NO_POPUP));
+    dispatch(popupActions.changePopup(constant.NO_POPUP));
   }
 
   useEffect(() => {

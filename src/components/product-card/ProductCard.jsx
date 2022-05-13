@@ -19,6 +19,7 @@ export default function ProductCard(props) {
   } = props;
 
   function handleShowPopup() {
+    console.log("hihi");
     dispatch(
       popupActions.changePopup(constant.PRODUCT_INFO_POPUP, {
         name: name,

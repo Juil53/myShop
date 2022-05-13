@@ -4,7 +4,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 
 import { popup } from "./popup/reducer";
-import { products } from "./products/reducer";
 import { languages } from "./languages/reducer";
 import usersReducer from "./users/usersSlice";
 import categoriesSlice from "./categories/slice";
