@@ -22,6 +22,7 @@ function getAllProduct() {
       dispatch(success(res));
     });
   };
+
   function success(data) {
     return { type: constant.GET_PRODUCTS_SUCCESS, data };
   }

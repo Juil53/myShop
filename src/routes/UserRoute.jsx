@@ -7,7 +7,7 @@ import Wrapper from "../pages/user/Wrapper";
 
 function UserRoutes() {
   return (
-    <Routes> 
+    <Routes>
       <Route path="" element={<Wrapper />}>
         <Route path="" element={<Home currentPage="home" />} />
         <Route path="product" element={<ProductDetail />} />

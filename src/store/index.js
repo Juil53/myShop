@@ -1,26 +1,32 @@
-import { combineReducers,applyMiddleware } from "redux";
+// import { combineReducers, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+// import thunk from "redux-thunk";
 
 import { popup } from "./popup/reducer";
 import { languages } from "./languages/reducer";
 
 import usersReducer from "./users/usersSlice";
-import categoriesSlice from "./categories/slice";
-import productSlice from "./products/slice";
-import pageSlice from "./page/slice";
+import categories from "./categories/slice";
+import products from "./products/slice";
+import page from "./page/slice";
 
+import saga from "./saga";
 
-const rootReducer = combineReducers({
-  popup,
-  products: productSlice,
-  languages,
-  categories: categoriesSlice,
-  user: usersReducer,
-  page: pageSlice,
+let sagaMiddleware = createSagaMiddleware();
+const middleware = [sagaMiddleware];
+
+export const store = configureStore({
+  reducer: {
+    popup,
+    products,
+    languages,
+    categories,
+    user: usersReducer,
+    page,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware),
 });
 
-export const store = configureStore(
-  { reducer: rootReducer },
-  applyMiddleware(thunk)
-);
+sagaMiddleware.run(saga);

@@ -5,6 +5,7 @@ function priceBreak(price) {
   for (let i = 0; i < price.length; i++) {
     giatien += price[i];
     count--;
+
     if (count % 3 === 0 && i < price.length - 1) {
       giatien += ".";
     }
@@ -14,9 +15,11 @@ function priceBreak(price) {
 
 function discount(pricebefore, priceafter) {
   let kq = 0;
+
   if (pricebefore !== priceafter) {
     kq = Math.round(((pricebefore - priceafter) / pricebefore) * 100);
   }
+
   return kq;
 }
 
@@ -28,6 +31,7 @@ export const delay = (time) =>
   });
 
 export const clone = (obj) => JSON.parse(JSON.stringify(obj));
+
 export const utils = {
   priceBreak,
   discount,

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchCategories } from "./actions";
 import { constant as c } from "../../constants";
 
 const initialState = {
@@ -13,18 +12,22 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState,
 
-  reducers: {}, // action dong bo
-
-  extraReducers: {
-    [fetchCategories.fulfilled]: (state, action) => {
-      state.data = action.payload;
-      state.status = c.GET_CATEGORY_SUCCESS;
-    },
-
-    [fetchCategories.pending]: (state) => {
+  reducers: {
+    fetchCategoriesRequest: (state) => {
       state.status = c.LOADING;
     },
-  }, //action bat dong bo
+
+    fetchCategoriesSuccess: (state, action) => {
+      state.status = c.SUCCESS;
+      state.data = action.payload;
+    },
+
+    fetchCategoriesFail: (state) => {
+      state.status = c.FAIL;
+    },
+  },
 });
+
+export const actions = { ...categoriesSlice.actions };
 
 export default categoriesSlice.reducer;
