@@ -2,8 +2,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 // import thunk from "redux-thunk";
-
-import { popup } from "./popup/reducer";
 import { languages } from "./languages/reducer";
 
 import usersReducer from "./users/usersSlice";
@@ -18,7 +16,6 @@ const middleware = [sagaMiddleware];
 
 export const store = configureStore({
   reducer: {
-    popup,
     products,
     languages,
     categories,
