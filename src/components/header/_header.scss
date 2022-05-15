@@ -1,6 +1,6 @@
 .header {
   font-size: 1.4rem;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 99;
@@ -143,12 +143,6 @@
 
       }
 
-      .active {
-        a {
-          color: $whiteColor;
-        }
-      }
-
       .header__nav-btn:hover {
         a {
           color: $whiteColor;
@@ -187,6 +181,12 @@
           .category:hover {
             color: $whiteColor;
           }
+        }
+      }
+
+      .active {
+        a {
+          color: $whiteColor;
         }
       }
     }

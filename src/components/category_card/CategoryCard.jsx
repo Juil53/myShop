@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-import { constant } from "../../constants";
-import { fetchCategories } from "../../store/categories/actions";
+import { LOADING_STATUS } from "../../constants";
 
 export default function CategoryCard() {
   const categories = useSelector((state) => state.categories);
-  const dispatch = useDispatch();
   const [active, setActive] = useState([]);
 
   function handleActiveDropdown(cate) {
@@ -18,12 +16,6 @@ export default function CategoryCard() {
     }
     setActive(tmp);
   }
-
-  useEffect(() => {
-    if (categories.status === constant.LOADING) {
-      dispatch(fetchCategories());
-    }
-  });
 
   function createCategory(data) {
     return data.map((v) => {
@@ -77,7 +69,7 @@ export default function CategoryCard() {
     <div className="categorycard">
       <div className="title">Danh mục sản phẩm</div>
       <div className="categorycard__content">
-        {categories.status === constant.GET_CATEGORY_SUCCESS &&
+        {categories.status === LOADING_STATUS.GET_CATEGORY_SUCCESS &&
           createCategory(categories.data)}
       </div>
     </div>

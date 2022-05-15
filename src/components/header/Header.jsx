@@ -1,42 +1,51 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { constant } from "../../constants";
-import { fetchCategories } from "../../store/categories/actions";
+import { LOADING_STATUS } from "../../constants";
+import { categoriesSelector } from "../../store/categories/selector";
 
 import HeaderNav from "./child/HeaderNav";
 import Language from "./child/Language";
 import TopNav from "./child/TopNav";
 
-export default function Header(props) {
-  const { currentPage } = props;
-  const language = useSelector((state) => state.languages);
-  const category = useSelector((state) => state.categories);
+export default function Header() {
+  const { languages } = useSelector((state) => state);
+  const { data: categories } = useSelector(categoriesSelector);
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState("home");
+
   useEffect(() => {
-    if (category.status === constant.LOADING) {
-      dispatch(fetchCategories());
+    if (categories.status === LOADING_STATUS.LOADING) {
+      dispatch({ type: "FETCH_CATEGORIES" });
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const currentActiveTab = path.split("/")[1];
+    if (currentActiveTab !== "") {
+      setCurrentPage(currentActiveTab);
+    }
+  }, []);
 
   return (
     <div className="header">
       <div className="header__top row">
         <div className="header__top-logo">
           <div className="img-container">
-            <img src="./img/logomyShop.png" alt="" />
+            <img src="/img/logomyShop.png" alt="" />
           </div>
         </div>
         <TopNav />
       </div>
       <div className="header__nav row">
         <HeaderNav
-          language={language}
+          languages={languages}
           currentPage={currentPage}
-          category={category}
+          categories={categories}
         />
-        <Language language={language} />
+        <Language language={languages} />
       </div>
     </div>
   );

@@ -1,6 +1,11 @@
 export const constant = {
+  //loading status
+  IDLE: "IDLE",
   SUCCESS: "SUCCESS",
   LOADING: "LOADING",
+  FAIL: "FAIL",
+
+  // base url
   API_URL: "http://localhost:3000",
   //pop up
   NO_POPUP: "NO_POPUP",
@@ -17,4 +22,16 @@ export const constant = {
   GET_CATEGORY_SUCCESS: "GET_CATEGORY_SUCCESS",
   //home
   GET_HOME_SUCCESS: "GET_HOME_SUCCESS",
+};
+
+export const LOADING_STATUS = {
+  IDLE: "IDLE",
+  LOADING: "LOADING",
+  SUCCESS: "SUCCESS",
+  FAIL: "FAIL",
+};
+
+export const PAGE_ACTIONS = {
+  GET_BANNERS: "GET_BANNERS",
+  GET_HOT_PRODUCTS: "GET_HOT_PRODUCTS",
 };

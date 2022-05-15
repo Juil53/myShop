@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { constant as c, constant } from "../../constants";
-import { fetchHome } from "./action";
+
+import { LOADING_STATUS } from "../../constants";
 
 const initialState = {
   currentPage: "home",
+  hotProducts: {
+    data: [],
+    status: LOADING_STATUS.LOADING,
+  },
   banners: {
     data: [],
-    status: c.LOADING,
+    status: LOADING_STATUS.LOADING,
   },
 };
 
@@ -15,17 +19,22 @@ const pageSlice = createSlice({
   initialState,
 
   reducers: {
-    changePage: (state, action) => {
-      state.currentPage = action.payload;
+    fetchBannersRequest: (state) => {
+      state.status = LOADING_STATUS.LOADING;
     },
-  },
 
-  extraReducers: {
-    [fetchHome.fulfilled]: (state, action) => {
+    fetchBannersSuccess: (state, action) => {
+      console.log(action);
+      state.banners.status = LOADING_STATUS.SUCCESS;
       state.banners.data = action.payload;
-      state.banners.status = constant.GET_HOME_SUCCESS;
+    },
+
+    fetchBannersFail: (state) => {
+      state.status = LOADING_STATUS.FAIL;
     },
   },
 });
+
+export const actions = { ...pageSlice.actions };
 
 export default pageSlice.reducer;
