@@ -1,7 +1,9 @@
-import { utils } from "../../../utils";
+import Slider from "react-slick";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import Slider from "react-slick";
+
+import { utils } from "../../../utils";
+import { pageSelector } from "../../../store/page/selector";
 
 export default function ProductInfoPopup(props) {
   const { closePopup } = props;
@@ -9,9 +11,10 @@ export default function ProductInfoPopup(props) {
   const [subSlider, setSubSlider] = useState();
 
   const [number, setNumber] = useState(1);
-  const popup = useSelector((state) => state.popup.popup);
+  const { popup } = useSelector(pageSelector);
   const productInfo = popup.additionalInfo;
 
+  console.log(productInfo.img);
   const settings_mainSlider = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -19,7 +22,11 @@ export default function ProductInfoPopup(props) {
     fade: true,
   };
   const settings_subSlider = {
-    slidesToShow: productInfo.img.length > 2 ? 3 : productInfo.img.length,
+    slidesToShow: productInfo.img
+      ? productInfo.img.length > 2
+        ? 3
+        : productInfo.img.length
+      : 1,
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,
@@ -82,76 +89,92 @@ export default function ProductInfoPopup(props) {
 
   return (
     <div className="modal center">
-      <div className="productinfopopup row">
-        <div className="productinfopopup__left">
-          <div className="main-img">{createMainSlider(productInfo.img)}</div>
+      {!productInfo.img ? (
+        <div className="productinfopopup">
+          Something went wrong. Please try again later
           <div
-            className={
-              productInfo.img.length > 1
-                ? "subimg-container"
-                : "subimg-container special"
-            }
+            className="productinfopopup__cancel-btn round"
+            onClick={closePopup}
           >
-            {createSubSlider(productInfo.img)}
+            <i className="fa-solid fa-xmark"></i>
           </div>
         </div>
-        <div className="productinfopopup__info">
-          <div className="productinfopopup__info-name font-bold">
-            {productInfo.name}
-          </div>
-          <div className="productinfopopup__info-vend row">
-            <div className="left">
-              Brand:
-              <span>{productInfo.brand}</span>
+      ) : (
+        <div className="productinfopopup row">
+          <div className="productinfopopup__left">
+            <div className="main-img">{createMainSlider(productInfo.img)}</div>
+            <div
+              className={
+                productInfo.img.length > 1
+                  ? "subimg-container"
+                  : "subimg-container special"
+              }
+            >
+              {createSubSlider(productInfo.img)}
             </div>
-            <div className="right">
-              Status:
-              <span>{productInfo.status}</span>
+          </div>
+          <div className="productinfopopup__info">
+            <div className="productinfopopup__info-name font-bold">
+              {productInfo.name}
             </div>
-          </div>
-          <div className="productinfopopup__info-price text-brand font-bold">
-            {utils.priceBreak(productInfo.price_after_discount)}₫
-            {productInfo.price_after_discount !==
-              productInfo.price_before_discount && (
-              <span className="price-compare">
-                {utils.priceBreak(productInfo.price_before_discount)}₫
-              </span>
-            )}
-          </div>
-          <div className="productinfopopup__info-attributes">
-            {productInfo.attributes.map((v) => (
-              <div key={v.name + "att"}>
-                - {v.name}: <span>{v.value}</span>
+            <div className="productinfopopup__info-vend row">
+              <div className="left">
+                Brand:
+                <span>{productInfo.brand}</span>
               </div>
-            ))}
+              <div className="right">
+                Status:
+                <span>{productInfo.status}</span>
+              </div>
+            </div>
+            <div className="productinfopopup__info-price text-brand font-bold">
+              {utils.priceBreak(productInfo.price_after_discount)}₫
+              {productInfo.price_after_discount !==
+                productInfo.price_before_discount && (
+                <span className="price-compare">
+                  {utils.priceBreak(productInfo.price_before_discount)}₫
+                </span>
+              )}
+            </div>
+            <div className="productinfopopup__info-attributes">
+              {productInfo.attributes.map((v) => (
+                <div key={v.name + "att"}>
+                  - {v.name}: <span>{v.value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="productinfopopup__info-color"></div>
+            <div className="productinfopopup__info-quantity row">
+              <button
+                id="descrease-btn"
+                onClick={handleDecrease}
+                disabled={number - 1 < 1}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                value={number}
+                onChange={handleChangeInput}
+              />
+              <button
+                id="increase-btn"
+                onClick={handleIncrease}
+                disabled={number + 1 > productInfo.quantity}
+              >
+                +
+              </button>
+            </div>
+            <button className="addcart-btn">Add cart</button>
           </div>
-          <div className="productinfopopup__info-color"></div>
-          <div className="productinfopopup__info-quantity row">
-            <button
-              id="descrease-btn"
-              onClick={handleDecrease}
-              disabled={number - 1 < 1}
-            >
-              -
-            </button>
-            <input type="number" value={number} onChange={handleChangeInput} />
-            <button
-              id="increase-btn"
-              onClick={handleIncrease}
-              disabled={number + 1 > productInfo.quantity}
-            >
-              +
-            </button>
+          <div
+            className="productinfopopup__cancel-btn round"
+            onClick={closePopup}
+          >
+            <i className="fa-solid fa-xmark"></i>
           </div>
-          <button className="addcart-btn">Add cart</button>
         </div>
-        <div
-          className="productinfopopup__cancel-btn round"
-          onClick={closePopup}
-        >
-          <i className="fa-solid fa-xmark"></i>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

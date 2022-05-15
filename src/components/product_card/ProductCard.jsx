@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 
 import { utils } from "../../utils";
-import { constant } from "../../constants";
-import { popupActions } from "../../store/popup/actions";
+import { POPUP } from "../../constants";
+import { actions } from "../../store/page/slice";
 
 export default function ProductCard(props) {
   const dispatch = useDispatch();
@@ -20,15 +20,18 @@ export default function ProductCard(props) {
 
   function handleShowPopup() {
     dispatch(
-      popupActions.changePopup(constant.PRODUCT_INFO_POPUP, {
-        name: name,
-        price_after_discount: price_after_discount,
-        price_before_discount: price_before_discount,
-        img: img,
-        attributes: attributes,
-        quantity: quantity,
-        status: status,
-        brand: brand,
+      actions.changePopup({
+        type: POPUP.PRODUCT_INFO_POPUP,
+        additionalInfo: {
+          name: name,
+          price_after_discount: price_after_discount,
+          price_before_discount: price_before_discount,
+          img: img,
+          attributes: attributes,
+          quantity: quantity,
+          status: status,
+          brand: brand,
+        },
       })
     );
   }

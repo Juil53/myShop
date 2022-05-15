@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 
-import { LOADING_STATUS, PAGE_ACTIONS } from "../../../constants";
+import { LOADING_STATUS, PAGE_ACTIONS, POPUP } from "../../../constants";
 import { pageSelector } from "../../../store/page/selector";
 
 import ProductSection from "../../../components/product_section/ProductSection";
@@ -13,6 +13,7 @@ import ProductCard from "../../../components/product_card/ProductCard";
 import Loading from "../../../components/loading/Loading";
 import Popup from "../../../components/popup/Popup";
 import Banner from "./child/Banner";
+import { actions } from "../../../store/page/slice";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default function HomePage() {
     if (banners.status === LOADING_STATUS.LOADING) {
       dispatch({ type: PAGE_ACTIONS.GET_BANNERS });
     }
-  });
+  }, []);
 
   function createBanner(data) {
     return data.map((v) => (

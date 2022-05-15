@@ -14,7 +14,6 @@ export function* fetchBanners() {
     yield put(actions.fetchBannersFail());
   }
 }
-
 export default function* root() {
   yield takeEvery(PAGE_ACTIONS.GET_BANNERS, fetchBanners);
 }

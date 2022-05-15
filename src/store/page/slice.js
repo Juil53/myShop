@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { LOADING_STATUS } from "../../constants";
+import { LOADING_STATUS, POPUP } from "../../constants";
 
 const initialState = {
   currentPage: "home",
@@ -11,6 +11,10 @@ const initialState = {
   banners: {
     data: [],
     status: LOADING_STATUS.LOADING,
+  },
+  popup: {
+    type: POPUP.NO_POPUP,
+    additionalInfo: {},
   },
 };
 
@@ -31,6 +35,14 @@ const pageSlice = createSlice({
 
     fetchBannersFail: (state) => {
       state.status = LOADING_STATUS.FAIL;
+    },
+
+    changePopup: (state, action) => {
+      state.popup.type = action.payload.type;
+      state.popup.additionalInfo = action.payload.additionalInfo
+        ? action.payload.additionalInfo
+        : {};
+      console.log(action);
     },
   },
 });
