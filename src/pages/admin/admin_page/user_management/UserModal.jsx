@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { actUpdateUserInfo } from "../../../../store/users/actions";
 import { closeModal } from "../../../../store/users/usersSlice";
-import { selectUserInfo, selectUserOpen } from "../../../../store/users/selector";
+import {
+  selectUserInfo,
+  selectUserOpen,
+} from "../../../../store/users/selector";
 
 // Modal Style
 const style = {
@@ -83,15 +86,14 @@ export default function BasicModal() {
     event.preventDefault();
     if (userInfo !== null)
       return (
-        dispatch(actUpdateUserInfo(state, userInfo.id)),
-        dispatch(closeModal())
-        )
+        dispatch(actUpdateUserInfo(state, userInfo.id)), dispatch(closeModal())
+      );
   };
 
   //HANDLE CLOSE MODAL
   const handleClose = () => {
-    dispatch(closeModal())
-  }
+    dispatch(closeModal());
+  };
 
   return (
     <div>
@@ -105,14 +107,13 @@ export default function BasicModal() {
           {/* Modal Content */}
           <Box
             component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
-            }}
           >
             <h1 className="admin__title">Edit User</h1>
             <div className="admin__form">
               <TextField
+                size="small"
                 variant="standard"
+                fullWidth
                 required
                 label="First Name"
                 name="firstname"
@@ -120,6 +121,7 @@ export default function BasicModal() {
                 onChange={handleOnChange}
               />
               <TextField
+                size="small"
                 variant="standard"
                 required
                 label="Last Name"
@@ -128,6 +130,7 @@ export default function BasicModal() {
                 onChange={handleOnChange}
               />
               <TextField
+                size="small"
                 variant="standard"
                 required
                 label="Email Name"
@@ -136,6 +139,7 @@ export default function BasicModal() {
                 onChange={handleOnChange}
               />
               <TextField
+                size="small"
                 variant="standard"
                 type="password"
                 required
@@ -145,6 +149,7 @@ export default function BasicModal() {
                 onChange={handleOnChange}
               />
               <TextField
+                size="small"
                 variant="standard"
                 required
                 label="Phone number"
@@ -153,6 +158,7 @@ export default function BasicModal() {
                 onChange={handleOnChange}
               />
               <TextField
+                size="small"
                 variant="standard"
                 required
                 select

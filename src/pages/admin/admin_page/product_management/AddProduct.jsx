@@ -58,13 +58,15 @@ export default function AddProduct() {
   return (
     <Box component={Paper} elevation={10} padding={5}>
       <Typography variant="h3" marginBottom={2}>
-        Add New Product
+        Add Product
       </Typography>
 
       <Box component="form" onSubmit={formik.handleSubmit}>
         <Grid container spacing={2} id="form_product">
           <Grid item xs={6}>
             <TextField
+              size="small"
+              InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Product Name"
               fullWidth
@@ -75,6 +77,8 @@ export default function AddProduct() {
           </Grid>
           <Grid item xs={6}>
             <TextField
+              size="small"
+              InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Brand"
               fullWidth
@@ -86,6 +90,8 @@ export default function AddProduct() {
 
           <Grid item xs={4}>
             <TextField
+              size="small"
+              InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Status"
               fullWidth
@@ -96,6 +102,8 @@ export default function AddProduct() {
           </Grid>
           <Grid item xs={4}>
             <TextField
+              size="small"
+              InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Price"
               fullWidth
@@ -106,6 +114,8 @@ export default function AddProduct() {
           </Grid>
           <Grid item xs={4}>
             <TextField
+              size="small"
+              InputLabelProps={{ shrink: true }}
               variant="outlined"
               label="Quantity"
               fullWidth
@@ -116,7 +126,7 @@ export default function AddProduct() {
           </Grid>
 
           <Grid item xs={12}>
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack direction="row" alignItems="center" spacing={1}>
               <label htmlFor="contained-button-file">
                 <Input
                   accept="image/*"
@@ -124,8 +134,8 @@ export default function AddProduct() {
                   multiple
                   type="file"
                 />
-                <Button variant="contained" component="span">
-                  Upload Image
+                <Button variant="outlined" component="span">
+                  Upload
                 </Button>
               </label>
               <label htmlFor="icon-button-file">
@@ -141,11 +151,17 @@ export default function AddProduct() {
             </Stack>
           </Grid>
           <Grid item xs={12}>
-            <TextField fullWidth multiline rows={3} label="Description" />
+            <TextField
+              size="small"
+              fullWidth
+              multiline
+              rows={3}
+              label="Description"
+            />
           </Grid>
           <Grid item xs={12}>
             <Button
-              variant="contained"
+              variant="outlined"
               component="span"
               onClick={handleAddField}
             >
@@ -158,6 +174,7 @@ export default function AddProduct() {
               <React.Fragment key={index}>
                 <Grid item xs={2}>
                   <TextField
+                    size="small"
                     fullWidth
                     name="name"
                     value={input.name}
@@ -166,6 +183,7 @@ export default function AddProduct() {
                 </Grid>
                 <Grid item xs={9}>
                   <TextField
+                    size="small"
                     fullWidth
                     name="value"
                     value={input.value}
@@ -176,7 +194,7 @@ export default function AddProduct() {
                   <Button
                     variant="contained"
                     component="span"
-                    sx={{height:'100%',width:'100%'}}
+                    sx={{ height: "100%", width: "100%" }}
                     onClick={() => {
                       handleRemoveField(index);
                     }}
@@ -190,11 +208,16 @@ export default function AddProduct() {
         </Grid>
 
         {/* Stack Button */}
-        <Stack direction="row" alignItems="center" spacing={2} marginTop={2}>
-          <Button variant="contained" color="primary" type="submit">
+        <Stack direction="row" alignItems="center" spacing={1} marginTop={2}>
+          <Button
+            variant="contained"
+            size="small"
+            color="success"
+            type="submit"
+          >
             Add
           </Button>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" size="small" color="secondary">
             Cancel
           </Button>
         </Stack>

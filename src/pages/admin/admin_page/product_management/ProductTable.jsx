@@ -18,8 +18,6 @@ import {
   fetchHotProduct,
   productActions,
 } from "../../../../store/products/actions";
-import { productSelector } from "../../../../store/products/selector";
-import { PRODUCT_ACTIONS } from "../../../../constants";
 
 //Styled Component
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
@@ -47,8 +45,7 @@ const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
 
 export default function ProductTable() {
   const dispatch = useDispatch();
-  const { allProducts } = useSelector(productSelector);
-  console.log(allProducts.data);
+  const productData = useSelector((state) => state.products.product.data);
 
   React.useEffect(() => {
     dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
