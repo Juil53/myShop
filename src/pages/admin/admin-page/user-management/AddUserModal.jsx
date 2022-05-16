@@ -61,15 +61,13 @@ export default function AddUserModal(props) {
           {/* Modal Content */}
           <Box
             component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
-            }}
             onSubmit={formik.handleSubmit}
           >
             <h1 className="admin__title">Add User</h1>
 
             <div className="admin__form">
               <TextField
+                fullWidth
                 variant="standard"
                 required
                 label="First Name"

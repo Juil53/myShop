@@ -14,10 +14,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { styled } from "@mui/material/styles";
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchHotProduct,
-  productActions,
-} from "../../../../store/products/actions";
+import { fetchHotProduct, productActions } from "../../../../store/products/actions";
 
 //Styled Component
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
@@ -46,8 +43,6 @@ const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
 export default function ProductTable() {
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.products.product.data);
-  console.log(productData);
-
   React.useEffect(() => {
     dispatch(fetchHotProduct());
   }, []);

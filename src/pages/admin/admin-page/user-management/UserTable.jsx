@@ -4,6 +4,7 @@ import {
   Box,
   IconButton,
   Pagination,
+  PaginationItem,
   Table,
   TableBody,
   TableCell,
@@ -11,7 +12,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -20,11 +21,19 @@ import {
   actGetUserPagination,
 } from "../../../../store/users/actions";
 import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
-import { selectUserData, selectUserDataPagination } from "../../../../store/users/selector";
+import {
+  selectUserData,
+  selectUserDataPagination,
+} from "../../../../store/users/selector";
 
+const CustomPagination = styled(Pagination)(({ theme }) => ({
+  "& .MuiButtonBase-root.MuiPaginationItem-root.Mui-selected":{
+    backgroundColor:theme.palette.secondary.dark,
+    color:'#fff'
+  }
+}));
 
 export function UserTable({ keyword }) {
-  
   const dispatch = useDispatch();
   const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
@@ -65,12 +74,10 @@ export function UserTable({ keyword }) {
     "First Name",
     "Last Name",
     "Email",
-    "Password",
     "Phone number",
     "Role",
     "Actions",
   ];
-  
   const renderTableHead = () => {
     return tableHead.map((column, index) => {
       return (
@@ -85,12 +92,15 @@ export function UserTable({ keyword }) {
   const renderTableBody = () => {
     return paginationData?.map((user, index) => {
       return (
-        <TableRow key={index} hover={true} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableRow
+          key={index}
+          hover={true}
+          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+        >
           <TableCell>{user.id}</TableCell>
           <TableCell align="center">{user.firstname}</TableCell>
           <TableCell align="center">{user.lastname}</TableCell>
           <TableCell align="center">{user.email}</TableCell>
-          <TableCell align="center">{user.password}</TableCell>
           <TableCell align="center">{user.phonenumber}</TableCell>
           <TableCell align="center">{user.role}</TableCell>
           <TableCell align="center">
@@ -131,7 +141,7 @@ export function UserTable({ keyword }) {
         <TableBody>{renderTableBody()}</TableBody>
       </Table>
       <Box sx={{ textAlign: "center" }}>
-        <Pagination
+        <CustomPagination
           showFirstButton
           showLastButton
           page={page}
