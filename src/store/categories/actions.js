@@ -16,8 +16,8 @@ export function* fetchCategories() {
   yield put(actions.fetchCategoriesRequest());
 
   try {
-    let result = yield call(API.get, { path: "category" });
-    console.log(result)
+    let result = yield call(API.get, { path: "categories" });
+    console.log(result);
     yield put(actions.fetchCategoriesSuccess(result));
   } catch (e) {
     yield put(actions.fetchCategoriesFail());
