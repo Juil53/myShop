@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiInstance from "../../utils/axios/axiosInstance";
 import {
   getUserRequest,
   getUserSuccess,
@@ -13,79 +13,69 @@ import {
 
 //GET USER DATA == thunk => Saga
 export const actGetUser = () => {
-  return (dispatch) => {
-    dispatch(getUserRequest());
-    axios
-      .get("http://localhost:3000/user")
-      .then((result) => {
-        dispatch(getUserSuccess(result.data));
-      })
-      .catch((error) => {
-        dispatch(getUserFailed(error));
-      });
+  return async (dispatch) => {
+    try {
+      dispatch(getUserRequest());
+      const result = await apiInstance.get("user");
+      dispatch(getUserSuccess(result));
+    } catch (error) {
+      dispatch(getUserFailed(error));
+    }
   };
 };
 
 // GET USER DATA PAGINATION
 export const actGetUserPagination = (page, limit) => {
-  return (dispatch) => {
-    dispatch(getUserPaginationRequest());
-    axios
-      .get(`http://localhost:3000/user?_page=${page}&_limit=${limit}`)
-      .then((result) => {
-        dispatch(getUserPaginationSuccess(result.data));
-      })
-      .catch((error) => {
-        dispatch(getUserPaginationFailed(error));
-      });
+  return async (dispatch) => {
+    try {
+      dispatch(getUserPaginationRequest());
+      const result = await apiInstance.get(
+        `user?_page=${page}&_limit=${limit}`
+      );
+      dispatch(getUserPaginationSuccess(result));
+    } catch (error) {
+      dispatch(getUserPaginationFailed(error));
+    }
   };
 };
 
 // ADD USER
 export const actAddUser = (user) => {
-  return (dispatch) => {
-    dispatch(submitUserRequest());
-    axios
-      .post("http://localhost:3000/user", user)
-      .then((result) => {
-        dispatch(submitUserSuccess(result.data));
-        actGetUserPagination();
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(submitUserFailed(error));
-      });
+  return async (dispatch) => {
+    try {
+      dispatch(submitUserRequest());
+      const result = await apiInstance.post("user", user);
+      dispatch(submitUserSuccess(result));
+      actGetUserPagination();
+    } catch (error) {
+      dispatch(submitUserFailed(error));
+    }
   };
 };
 
-
 // DELETE USER
 export const actDeleteUser = (userId) => {
-  return (dispatch) => {
-    axios
-      .delete(`http://localhost:3000/user/${userId}`)
-      .then((result) => {
-        alert("Delete Success");
-        dispatch(actGetUserPagination());
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  return async (dispatch) => {
+    try {
+      apiInstance.delete(`user/${userId}`);
+      alert("Delete Success");
+      dispatch(actGetUserPagination());
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
 // UPDATE USER
 export const actUpdateUserInfo = (user, userId) => {
-  return (dispatch) => {
-    dispatch(submitUserRequest());
-    axios
-      .put(`http://localhost:3000/user/${userId}`, user)
-      .then((result) => {
-        dispatch(submitUserSuccess(result.data));
-        dispatch(actGetUserPagination());
-      })
-      .catch((error) => {
-        dispatch(submitUserFailed(error));
-      });
+  return async (dispatch) => {
+    try {
+      dispatch(submitUserRequest());
+      const result = await apiInstance.put(`user/${userId}`, user);
+      dispatch(submitUserSuccess(result));
+      dispatch(actGetUserPagination());
+    } catch (error) {
+      dispatch(submitUserFailed(error));
+    }
   };
 };

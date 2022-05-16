@@ -3,8 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { selectUserKeyword } from "../../../../store/users/selector";
 import { UserTable } from "./UserTable";
-import { Button, TextField, Autocomplete, InputAdornment } from "@mui/material";
-import { styled } from "@mui/system";
+import { Button, InputAdornment } from "@mui/material";
+import { SearchField } from "../../../../styles/styled_components/styledComponent";
+
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
 import UserModal from "./UserModal";
@@ -12,16 +13,6 @@ import AddUserModal from "./AddUserModal";
 
 import "../../../../scss/App.scss";
 
-const SearchField = styled(TextField)(({ theme }) => ({
-  "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
-    color: theme.palette.secondary.dark,
-  },
-  "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": {
-      borderColor: theme.palette.secondary.dark,
-    },
-  },
-}));
 
 function UserManagement() {
   const dispatch = useDispatch();

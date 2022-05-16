@@ -1,17 +1,19 @@
 import * as React from "react";
-import { NavLink } from "react-router-dom";
 import {
-  Drawer,
   List,
   ListItemText,
   ListItemIcon,
   Toolbar,
   AppBar,
   Box,
-  ListItemButton,
   Collapse,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import {
+  CustomizedListItemButton,
+  CustomizeToolbar,
+  CustomeNavlink,
+  CustomDrawer,
+} from "../../../../styles/styled_components/styledComponent";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -25,45 +27,11 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 const drawerWidth = "25rem";
 
-//Styled Component
-const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
-  "&.MuiButtonBase-root": {
-    color: theme.palette.secondary.dark,
-  },
-  "& .MuiListItemIcon-root": {
-    color: theme.palette.secondary.dark,
-  },
-
-  "&:hover": {
-    "&.MuiButtonBase-root": {
-      backgroundColor: theme.palette.secondary.dark,
-      color: "#fff",
-    },
-    "& .MuiListItemIcon-root": {
-      color: '#Fff',
-    },
-  },
-}));
-
-const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.dark,
-}));
-
-const CustomeNavlink = styled(NavLink)(({ theme }) => ({
-  "&.active > div": {
-    backgroundColor: theme.palette.secondary.dark,
-    color: "#fff",
-    "& .MuiListItemIcon-root": {
-      color: '#fff'
-    },
-  },
-}));
-
-const CustomDrawer = styled(Drawer)(({ theme }) => ({
-  "& .MuiToolbar-root": {
-    backgroundColor: theme.palette.primary.main,
-  },
-}));
+//Sx className Style
+const header = {
+  width: { sm: `calc(100% - ${drawerWidth}px)` },
+  ml: { sm: `${drawerWidth}px` },
+};
 
 function MyDrawer(props) {
   const { window } = props;
@@ -164,13 +132,7 @@ function MyDrawer(props) {
   return (
     <Box>
       {/* Header */}
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
+      <AppBar className="header" position="fixed" sx={header}>
         <CustomizeToolbar>
           <IconButton
             color="inherit"
@@ -196,13 +158,6 @@ function MyDrawer(props) {
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
           }}
         >
           {drawer}
