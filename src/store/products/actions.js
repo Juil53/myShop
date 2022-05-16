@@ -1,32 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { call, put, takeEvery } from "redux-saga/effects";
 
-import { constant } from "../../constants";
-import { productService } from "./services";
+import { PRODUCT_ACTIONS } from "../../constants";
+import { actions } from "./slice";
+import API from "../../service";
 
-export const fetchHotProduct = createAsyncThunk(
-  "product/getHotProduct",
-  async () => {
-    try {
-      const data = await productService.getAllProduct();
-      return data;
-    } catch (err) {
-      console.log(err);
-      return { msg: err.msg };
-    }
-  }
-);
+export function* fetchHotProducts() {
+  yield put(actions.fetchHotProductsRequest());
 
-function getAllProduct() {
-  return (dispatch) => {
-    productService.getAllProduct().then((res) => {
-      dispatch(success(res));
-    });
-  };
-
-  function success(data) {
-    return { type: constant.GET_PRODUCTS_SUCCESS, data };
+  try {
+    const data = yield call(API.get, { path: "hot_products" });
+    yield put(actions.fetchHotProductsSuccess(data));
+  } catch (err) {
+    yield put(actions.fetchHotProductsFail());
   }
 }
-export const productActions = {
-  getAllProduct,
-};
+
+export function* fetchAllProducts() {
+  yield put(actions.fetchAllProductsRequest());
+
+  try {
+    const data = yield call(API.get, { path: "products" });
+    yield put(actions.fetchAllProductsSuccess(data));
+  } catch (err) {
+    yield put(actions.fetchAllProductsFail());
+  }
+}
+
+export default function* root() {
+  yield takeEvery(PRODUCT_ACTIONS.GET_HOT_PRODUCTS, fetchHotProducts);
+  yield takeEvery(PRODUCT_ACTIONS.GET_ALL_PRODUCTS, fetchAllProducts);
+}

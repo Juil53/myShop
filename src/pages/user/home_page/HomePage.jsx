@@ -2,8 +2,13 @@ import React, { useEffect } from "react";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 
-import { LOADING_STATUS, PAGE_ACTIONS, POPUP } from "../../../constants";
+import {
+  LOADING_STATUS,
+  PAGE_ACTIONS,
+  PRODUCT_ACTIONS,
+} from "../../../constants";
 import { pageSelector } from "../../../store/page/selector";
+import { productSelector } from "../../../store/products/selector";
 
 import ProductSection from "../../../components/product_section/ProductSection";
 import NextButton from "../../../components/product_section/child/NextButton";
@@ -13,11 +18,11 @@ import ProductCard from "../../../components/product_card/ProductCard";
 import Loading from "../../../components/loading/Loading";
 import Popup from "../../../components/popup/Popup";
 import Banner from "./child/Banner";
-import { actions } from "../../../store/page/slice";
 
 export default function HomePage() {
   const dispatch = useDispatch();
   const { banners } = useSelector(pageSelector);
+  const { hotProducts } = useSelector(productSelector);
   const banner_settings = {
     infinite: true,
     speed: 800,
@@ -34,6 +39,9 @@ export default function HomePage() {
     if (banners.status === LOADING_STATUS.LOADING) {
       dispatch({ type: PAGE_ACTIONS.GET_BANNERS });
     }
+    if (hotProducts.status === LOADING_STATUS.LOADING) {
+      dispatch({ type: PRODUCT_ACTIONS.GET_HOT_PRODUCTS });
+    }
   }, []);
 
   function createBanner(data) {
@@ -48,7 +56,8 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      {banners.status === LOADING_STATUS.LOADING ? (
+      {banners.status === LOADING_STATUS.LOADING ||
+      hotProducts.status === LOADING_STATUS.LOADING ? (
         <Loading />
       ) : (
         <div className="home-page page">
@@ -89,11 +98,14 @@ export default function HomePage() {
               </div>
             </div>
             <div className="home-page__main-right">
-              <ProductSection title="Hot product" data="data" />
+              <ProductSection title="Hot product" data={hotProducts.data} />
               <div className="banner-container">
                 <Banner />
               </div>
-              <ProductSection title="Discount product" data="data" />
+              {/* <ProductSection
+                title="Discount product"
+                data={allProducts.data}
+              /> */}
             </div>
           </div>
         </div>

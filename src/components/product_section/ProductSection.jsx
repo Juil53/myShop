@@ -1,17 +1,12 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 
-import { constant } from "../../constants";
-import { fetchHotProduct } from "../../store/products/actions";
 import ProductCard from "../product_card/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";
 
 export default function ProductSection(props) {
   const { data, title } = props;
-  const dispatch = useDispatch();
-  const product = useSelector((state) => state.products.product);
+  console.log(data);
 
   const settings = {
     infinite: true,
@@ -38,12 +33,6 @@ export default function ProductSection(props) {
     ],
   };
 
-  useEffect(() => {
-    if (product.status === constant.LOADING) {
-      dispatch(fetchHotProduct());
-    }
-  });
-
   function createProductCard(data) {
     return data.map((v) => (
       <div className="productsection__slide-container" key={v.id}>
@@ -67,9 +56,7 @@ export default function ProductSection(props) {
     <div className="productsection">
       <h3 className="productsection__title">{title}</h3>
       <div className="productsection__slide">
-        {product.status !== constant.LOADING && (
-          <Slider {...settings}>{createProductCard(product.data)}</Slider>
-        )}
+        <Slider {...settings}>{createProductCard(data)}</Slider>
       </div>
     </div>
   );

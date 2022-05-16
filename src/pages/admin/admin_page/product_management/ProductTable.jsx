@@ -18,6 +18,8 @@ import {
   fetchHotProduct,
   productActions,
 } from "../../../../store/products/actions";
+import { productSelector } from "../../../../store/products/selector";
+import { PRODUCT_ACTIONS } from "../../../../constants";
 
 //Styled Component
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
@@ -45,15 +47,15 @@ const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
 
 export default function ProductTable() {
   const dispatch = useDispatch();
-  const productData = useSelector((state) => state.products.product.data);
-  console.log(productData);
+  const { allProducts } = useSelector(productSelector);
+  console.log(allProducts.data);
 
   React.useEffect(() => {
-    dispatch(fetchHotProduct());
+    dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
   }, []);
 
   const renderTableBody = () => {
-    return productData?.map((product, index) => {
+    return allProducts.data?.map((product, index) => {
       return (
         <CustomizeTableRow
           key={index}
