@@ -10,7 +10,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchHotProduct } from "../../../../store/products/actions";
+import { productSelector } from "../../../../store/products/selector";
+import { PRODUCT_ACTIONS } from "../../../../constants";
 import {
   CustomizedTableHead,
   CustomizeTableRow,
@@ -19,7 +20,7 @@ import {
 
 export default function ProductTable() {
   const dispatch = useDispatch();
-  const productData = useSelector((state) => state.products.product.data);
+  const { allProducts } = useSelector(productSelector);
 
   React.useEffect(() => {
     dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
