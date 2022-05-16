@@ -12,9 +12,10 @@ export const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: "#adbed2",
-      light: "#bdcbdb",
-      dark: "#798593",
+      main: "#466991",
+      light: "#7597c2",
+      dark: "#133f63",
+      contrastText: "#fff",
     },
   },
 });

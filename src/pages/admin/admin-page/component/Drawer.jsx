@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Drawer,
   List,
@@ -7,7 +7,6 @@ import {
   ListItemIcon,
   Toolbar,
   AppBar,
-  Typography,
   Box,
   ListItemButton,
   Collapse,
@@ -24,16 +23,38 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
-const drawerWidth = "30rem";
+const drawerWidth = "25rem";
 
 //Styled Component
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
+  "&.MuiButtonBase-root": {
+    color: theme.palette.secondary.dark,
+  },
+  "& .MuiListItemIcon-root": {
+    color: theme.palette.secondary.dark,
+  },
+
   "&:hover": {
     "&.MuiButtonBase-root": {
-      color: theme.palette.primary.light,
+      backgroundColor: theme.palette.secondary.dark,
+      color: "#fff",
     },
     "& .MuiListItemIcon-root": {
-      color: theme.palette.primary.light,
+      color: '#Fff',
+    },
+  },
+}));
+
+const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.dark,
+}));
+
+const CustomeNavlink = styled(NavLink)(({ theme }) => ({
+  "&.active > div": {
+    backgroundColor: theme.palette.secondary.dark,
+    color: "#fff",
+    "& .MuiListItemIcon-root": {
+      color: '#fff'
     },
   },
 }));
@@ -46,7 +67,6 @@ function MyDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
     setOpen(!open);
@@ -59,7 +79,7 @@ function MyDrawer(props) {
       href: "/admin/dashboard",
     },
     {
-      text: "User Management",
+      text: "User",
       icon: <AccountCircleIcon />,
       href: "/admin/user-management",
     },
@@ -67,7 +87,7 @@ function MyDrawer(props) {
 
   const nestedList = [
     {
-      text: "Product List",
+      text: "List Product",
       icon: <FormatListBulletedIcon />,
       href: "/admin/product-management",
     },
@@ -81,18 +101,22 @@ function MyDrawer(props) {
   const drawer = (
     <Box>
       <Toolbar className="adminToolbar">
-        <Typography variant="h3">Bershka</Typography>
+        <img
+          src="/img/logomyShop.png"
+          alt="logo"
+          style={{ width: "100%", height: "100%" }}
+        />
       </Toolbar>
       <List>
         {itemList.map((item, index) => {
           const { text, icon, href } = item;
           return (
-            <Link to={href} key={index}>
+            <CustomeNavlink to={href} key={index}>
               <CustomizedListItemButton>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </CustomizedListItemButton>
-            </Link>
+            </CustomeNavlink>
           );
         })}
 
@@ -100,7 +124,7 @@ function MyDrawer(props) {
           <ListItemIcon>
             <LibraryBooksIcon />
           </ListItemIcon>
-          <ListItemText primary="Product Management" />
+          <ListItemText primary="Product" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </CustomizedListItemButton>
 
@@ -109,12 +133,12 @@ function MyDrawer(props) {
             {nestedList.map((nestedPage, index) => {
               const { text, icon, href } = nestedPage;
               return (
-                <Link to={href} key={index}>
+                <CustomeNavlink to={href} key={index}>
                   <CustomizedListItemButton sx={{ pl: 4 }}>
                     <ListItemIcon>{icon}</ListItemIcon>
                     <ListItemText primary={text} />
                   </CustomizedListItemButton>
-                </Link>
+                </CustomeNavlink>
               );
             })}
           </List>
@@ -133,7 +157,7 @@ function MyDrawer(props) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
+        <CustomizeToolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -143,7 +167,7 @@ function MyDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-        </Toolbar>
+        </CustomizeToolbar>
       </AppBar>
 
       <Box

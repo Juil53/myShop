@@ -100,15 +100,3 @@
 .MuiPagination-ul {
     justify-content: center;
 }
-
-.MuiToolbar-root {
-    background-color: $mainColor;
-}
-
-.MuiButtonBase-root.MuiPaginationItem-root.Mui-selected{
-    background-color: $mainColor;
-}
-
-.MuiButtonBase-root.MuiPaginationItem-root:hover{
-    background-color: $mainColor;
-}

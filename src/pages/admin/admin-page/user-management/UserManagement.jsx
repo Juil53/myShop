@@ -3,13 +3,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { selectUserKeyword } from "../../../../store/users/selector";
 import { UserTable } from "./UserTable";
-import { Button } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { Button, TextField, Autocomplete, InputAdornment } from "@mui/material";
+import { styled } from "@mui/system";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
 import UserModal from "./UserModal";
 import AddUserModal from "./AddUserModal";
+
 import "../../../../scss/App.scss";
+
+const SearchField = styled(TextField)(({ theme }) => ({
+  "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
+    color: theme.palette.secondary.dark,
+  },
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: theme.palette.secondary.dark,
+    },
+  },
+}));
 
 function UserManagement() {
   const dispatch = useDispatch();
@@ -24,34 +36,30 @@ function UserManagement() {
   return (
     <>
       <div className="container usermanagement">
-        <div className="search">
-          <SearchIcon className="search__icon" />
-          <input
-            placeholder="Search by Email..."
-            type="text"
-            className="search__input"
-            onChange={handleChange}
-          />
-          <CloseIcon
-            className="search__icon"
-            onClick={() => {
-              handleClearSeach();
-            }}
-          />
-        </div>
-
-        <div className="add-btn">
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddBoxRoundedIcon />}
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
-            Add
-          </Button>
-        </div>
+        <SearchField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          label="Search..."
+          size="small"
+          sx={{ minWidth: "30%" }}
+          onChange={handleChange}
+        />
+        <Button
+          variant="contained"
+          color="success"
+          size="small"
+          startIcon={<AddBoxRoundedIcon />}
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          Add
+        </Button>
       </div>
 
       {/* DataTable */}
