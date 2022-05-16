@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
 import {
   Box,
   IconButton,
-  Pagination,
-  PaginationItem,
   Table,
   TableBody,
   TableCell,
@@ -12,26 +11,18 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { styled } from "@mui/system";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import {
   actDeleteUser,
   actGetUser,
   actGetUserPagination,
 } from "../../../../store/users/actions";
-import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
 import {
   selectUserData,
   selectUserDataPagination,
 } from "../../../../store/users/selector";
-
-const CustomPagination = styled(Pagination)(({ theme }) => ({
-  "& .MuiButtonBase-root.MuiPaginationItem-root.Mui-selected":{
-    backgroundColor:theme.palette.secondary.dark,
-    color:'#fff'
-  }
-}));
+import { CustomPagination } from "../../../../styles/styled_components/styledComponent";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export function UserTable({ keyword }) {
   const dispatch = useDispatch();
@@ -133,7 +124,7 @@ export function UserTable({ keyword }) {
     <TableContainer>
       <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
         <TableHead>
-          <TableRow hover="true">
+          <TableRow hover={true}>
             <TableCell>ID</TableCell>
             {renderTableHead()}
           </TableRow>
