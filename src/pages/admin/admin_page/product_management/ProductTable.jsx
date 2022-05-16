@@ -2,43 +2,20 @@ import * as React from "react";
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { styled } from "@mui/material/styles";
-
 import { useSelector, useDispatch } from "react-redux";
-import { fetchHotProduct, productActions } from "../../../../store/products/actions";
-
-//Styled Component
-const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-}));
-
-const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
-  transition: "all 100ms",
-  "&:hover": {
-    backgroundColor: theme.palette.primary.light,
-    "& .MuiTableCell-root": {
-      color: "#Fff",
-    },
-  },
-
-  "&:last-child td, &:last-child th": {
-    border: "1px dashed gray !important",
-  },
-}));
-
-const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
-  border: "1px dashed gray",
-  padding: 3,
-}));
+import { fetchHotProduct } from "../../../../store/products/actions";
+import {
+  CustomizedTableHead,
+  CustomizeTableRow,
+  CustomizeTableCell,
+} from "../../../../styles/styled_components/styledComponent";
 
 export default function ProductTable() {
   const dispatch = useDispatch();
