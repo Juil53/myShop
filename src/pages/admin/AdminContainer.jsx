@@ -1,9 +1,8 @@
 import React from "react";
-import MyDrawer from "./admin-page/component/Drawer";
+import MyDrawer from "./admin_page/component/Drawer";
 import { Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 import { renderRouteAdmin } from "../../routes/AdminRoute";
-
 
 export default function AdminContainer(props) {
   return (
@@ -19,9 +18,7 @@ export default function AdminContainer(props) {
             mt: 8,
           }}
         >
-          <Routes>
-            {renderRouteAdmin()}
-          </Routes>
+          <Routes>{renderRouteAdmin()}</Routes>
         </Box>
       </Box>
     </>

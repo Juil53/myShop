@@ -4,7 +4,7 @@ import Slider from "react-slick";
 
 import { constant } from "../../constants";
 import { fetchHotProduct } from "../../store/products/actions";
-import ProductCard from "../product-card/ProductCard";
+import ProductCard from "../product_card/ProductCard";
 import NextButton from "./child/NextButton";
 import PreButton from "./child/PreButton";
 

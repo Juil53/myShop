@@ -7,7 +7,7 @@ const routeAdmin = [
     exact: true,
     path: "/dashboard",
     element: lazy(() =>
-      import("../pages/admin/admin-page/dashboard/Dashboard")
+      import("../pages/admin/admin_page/dashboard/Dashboard")
     ),
   },
   {
@@ -15,7 +15,7 @@ const routeAdmin = [
     exact: true,
     path: "/user-management",
     element: lazy(() =>
-      import("../pages/admin/admin-page/user-management/UserManagement")
+      import("../pages/admin/admin_page/user_management/UserManagement")
     ),
   },
   {
@@ -23,7 +23,7 @@ const routeAdmin = [
     exact: true,
     path: "/product-management",
     element: lazy(() =>
-      import("../pages/admin/admin-page/product-management/ProductManagement")
+      import("../pages/admin/admin_page/product_management/ProductManagement")
     ),
   },
   {
@@ -31,7 +31,7 @@ const routeAdmin = [
     exact: true,
     path: "/add-product",
     element: lazy(() =>
-      import("../pages/admin/admin-page/product-management/AddProduct")
+      import("../pages/admin/admin_page/product_management/AddProduct")
     ),
   },
 ];

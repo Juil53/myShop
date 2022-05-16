@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="footer__top-left">
           <div className="logo">
             <div className="img-container">
-              <img src="./img/logomyShopwhite.png" alt="" />
+              <img src="/img/logomyShopwhite.png" alt="" />
             </div>
           </div>
           <div className="nav row">

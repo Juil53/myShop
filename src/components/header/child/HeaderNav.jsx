@@ -1,9 +1,17 @@
-import { constant } from "../../../constants";
-
 const HeaderNav = (props) => {
-  let { language, currentPage, category } = props;
+  const { languages, currentPage, categories } = props;
 
-  function createMegaDropdown(data) {
+  const createSubCategory = (data) => {
+    return data.map((v) => {
+      return (
+        <a href="#" key={v.id}>
+          {v.name}
+        </a>
+      );
+    });
+  };
+
+  const createMegaDropdown = (data) => {
     return data.map((v) => {
       return (
         <div className="mega__dropdown-content" key={v.id}>
@@ -18,17 +26,7 @@ const HeaderNav = (props) => {
         </div>
       );
     });
-  }
-
-  function createSubCategory(data) {
-    return data.map((v) => {
-      return (
-        <a href="#" key={v.id}>
-          {v.name}
-        </a>
-      );
-    });
-  }
+  };
 
   return (
     <div className="header__nav-left row">
@@ -39,24 +37,27 @@ const HeaderNav = (props) => {
             : "header__nav-btn home-btn"
         }
       >
-        <a href="#">
+        <a href="/">
           <i className="fa-solid fa-house"></i>
-          {language.header.nav.home[language.current]}
+          {languages.header.nav.home[languages.current]}
         </a>
       </div>
       <div
         className={
-          currentPage === "product" ? "active product-btn" : "product-btn"
+          currentPage === "product"
+            ? "active header__nav-btn product-btn"
+            : "product-btn"
         }
       >
-        <a href="#">
-          {language.header.nav.product[language.current]}
+        <a href="/product">
+          {languages.header.nav.product[languages.current]}
           <i className="fa-solid fa-chevron-down"></i>
         </a>
-        <div className="mega__dropdown row">
-          {category.status !== constant.LOADING &&
-            createMegaDropdown(category.data)}
-        </div>
+        {categories.data.length !== 0 && (
+          <div className="mega__dropdown row">
+            {createMegaDropdown(categories.data)}
+          </div>
+        )}
       </div>
       <div
         className={
@@ -65,7 +66,7 @@ const HeaderNav = (props) => {
             : "header__nav-btn about-btn"
         }
       >
-        <a href="#">{language.header.nav.about[language.current]}</a>
+        <a href="/about">{languages.header.nav.about[languages.current]}</a>
       </div>
       <div
         className={
@@ -74,7 +75,7 @@ const HeaderNav = (props) => {
             : "header__nav-btn news-btn"
         }
       >
-        <a href="#">{language.header.nav.news[language.current]}</a>
+        <a href="/news">{languages.header.nav.news[languages.current]}</a>
       </div>
       <div
         className={
@@ -83,7 +84,7 @@ const HeaderNav = (props) => {
             : "header__nav-btn map-btn"
         }
       >
-        <a href="#">{language.header.nav.map[language.current]}</a>
+        <a href="/map">{languages.header.nav.map[languages.current]}</a>
       </div>
       <div
         className={
@@ -92,7 +93,7 @@ const HeaderNav = (props) => {
             : "header__nav-btn contact-btn"
         }
       >
-        <a href="#">{language.header.nav.contact[language.current]}</a>
+        <a href="/contact">{languages.header.nav.contact[languages.current]}</a>
       </div>
     </div>
   );

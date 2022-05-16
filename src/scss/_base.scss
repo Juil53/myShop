@@ -99,10 +99,6 @@ ul>li {
   align-items: center;
 }
 
-.page {
-  margin-top: 13.7rem;
-}
-
 .haspopup {
   height: 100vh;
   overflow: hidden;
@@ -119,4 +115,14 @@ ul>li {
 
 .font-bold {
   font-weight: 700;
+}
+
+.slick-dots {
+  bottom: 1rem;
+  z-index: 3;
+
+  li button:before {
+    font-size: 1.2rem;
+    color: $grayColor-4;
+  }
 }

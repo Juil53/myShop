@@ -1,28 +1,28 @@
-import { popupActions } from "../../store/popup/actions";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { constant } from "../../constants";
+import { actions } from "../../store/page/slice";
+import { useDispatch, useSelector } from "react-redux";
+import { POPUP } from "../../constants";
 import ProductInfoPopup from "./child/ProductInfoPopup";
 import { useEffect } from "react";
+import { pageSelector } from "../../store/page/selector";
 
 export default function Popup(props) {
-  const popup = useSelector((state) => state.popup.popup);
+  const { popup } = useSelector(pageSelector);
   const dispatch = useDispatch();
   //Define popups
   const popups = {
-    [constant.NO_POPUP]: <div></div>,
-    [constant.PRODUCT_INFO_POPUP]: (
+    [POPUP.NO_POPUP]: <div></div>,
+    [POPUP.PRODUCT_INFO_POPUP]: (
       <ProductInfoPopup closePopup={handleClosePopup} />
     ),
   };
 
   function handleClosePopup() {
-    dispatch(popupActions.changePopup(constant.NO_POPUP));
+    dispatch(actions.changePopup({ type: POPUP.NO_POPUP }));
   }
 
   useEffect(() => {
     const page = document.getElementById("page");
-    if (popup.type === constant.NO_POPUP) {
+    if (popup.type === POPUP.NO_POPUP) {
       if (page.classList.contains("haspopup")) {
         page.classList.remove("haspopup");
       }
@@ -31,7 +31,7 @@ export default function Popup(props) {
         page.classList.add("haspopup");
       }
     }
-  });
+  }, [popup.type]);
 
   return popups[popup.type];
 }
