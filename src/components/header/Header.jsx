@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { LOADING_STATUS } from "../../constants";
+import { CATEGORY_ACTIONS, LOADING_STATUS } from "../../constants";
 import { categoriesSelector } from "../../store/categories/selector";
 
 import HeaderNav from "./child/HeaderNav";
@@ -10,14 +10,14 @@ import TopNav from "./child/TopNav";
 
 export default function Header() {
   const { languages } = useSelector((state) => state);
-  const { data: categories } = useSelector(categoriesSelector);
+  const { categories } = useSelector(categoriesSelector);
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState("home");
 
   useEffect(() => {
-    if (categories.status === LOADING_STATUS.LOADING) {
-      dispatch({ type: "FETCH_CATEGORIES" });
+    if (categories.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: CATEGORY_ACTIONS.GET_ALL_CATEGORIES });
     }
   }, []);
 

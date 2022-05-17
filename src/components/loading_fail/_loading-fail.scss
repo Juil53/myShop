@@ -1,0 +1,18 @@
+.loading-fail {
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+
+  .icon {
+    width: 8rem;
+
+    .img-container {
+      width: 100%;
+      padding-top: 100%;
+    }
+  }
+
+  .loading-fail__content {
+    padding: 1rem;
+  }
+}

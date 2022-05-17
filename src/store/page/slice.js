@@ -6,11 +6,11 @@ const initialState = {
   currentPage: "home",
   hotProducts: {
     data: [],
-    status: LOADING_STATUS.LOADING,
+    status: LOADING_STATUS.IDLE,
   },
   banners: {
     data: [],
-    status: LOADING_STATUS.LOADING,
+    status: LOADING_STATUS.IDLE,
   },
   popup: {
     type: POPUP.NO_POPUP,
@@ -24,7 +24,7 @@ const pageSlice = createSlice({
 
   reducers: {
     fetchBannersRequest: (state) => {
-      state.status = LOADING_STATUS.LOADING;
+      state.banners.status = LOADING_STATUS.LOADING;
     },
 
     fetchBannersSuccess: (state, action) => {
@@ -34,7 +34,9 @@ const pageSlice = createSlice({
     },
 
     fetchBannersFail: (state) => {
-      state.status = LOADING_STATUS.FAIL;
+      console.log("fail");
+
+      state.banners.status = LOADING_STATUS.FAIL;
     },
 
     changePopup: (state, action) => {

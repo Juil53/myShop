@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { constant as c } from "../../constants";
+import { LOADING_STATUS } from "../../constants";
 
 const initialState = {
   data: [],
-  status: c.LOADING,
+  status: LOADING_STATUS.IDLE,
   errorMessage: "",
 };
 
@@ -14,16 +14,16 @@ const categoriesSlice = createSlice({
 
   reducers: {
     fetchCategoriesRequest: (state) => {
-      state.status = c.LOADING;
+      state.status = LOADING_STATUS.LOADING;
     },
 
     fetchCategoriesSuccess: (state, action) => {
-      state.status = c.SUCCESS;
+      state.status = LOADING_STATUS.SUCCESS;
       state.data = action.payload;
     },
 
     fetchCategoriesFail: (state) => {
-      state.status = c.FAIL;
+      state.status = LOADING_STATUS.FAIL;
     },
   },
 });

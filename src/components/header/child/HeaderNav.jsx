@@ -12,20 +12,22 @@ const HeaderNav = (props) => {
   };
 
   const createMegaDropdown = (data) => {
-    return data.map((v) => {
-      return (
-        <div className="mega__dropdown-content" key={v.id}>
-          <a href="#" className="category">
-            {v.name}
-          </a>
-          {v.sub_cate && (
-            <div className="sub-category vertical">
-              {createSubCategory(v.sub_cate)}
-            </div>
-          )}
-        </div>
-      );
-    });
+    if (data.length !== 0) {
+      return data.map((v) => {
+        return (
+          <div className="mega__dropdown-content" key={v.id}>
+            <a href="#" className="category">
+              {v.name}
+            </a>
+            {v.sub_cate && (
+              <div className="sub-category vertical">
+                {createSubCategory(v.sub_cate)}
+              </div>
+            )}
+          </div>
+        );
+      });
+    }
   };
 
   return (
@@ -53,7 +55,7 @@ const HeaderNav = (props) => {
           {languages.header.nav.product[languages.current]}
           <i className="fa-solid fa-chevron-down"></i>
         </a>
-        {categories.data.length !== 0 && (
+        {categories.data && categories.data.length !== 0 && (
           <div className="mega__dropdown row">
             {createMegaDropdown(categories.data)}
           </div>

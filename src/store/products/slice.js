@@ -4,15 +4,15 @@ import { constant as c, LOADING_STATUS } from "../../constants";
 
 const initialState = {
   allProducts: {
-    status: c.LOADING,
+    status: LOADING_STATUS.IDLE,
     data: [],
   },
   hotProducts: {
-    status: c.LOADING,
+    status: LOADING_STATUS.IDLE,
     data: [],
   },
   newProducts: {
-    status: c.LOADING,
+    status: LOADING_STATUS.IDLE,
     data: [],
   },
 };
@@ -58,7 +58,7 @@ const productSlice = createSlice({
       state.newProducts.data = action.payload;
     },
 
-    fetchHotProductsFail: (state) => {
+    fetchNewProductsFail: (state) => {
       state.newProducts.status = LOADING_STATUS.FAIL;
     },
   },

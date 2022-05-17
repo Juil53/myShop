@@ -9,8 +9,12 @@ export function* fetchBanners() {
 
   try {
     let result = yield call(API.get, { path: "banners" });
+    if (!result) {
+      throw { msg: "Fail to load banner" };
+    }
     yield put(actions.fetchBannersSuccess(result));
   } catch (e) {
+    console.log(e);
     yield put(actions.fetchBannersFail());
   }
 }

@@ -14,13 +14,13 @@ export default function ProductInfoPopup(props) {
   const { popup } = useSelector(pageSelector);
   const productInfo = popup.additionalInfo;
 
-  console.log(productInfo.img);
   const settings_mainSlider = {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     fade: true,
   };
+
   const settings_subSlider = {
     slidesToShow: productInfo.img
       ? productInfo.img.length > 2
@@ -30,6 +30,7 @@ export default function ProductInfoPopup(props) {
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,
+    arrows: false,
   };
 
   function handleDecrease() {
