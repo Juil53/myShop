@@ -76,7 +76,7 @@ const CustomDrawer = styled(Drawer)(({ theme }) => ({
     width: drawerWidth,
   },
   "& .MuiToolbar-root": {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.dark,
   },
 }));
 
