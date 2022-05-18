@@ -37,7 +37,7 @@ export default function ProductCard(props) {
   }
 
   return (
-    <div className="w-full relative productcard">
+    <div className="w-full productcard">
       <div className={cardDirection}>
         <div
           className={

@@ -18,7 +18,7 @@
 .productcard__image-row {
   cursor: pointer;
   position: relative;
-  width: 40%;
+  width: 30%;
 
   .img-container {
     width: 100%;
@@ -119,6 +119,7 @@
   margin-left: 0.5rem;
   margin-top: 0;
   text-align: left;
+  width: calc(70% - 0.5rem);
 }
 
 @media only screen and (min-width: 600px) {
