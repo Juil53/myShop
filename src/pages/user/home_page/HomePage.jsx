@@ -14,13 +14,12 @@ import { productSelector } from "../../../store/products/selector";
 import ProductSection from "../../../components/product_section/ProductSection";
 import NextButton from "../../../components/product_section/child/NextButton";
 import PreButton from "../../../components/product_section/child/PreButton";
-import CategoryCard from "../../../components/category_card/CategoryCard";
-import ProductCard from "../../../components/product_card/ProductCard";
 import Loading from "../../../components/loading/Loading";
 import Popup from "../../../components/popup/Popup";
 import Banner from "./child/Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
 import { categoriesSelector } from "../../../store/categories/selector";
+import MainLeft from "./child/MainLeft";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -87,48 +86,22 @@ export default function HomePage() {
             <Slider {...banner_settings}>{createBanner(banners.data)}</Slider>
           </div>
           <div className="home-page__main row">
-            <div className="home-page__main-left">
-              <CategoryCard categories={categories.data} />
-              <div className="topic">
-                <div className="topic-title">Best selling</div>
-                <div className="topic-content">
-                  <ProductCard
-                    cardDirection="row"
-                    name="Áo thun ba lỗ"
-                    price_after_discount="200000"
-                    price_before_discount="400000"
-                    img="./img/sp1.png"
-                  />
-                  <ProductCard
-                    cardDirection="row"
-                    name="Áo thun ba lỗ"
-                    price_after_discount="200000"
-                    price_before_discount="400000"
-                    img="./img/sp1.png"
-                  />
-                  <ProductCard
-                    cardDirection="row"
-                    name="Áo thun ba lỗ"
-                    price_after_discount="200000"
-                    price_before_discount="400000"
-                    img="./img/sp1.png"
-                  />
-                </div>
-                <div className="topic-btn">
-                  <a href="#">See more</a>
-                </div>
-              </div>
-            </div>
+            <MainLeft categories={categories.data} data={hotProducts.data} />
             <div className="home-page__main-right">
-              {hotProducts.data.length !== 0 && (
-                <ProductSection title="Hot product" data={hotProducts.data} />
-              )}
+              {hotProducts.data.length !== 0 &&
+                hotProducts.data.length >= 3 && (
+                  <ProductSection title="Hot product" data={hotProducts.data} />
+                )}
               <div className="banner-container">
-                <Banner />
+                <Banner img="/img/banner.png" name="New Fashion Sale" />
               </div>
-              {newProducts.data.length !== 0 && (
-                <ProductSection title="New product" data={newProducts.data} />
-              )}
+              {newProducts.data.length !== 0 &&
+                newProducts.data.length >= 3 && (
+                  <ProductSection title="New product" data={newProducts.data} />
+                )}
+              <div className="banner-container">
+                <Banner img="/img/banner.png" name="Trending Sale" />
+              </div>
             </div>
           </div>
         </div>

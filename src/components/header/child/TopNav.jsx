@@ -19,7 +19,7 @@ const TopNav = () => {
 
   return (
     <div className="header__top-nav row">
-      <div className="nav-btn">
+      <div className="nav-btn nav-btn-phone">
         <i className="fa-solid fa-phone"></i>
         19009597
       </div>

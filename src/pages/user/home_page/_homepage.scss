@@ -17,20 +17,26 @@
   }
 
   .banner__name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    text-align: center;
     width: 100%;
     height: 100%;
-    transform: scale(1, 0);
     top: 0;
     left: 0;
     z-index: 9;
-    color: $whiteColor;
+    transform: scale(1, 0);
+    font-size: 2rem;
+    font-weight: 600;
     text-transform: uppercase;
+    color: $blackColor-4;
+    background-color: $grayColor-4;
+    opacity: 0.5;
   }
 }
 
-.a::before {
+.banner-container::before {
   content: "";
   position: absolute;
   top: 10px;
@@ -42,10 +48,19 @@
   transform: scale(0, 1);
 }
 
-.banner:hover .a::before {
-  transform: scale(1);
+.banner:hover {
+  .banner-container::before {
+    transform: scale(1);
+    transition: all 0.3s ease-out 0s;
+  }
+
+  .banner__name {
+    transform: scale(1);
+    transition: all 0.3s ease-out 0s;
+  }
 }
 
+//SLIDER
 .home-page__slider {
   overflow: hidden;
   width: 100%;
