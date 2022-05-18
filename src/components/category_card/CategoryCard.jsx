@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import { LOADING_STATUS } from "../../constants";
-
 export default function CategoryCard(props) {
   const { categories } = props;
   const [active, setActive] = useState([]);
