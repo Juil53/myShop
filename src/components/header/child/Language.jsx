@@ -29,6 +29,11 @@ const Language = (props) => {
       >
         ENG
       </button>
+      <div className="cart-btn">
+        <a href="#">
+          <i className="fa-solid fa-cart-shopping"></i>
+        </a>
+      </div>
     </div>
   );
 };

@@ -120,15 +120,17 @@ export default function HomePage() {
               </div>
             </div>
             <div className="home-page__main-right">
-              {hotProducts.data.length !== 0 && (
-                <ProductSection title="Hot product" data={hotProducts.data} />
-              )}
+              {hotProducts.data.length !== 0 &&
+                hotProducts.data.length >= 3 && (
+                  <ProductSection title="Hot product" data={hotProducts.data} />
+                )}
               <div className="banner-container">
                 <Banner />
               </div>
-              {newProducts.data.length !== 0 && (
-                <ProductSection title="New product" data={newProducts.data} />
-              )}
+              {newProducts.data.length !== 0 &&
+                newProducts.data.length >= 3 && (
+                  <ProductSection title="New product" data={newProducts.data} />
+                )}
             </div>
           </div>
         </div>

@@ -30,14 +30,16 @@
 
 .slide-next-btn,
 .slide-pre-btn {
-  font-size: 2.2rem;
   width: 3rem;
-  height: 5rem;
-  background-color: transparent;
+  height: 4.5rem;
+  border-radius: 0.3rem;
   position: absolute;
   right: 0;
-  z-index: 3;
   top: calc(50% - 1.5rem);
+  z-index: 3;
+  opacity: 0.6;
+  background-color: $grayColor-1;
+  font-size: 2.2rem;
 }
 
 .slide-pre-btn {
@@ -46,5 +48,6 @@
 
 .slide-next-btn:hover,
 .slide-pre-btn:hover {
-  background-color: rgba(235, 235, 235, 0.8);
+  background-color: $grayColor;
+  opacity: 1;
 }
