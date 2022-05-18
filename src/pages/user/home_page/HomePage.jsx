@@ -125,7 +125,7 @@ export default function HomePage() {
                   <ProductSection title="Hot product" data={hotProducts.data} />
                 )}
               <div className="banner-container">
-                <Banner />
+                <Banner img="/img/banner.png" name="New Fashion Sale" />
               </div>
               {newProducts.data.length !== 0 &&
                 newProducts.data.length >= 3 && (

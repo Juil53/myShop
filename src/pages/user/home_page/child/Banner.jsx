@@ -1,13 +1,14 @@
-export default function Banner() {
+export default function Banner(props) {
+  const { img, name } = props;
   return (
     <div className="banner">
-      <a href="#">
+      <a href="#" className="banner-container">
         <div className="banner__img">
           <div className="img-container">
-            <img src="/img/banner1.jpeg" alt="" />
+            <img src={img} alt="" />
           </div>
         </div>
-        <div className="banner__name">New product</div>
+        <div className="banner__name">{name}</div>
       </a>
     </div>
   );
