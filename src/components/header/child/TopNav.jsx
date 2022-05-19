@@ -1,6 +1,10 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { POPUP } from "../../../constants";
+import { actions } from "../../../store/page/slice";
 
 const TopNav = () => {
+  const dispatch = useDispatch();
   const language = useSelector((state) => state.languages);
 
   const SearchBox = () => {
@@ -17,6 +21,11 @@ const TopNav = () => {
     );
   };
 
+  //LOGIN EVENT
+  function login() {
+    dispatch(actions.activePopup({ type: POPUP.LOGIN_POPUP }));
+  }
+
   return (
     <div className="header__top-nav row">
       <div className="nav-btn nav-btn-phone">
@@ -25,7 +34,7 @@ const TopNav = () => {
       </div>
       <SearchBox />
       <div className="nav-btn login-btn">
-        <button>
+        <button onClick={login}>
           <i className="fa-solid fa-user"></i>
           {language.header.top_nav.login[language.current]}
         </button>

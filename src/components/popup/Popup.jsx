@@ -1,37 +1,52 @@
-import { actions } from "../../store/page/slice";
 import { useDispatch, useSelector } from "react-redux";
-import { POPUP } from "../../constants";
-import ProductInfoPopup from "./child/ProductInfoPopup";
 import { useEffect } from "react";
+
 import { pageSelector } from "../../store/page/selector";
+import { actions } from "../../store/page/slice";
+import { POPUP } from "../../constants";
+
+import ProductInfoPopup from "./child/ProductInfoPopup";
+import Login from "./child/Login";
 
 export default function Popup(props) {
   const { popup } = useSelector(pageSelector);
   const dispatch = useDispatch();
-  //Define popups
-  const popups = {
-    [POPUP.NO_POPUP]: <div></div>,
-    [POPUP.PRODUCT_INFO_POPUP]: (
-      <ProductInfoPopup closePopup={handleClosePopup} />
-    ),
+
+  const createPopup = (type, data) => {
+    switch (type) {
+      case POPUP.PRODUCT_INFO_POPUP:
+        return (
+          <ProductInfoPopup
+            closePopup={() => handleClosePopup(type)}
+            data={data}
+          />
+        );
+      case POPUP.LOGIN_POPUP:
+        return <Login closePopup={() => handleClosePopup(type)} />;
+      default:
+        return <></>;
+    }
   };
 
-  function handleClosePopup() {
-    dispatch(actions.changePopup({ type: POPUP.NO_POPUP }));
+  const createPopups = () => {
+    return popup.active.map((v) => {
+      return createPopup(v.type, v.data);
+    });
+  };
+
+  function handleClosePopup(type) {
+    dispatch(actions.hidePopup(type));
   }
 
   useEffect(() => {
+    console.log(popup.active.length);
     const page = document.getElementById("page");
-    if (popup.type === POPUP.NO_POPUP) {
-      if (page.classList.contains("haspopup")) {
-        page.classList.remove("haspopup");
-      }
+    if (popup.active.length) {
+      page.classList.add("haspopup");
     } else {
-      if (!page.classList.contains("haspopup")) {
-        page.classList.add("haspopup");
-      }
+      page.classList.remove("haspopup");
     }
-  }, [popup.type]);
+  }, [popup.active]);
 
-  return popups[popup.type];
+  return <>{createPopups()}</>;
 }

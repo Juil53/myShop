@@ -38,6 +38,7 @@ export const PAGE_ACTIONS = {
 export const POPUP = {
   NO_POPUP: "NO_POPUP",
   PRODUCT_INFO_POPUP: "PRODUCT_INFO_POPUP",
+  LOGIN_POPUP: "LOGIN_POPUP",
 };
 
 export const PRODUCT_ACTIONS = {

@@ -1,18 +1,19 @@
 import Slider from "react-slick";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { utils } from "../../../utils";
+import { POPUP } from "../../../constants";
+import { actions } from "../../../store/page/slice";
 import { pageSelector } from "../../../store/page/selector";
 
 export default function ProductInfoPopup(props) {
-  const { closePopup } = props;
+  const { closePopup, data } = props;
+  const dispatch = useDispatch();
+
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
-
   const [number, setNumber] = useState(1);
-  const { popup } = useSelector(pageSelector);
-  const productInfo = popup.additionalInfo;
 
   const settings_mainSlider = {
     slidesToShow: 1,
@@ -22,11 +23,7 @@ export default function ProductInfoPopup(props) {
   };
 
   const settings_subSlider = {
-    slidesToShow: productInfo.img
-      ? productInfo.img.length > 2
-        ? 3
-        : productInfo.img.length
-      : 1,
+    slidesToShow: data.img ? (data.img.length > 2 ? 3 : data.img.length) : 1,
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,
@@ -40,17 +37,17 @@ export default function ProductInfoPopup(props) {
   }
 
   function handleIncrease() {
-    if (number + 1 <= productInfo.quantity) {
+    if (number + 1 <= data.quantity) {
       return setNumber(number + 1);
     }
   }
 
   function handleChangeInput(e) {
     let tmp = parseInt(e.target.value);
-    if (tmp !== number && tmp <= productInfo.quantity) {
+    if (tmp !== number && tmp <= data.quantity) {
       return setNumber(tmp);
-    } else if (tmp > productInfo.quantity) {
-      return setNumber(productInfo.quantity);
+    } else if (tmp > data.quantity) {
+      return setNumber(data.quantity);
     }
   }
 
@@ -88,9 +85,17 @@ export default function ProductInfoPopup(props) {
     );
   }
 
+  function handleAddCart() {
+    dispatch(
+      actions.activePopup({
+        type: POPUP.LOGIN_POPUP,
+      })
+    );
+  }
+
   return (
     <div className="modal center">
-      {!productInfo.img ? (
+      {!data.img ? (
         <div className="productinfopopup">
           Something went wrong. Please try again later
           <div
@@ -103,42 +108,41 @@ export default function ProductInfoPopup(props) {
       ) : (
         <div className="productinfopopup row">
           <div className="productinfopopup__left">
-            <div className="main-img">{createMainSlider(productInfo.img)}</div>
+            <div className="main-img">{createMainSlider(data.img)}</div>
             <div
               className={
-                productInfo.img.length > 1
+                data.img.length > 1
                   ? "subimg-container"
                   : "subimg-container special"
               }
             >
-              {createSubSlider(productInfo.img)}
+              {createSubSlider(data.img)}
             </div>
           </div>
           <div className="productinfopopup__info">
             <div className="productinfopopup__info-name font-bold">
-              {productInfo.name}
+              {data.name}
             </div>
             <div className="productinfopopup__info-vend row">
               <div className="left">
                 Brand:
-                <span>{productInfo.brand}</span>
+                <span>{data.brand}</span>
               </div>
               <div className="right">
                 Status:
-                <span>{productInfo.status}</span>
+                <span>{data.status}</span>
               </div>
             </div>
             <div className="productinfopopup__info-price text-brand font-bold">
-              {utils.priceBreak(productInfo.price_after_discount)}₫
-              {productInfo.price_after_discount !==
-                productInfo.price_before_discount && (
+              {utils.priceBreak(data.price_after_discount)}₫
+              {data.price_after_discount !== data.price_before_discount && (
                 <span className="price-compare">
-                  {utils.priceBreak(productInfo.price_before_discount)}₫
+                  {utils.priceBreak(data.price_before_discount)}₫
                 </span>
               )}
             </div>
             <div className="productinfopopup__info-attributes">
-              {productInfo.attributes.map((v) => (
+              {data.attributes.map((v) => (
                 <div key={v.name + "att"}>
                   - {v.name}: <span>{v.value}</span>
                 </div>
@@ -161,17 +165,16 @@ export default function ProductInfoPopup(props) {
               <button
                 id="increase-btn"
                 onClick={handleIncrease}
-                disabled={number + 1 > productInfo.quantity}
+                disabled={number + 1 > data.quantity}
               >
                 +
               </button>
             </div>
-            <button className="addcart-btn">Add cart</button>
+            <button onClick={handleAddCart} className="addcart-btn">
+              Add cart
+            </button>
           </div>
-          <div
-            className="productinfopopup__cancel-btn round"
-            onClick={closePopup}
-          >
+          <div className="popup__cancel-btn round" onClick={closePopup}>
             <i className="fa-solid fa-xmark"></i>
           </div>
         </div>
