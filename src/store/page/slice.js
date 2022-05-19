@@ -13,8 +13,7 @@ const initialState = {
     status: LOADING_STATUS.IDLE,
   },
   popup: {
-    type: POPUP.NO_POPUP,
-    additionalInfo: {},
+    active: [],
   },
 };
 
@@ -39,12 +38,23 @@ const pageSlice = createSlice({
       state.banners.status = LOADING_STATUS.FAIL;
     },
 
-    changePopup: (state, action) => {
-      state.popup.type = action.payload.type;
-      state.popup.additionalInfo = action.payload.additionalInfo
-        ? action.payload.additionalInfo
-        : {};
-      console.log(action);
+    activePopup: (state, action) => {
+      const index = state.popup.active.findIndex(
+        (v) => v.type === action.payload.type
+      );
+      if (index !== -1) return;
+      state.popup.active.push({
+        type: action.payload.type,
+        data: action.payload.data,
+      });
+    },
+
+    hidePopup: (state, action) => {
+      const index = state.popup.active.findIndex(
+        (v) => v.type === action.payload
+      );
+      if (index === -1) return;
+      state.popup.active.splice(index, 1);
     },
   },
 });

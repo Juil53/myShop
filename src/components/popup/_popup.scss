@@ -1,3 +1,16 @@
+.popup__cancel-btn {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  width: 2rem;
+  height: 2rem;
+  color: $whiteColor;
+  text-align: center;
+  line-height: 2rem;
+  background-color: $dangerColor;
+  font-size: 1.4rem;
+}
+
 //product info popup
 .productinfopopup {
   position: relative;
@@ -139,17 +152,72 @@
       background-color: $blueColor;
     }
   }
+}
 
-  .productinfopopup__cancel-btn {
-    position: absolute;
-    top: -1rem;
-    right: -1rem;
-    width: 2rem;
-    height: 2rem;
-    color: $whiteColor;
+//LOGIN POPUP
+.login-popup {
+  width: 70%;
+  padding: 1.5rem;
+  position: relative;
+  background-color: $whiteColor;
+}
+
+.login-form {
+  width: 40%;
+  text-align: center;
+}
+
+.input-field {
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  margin: 2rem 0;
+  border-radius: 1.6rem;
+  border: 1px solid $mainColor;
+  overflow: hidden;
+  align-items: center;
+
+  i {
+    flex: 1;
     text-align: center;
-    line-height: 2rem;
-    background-color: $dangerColor;
-    font-size: 1.4rem;
+    color: $mainColor;
+  }
+
+  input {
+    flex: 6;
+    width: 100%;
+  }
+}
+
+.popup-btn {
+  margin-top: 1rem;
+  padding: 1rem;
+  height: 4rem;
+  width: 80%;
+  background-color: $mainColor;
+  color: $whiteColor;
+  font-size: 1.8rem;
+  transition: all 0.5s ease;
+}
+
+.popup-btn:hover {
+  background-color: $whiteColor;
+  color: $mainColor;
+  border: 1px solid $mainColor;
+}
+
+.social-text {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  color: $grayColor-3;
+}
+
+.social-media {
+  justify-content: center;
+
+  a {
+    padding: 0 0.5rem;
+    color: $mainColor;
+    font-size: 2rem;
   }
 }
