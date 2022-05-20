@@ -1,3 +1,15 @@
+@import "./child/Login/login";
+@import "./child/ProductInfo/productinfo";
+
+//POP UP BUTTON
+.modal {
+  button:hover {
+    background-color: $whiteColor;
+    color: $mainColor;
+    border: 1px solid $mainColor;
+  }
+}
+
 .popup__cancel-btn {
   position: absolute;
   top: -1rem;
@@ -11,213 +23,8 @@
   font-size: 1.4rem;
 }
 
-//product info popup
-.productinfopopup {
-  position: relative;
-  background-color: $whiteColor;
-  width: 70%;
+@media only screen and (max-width: 600px) {}
 
-  .productinfopopup__left {
-    width: 40%;
+@media only screen and (min-width: 601px) and (max-width: 767px) {}
 
-    .main-img {
-      width: 100%;
-      overflow: hidden;
-
-      .img-container {
-        width: 100%;
-        padding-top: 100%;
-      }
-    }
-
-    .subimg-container {
-      width: 100%;
-      //overflow: hidden;
-
-      .subimg {
-        padding: 1rem;
-
-        .img-container {
-          width: 100%;
-          padding-top: 100%;
-        }
-      }
-    }
-
-    .special {
-      width: 60%;
-    }
-  }
-
-  .productinfopopup__info {
-    padding: 1rem 0.5rem;
-    margin-left: 0.8rem;
-    width: 60%;
-
-    .productinfopopup__info-name {
-      font-size: 2.4rem;
-      max-width: 90%;
-    }
-
-    .productinfopopup__info-name:hover {
-      color: $mainColor;
-      cursor: pointer;
-    }
-
-    .productinfopopup__info-vend {
-      margin-top: 0.8rem;
-      color: $blackColor-3;
-      padding-bottom: 1.2rem;
-      font-size: 1.4rem;
-      border-bottom: 1px solid $grayColor-1;
-
-      .left {
-        border-right: 1px solid $grayColor-1;
-        padding: 0 0.8rem 0 0;
-      }
-
-      .right {
-        margin-left: 0.8rem;
-      }
-
-      span {
-        margin-left: 0.5rem;
-      }
-    }
-
-    .productinfopopup__info-price {
-      margin-top: 1rem;
-      font-size: 2rem;
-
-      span {
-        color: $grayColor-2;
-        text-decoration: line-through;
-        font-weight: 500;
-        font-size: 1.4rem;
-        margin-left: 1.4rem;
-      }
-    }
-
-    .productinfopopup__info-attributes {
-      margin-top: 2rem;
-      color: $blackColor-3;
-      font-size: 1.4rem;
-
-      div {
-        margin-top: 0.8rem;
-      }
-    }
-
-    .productinfopopup__info-color {}
-
-    .productinfopopup__info-quantity {
-      padding-top: 1.6rem;
-
-      button {
-        padding: 8px 15px 8px 15px;
-        border: 1px solid $grayColor-1;
-        font-size: 18px;
-        transition: all 0.3s ease;
-      }
-
-      button:hover {
-        background-color: $mainColor;
-        color: $whiteColor;
-      }
-
-      button:disabled {
-        background-color: $grayColor-1;
-        pointer-events: none;
-      }
-
-      input {
-        width: 4rem;
-        text-align: center;
-        outline: none;
-        font-size: 2rem;
-        border: 1px solid $grayColor-1;
-      }
-    }
-
-    .addcart-btn {
-      margin-top: 1rem;
-      font-size: 1.4rem;
-      width: 20rem;
-      background-color: $mainColor;
-      color: $whiteColor;
-      height: 3.5rem;
-    }
-
-    .addcart-btn:hover {
-      background-color: $blueColor;
-    }
-  }
-}
-
-//LOGIN POPUP
-.login-popup {
-  width: 70%;
-  padding: 1.5rem;
-  position: relative;
-  background-color: $whiteColor;
-}
-
-.login-form {
-  width: 40%;
-  text-align: center;
-}
-
-.input-field {
-  display: flex;
-  width: 100%;
-  height: 4rem;
-  margin: 2rem 0;
-  border-radius: 1.6rem;
-  border: 1px solid $mainColor;
-  overflow: hidden;
-  align-items: center;
-
-  i {
-    flex: 1;
-    text-align: center;
-    color: $mainColor;
-  }
-
-  input {
-    flex: 6;
-    width: 100%;
-  }
-}
-
-.popup-btn {
-  margin-top: 1rem;
-  padding: 1rem;
-  height: 4rem;
-  width: 80%;
-  background-color: $mainColor;
-  color: $whiteColor;
-  font-size: 1.8rem;
-  transition: all 0.5s ease;
-}
-
-.popup-btn:hover {
-  background-color: $whiteColor;
-  color: $mainColor;
-  border: 1px solid $mainColor;
-}
-
-.social-text {
-  margin: 1rem 0;
-  font-size: 1.2rem;
-  color: $grayColor-3;
-}
-
-.social-media {
-  justify-content: center;
-
-  a {
-    padding: 0 0.5rem;
-    color: $mainColor;
-    font-size: 2rem;
-  }
-}
+@media only screen and (min-width: 768px) and (max-width: 992px) {}

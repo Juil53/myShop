@@ -1,0 +1,138 @@
+//product info popup
+.productinfopopup {
+  position: relative;
+  background-color: $whiteColor;
+
+  .productinfopopup__left {
+    width: 35rem;
+
+    .main-img {
+      width: 100%;
+      overflow: hidden;
+
+      .img-container {
+        width: 100%;
+        padding-top: 100%;
+      }
+    }
+
+    .subimg-container {
+      width: 100%;
+      //overflow: hidden;
+
+      .subimg {
+        padding: 1rem;
+
+        .img-container {
+          width: 100%;
+          padding-top: 100%;
+        }
+      }
+    }
+
+    .special {
+      width: 60%;
+    }
+  }
+
+  .productinfopopup__info {
+    padding: 1rem 0.5rem;
+    margin-left: 0.8rem;
+    width: 60%;
+
+    .productinfopopup__info-name {
+      font-size: 2.4rem;
+      max-width: 90%;
+    }
+
+    .productinfopopup__info-name:hover {
+      color: $mainColor;
+      cursor: pointer;
+    }
+
+    .productinfopopup__info-vend {
+      margin-top: 0.8rem;
+      color: $blackColor-3;
+      padding-bottom: 1.2rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid $grayColor-1;
+
+      .left {
+        border-right: 1px solid $grayColor-1;
+        padding: 0 0.8rem 0 0;
+      }
+
+      .right {
+        margin-left: 0.8rem;
+      }
+
+      span {
+        margin-left: 0.5rem;
+      }
+    }
+
+    .productinfopopup__info-price {
+      margin-top: 1rem;
+      font-size: 2rem;
+
+      span {
+        color: $grayColor-2;
+        text-decoration: line-through;
+        font-weight: 500;
+        font-size: 1.4rem;
+        margin-left: 1.4rem;
+      }
+    }
+
+    .productinfopopup__info-attributes {
+      margin-top: 2rem;
+      color: $blackColor-3;
+      font-size: 1.4rem;
+
+      div {
+        margin-top: 0.8rem;
+      }
+    }
+
+    .productinfopopup__info-color {}
+
+    .productinfopopup__info-quantity {
+      padding-top: 1.6rem;
+
+      button {
+        padding: 8px 15px 8px 15px;
+        border: 1px solid $grayColor-1;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: $whiteColor;
+        color: $mainColor;
+        border: 1px solid $mainColor;
+      }
+
+      button:disabled {
+        background-color: $grayColor-1;
+        pointer-events: none;
+      }
+
+      input {
+        width: 4rem;
+        text-align: center;
+        outline: none;
+        font-size: 2rem;
+        border: 1px solid $grayColor-1;
+      }
+    }
+
+    .addcart-btn {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      width: 20rem;
+      background-color: $mainColor;
+      color: $whiteColor;
+      height: 4rem;
+    }
+  }
+}

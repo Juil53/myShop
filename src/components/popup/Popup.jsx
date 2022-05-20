@@ -5,8 +5,8 @@ import { pageSelector } from "../../store/page/selector";
 import { actions } from "../../store/page/slice";
 import { POPUP } from "../../constants";
 
-import ProductInfoPopup from "./child/ProductInfoPopup";
-import Login from "./child/Login";
+import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
+import Login from "./child/Login/Login";
 
 export default function Popup(props) {
   const { popup } = useSelector(pageSelector);

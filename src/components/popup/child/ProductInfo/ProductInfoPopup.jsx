@@ -1,11 +1,10 @@
 import Slider from "react-slick";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { utils } from "../../../utils";
-import { POPUP } from "../../../constants";
-import { actions } from "../../../store/page/slice";
-import { pageSelector } from "../../../store/page/selector";
+import { utils } from "../../../../utils";
+import { POPUP } from "../../../../constants";
+import { actions } from "../../../../store/page/slice";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
