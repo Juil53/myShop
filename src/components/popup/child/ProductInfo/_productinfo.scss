@@ -134,5 +134,11 @@
       color: $whiteColor;
       height: 4rem;
     }
+
+    .addcart-btn:hover {
+      background-color: $whiteColor;
+      border: 1px solid $mainColor;
+      color: $mainColor;
+    }
   }
 }
