@@ -30,7 +30,7 @@ const Login = (props) => {
               <i className="fa-solid fa-eye" onClick={showPassword}></i>
             )}
           </div>
-          <button className="popup-btn">Login</button>
+          <button className="popup-login__btn">Login</button>
           <div className="social-text">Or sign in with</div>
           <div className="social-media row">
             <a href="#">
