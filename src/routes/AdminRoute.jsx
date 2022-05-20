@@ -19,6 +19,14 @@ const routeAdmin = [
     ),
   },
   {
+    page: "AddUser",
+    exact: true,
+    path: "/add-user",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/user_management/AddUser")
+    ),
+  },
+  {
     page: "ProductManagement",
     exact: true,
     path: "/product-management",

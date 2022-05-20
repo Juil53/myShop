@@ -9,7 +9,7 @@ import { SearchField } from "../../../../styles/styled_components/styledComponen
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
 import UserModal from "./UserModal";
-import AddUserModal from "./AddUserModal";
+import AddUser from "./AddUser";
 
 import "../../../../scss/App.scss";
 
@@ -40,17 +40,6 @@ function UserManagement() {
           sx={{ minWidth: "30%" }}
           onChange={handleChange}
         />
-        <Button
-          variant="contained"
-          color="success"
-          size="small"
-          startIcon={<AddBoxRoundedIcon />}
-          onClick={() => {
-            setShowModal(true);
-          }}
-        >
-          Add
-        </Button>
       </div>
 
       {/* DataTable */}
@@ -60,12 +49,6 @@ function UserManagement() {
 
       {/* Modal */}
       <UserModal />
-      <AddUserModal
-        show={showModal}
-        close={() => {
-          setShowModal(false);
-        }}
-      />
     </>
   );
 }
