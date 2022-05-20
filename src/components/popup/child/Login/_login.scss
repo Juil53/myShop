@@ -1,21 +1,69 @@
 //LOGIN POPUP
-.login-popup {
+.signin-popup {
   width: 70%;
-  padding: 1.5rem;
+  height: 80vh;
   position: relative;
   background-color: $whiteColor;
 }
 
-.login-form {
+.signin-popup__container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: $whiteColor;
+  overflow: hidden;
+}
+
+.signin-popup__container::before {
+  content: "";
+  background: linear-gradient(-45deg, $grayColor-1, $grayColor-3);
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  transform: translateX(100%);
+  transition: 0.8s ease-in-out;
+}
+
+.signin-signup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 5;
+}
+
+.form {
   width: 40%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin-form {
+  opacity: 1;
+  transition: 0.5s ease-in-out;
+  transition-delay: 1s;
+}
+
+.signup-form {
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+  transition-delay: 1s;
 }
 
 .input-field {
   display: flex;
   width: 100%;
   height: 4rem;
-  margin: 2rem 0;
+  margin: 1rem 0;
   border-radius: 1.6rem;
   border: 1px solid $mainColor;
   overflow: hidden;
@@ -33,7 +81,7 @@
   }
 }
 
-.popup-login__btn {
+.popup-signin__btn {
   margin-top: 1rem;
   padding: 1rem;
   height: 4rem;
@@ -54,8 +102,139 @@
   justify-content: center;
 
   a {
-    padding: 0 0.5rem;
+    margin-left: 1rem;
+    font-size: 2.2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: $mainColor;
-    font-size: 2rem;
+    background-color: $whiteColor;
+    border: 1px solid $mainColor;
+    transition: 0.3s all ease;
+  }
+
+  a:hover {
+    color: $whiteColor;
+    background-color: $mainColor;
+  }
+}
+
+.panel-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  padding: 0 1rem;
+  z-index: 6;
+  width: 40%;
+  min-width: 30rem;
+
+  .content {
+    transition: 1.1s ease-in-out;
+    transition-delay: 0.5s;
+
+    p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+  }
+
+  img {
+    width: 100%;
+    transition: 1.1s ease-in-out;
+    transition-delay: 0.4s;
+  }
+
+  button {
+    margin: 1rem 0;
+    background-color: $mainColor;
+    padding: 1rem 2rem;
+    border-radius: 1.5rem;
+    color: $whiteColor;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+}
+
+.left-panel {
+  pointer-events: none;
+
+  img,
+  .content {
+    transform: translateX(-200%);
+  }
+}
+
+.right-panel {
+  pointer-events: all;
+
+  img,
+  .content {
+    transform: translateX(0);
+  }
+}
+
+.signin-popup__container.signup-mode::before {
+  transform: translateX(0);
+}
+
+.signin-popup__container.signup-mode .right-panel {
+  pointer-events: none;
+
+  img,
+  .content {
+    transform: translateX(200%);
+  }
+}
+
+.signin-popup__container.signup-mode .left-panel {
+  pointer-events: all;
+
+  img,
+  .content {
+    transform: translateX(0);
+  }
+}
+
+.signin-popup__container.signup-mode {
+  .signin-form {
+    opacity: 0;
+  }
+
+  .signup-form {
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 600px) {}
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .signin-popup {
+    width: 50%;
+    height: 100vh;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {}
+
+@media only screen and (min-width: 1200px) {
+  .signin-popup {
+    width: 50%;
+    height: 60vh;
   }
 }
