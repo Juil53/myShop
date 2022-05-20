@@ -1,7 +1,7 @@
 //LOGIN POPUP
 .signin-popup {
   width: 70%;
-  height: 80vh;
+  height: 85vh;
   position: relative;
   background-color: $whiteColor;
 }
@@ -189,6 +189,7 @@
   }
 }
 
+//ANIMATION
 .signin-popup__container.signup-mode::before {
   transform: translateX(0);
 }
