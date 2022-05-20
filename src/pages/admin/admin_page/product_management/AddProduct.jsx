@@ -9,84 +9,76 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { styled } from "@mui/material/styles";
-import { Formik, Field, Form, FieldArray } from "formik";
+import { useFormik, FormikProvider } from "formik";
+import AttributeOptions from "./AtttributeOptions";
 
 const Input = styled('input')({
   display: 'none',
 });
 
 export default function AddProduct() {
-  const [attribute, setAttribute] = useState([{ name: "", value: "" }])
-  const handleAddAttribute = () => {
-    setAttribute([
-      ...attribute,
-      { name: "", value: "" }
-    ])
-  }
-  const removeField = (index) => {
-    let data = [...attribute];
-    data.splice(index, 1)
-    setAttribute(data);
-  }
-  const initialState = {
-    name: "",
-    brand: "",
-    attribute,
-    description: "",
-    status: "",
-    image: "",
-    quantity: "",
-    price_before_discount: "",
-  }
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      brand: "",
+      attribute: [{ name: "", value: "" }],
+      description: "",
+      status: "",
+      image: "",
+      quantity: "",
+      price_before_discount: "",
+    },
+    onSubmit: (values) => {
+      console.log(values)
+    },
+    onChange: (values) => {
+      console.log(values.attribute)
+    }
+  })
 
   return (
-    <Box component={Paper} elevation={10} padding={5}>
-      <Typography variant="h3" marginBottom={2}>
-        Add Product
-      </Typography>
 
-      <Formik
-        initialValues={initialState}
-        onSubmit={values => {
-          console.log(values);
-        }}
-      >
-        <Form>
+    <FormikProvider value={formik}>
+      <Box component={Paper} elevation={10} padding={5}>
+        <Typography variant="h3" marginBottom={2}>
+          Add Product
+        </Typography>
+
+        <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
+
             <Grid item xs={6}>
-              <Field name="name" component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
+              <TextField name="name" value={formik.values.name} onChange={formik.handleChange} InputLabelProps={{ shrink: true }} variant="outlined"
                 label="Product Name" size="small"
                 fullWidth />
             </Grid>
+
             <Grid item xs={6}>
-              <Field name="brand" component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
+              <TextField name="brand" value={formik.values.brand} onChange={formik.handleChange} InputLabelProps={{ shrink: true }} variant="outlined"
                 label="Brand" size="small"
                 fullWidth />
             </Grid>
+
             <Grid item xs={4}>
-              <Field name="status" component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
+              <TextField name="status" value={formik.values.status} onChange={formik.handleChange} InputLabelProps={{ shrink: true }} variant="outlined"
                 label="Status" size="small"
                 fullWidth />
             </Grid>
+
             <Grid item xs={4}>
-              <Field name="quantity" component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
+              <TextField name="quantity" value={formik.values.quantity} onChange={formik.handleChange} InputLabelProps={{ shrink: true }} variant="outlined"
                 label="Quantity" size="small"
                 fullWidth />
             </Grid>
+
             <Grid item xs={4}>
-              <Field name="price_before_discount" component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
+              <TextField name="price_before_discount" value={formik.values.price_before_discount} onChange={formik.handleChange} InputLabelProps={{ shrink: true }} variant="outlined"
                 label="Price" size="small"
                 fullWidth />
             </Grid>
+
             <Grid item xs={12}>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <label htmlFor="contained-button-file">
@@ -103,7 +95,7 @@ export default function AddProduct() {
                 <label htmlFor="icon-button-file">
                   <Input accept="image/*" id="icon-button-file" type="file" />
                   <IconButton
-                  size="small"
+                    size="small"
                     color="secondary"
                     aria-label="upload picture"
                     component="span"
@@ -113,10 +105,11 @@ export default function AddProduct() {
                 </label>
               </Stack>
             </Grid>
+
             <Grid item xs={12}>
-              <Field
+              <TextField
                 name="description"
-                component={TextField}
+                value={formik.values.description} onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }} variant="outlined"
                 size="small"
                 fullWidth
@@ -126,48 +119,18 @@ export default function AddProduct() {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <Button variant="outlined" color="success" type="button" onClick={handleAddAttribute} startIcon={<AddIcon />}>Attribute</Button>
-            </Grid>
-
-            <FieldArray name="attribute">
-              {({ push, remove }) => (
-                <React.Fragment>
-                  {attribute.map((att, index) => (
-                    <React.Fragment key={index}>
-
-                      <Grid item xs={3}>
-                        <Field name={`attribute[${index}].name`} value={attribute.name} component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
-                          label="Attribute" size="small"
-                          fullWidth />
-                      </Grid>
-                      <Grid item xs={8} flexGrow={1}>
-                        <Field name={`attribute[${index}].value`} value={attribute.value} component={TextField} InputLabelProps={{ shrink: true }} variant="outlined"
-                          label="Value" size="small"
-                          fullWidth />
-                      </Grid>
-                      <Grid item xs={1}>
-                        <IconButton aria-label="delete" color="error" size="small" fullWidth onClick={() => {
-                          remove(index) // Remove value formik
-                          removeField(index) // Remove attribute field
-                        }}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Grid>
-                    </React.Fragment>
-                  ))}
-                </React.Fragment>
-              )}
-            </FieldArray>
-
-
+            {/* Pass initialValues formik to child Comp */}
+            <AttributeOptions formik={formik} />
+            
             <Stack direction="row" alignItems="center" spacing={1} marginTop={2} paddingLeft={2}>
               <Button variant="contained" color="success" type="submit" size="small">Submit</Button>
               <Button variant="contained" color="secondary" type="submit" size="small">Cancel</Button>
             </Stack>
+
           </Grid>
-        </Form>
-      </Formik>
-    </Box >
+        </form>
+      </Box >
+    </FormikProvider>
+
   );
 }
