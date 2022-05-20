@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
+import Popup from "../../components/popup/Popup";
 
 const Wrapper = (props) => {
   return (
@@ -9,6 +10,7 @@ const Wrapper = (props) => {
       <Header />
       <Outlet />
       <Footer />
+      <Popup />
     </div>
   );
 };

@@ -106,7 +106,6 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      <Popup />
     </React.Fragment>
   );
 }

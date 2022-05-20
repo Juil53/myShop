@@ -1,9 +1,11 @@
 //product info popup
 .productinfopopup {
+  max-width: 70%;
   position: relative;
   background-color: $whiteColor;
 
   .productinfopopup__left {
+    padding: 2rem;
     width: 35rem;
 
     .main-img {
@@ -17,7 +19,8 @@
     }
 
     .subimg-container {
-      width: 100%;
+      padding: 1rem 1rem;
+      width: 110%;
       //overflow: hidden;
 
       .subimg {
@@ -31,17 +34,21 @@
     }
 
     .special {
-      width: 60%;
+      width: 70%;
+
+      .subimg {
+        padding-left: 0;
+      }
     }
   }
 
   .productinfopopup__info {
-    padding: 1rem 0.5rem;
-    margin-left: 0.8rem;
+    padding: 2rem;
+    margin-left: 2rem;
     width: 60%;
 
     .productinfopopup__info-name {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       max-width: 90%;
     }
 
@@ -98,6 +105,10 @@
 
     .productinfopopup__info-quantity {
       padding-top: 1.6rem;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 40%;
+      font-size: 1.6rem;
 
       button {
         padding: 8px 15px 8px 15px;
@@ -140,5 +151,17 @@
       border: 1px solid $mainColor;
       color: $mainColor;
     }
+  }
+}
+
+@media only screen and (max-width: 600px) {}
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {}
+
+@media only screen and (min-width: 1200px) {
+  .productinfopopup {
+    max-width: 60%;
   }
 }

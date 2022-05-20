@@ -24,9 +24,7 @@ export default function ProductInfoPopup(props) {
   const settings_subSlider = {
     slidesToShow: data.img ? (data.img.length > 2 ? 3 : data.img.length) : 1,
     slidesToScroll: 1,
-    centerMode: true,
     focusOnSelect: true,
-    arrows: false,
   };
 
   function handleDecrease() {
@@ -147,27 +145,29 @@ export default function ProductInfoPopup(props) {
                 </div>
               ))}
             </div>
-            <div className="productinfopopup__info-color"></div>
             <div className="productinfopopup__info-quantity row">
-              <button
-                id="descrease-btn"
-                onClick={handleDecrease}
-                disabled={number - 1 < 1}
-              >
-                -
-              </button>
-              <input
-                type="number"
-                value={number}
-                onChange={handleChangeInput}
-              />
-              <button
-                id="increase-btn"
-                onClick={handleIncrease}
-                disabled={number + 1 > data.quantity}
-              >
-                +
-              </button>
+              <div className="title">Quantity</div>
+              <div className="quantity row">
+                <button
+                  id="descrease-btn"
+                  onClick={handleDecrease}
+                  disabled={number - 1 < 1}
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  value={number}
+                  onChange={handleChangeInput}
+                />
+                <button
+                  id="increase-btn"
+                  onClick={handleIncrease}
+                  disabled={number + 1 > data.quantity}
+                >
+                  +
+                </button>
+              </div>
             </div>
             <button onClick={handleAddCart} className="addcart-btn">
               Add cart

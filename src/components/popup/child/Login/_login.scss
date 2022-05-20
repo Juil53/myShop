@@ -4,6 +4,12 @@
   height: 85vh;
   position: relative;
   background-color: $whiteColor;
+
+  button:hover {
+    background-color: $whiteColor;
+    color: $mainColor;
+    border: 1px solid $mainColor;
+  }
 }
 
 .signin-popup__container {
@@ -182,6 +188,10 @@
 
 .right-panel {
   pointer-events: all;
+
+  img {
+    width: 80%;
+  }
 
   img,
   .content {
