@@ -19,6 +19,27 @@ const Input = styled('input')({
 });
 
 export default function AddProduct() {
+
+  // const [val, setVal] = useState([])
+
+  // const options = {
+  //   insurances: [
+  //     { key: 'Select option', value: "" },
+  //     { key: '1 YEAR', value: "1 YEAR" },
+  //     { key: '2 YEARS', value: "2 YEARS" }
+  //   ],
+  //   origin: [
+  //     { key: 'Select option', value: "" },
+  //     { key: 'USA', value: "USA" },
+  //     { key: 'VN', value: "VN" },
+  //   ],
+  //   material: [
+  //     { key: 'Select option', value: "" },
+  //     { key: 'SILK', value: 'SILK' },
+  //     { key: 'COTTON', value: 'COTTON' },
+  //   ],
+  // }
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -33,9 +54,6 @@ export default function AddProduct() {
     onSubmit: (values) => {
       console.log(values)
     },
-    onChange: (values) => {
-      console.log(values.attribute)
-    }
   })
 
   return (
@@ -120,7 +138,7 @@ export default function AddProduct() {
             </Grid>
 
             {/* Pass initialValues formik to child Comp */}
-            <AttributeOptions formik={formik} />
+            <AttributeOptions formik={formik}/>
             
             <Stack direction="row" alignItems="center" spacing={1} marginTop={2} paddingLeft={2}>
               <Button variant="contained" color="success" type="submit" size="small">Submit</Button>
