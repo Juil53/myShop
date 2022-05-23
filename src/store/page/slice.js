@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { LOADING_STATUS, POPUP } from "../../constants";
+import { LOADING_STATUS } from "../../constants";
 
 const initialState = {
   currentPage: "home",

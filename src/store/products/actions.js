@@ -1,4 +1,3 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import { PRODUCT_ACTIONS } from "../../constants";
@@ -9,10 +8,18 @@ export function* fetchHotProducts() {
   yield put(actions.fetchHotProductsRequest());
 
   try {
-    const data = yield call(API.get, { path: "hot_products" });
-    if (!data) {
+    const result = yield call(API.get, { path: "products" });
+    if (!result) {
       throw { msg: "Failed to load hot product" };
     }
+    let data = [];
+
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].is_hot) {
+        data.push(result[i]);
+      }
+    }
+
     yield put(actions.fetchHotProductsSuccess(data));
   } catch (err) {
     console.log(err);
@@ -39,9 +46,17 @@ export function* fetchNewProducts() {
   yield put(actions.fetchNewProductsRequest());
 
   try {
-    const data = yield call(API.get, { path: "new_products" });
-    if (!data) {
+    const result = yield call(API.get, { path: "products" });
+    if (!result) {
       throw { msg: "Failed to load new product" };
+    }
+
+    let data = [];
+
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].is_new) {
+        data.push(result[i]);
+      }
     }
     yield put(actions.fetchNewProductsSuccess(data));
   } catch (err) {
@@ -50,8 +65,35 @@ export function* fetchNewProducts() {
   }
 }
 
+export function* fetchBestSellProducts() {
+  yield put(actions.fetchBestSellingRequest());
+
+  try {
+    const result = yield call(API.get, { path: "products" });
+    if (!result) {
+      throw { msg: "Get best selling product failed" };
+    }
+    let data = [];
+
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].sold > 10) {
+        data.push(result[i]);
+      }
+    }
+
+    yield put(actions.fetchBestSellingSuccess(data));
+  } catch (err) {
+    console.log(err);
+    yield put(actions.fetchBestSellingFail());
+  }
+}
+
 export default function* root() {
   yield takeEvery(PRODUCT_ACTIONS.GET_HOT_PRODUCTS, fetchHotProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_ALL_PRODUCTS, fetchAllProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_NEW_PRODUCTS, fetchNewProducts);
+  yield takeEvery(
+    PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS,
+    fetchBestSellProducts
+  );
 }
