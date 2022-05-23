@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { constant as c, LOADING_STATUS } from "../../constants";
+import { LOADING_STATUS } from "../../constants";
 
 const initialState = {
   allProducts: {
@@ -12,6 +12,10 @@ const initialState = {
     data: [],
   },
   newProducts: {
+    status: LOADING_STATUS.IDLE,
+    data: [],
+  },
+  bestSellingProducts: {
     status: LOADING_STATUS.IDLE,
     data: [],
   },
@@ -60,6 +64,19 @@ const productSlice = createSlice({
 
     fetchNewProductsFail: (state) => {
       state.newProducts.status = LOADING_STATUS.FAIL;
+    },
+
+    fetchBestSellingRequest: (state) => {
+      state.bestSellingProducts.status = LOADING_STATUS.LOADING;
+    },
+
+    fetchBestSellingSuccess: (state, action) => {
+      state.bestSellingProducts.status = LOADING_STATUS.SUCCESS;
+      state.bestSellingProducts.data = action.payload;
+    },
+
+    fetchBestSellingFail: (state) => {
+      state.bestSellingProducts.status = LOADING_STATUS.FAIL;
     },
   },
 });

@@ -6,7 +6,6 @@ import PreButton from "./child/PreButton";
 
 export default function ProductSection(props) {
   const { data, title } = props;
-  console.log(data);
 
   const settings = {
     infinite: true,
@@ -54,6 +53,7 @@ export default function ProductSection(props) {
     } else {
       let tmp = [...data];
       const afterSplice = tmp.splice(0, 9);
+
       return afterSplice.map((v) => (
         <div className="productsection__slide-container" key={v.id}>
           <ProductCard

@@ -8,23 +8,24 @@ import {
   PAGE_ACTIONS,
   PRODUCT_ACTIONS,
 } from "../../../constants";
+
 import { pageSelector } from "../../../store/page/selector";
 import { productSelector } from "../../../store/products/selector";
+import { categoriesSelector } from "../../../store/categories/selector";
 
 import ProductSection from "../../../components/product_section/ProductSection";
 import NextButton from "../../../components/product_section/child/NextButton";
 import PreButton from "../../../components/product_section/child/PreButton";
 import Loading from "../../../components/loading/Loading";
-import Popup from "../../../components/popup/Popup";
 import Banner from "./child/Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
-import { categoriesSelector } from "../../../store/categories/selector";
 import MainLeft from "./child/MainLeft";
 
 export default function HomePage() {
   const dispatch = useDispatch();
   const { banners } = useSelector(pageSelector);
-  const { hotProducts, newProducts } = useSelector(productSelector);
+  const { hotProducts, newProducts, bestSellingProducts } =
+    useSelector(productSelector);
   const { categories } = useSelector(categoriesSelector);
 
   const banner_settings = {
@@ -52,6 +53,9 @@ export default function HomePage() {
     if (categories.status === LOADING_STATUS.IDLE) {
       dispatch({ type: CATEGORY_ACTIONS.GET_ALL_CATEGORIES });
     }
+    if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS });
+    }
   }, []);
 
   function createBanner(data) {
@@ -73,11 +77,13 @@ export default function HomePage() {
       {banners.status === LOADING_STATUS.LOADING ||
       hotProducts.status === LOADING_STATUS.LOADING ||
       newProducts.status === LOADING_STATUS.LOADING ||
+      bestSellingProducts.status === LOADING_STATUS.LOADING ||
       categories.status === LOADING_STATUS.LOADING ? (
         <Loading />
       ) : banners.status === LOADING_STATUS.FAIL &&
         hotProducts.status === LOADING_STATUS.FAIL &&
         newProducts.status === LOADING_STATUS.FAIL &&
+        bestSellingProducts.status === LOADING_STATUS.FAIL &&
         categories.status === LOADING_STATUS.FAIL ? (
         <LoadingFail />
       ) : (
@@ -86,7 +92,10 @@ export default function HomePage() {
             <Slider {...banner_settings}>{createBanner(banners.data)}</Slider>
           </div>
           <div className="home-page__main row">
-            <MainLeft categories={categories.data} data={hotProducts.data} />
+            <MainLeft
+              categories={categories.data}
+              data={bestSellingProducts.data}
+            />
             <div className="home-page__main-right">
               {hotProducts.data.length !== 0 &&
                 hotProducts.data.length >= 3 && (
