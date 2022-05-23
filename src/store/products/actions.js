@@ -9,9 +9,16 @@ export function* fetchHotProducts() {
   yield put(actions.fetchHotProductsRequest());
 
   try {
-    const data = yield call(API.get, { path: "hot_products" });
-    if (!data) {
+    const result = yield call(API.get, { path: "products" });
+    let data = [];
+    if (!result) {
       throw { msg: "Failed to load hot product" };
+    } else {
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].is_hot) {
+          data.push(result[i]);
+        }
+      }
     }
     yield put(actions.fetchHotProductsSuccess(data));
   } catch (err) {
@@ -39,9 +46,16 @@ export function* fetchNewProducts() {
   yield put(actions.fetchNewProductsRequest());
 
   try {
-    const data = yield call(API.get, { path: "new_products" });
-    if (!data) {
+    const result = yield call(API.get, { path: "products" });
+    let data = [];
+    if (!result) {
       throw { msg: "Failed to load new product" };
+    } else {
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].is_new) {
+          data.push(result[i]);
+        }
+      }
     }
     yield put(actions.fetchNewProductsSuccess(data));
   } catch (err) {

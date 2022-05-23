@@ -39,12 +39,12 @@ export default function Popup(props) {
   }
 
   useEffect(() => {
-    console.log(popup.active.length);
-    const page = document.getElementById("page");
+    const body = document.getElementsByTagName("body")[0];
+
     if (popup.active.length) {
-      page.classList.add("haspopup");
+      body.classList.add("haspopup");
     } else {
-      page.classList.remove("haspopup");
+      body.classList.remove("haspopup");
     }
   }, [popup.active]);
 

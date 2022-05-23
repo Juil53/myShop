@@ -10,8 +10,12 @@
   height: 3rem;
   text-align: center;
   line-height: 3rem;
-  color: $dangerColor;
+  color: $mainColor;
   font-size: 2rem;
   z-index: 7;
   cursor: pointer;
+}
+
+.popup__cancel-btn:hover {
+  color: $dangerColor;
 }

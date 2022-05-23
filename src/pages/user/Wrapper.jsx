@@ -6,7 +6,7 @@ import Popup from "../../components/popup/Popup";
 
 const Wrapper = (props) => {
   return (
-    <div id="page">
+    <div id="page-container">
       <Header />
       <Outlet />
       <Footer />

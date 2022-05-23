@@ -81,7 +81,7 @@ export default function HomePage() {
         categories.status === LOADING_STATUS.FAIL ? (
         <LoadingFail />
       ) : (
-        <div className="home-page page">
+        <div className="home-page page" id="page">
           <div className="home-page__slider">
             <Slider {...banner_settings}>{createBanner(banners.data)}</Slider>
           </div>
