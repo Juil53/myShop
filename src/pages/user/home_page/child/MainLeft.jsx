@@ -5,9 +5,11 @@ const MainLeft = (props) => {
   const { categories, data } = props;
 
   const createProductCard = (data) => {
-    if (data) {
-      if (data.length >= 0) {
-        return data.map((v) => (
+    if (data.length >= 0) {
+      if (data.length > 3) {
+        let tmp = [...data];
+        const dataAfterSlice = tmp.splice(0, 3);
+        return dataAfterSlice.map((v) => (
           <ProductCard
             cardDirection="row"
             name={v.name}
@@ -17,8 +19,19 @@ const MainLeft = (props) => {
           />
         ));
       }
+
+      return data.map((v) => (
+        <ProductCard
+          cardDirection="row"
+          name={v.name}
+          price_after_discount={v.price_after_discount}
+          price_before_discount={v.price_before_discount}
+          img={v.image}
+        />
+      ));
     }
   };
+
   return (
     <div className="home-page__main-left">
       <CategoryCard categories={categories} />

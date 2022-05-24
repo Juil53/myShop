@@ -22,11 +22,10 @@ export default function ProductInfoPopup(props) {
   };
 
   const settings_subSlider = {
-    slidesToShow: data.img ? (data.img.length > 2 ? 3 : data.img.length) : 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    centerMode: true,
     focusOnSelect: true,
-    arrows: false,
+    centerMode: true,
   };
 
   function handleDecrease() {
@@ -51,6 +50,9 @@ export default function ProductInfoPopup(props) {
   }
 
   function createSubSlider(data) {
+    if (data.length <= 1) {
+      return <></>;
+    }
     return (
       <Slider
         {...settings_subSlider}
@@ -92,6 +94,11 @@ export default function ProductInfoPopup(props) {
     );
   }
 
+  function createColor(data) {
+    if (data.length <= 1) {
+    }
+  }
+
   return (
     <div className="modal center">
       {!data.img ? (
@@ -106,7 +113,7 @@ export default function ProductInfoPopup(props) {
         </div>
       ) : (
         <div className="productinfopopup row">
-          <div className="productinfopopup__left">
+          <div className="productinfopopup__left vertical">
             <div className="main-img">{createMainSlider(data.img)}</div>
             <div
               className={
@@ -147,27 +154,46 @@ export default function ProductInfoPopup(props) {
                 </div>
               ))}
             </div>
-            <div className="productinfopopup__info-color"></div>
+            <div className="productinfopopup__info-color row">
+              <div className="title">Color</div>
+              <div className="color row">
+                <div className="color-item color-item__click">Black</div>
+                <div className="color-item">Green</div>
+                <div className="color-item">Blue</div>
+              </div>
+            </div>
+            <div className="productinfopopup__info-size row">
+              <div className="title">Size</div>
+              <div className="size row">
+                <div className="size-item size-item__click">S</div>
+                <div className="size-item">M</div>
+                <div className="size-item">L</div>
+              </div>
+            </div>
             <div className="productinfopopup__info-quantity row">
-              <button
-                id="descrease-btn"
-                onClick={handleDecrease}
-                disabled={number - 1 < 1}
-              >
-                -
-              </button>
-              <input
-                type="number"
-                value={number}
-                onChange={handleChangeInput}
-              />
-              <button
-                id="increase-btn"
-                onClick={handleIncrease}
-                disabled={number + 1 > data.quantity}
-              >
-                +
-              </button>
+              <div className="title">Quantity</div>
+              <div className="quantity row">
+                <button
+                  id="descrease-btn"
+                  onClick={handleDecrease}
+                  disabled={number - 1 < 1}
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  value={number}
+                  onChange={handleChangeInput}
+                />
+                <button
+                  id="increase-btn"
+                  onClick={handleIncrease}
+                  disabled={number + 1 > data.quantity}
+                >
+                  +
+                </button>
+              </div>
+              <div className="number-product">325 products avaiable</div>
             </div>
             <button onClick={handleAddCart} className="addcart-btn">
               Add cart
