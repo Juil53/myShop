@@ -16,6 +16,8 @@ export default function ProductCard(props) {
     quantity,
     status,
     brand,
+    configurableProducts,
+    configurableOptions,
   } = props;
 
   function handleShowPopup() {
@@ -31,6 +33,8 @@ export default function ProductCard(props) {
           quantity: quantity,
           status: status,
           brand: brand,
+          configurableOptions: configurableOptions,
+          configurableProducts: configurableProducts,
         },
       })
     );
