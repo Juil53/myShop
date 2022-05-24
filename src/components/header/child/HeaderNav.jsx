@@ -19,9 +19,9 @@ const HeaderNav = (props) => {
             <a href="#" className="category-btn">
               {v.name}
             </a>
-            {v.sub_cate && (
+            {v.subCate && (
               <div className="sub-category vertical">
-                {createSubCategory(v.sub_cate)}
+                {createSubCategory(v.subCate)}
               </div>
             )}
           </div>

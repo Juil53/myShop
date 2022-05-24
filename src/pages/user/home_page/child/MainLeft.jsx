@@ -3,6 +3,7 @@ import ProductCard from "../../../../components/product_card/ProductCard";
 
 const MainLeft = (props) => {
   const { categories, data } = props;
+  console.log(categories);
 
   const createProductCard = (data) => {
     if (data.length >= 0) {

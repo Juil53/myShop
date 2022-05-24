@@ -37,7 +37,7 @@ export default function CategoryCard(props) {
                   <i className="fa-solid fa-angle-right"></i>
                 </div>
               </div>
-              {v.sub_cate && (
+              {v.subCate && (
                 <div
                   className={
                     active.includes(v.id)
@@ -45,7 +45,7 @@ export default function CategoryCard(props) {
                       : "subcate-dropdown"
                   }
                 >
-                  {createSubCateDropdown(v.sub_cate)}
+                  {createSubCateDropdown(v.subCate)}
                 </div>
               )}
             </div>

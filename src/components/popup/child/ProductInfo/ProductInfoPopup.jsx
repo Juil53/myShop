@@ -47,17 +47,34 @@ export default function ProductInfoPopup(props) {
         return data.map((v) => (
           <div className="configurable-options row" key={v.id}>
             <div className="title">{v.name}</div>
-            <div className="option row">
-              {v.values.map((i) => (
-                <div className="option-item" key={i + "configurableOptions"}>
-                  {i}
-                </div>
-              ))}
-            </div>
+            {createOptionItem(v.values)}
           </div>
         ));
       }
     }
+  }
+
+  function createOptionItem(data) {
+    if (data.length <= 3) {
+      return (
+        <div className="option row">
+          {data.map((i) => (
+            <div className="option-item" key={i + "configurableOptions"}>
+              {i}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return (
+      <div className="option option-more row">
+        {data.map((i) => (
+          <div className="option-item" key={i + "configurableOptions"}>
+            {i}
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (
