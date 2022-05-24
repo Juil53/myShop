@@ -19,6 +19,7 @@ import {
 } from "../../../../styles/styled_components/styledComponent";
 
 export default function ProductTable() {
+  
   const dispatch = useDispatch();
   const { allProducts } = useSelector(productSelector);
 
