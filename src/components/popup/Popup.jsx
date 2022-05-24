@@ -11,7 +11,7 @@ import Login from "./child/Login/Login";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
-  const { active } = popup || {};
+  const { active } = popup || [];
   const dispatch = useDispatch();
 
   const createPopup = (type, data) => {
