@@ -22,8 +22,9 @@ const options = {
   ],
 };
 
-function AttributeOptions({ formik }) {
+function AttributeOptions({ formik,setField }) {
   return (
+
     <>
       {console.log("child render")}
       <FieldArray name="attribute">
@@ -41,14 +42,12 @@ function AttributeOptions({ formik }) {
               </Button>
             </Grid>
 
-            {/* Loop through attribute from Formik,starting with 1 index */}
             {formik.values.attribute.map((item, index) => {
-              //Loop item in attribute array, Everytime add an field, push an object with key= name, value=value
-              //console.log(options[item.name]);
+              // console.log(options[item.name])
               return (
+
                 <React.Fragment key={index}>
                   <Grid item xs={3}>
-                    {/* When add more attribute will increase index */}
                     <Field
                       name={`attribute[${index}].name`}
                       as={Select}
@@ -64,7 +63,6 @@ function AttributeOptions({ formik }) {
                   </Grid>
 
                   <Grid item xs={8}>
-                    {/* When add more attribute will increase index */}
                     <Field
                       name={`attribute[${index}].value`}
                       as={Select}
@@ -80,8 +78,7 @@ function AttributeOptions({ formik }) {
                     </Field>
                   </Grid>
 
-                  <Grid item xs={1}>
-                    {/* Remove attribute field */}
+                  <Grid item xs={1}>                    
                     <IconButton
                       aria-label="delete"
                       color="error"
@@ -94,12 +91,14 @@ function AttributeOptions({ formik }) {
                     </IconButton>
                   </Grid>
                 </React.Fragment>
+                
               );
             })}
           </React.Fragment>
         )}
       </FieldArray>
     </>
+    
   );
 }
 

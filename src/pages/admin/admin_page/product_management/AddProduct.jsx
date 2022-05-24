@@ -17,16 +17,16 @@ import { actAddProduct } from "../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import axios from "axios";
+
 
 const Input = styled("input")({
   display: "none",
 });
 
 export default function AddProduct() {
-
-  const [url,setUrl] = useState("")
+  const [url, setUrl] = useState("");
   const dispatch = useDispatch();
+  
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -39,27 +39,26 @@ export default function AddProduct() {
       price_before_discount: "",
     },
     onSubmit: (values) => {
-      
       const imageRef = ref(storage, `images/${values.image.name}`);
       //upload image to firebase
       uploadBytes(imageRef, values.image).then((result) => {
         alert("Image uploaded");
       });
       //getDownload url
-      getDownloadURL(imageRef).then((url)=>{
-        setUrl(url)
-        formik.values.image = url
-      })
-      
-      dispatch(actAddProduct(values))
+      getDownloadURL(imageRef).then((url) => {
+        setUrl(url);
+        formik.values.image = url;
+      });
+
+      dispatch(actAddProduct(values));
     },
   });
 
-
   return (
+
     <FormikProvider value={formik}>
       {console.log("parent render")}
-      {console.log("attribute")}
+      {console.log("attribute",formik.values.attribute)}
 
       <Box
         component={Paper}
@@ -140,7 +139,6 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={12}>
-              <Stack direction="row" alignItems="center" spacing={1}>
                 <label htmlFor="contained-button-file">
                   <Input
                     accept="image/*"
@@ -158,28 +156,9 @@ export default function AddProduct() {
                     color="secondary"
                     size="small"
                   >
-                    Upload
+                    <PhotoCamera sx={{marginRight:"5px"}}/>Upload
                   </Button>
                 </label>
-
-                <label htmlFor="icon-button-file">
-                  <Input
-                    accept="image/*"
-                    id="icon-button-file"
-                    type="file"
-                    name="image"
-                    onChange={formik.handleChange("image")}
-                  />
-                  <IconButton
-                    size="small"
-                    color="secondary"
-                    aria-label="upload picture"
-                    component="span"
-                  >
-                    <PhotoCamera />
-                  </IconButton>
-                </label>
-              </Stack>
             </Grid>
 
             <Grid item xs={12}>
@@ -197,8 +176,7 @@ export default function AddProduct() {
               />
             </Grid>
 
-            {/* Pass initialValues formik to child Comp */}
-            <AttributeOptions formik={formik} />
+            <AttributeOptions formik={formik}/>
 
             <Stack
               direction="row"
