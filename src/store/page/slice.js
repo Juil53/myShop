@@ -27,14 +27,11 @@ const pageSlice = createSlice({
     },
 
     fetchBannersSuccess: (state, action) => {
-      console.log(action);
       state.banners.status = LOADING_STATUS.SUCCESS;
       state.banners.data = action.payload;
     },
 
     fetchBannersFail: (state) => {
-      console.log("fail");
-
       state.banners.status = LOADING_STATUS.FAIL;
     },
 

@@ -1,32 +1,16 @@
-import Slider from "react-slick";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { utils } from "../../../../utils";
 import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
+import LeftImageSlider from "./child/LeftImageSlider";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
   const dispatch = useDispatch();
 
-  const [mainSlider, setMainSlider] = useState();
-  const [subSlider, setSubSlider] = useState();
   const [number, setNumber] = useState(1);
-
-  const settings_mainSlider = {
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    fade: true,
-  };
-
-  const settings_subSlider = {
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    focusOnSelect: true,
-    centerMode: true,
-  };
 
   function handleDecrease() {
     if (number - 1 > 0) {
@@ -49,43 +33,6 @@ export default function ProductInfoPopup(props) {
     }
   }
 
-  function createSubSlider(data) {
-    if (data.length <= 1) {
-      return <></>;
-    }
-    return (
-      <Slider
-        {...settings_subSlider}
-        asNavFor={mainSlider}
-        ref={(slider2) => setSubSlider(slider2)}
-      >
-        {data.map((v) => (
-          <div className="subimg" key={v}>
-            <div className="img-container">
-              <img src={v} alt="" />
-            </div>
-          </div>
-        ))}
-      </Slider>
-    );
-  }
-
-  function createMainSlider(data) {
-    return (
-      <Slider
-        {...settings_mainSlider}
-        asNavFor={subSlider}
-        ref={(slider1) => setMainSlider(slider1)}
-      >
-        {data.map((v) => (
-          <div className="img-container" key={v}>
-            <img src={v} alt="" />
-          </div>
-        ))}
-      </Slider>
-    );
-  }
-
   function handleAddCart() {
     dispatch(
       actions.activePopup({
@@ -95,10 +42,21 @@ export default function ProductInfoPopup(props) {
   }
 
   function createColor(data) {
-    if (data.length >= 1) {
-      return data.map((v) => (
-        <div className="color-item color-item__click">{v.value}</div>
-      ));
+    if (data) {
+      if (data.length > 0) {
+        return data.map((v) => (
+          <div className="configurable-options row" key={v.id}>
+            <div className="title">{v.name}</div>
+            <div className="option row">
+              {v.values.map((i) => (
+                <div className="option-item" key={i + "configurableOptions"}>
+                  {i}
+                </div>
+              ))}
+            </div>
+          </div>
+        ));
+      }
     }
   }
 
@@ -116,18 +74,7 @@ export default function ProductInfoPopup(props) {
         </div>
       ) : (
         <div className="productinfopopup row">
-          <div className="productinfopopup__left vertical">
-            <div className="main-img">{createMainSlider(data.img)}</div>
-            <div
-              className={
-                data.img.length > 1
-                  ? "subimg-container"
-                  : "subimg-container special"
-              }
-            >
-              {createSubSlider(data.img)}
-            </div>
-          </div>
+          <LeftImageSlider data={data.img} />
           <div className="productinfopopup__info">
             <div className="productinfopopup__info-name font-bold">
               {data.name}
@@ -135,11 +82,11 @@ export default function ProductInfoPopup(props) {
             <div className="productinfopopup__info-vend row">
               <div className="left">
                 Brand:
-                <span>{data.brand}</span>
+                <span>{data.brand ? data.brand : "Not yet been update"}</span>
               </div>
               <div className="right">
                 Status:
-                <span>{data.status}</span>
+                <span>{data.status ? data.status : "Not yet been update"}</span>
               </div>
             </div>
             <div className="productinfopopup__info-price text-brand font-bold">
@@ -151,28 +98,14 @@ export default function ProductInfoPopup(props) {
               )}
             </div>
             <div className="productinfopopup__info-attributes">
-              {data.attributes.map((v) => (
-                <div key={v.name + "att"}>
-                  - {v.name}: <span>{v.value}</span>
-                </div>
-              ))}
+              {data.attributes &&
+                data.attributes.map((v) => (
+                  <div key={v.name + "att"}>
+                    - {v.name}: <span>{v.value}</span>
+                  </div>
+                ))}
             </div>
-            <div className="productinfopopup__info-color row">
-              <div className="title">Color</div>
-              <div className="color row">
-                <div className="color-item color-item__click">Black</div>
-                <div className="color-item">Green</div>
-                <div className="color-item">Blue</div>
-              </div>
-            </div>
-            <div className="productinfopopup__info-size row">
-              <div className="title">Size</div>
-              <div className="size row">
-                <div className="size-item size-item__click">S</div>
-                <div className="size-item">M</div>
-                <div className="size-item">L</div>
-              </div>
-            </div>
+            {createColor(data.configurableOptions)}
             <div className="productinfopopup__info-quantity row">
               <div className="title">Quantity</div>
               <div className="quantity row">
@@ -201,6 +134,7 @@ export default function ProductInfoPopup(props) {
             <button onClick={handleAddCart} className="addcart-btn">
               Add to cart
             </button>
+            <div style={{ height: "1.5rem" }}></div>
           </div>
           <div className="popup__cancel-btn round" onClick={closePopup}>
             <i className="fa-solid fa-xmark"></i>

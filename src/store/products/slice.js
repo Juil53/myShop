@@ -44,7 +44,6 @@ const productSlice = createSlice({
     },
 
     fetchAllProductsSuccess: (state, action) => {
-      console.log(action);
       state.allProducts.status = LOADING_STATUS.SUCCESS;
       state.allProducts.data = action.payload;
     },
