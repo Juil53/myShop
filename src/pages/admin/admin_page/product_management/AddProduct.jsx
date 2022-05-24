@@ -6,18 +6,19 @@ import {
   TextField,
   Typography,
   Button,
-  IconButton,
   Stack,
+  Switch,
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AttributeOptions from "./AtttributeOptions";
+import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { useFormik, FormikProvider } from "formik";
+import { useFormik, FormikProvider, Field } from "formik";
 import { actAddProduct } from "../../../../store/admin_product/action";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
 
 const Input = styled("input")({
   display: "none",
@@ -25,8 +26,14 @@ const Input = styled("input")({
 
 export default function AddProduct() {
   const [url, setUrl] = useState("");
+  const [toggle, setToggle] = useState(false);
+  console.log(toggle);
   const dispatch = useDispatch();
-  
+
+  const handleToggle = () => {
+    toggle ? setToggle(false) : setToggle(true);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -37,8 +44,10 @@ export default function AddProduct() {
       image: null,
       quantity: "",
       price_before_discount: "",
+      is_hot: toggle,
     },
     onSubmit: (values) => {
+      console.log(values);
       const imageRef = ref(storage, `images/${values.image.name}`);
       //upload image to firebase
       uploadBytes(imageRef, values.image).then((result) => {
@@ -49,25 +58,26 @@ export default function AddProduct() {
         setUrl(url);
         formik.values.image = url;
       });
-
-      dispatch(actAddProduct(values));
+      // dispatch(actAddProduct(values));
     },
   });
 
   return (
-
     <FormikProvider value={formik}>
-      {console.log("parent render")}
-      {console.log("attribute",formik.values.attribute)}
-
       <Box
         component={Paper}
         elevation={5}
         padding={5}
-        width="60%"
+        width="80%"
         margin="auto"
       >
-        <Typography variant="h3" marginBottom={2}>
+        <Link to="/admin/product-management">
+          <Button startIcon={<ArrowBackIcon />} color="secondary">
+            Back to Products list...
+          </Button>
+        </Link>
+
+        <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
           Add Product
         </Typography>
 
@@ -138,28 +148,39 @@ export default function AddProduct() {
               />
             </Grid>
 
-            <Grid item xs={12}>
-                <label htmlFor="contained-button-file">
-                  <Input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    name="image"
-                    onChange={(event) =>
-                      formik.setFieldValue("image", event.target.files[0])
-                    }
-                  />
-                  <Button
-                    variant="outlined"
-                    component="span"
-                    color="secondary"
-                    size="small"
-                  >
-                    <PhotoCamera sx={{marginRight:"5px"}}/>Upload
-                  </Button>
-                </label>
+            <Grid item xs={6}>
+              <label htmlFor="contained-button-file">
+                <Input
+                  accept="image/*"
+                  id="contained-button-file"
+                  multiple
+                  type="file"
+                  name="image"
+                  onChange={(event) =>
+                    formik.setFieldValue("image", event.target.files[0])
+                  }
+                />
+                <Button
+                  variant="outlined"
+                  component="span"
+                  color="secondary"
+                  size="small"
+                >
+                  <PhotoCamera sx={{ marginRight: "5px" }} />
+                  Upload
+                </Button>
+              </label>
+              <img></img>
             </Grid>
+
+            {/* <Grid item xs={6}>
+              <Switch
+                name="is_hot"
+                value={formik.values.is_hot}
+                onChange={handleToggle}
+                checked={toggle}
+              />
+            </Grid> */}
 
             <Grid item xs={12}>
               <TextField
@@ -176,7 +197,7 @@ export default function AddProduct() {
               />
             </Grid>
 
-            <AttributeOptions formik={formik}/>
+            <AttributeOptions formik={formik} />
 
             <Stack
               direction="row"

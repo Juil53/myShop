@@ -1,18 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { selectUserKeyword } from "../../../../store/users/selector";
 import { UserTable } from "./UserTable";
-import { Button, InputAdornment } from "@mui/material";
+import { Button, InputAdornment, Typography } from "@mui/material";
 import { SearchField } from "../../../../styles/styled_components/styledComponent";
-
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from "@mui/icons-material/Search";
 import UserModal from "./UserModal";
-import AddUser from "./AddUser";
 
 import "../../../../scss/App.scss";
-
 
 function UserManagement() {
   const dispatch = useDispatch();
@@ -26,6 +24,9 @@ function UserManagement() {
 
   return (
     <>
+      <Typography variant="h4" fontWeight={700}>
+        User Management
+      </Typography>
       <div className="container usermanagement">
         <SearchField
           InputProps={{
@@ -40,6 +41,16 @@ function UserManagement() {
           sx={{ minWidth: "30%" }}
           onChange={handleChange}
         />
+        <Link to="add-user">
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            startIcon={<AddIcon />}
+          >
+            Add User
+          </Button>
+        </Link>
       </div>
 
       {/* DataTable */}

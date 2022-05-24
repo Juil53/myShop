@@ -26,14 +26,13 @@ function AttributeOptions({ formik,setField }) {
   return (
 
     <>
-      {console.log("child render")}
       <FieldArray name="attribute">
         {({ push, remove }) => (
           <React.Fragment>
             <Grid item xs={12}>
               <Button
                 variant="outlined"
-                color="success"
+                color="secondary"
                 type="button"
                 onClick={() => push({ name: "", value: "" })}
                 startIcon={<AddIcon />}

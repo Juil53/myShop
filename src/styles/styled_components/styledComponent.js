@@ -14,43 +14,48 @@ const drawerWidth = "25rem";
 
 //Styled Component
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  "& .MuiTableCell-root": {
+    color: theme.palette.secondary.main,
+    border: "1px solid",
+  },
 }));
 
 const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
   transition: "all 100ms",
+  "& .MuiTableCell-root": {
+    padding: 0,
+  },
   "&:hover": {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.secondary.main,
     "& .MuiTableCell-root": {
       color: "#Fff",
     },
   },
 
   "&:last-child td, &:last-child th": {
-    border: "1px dashed gray !important",
+    border: "1px solid gray !important",
   },
 }));
 
 const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
-  border: "1px dashed gray",
+  border: "1px solid gray",
   padding: 3,
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
-  "&.MuiButtonBase-root": {
-    color: theme.palette.secondary.dark,
-  },
-  "& .MuiListItemIcon-root": {
-    color: theme.palette.secondary.dark,
-  },
-
+  transition: "all 400ms ease",
   "&:hover": {
     "&.MuiButtonBase-root": {
-      backgroundColor: theme.palette.secondary.dark,
-      color: "#fff",
+      color: theme.palette.secondary.dark,
+      fontWeight: 900,
+      borderLeft: "8px solid",
+      borderColor: theme.palette.secondary.dark,
+    },
+    "& .MuiTypography-root": {
+      fontWeight: 900,
     },
     "& .MuiListItemIcon-root": {
-      color: "#Fff",
+      color: theme.palette.secondary.dark,
     },
   },
 }));
@@ -61,10 +66,15 @@ const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
 
 const CustomeNavlink = styled(NavLink)(({ theme }) => ({
   "&.active > div": {
-    backgroundColor: theme.palette.secondary.dark,
-    color: "#fff",
+    color: theme.palette.secondary.dark,
+    borderLeft: "8px solid",
+    borderColor: theme.palette.secondary.dark,
+    "& .MuiTypography-root": {
+      fontSize: "1.7rem",
+      fontWeight: 900,
+    },
     "& .MuiListItemIcon-root": {
-      color: "#fff",
+      color: theme.palette.secondary.dark,
     },
   },
 }));
@@ -76,7 +86,7 @@ const CustomDrawer = styled(Drawer)(({ theme }) => ({
     width: drawerWidth,
   },
   "& .MuiToolbar-root": {
-    backgroundColor: theme.palette.secondary.dark,
+    // backgroundColor: theme.palette.secondary.dark,
   },
 }));
 
