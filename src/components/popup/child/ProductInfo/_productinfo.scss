@@ -12,7 +12,6 @@
     padding: 2rem;
     width: 35rem;
     align-items: center;
-    justify-content: center;
 
     .main-img {
       width: 100%;
@@ -123,10 +122,14 @@
       }
 
       .option {
-        min-width: 70%;
+        min-width: 50%;
         margin-left: 3.5rem;
         justify-content: space-evenly;
         font-size: 1.2rem;
+      }
+
+      .option-more {
+        min-width: 70%;
       }
 
       .option-item {
@@ -153,10 +156,9 @@
       padding-top: 1.6rem;
       justify-content: space-between;
       align-items: center;
-      max-width: 90%;
+      //max-width: 90%;
 
       button {
-        // padding: 6px 11px 6px 11px;
         width: 3rem;
         height: 3rem;
         border: 1px solid $grayColor-1;
@@ -190,7 +192,7 @@
     }
 
     .addcart-btn {
-      margin: 1.5rem auto;
+      margin: 3rem auto 0;
       width: 23rem;
       height: 4rem;
       display: block;

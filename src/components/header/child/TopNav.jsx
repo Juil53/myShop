@@ -23,7 +23,9 @@ const TopNav = () => {
 
   //LOGIN EVENT
   function login() {
-    dispatch(actions.activePopup({ type: POPUP.LOGIN_POPUP }));
+    //dispatch(actions.activePopup({ type: POPUP.LOGIN_POPUP }));
+    window.location.href =
+      window.location.origin + window.location.pathname + "sign";
   }
 
   return (
