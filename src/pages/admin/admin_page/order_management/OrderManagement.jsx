@@ -1,24 +1,24 @@
 import React from "react";
-import { SearchField } from "../../../../styles/styled_components/styledComponent";
-import { InputAdornment, Button, Box, Typography } from "@mui/material";
+import { Box, Button, InputAdornment, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import ProductTable from "./ProductTable";
+import { SearchField } from "../../../../styles/styled_components/styledComponent";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
+import OrderTable from "./OrderTable";
+function OrderManagement() {
 
-const product__search = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginTop: "2rem",
-  marginBottom: "2rem",
-};
+  const product__search = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "2rem",
+    marginBottom: "2rem",
+  };
 
-function ProductManagement() {
   return (
     <>
       <Typography variant="h4" fontWeight={700}>
-        Product Management
+        Orders Management
       </Typography>
       <Box className="product__search" sx={product__search}>
         <SearchField
@@ -32,26 +32,25 @@ function ProductManagement() {
           label="Search..."
           size="small"
           sx={{ minWidth: "30%" }}
-          // onChange={handleChange}
         />
-        <Link to="add-product">
+        <Link to="add-order">
           <Button
             variant="contained"
             color="secondary"
             size="small"
             startIcon={<AddBoxRoundedIcon />}
           >
-            Add Product
+            Add Order
           </Button>
         </Link>
       </Box>
 
       {/* ProductTable */}
-      <div className="product__table">
-        <ProductTable />
+      <div className="">
+        <OrderTable/>
       </div>
     </>
   );
 }
 
-export default ProductManagement;
+export default OrderManagement;

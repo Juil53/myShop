@@ -1,9 +1,11 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { Box, MenuItem, TextField, Modal, Button } from "@mui/material";
+import { Box, MenuItem, TextField, Modal, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { validation } from "../../../../validation/Validation";
 import { actAddUser } from "../../../../store/users/actions";
+import { Link } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 //Select Role
 const roles = [
@@ -68,16 +70,17 @@ export default function AddUser(props) {
     <div>
 
       <Box sx={container}>
-        <Box className="user__image" sx={userImage}>
-
-        </Box>
+        <Box className="user__image" sx={userImage}></Box>
         <Box
           className="user__form"
           sx={user__form}
           component="form"
           onSubmit={formik.handleSubmit}
         >
-          <h1 className="admin__title">Add User</h1>
+          <Link to="/admin/user-management">
+            <Button startIcon={<ArrowBackIcon/>} color="secondary">Back to List User...</Button>
+          </Link>
+          <Typography variant="h4" fontWeight={700}>Add User</Typography>
           <div className="admin__form">
             <TextField
               fullWidth

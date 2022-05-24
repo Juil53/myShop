@@ -6,7 +6,7 @@ import {
   Toolbar,
   AppBar,
   Box,
-  Collapse,
+  Divider 
 } from "@mui/material";
 import {
   CustomizedListItemButton,
@@ -16,15 +16,11 @@ import {
 } from "../../../../styles/styled_components/styledComponent";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import AddIcon from "@mui/icons-material/Add";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 
 const drawerWidth = "25rem";
 
@@ -53,31 +49,20 @@ function MyDrawer(props) {
       icon: <DashboardIcon />,
       href: "/admin/dashboard",
     },
-  ];
-
-  const nestedUserList = [
     {
-      text: "List User",
-      icon: <AccountCircleIcon />,
+      text: "User",
+      icon: <AccountBoxIcon />,
       href: "/admin/user-management",
     },
     {
-      text: "Add User",
-      icon: <AddIcon />,
-      href: "/admin/add-user",
-    },
-  ]
-
-  const nestedProductList = [
-    {
-      text: "List Product",
+      text: "Product",
       icon: <FormatListBulletedIcon />,
       href: "/admin/product-management",
     },
     {
-      text: "Add Product",
-      icon: <AddIcon />,
-      href: "/admin/add-product",
+      text: "Orders",
+      icon: <LocalGroceryStoreIcon />,
+      href: "/admin/order-management",
     },
   ];
 
@@ -91,7 +76,7 @@ function MyDrawer(props) {
           style={{ width: "100%", height: "100%" }}
         />
       </Toolbar>
-
+      <Divider  />
       {/* List Page */}
       <List>
         {itemList.map((item, index) => {
@@ -102,66 +87,11 @@ function MyDrawer(props) {
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </CustomizedListItemButton>
+              <Divider  />
             </CustomeNavlink>
           );
         })}
         {/* End List Page */}
-
-        {/* Nested User Button */}
-        <CustomizedListItemButton onClick={handleClick}>
-          <ListItemIcon>
-            <SupervisorAccountIcon />
-          </ListItemIcon>
-          <ListItemText primary="User" />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </CustomizedListItemButton>
-        {/* End Nested Button */}
-
-        {/* Nested User Page */}
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List>
-            {nestedUserList.map((nestedPage, index) => {
-              const { text, icon, href } = nestedPage;
-              return (
-                <CustomeNavlink to={href} key={index}>
-                  <CustomizedListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>{icon}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </CustomizedListItemButton>
-                </CustomeNavlink>
-              );
-            })}
-          </List>
-        </Collapse>
-        {/* End Nested User Page */}
-
-        {/* Nested Product Button */}
-        <CustomizedListItemButton onClick={handleClick}>
-          <ListItemIcon>
-            <LibraryBooksIcon />
-          </ListItemIcon>
-          <ListItemText primary="Product" />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </CustomizedListItemButton>
-        {/* End Nested Button */}
-
-        {/* Nested Product Page */}
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List>
-            {nestedProductList.map((nestedPage, index) => {
-              const { text, icon, href } = nestedPage;
-              return (
-                <CustomeNavlink to={href} key={index}>
-                  <CustomizedListItemButton sx={{ pl: 4 }}>
-                    <ListItemIcon>{icon}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </CustomizedListItemButton>
-                </CustomeNavlink>
-              );
-            })}
-          </List>
-        </Collapse>
-        {/* End Nested Page */}
       </List>
     </Box>
   );
