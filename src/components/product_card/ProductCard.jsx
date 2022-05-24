@@ -7,8 +7,8 @@ import { actions } from "../../store/page/slice";
 export default function ProductCard(props) {
   const dispatch = useDispatch();
   const {
-    price_after_discount,
-    price_before_discount,
+    priceAfterDiscount,
+    priceBeforeDiscount,
     cardDirection,
     name,
     img,
@@ -24,8 +24,8 @@ export default function ProductCard(props) {
         type: POPUP.PRODUCT_INFO_POPUP,
         data: {
           name: name,
-          price_after_discount: price_after_discount,
-          price_before_discount: price_before_discount,
+          priceAfterDiscount: priceAfterDiscount,
+          priceBeforeDiscount: priceBeforeDiscount,
           img: img,
           attributes: attributes,
           quantity: quantity,
@@ -54,9 +54,9 @@ export default function ProductCard(props) {
           )}
         </div>
         {cardDirection !== "row" &&
-          utils.discount(price_before_discount, price_after_discount) > 0 && (
+          utils.discount(priceBeforeDiscount, priceAfterDiscount) > 0 && (
             <div className="productcard__discount">
-              -{utils.discount(price_before_discount, price_after_discount)}%
+              -{utils.discount(priceBeforeDiscount, priceAfterDiscount)}%
             </div>
           )}
         <div
@@ -68,10 +68,10 @@ export default function ProductCard(props) {
         >
           <div className="productcard__info-name">{name}</div>
           <div className="productcard__info__price text-brand font-bold">
-            {utils.priceBreak(price_after_discount)}₫
-            {price_after_discount !== price_before_discount && (
+            {utils.priceBreak(priceAfterDiscount)}₫
+            {priceAfterDiscount !== priceBeforeDiscount && (
               <span className="price-compare">
-                {utils.priceBreak(price_before_discount)}₫
+                {utils.priceBreak(priceBeforeDiscount)}₫
               </span>
             )}
           </div>

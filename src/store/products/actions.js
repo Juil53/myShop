@@ -15,7 +15,7 @@ export function* fetchHotProducts() {
     let data = [];
 
     for (let i = 0; i < result.length; i++) {
-      if (result[i].is_hot) {
+      if (result[i].isHot) {
         data.push(result[i]);
       }
     }
@@ -54,7 +54,7 @@ export function* fetchNewProducts() {
     let data = [];
 
     for (let i = 0; i < result.length; i++) {
-      if (result[i].is_new) {
+      if (result[i].isNew) {
         data.push(result[i]);
       }
     }

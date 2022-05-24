@@ -22,7 +22,7 @@ export default function ProductInfoPopup(props) {
   };
 
   const settings_subSlider = {
-    slidesToShow: 3,
+    slidesToShow: 2,
     slidesToScroll: 1,
     focusOnSelect: true,
     centerMode: true,
@@ -95,7 +95,10 @@ export default function ProductInfoPopup(props) {
   }
 
   function createColor(data) {
-    if (data.length <= 1) {
+    if (data.length >= 1) {
+      return data.map((v) => (
+        <div className="color-item color-item__click">{v.value}</div>
+      ));
     }
   }
 
@@ -140,10 +143,10 @@ export default function ProductInfoPopup(props) {
               </div>
             </div>
             <div className="productinfopopup__info-price text-brand font-bold">
-              {utils.priceBreak(data.price_after_discount)}₫
-              {data.price_after_discount !== data.price_before_discount && (
+              {utils.priceBreak(data.priceAfterDiscount)}₫
+              {data.priceAfterDiscount !== data.priceBeforeDiscount && (
                 <span className="price-compare">
-                  {utils.priceBreak(data.price_before_discount)}₫
+                  {utils.priceBreak(data.priceBeforeDiscount)}₫
                 </span>
               )}
             </div>
@@ -196,7 +199,7 @@ export default function ProductInfoPopup(props) {
               <div className="number-product">325 products avaiable</div>
             </div>
             <button onClick={handleAddCart} className="addcart-btn">
-              Add cart
+              Add to cart
             </button>
           </div>
           <div className="popup__cancel-btn round" onClick={closePopup}>

@@ -11,10 +11,11 @@ const MainLeft = (props) => {
         const dataAfterSlice = tmp.splice(0, 3);
         return dataAfterSlice.map((v) => (
           <ProductCard
+            key={v.id}
             cardDirection="row"
             name={v.name}
-            price_after_discount={v.price_after_discount}
-            price_before_discount={v.price_before_discount}
+            priceAfterDiscount={v.priceAfterDiscount}
+            priceBeforeDiscount={v.priceBeforeDiscount}
             img={v.image}
           />
         ));
@@ -22,10 +23,11 @@ const MainLeft = (props) => {
 
       return data.map((v) => (
         <ProductCard
+          key={v.id}
           cardDirection="row"
           name={v.name}
-          price_after_discount={v.price_after_discount}
-          price_before_discount={v.price_before_discount}
+          priceAfterDiscount={v.priceAfterDiscount}
+          priceBeforeDiscount={v.priceBeforeDiscount}
           img={v.image}
         />
       ));
