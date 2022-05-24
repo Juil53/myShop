@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -8,8 +9,9 @@ import { POPUP } from "../../constants";
 import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
 import Login from "./child/Login/Login";
 
-export default function Popup(props) {
+export default function Popup() {
   const { popup } = useSelector(pageSelector);
+  const { active } = popup || {};
   const dispatch = useDispatch();
 
   const createPopup = (type, data) => {
@@ -29,8 +31,12 @@ export default function Popup(props) {
   };
 
   const createPopups = () => {
-    return popup.active.map((v) => {
-      return createPopup(v.type, v.data);
+    return active.map((v) => {
+      return (
+        <React.Fragment key={v.type}>
+          {createPopup(v.type, v.data)}
+        </React.Fragment>
+      );
     });
   };
 
@@ -41,12 +47,12 @@ export default function Popup(props) {
   useEffect(() => {
     const body = document.getElementsByTagName("body")[0];
 
-    if (popup.active.length) {
+    if (active.length) {
       body.classList.add("haspopup");
     } else {
       body.classList.remove("haspopup");
     }
-  }, [popup.active]);
+  }, [active]);
 
   return <>{createPopups()}</>;
 }

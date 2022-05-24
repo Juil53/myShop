@@ -4,6 +4,8 @@
   max-width: 70%;
   position: relative;
   background-color: $whiteColor;
+  overflow-y: auto;
+  max-height: 90vh;
 
   .productinfopopup__left {
     padding: 2rem;
@@ -16,13 +18,14 @@
       overflow: hidden;
 
       .img-container {
+        border: 1px solid $mainColor;
         width: 100%;
         padding-top: 100%;
       }
     }
 
     .subimg-container {
-      padding: 1rem 0;
+      margin-top: 1rem;
       width: 100%;
       min-width: 100%;
 
@@ -209,13 +212,103 @@
       color: $mainColor;
     }
   }
+
+  .slick-next::before,
+  .slick-prev::before {
+    opacity: 1;
+  }
+
+  .slick-prev {
+    left: -2rem;
+  }
+
+  .slick-next {
+    right: -2rem;
+  }
 }
+
+// .productinfopopup::-webkit-scrollbar {
+//   display: none;
+// }
 
 @media only screen and (max-width: 600px) {}
 
 @media only screen and (min-width: 601px) and (max-width: 767px) {}
 
-@media only screen and (min-width: 768px) and (max-width: 992px) {}
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .productinfopopup {
+    .productinfopopup__left {
+      width: 25rem;
+
+      .main-img {
+        width: 100%;
+        overflow: hidden;
+
+        .img-container {
+          width: 100%;
+          padding-top: 100%;
+        }
+      }
+    }
+
+    .productinfopopup__info {
+      .title {
+        font-weight: 600;
+      }
+
+      .productinfopopup__info-name {
+        font-size: 1.8rem;
+      }
+
+      .productinfopopup__info-price {
+        font-size: 1.6rem;
+      }
+
+      .productinfopopup__info-attributes {
+        margin-top: 2rem;
+        color: $blackColor-3;
+        font-size: 1.4rem;
+
+        div {
+          margin-top: 0.8rem;
+        }
+      }
+
+      .productinfopopup__info-color,
+      .productinfopopup__info-size {
+        max-width: 80%;
+        margin-top: 1.5rem;
+        align-items: center;
+
+
+        .color,
+        .size {
+          margin-left: 3rem;
+        }
+
+        .color-item,
+        .size-item {
+          border: 1px solid $blackColor-3;
+          padding: 0.5rem;
+          border-radius: 1.2rem;
+          cursor: pointer;
+        }
+      }
+
+      .productinfopopup__info-quantity {
+        max-width: 100%;
+
+        button {
+          font-size: 1.6rem;
+        }
+
+        input {
+          width: 3.5rem;
+        }
+      }
+    }
+  }
+}
 
 @media only screen and (min-width: 1200px) {
   .productinfopopup {

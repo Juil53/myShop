@@ -34,14 +34,15 @@ export default function ProductSection(props) {
 
   function createProductCard(data) {
     if (data.length <= 9) {
+      console.log(data);
       return data.map((v) => (
         <div className="productsection__slide-container" key={v.id}>
           <ProductCard
             id={v.id}
             cardDirection="vertical"
             name={v.name}
-            price_after_discount={v.price_after_discount}
-            price_before_discount={v.price_before_discount}
+            priceAfterDiscount={v.priceAfterDiscount}
+            priceBeforeDiscount={v.priceBeforeDiscount}
             img={v.image}
             attributes={v.attributes}
             quantity={v.quantity}
@@ -60,8 +61,8 @@ export default function ProductSection(props) {
             id={v.id}
             cardDirection="vertical"
             name={v.name}
-            price_after_discount={v.price_after_discount}
-            price_before_discount={v.price_before_discount}
+            priceAfterDiscount={v.priceAfterDiscount}
+            priceBeforeDiscount={v.priceBeforeDiscount}
             img={v.image}
             attributes={v.attributes}
             quantity={v.quantity}
