@@ -6,7 +6,11 @@ import {
   Toolbar,
   AppBar,
   Box,
-  Divider 
+  Divider,
+  Avatar,
+  Stack,
+  Typography,
+  Badge,
 } from "@mui/material";
 import {
   CustomizedListItemButton,
@@ -16,11 +20,12 @@ import {
 } from "../../../../styles/styled_components/styledComponent";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import MailIcon from "@mui/icons-material/Mail";
 
 const drawerWidth = "25rem";
 
@@ -76,7 +81,7 @@ function MyDrawer(props) {
           style={{ width: "100%", height: "100%" }}
         />
       </Toolbar>
-      <Divider  />
+      <Divider />
       {/* List Page */}
       <List>
         {itemList.map((item, index) => {
@@ -87,7 +92,7 @@ function MyDrawer(props) {
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </CustomizedListItemButton>
-              <Divider  />
+              <Divider />
             </CustomeNavlink>
           );
         })}
@@ -100,7 +105,9 @@ function MyDrawer(props) {
     <Box>
       {/* Header */}
       <AppBar className="header" position="fixed" sx={header}>
-        <CustomizeToolbar>
+        <CustomizeToolbar
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -110,6 +117,13 @@ function MyDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Stack spacing={8} direction="row" alignItems="center">
+            <Typography variant="h6" fontWeight={700}>Hello! Tom</Typography>
+            <Badge badgeContent={4} color="error">
+              <MailIcon color="#fff" />
+            </Badge>
+            <Avatar alt="Remy Sharp" src="/img/avatar2.jpg" />
+          </Stack>
         </CustomizeToolbar>
       </AppBar>
 

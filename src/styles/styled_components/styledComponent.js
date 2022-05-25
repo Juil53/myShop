@@ -43,7 +43,7 @@ const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
-  transition: "all 400ms ease",
+  transition: "all 200ms ease",
   "&:hover": {
     "&.MuiButtonBase-root": {
       color: theme.palette.secondary.dark,

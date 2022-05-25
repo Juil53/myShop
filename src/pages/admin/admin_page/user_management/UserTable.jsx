@@ -23,9 +23,12 @@ import {
 import { CustomPagination } from "../../../../styles/styled_components/styledComponent";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Loading from "../../../../components/loading/Loading";
 
 export function UserTable({ keyword }) {
+
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.user.loading);
   const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
   const rowsPagination = useSelector(selectUserDataPagination);
@@ -147,5 +150,5 @@ export function UserTable({ keyword }) {
     </TableContainer>
   );
 
-  return <Box>{tablePc}</Box>;
+  return <Box>{loading ? <Loading/> : tablePc}</Box>;
 }

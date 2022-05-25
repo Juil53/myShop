@@ -14,18 +14,11 @@ import {
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AttributeOptions from "./AtttributeOptions";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import {
-  useFormik,
-  FormikProvider,
-  ArrayHelpers,
-  FieldArray,
-  Field,
-} from "formik";
+import { useFormik, FormikProvider, FieldArray, Field } from "formik";
 import {
   actAddProduct,
   actGetOptions,
@@ -34,25 +27,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-
 const Input = styled("input")({
   display: "none",
 });
 
 export default function AddProduct() {
   const dispatch = useDispatch();
-  const [url, setUrl] = useState("");
-  const [toggle, setToggle] = useState(false);
-
   const optionsData = useSelector((state) => state.adminProduct.options);
 
-  const handleToggle = () => {
-    toggle ? setToggle(false) : setToggle(true);
-  };
+  // const [toggle, setToggle] = useState(false);
+  // const handleToggle = () => {
+  //   toggle ? setToggle(false) : setToggle(true);
+  // };
 
   useEffect(() => {
     dispatch(actGetOptions());
-    console.log("render");
   }, []);
 
   const formik = useFormik({
@@ -62,24 +51,29 @@ export default function AddProduct() {
       attribute: [],
       description: "",
       status: "",
-      image: null,
+      image: "",
       quantity: "",
       price_before_discount: "",
-      is_hot: toggle,
+      // is_hot: toggle,
     },
     onSubmit: (values) => {
-      console.log(values);
       const imageRef = ref(storage, `images/${values.image.name}`);
       //upload image to firebase
       uploadBytes(imageRef, values.image).then((result) => {
         alert("Image uploaded");
       });
       //getDownload url
-      getDownloadURL(imageRef).then((url) => {
-        setUrl(url);
-        formik.values.image = url;
+      getDownloadURL(imageRef)
+        .then((url) => {
+          console.log(url);
+          formik.values.image = url;
+        })
+        .then(() => {
+          dispatch(actAddProduct(values));
+        });
+      console.log(values).catch((error) => {
+        console.log(error);
       });
-      // dispatch(actAddProduct(values));
     },
   });
 
@@ -218,7 +212,6 @@ export default function AddProduct() {
               />
             </Grid>
 
-            {/* <AttributeOptions formik={formik} /> */}
             {/* FieldArray */}
             <FieldArray name="attribute">
               {({ push, remove }) => (
@@ -259,26 +252,26 @@ export default function AddProduct() {
                         </Grid>
 
                         <Grid item xs={2}>
-                            <Stack
-                              direction="row"
-                              justifyContent="center"
-                              alignItems="center"
-                              spacing={1}
+                          <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <IconButton
+                              variant="outlined"
+                              onClick={() => push({ name: "", value: "" })}
                             >
-                              <IconButton
-                                variant="outlined"
-                                onClick={() => push({ name: "", value: "" })}
-                              >
-                                <AddIcon color="secondary"/>
-                              </IconButton>
-                              <IconButton
-                                variant="outlined"
-                                onClick={() => remove(index)}
-                              >
-                                <DeleteIcon color="error"/>
-                              </IconButton>
-                            </Stack>
-                          </Grid>
+                              <AddIcon color="secondary" />
+                            </IconButton>
+                            <IconButton
+                              variant="outlined"
+                              onClick={() => remove(index)}
+                            >
+                              <DeleteIcon color="error" />
+                            </IconButton>
+                          </Stack>
+                        </Grid>
                       </React.Fragment>
                     ))
                   ) : (

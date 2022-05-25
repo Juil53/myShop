@@ -29,9 +29,9 @@ function OrderManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search..."
+          label="Search by ID..."
           size="small"
-          sx={{ minWidth: "30%" }}
+          sx={{ minWidth: "10%" }}
         />
         <Link to="add-order">
           <Button

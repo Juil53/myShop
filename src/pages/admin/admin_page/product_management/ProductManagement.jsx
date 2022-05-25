@@ -29,9 +29,9 @@ function ProductManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search..."
+          label="Search by Name..."
           size="small"
-          sx={{ minWidth: "30%" }}
+          sx={{ minWidth: "10%" }}
           // onChange={handleChange}
         />
         <Link to="add-product">
