@@ -1,7 +1,7 @@
 import { useState } from "react";
 const Quantity = (props) => {
   const { value, quantity } = props;
-  const [number, setNumber] = useState(value);
+  const [number, setNumber] = useState(parseInt(value));
 
   function handleDecrease() {
     if (number - 1 > 0) {
@@ -10,17 +10,17 @@ const Quantity = (props) => {
   }
 
   function handleIncrease() {
-    if (number + 1 <= quantity) {
+    if (number + 1 <= parseInt(quantity)) {
       return setNumber(number + 1);
     }
   }
 
   function handleChangeInput(e) {
     let tmp = parseInt(e.target.value);
-    if (tmp !== number && tmp <= quantity) {
+    if (tmp !== number && tmp <= parseInt(quantity)) {
       return setNumber(tmp);
-    } else if (tmp > quantity) {
-      return setNumber(quantity);
+    } else if (tmp > parseInt(quantity)) {
+      return setNumber(parseInt(quantity));
     }
   }
   return (
@@ -36,7 +36,7 @@ const Quantity = (props) => {
       <button
         id="increase-btn"
         onClick={handleIncrease}
-        disabled={number + 1 > quantity}
+        disabled={number + 1 > parseInt(quantity)}
       >
         +
       </button>
