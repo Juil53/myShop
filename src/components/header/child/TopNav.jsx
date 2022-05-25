@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-
-import { POPUP } from "../../../constants";
-import { actions } from "../../../store/page/slice";
+import { utils } from "../../../utils";
 
 const TopNav = () => {
   const dispatch = useDispatch();
@@ -21,13 +19,6 @@ const TopNav = () => {
     );
   };
 
-  //LOGIN EVENT
-  function login() {
-    //dispatch(actions.activePopup({ type: POPUP.LOGIN_POPUP }));
-    window.location.href =
-      window.location.origin + window.location.pathname + "sign";
-  }
-
   return (
     <div className="header__top-nav row">
       <div className="nav-btn nav-btn-phone">
@@ -36,22 +27,57 @@ const TopNav = () => {
       </div>
       <SearchBox />
       <div className="nav-btn login-btn">
-        <button onClick={login}>
+        <a href="/sign">
           <i className="fa-solid fa-user"></i>
           {language.header.top_nav.login[language.current]}
-        </button>
+        </a>
       </div>
       <div className="nav-btn register-btn">
-        <button>
+        <a href="/sign">
           <i className="fa-solid fa-lock-open"></i>
           {language.header.top_nav.register[language.current]}
-        </button>
+        </a>
       </div>
       <div className="nav-btn cart-btn">
-        <button>
+        <a href="/cart">
           <i className="fa-solid fa-cart-shopping"></i>
           {language.header.top_nav.cart[language.current]}
-        </button>
+        </a>
+        <div className="cart-dropdown-container">
+          <div className="cart-dropdown-content">
+            <div className="product-list">
+              <div className="product-item row">
+                <div className="img">
+                  <img src="/img/sp1.png" alt="" />
+                </div>
+                <div className="info">
+                  <a className="name">
+                    Giày tây nâu đỏ thương hiệu Converse all star
+                  </a>
+                  <div className="more-info">Màu nâu</div>
+                  <div className="price">{utils.priceBreak(500000)}₫</div>
+                  <div className="quantity">
+                    Số lượng: <span>1</span>
+                  </div>
+                </div>
+                <div className="delete-btn">
+                  <i className="fa-solid fa-trash"></i>
+                </div>
+              </div>
+            </div>
+            <div className="sum row">
+              <div className="title">Total money: </div>
+              <div className="total-money">{utils.priceBreak(1500000)}₫</div>
+            </div>
+            <div className="payment-btn button-style">Payment</div>
+          </div>
+          <div className="empty-cart">
+            <div className="img">
+              <img src="/img/empty_cart.png" alt="" />
+            </div>
+            <div className="text">Your cart is empty</div>
+          </div>
+        </div>
       </div>
     </div>
   );
