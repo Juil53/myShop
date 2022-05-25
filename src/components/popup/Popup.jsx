@@ -7,7 +7,6 @@ import { actions } from "../../store/page/slice";
 import { POPUP } from "../../constants";
 
 import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
-import Login from "./child/Login/Login";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -23,8 +22,6 @@ export default function Popup() {
             data={data}
           />
         );
-      case POPUP.LOGIN_POPUP:
-        return <Login closePopup={() => handleClosePopup(type)} />;
       default:
         return <></>;
     }

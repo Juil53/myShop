@@ -65,7 +65,7 @@ const SigninSignup = () => {
               ></i>
             )}
           </div>
-          <button className="popup-signin__btn">Sign in</button>
+          <button className="popup-signin__btn button-style">Sign in</button>
           <div className="social-text">Or sign in with</div>
           <div className="social-media row">
             <a href="#">
@@ -120,7 +120,7 @@ const SigninSignup = () => {
               ></i>
             )}
           </div>
-          <button className="popup-signin__btn">Sign up</button>
+          <button className="popup-signin__btn button-style">Sign up</button>
           <div className="social-text">Or sign up with</div>
           <div className="social-media row">
             <a href="#">
@@ -140,7 +140,10 @@ const SigninSignup = () => {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. A
               corrupti eveniet eum nesciunt laboriosam maiores!
             </p>
-            <button className="panel-signin__btn" onClick={activeSignin}>
+            <button
+              className="panel-signin__btn button-style"
+              onClick={activeSignin}
+            >
               Sign in here
             </button>
           </div>
@@ -153,7 +156,10 @@ const SigninSignup = () => {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. A
               corrupti eveniet eum nesciunt laboriosam maiores!
             </p>
-            <button className="panel-signin__btn" onClick={activeSignup}>
+            <button
+              className="panel-signin__btn button-style"
+              onClick={activeSignup}
+            >
               Sign up here
             </button>
           </div>

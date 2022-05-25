@@ -160,3 +160,16 @@ ul>li {
   color: $blackColor;
   opacity: 0.6;
 }
+
+.button-style {
+  border: 1px solid transparent;
+  background-color: $mainColor;
+  color: $whiteColor;
+  transition: all 0.3s ease;
+}
+
+.button-style:hover {
+  border: 1px solid $mainColor;
+  background-color: $whiteColor;
+  color: $mainColor
+}

@@ -148,7 +148,10 @@ export default function ProductInfoPopup(props) {
               </div>
               <div className="number-product">325 products avaiable</div>
             </div>
-            <button onClick={handleAddCart} className="addcart-btn">
+            <button
+              onClick={handleAddCart}
+              className="addcart-btn button-style"
+            >
               Add to cart
             </button>
             <div style={{ height: "1.5rem" }}></div>
