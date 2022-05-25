@@ -5,38 +5,16 @@ import { utils } from "../../../../utils";
 import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
+import Quantity from "../../../quantity/Quantity";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
   const dispatch = useDispatch();
 
-  const [number, setNumber] = useState(1);
-
-  function handleDecrease() {
-    if (number - 1 > 0) {
-      return setNumber(number - 1);
-    }
-  }
-
-  function handleIncrease() {
-    if (number + 1 <= data.quantity) {
-      return setNumber(number + 1);
-    }
-  }
-
-  function handleChangeInput(e) {
-    let tmp = parseInt(e.target.value);
-    if (tmp !== number && tmp <= data.quantity) {
-      return setNumber(tmp);
-    } else if (tmp > data.quantity) {
-      return setNumber(data.quantity);
-    }
-  }
-
   function handleAddCart() {
     dispatch(
       actions.activePopup({
-        type: POPUP.LOGIN_POPUP,
+        type: POPUP.ADD_CART_POPUP,
       })
     );
   }
@@ -125,27 +103,7 @@ export default function ProductInfoPopup(props) {
             {createColor(data.configurableOptions)}
             <div className="productinfopopup__info-quantity row">
               <div className="title">Quantity</div>
-              <div className="quantity row">
-                <button
-                  id="descrease-btn"
-                  onClick={handleDecrease}
-                  disabled={number - 1 < 1}
-                >
-                  -
-                </button>
-                <input
-                  type="number"
-                  value={number}
-                  onChange={handleChangeInput}
-                />
-                <button
-                  id="increase-btn"
-                  onClick={handleIncrease}
-                  disabled={number + 1 > data.quantity}
-                >
-                  +
-                </button>
-              </div>
+              <Quantity value="1" quantity={data.quantity} />
               <div className="number-product">325 products avaiable</div>
             </div>
             <button
