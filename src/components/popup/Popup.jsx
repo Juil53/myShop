@@ -45,12 +45,15 @@ export default function Popup() {
   }
 
   useEffect(() => {
-    const body = document.getElementsByTagName("body")[0];
+    const body = document.body;
+    const scrollbarWidth = window.innerWidth - body.clientWidth + "px";
 
     if (active.length) {
-      body.classList.add("haspopup");
+      body.classList.add("has-popup");
+      body.style.paddingRight = scrollbarWidth;
     } else {
-      body.classList.remove("haspopup");
+      body.classList.remove("has-popup");
+      body.style.paddingRight = "0";
     }
   }, [active]);
 
