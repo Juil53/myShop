@@ -4,6 +4,7 @@ const orderSlice = createSlice({
   name: "order",
   initialState: {
     orderData: null,
+    orderDataPagination: null,
     loading: false,
     error: null,
     orderPagination: null,
@@ -22,10 +23,30 @@ const orderSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    getOrderPaginationRequest(state, action) {
+      state.loading = true;
+    },
+
+    getOrderPaginationSuccess(state, action) {
+      state.loading = false;
+      state.orderDataPagination = action.payload;
+    },
+
+    getOrderPaginationFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { getOrderRequest, getOrderSuccess, getOrderFailed } =
-  orderSlice.actions;
+export const {
+  getOrderRequest,
+  getOrderSuccess,
+  getOrderFailed,
+  getOrderPaginationRequest,
+  getOrderPaginationSuccess,
+  getOrderPaginationFailed,
+} = orderSlice.actions;
 
-export default orderSlice.reducer
+export default orderSlice.reducer;

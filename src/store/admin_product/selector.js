@@ -4,3 +4,20 @@ export const selectOptions = (state) => {
   return options;
 };
 
+export const selectLoading = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { loading = false } = adminProduct;
+  return loading;
+};
+
+export const selectAllProduct = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { products = [] } = adminProduct;
+  return products;
+};
+
+export const selectProductPagination = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { productsPagination = [] } = adminProduct;
+  return productsPagination;
+};
