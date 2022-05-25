@@ -7,6 +7,7 @@ import { actions } from "../../store/page/slice";
 import { POPUP } from "../../constants";
 
 import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
+import AddCartPopup from "./child/AddCartPopup/AddCartPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -21,6 +22,10 @@ export default function Popup() {
             closePopup={() => handleClosePopup(type)}
             data={data}
           />
+        );
+      case POPUP.ADD_CART_POPUP:
+        return (
+          <AddCartPopup closePopup={() => handleClosePopup(type)} data={data} />
         );
       default:
         return <></>;
@@ -47,7 +52,9 @@ export default function Popup() {
 
     if (active.length) {
       body.classList.add("has-popup");
-      body.style.paddingRight = scrollbarWidth;
+      if (active.length === 1) {
+        body.style.paddingRight = scrollbarWidth;
+      }
     } else {
       body.classList.remove("has-popup");
       body.style.paddingRight = "0";

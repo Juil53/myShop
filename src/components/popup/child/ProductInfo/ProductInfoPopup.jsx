@@ -15,6 +15,9 @@ export default function ProductInfoPopup(props) {
     dispatch(
       actions.activePopup({
         type: POPUP.ADD_CART_POPUP,
+        data: {
+          ...data,
+        },
       })
     );
   }
