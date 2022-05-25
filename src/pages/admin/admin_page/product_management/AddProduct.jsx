@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -8,31 +8,52 @@ import {
   Button,
   Stack,
   Switch,
+  MenuItem,
+  Select,
+  IconButton,
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AttributeOptions from "./AtttributeOptions";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { useFormik, FormikProvider, Field } from "formik";
-import { actAddProduct } from "../../../../store/admin_product/action";
-import { useDispatch } from "react-redux";
+import {
+  useFormik,
+  FormikProvider,
+  ArrayHelpers,
+  FieldArray,
+  Field,
+} from "formik";
+import {
+  actAddProduct,
+  actGetOptions,
+} from "../../../../store/admin_product/action";
+import { useSelector, useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 
 const Input = styled("input")({
   display: "none",
 });
 
 export default function AddProduct() {
+  const dispatch = useDispatch();
   const [url, setUrl] = useState("");
   const [toggle, setToggle] = useState(false);
-  console.log(toggle);
-  const dispatch = useDispatch();
+
+  const optionsData = useSelector((state) => state.adminProduct.options);
 
   const handleToggle = () => {
     toggle ? setToggle(false) : setToggle(true);
   };
+
+  useEffect(() => {
+    dispatch(actGetOptions());
+    console.log("render");
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -197,7 +218,85 @@ export default function AddProduct() {
               />
             </Grid>
 
-            <AttributeOptions formik={formik} />
+            {/* <AttributeOptions formik={formik} /> */}
+            {/* FieldArray */}
+            <FieldArray name="attribute">
+              {({ push, remove }) => (
+                <React.Fragment>
+                  {formik.values.attribute &&
+                  formik.values.attribute.length > 0 ? (
+                    formik.values.attribute.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <Grid item xs={3}>
+                          <Field
+                            name={`attribute[${index}].name`}
+                            as={Select}
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            onChange={formik.handleChange}
+                          >
+                            <MenuItem value="insurances">Insurances</MenuItem>
+                            <MenuItem value="origin">Origin</MenuItem>
+                            <MenuItem value="material">Material</MenuItem>
+                          </Field>
+                        </Grid>
+
+                        <Grid item xs={7}>
+                          <Field
+                            name={`attribute[${index}].value`}
+                            as={Select}
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                          >
+                            {optionsData[item.name]?.map((option, index) => (
+                              <MenuItem key={index} value={option.value}>
+                                {option.key}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        </Grid>
+
+                        <Grid item xs={2}>
+                            <Stack
+                              direction="row"
+                              justifyContent="center"
+                              alignItems="center"
+                              spacing={1}
+                            >
+                              <IconButton
+                                variant="outlined"
+                                onClick={() => push({ name: "", value: "" })}
+                              >
+                                <AddIcon color="secondary"/>
+                              </IconButton>
+                              <IconButton
+                                variant="outlined"
+                                onClick={() => remove(index)}
+                              >
+                                <DeleteIcon color="error"/>
+                              </IconButton>
+                            </Stack>
+                          </Grid>
+                      </React.Fragment>
+                    ))
+                  ) : (
+                    <Grid item xs={12}>
+                      <Button
+                        size="small"
+                        color="secondary"
+                        type="button"
+                        onClick={() => push({ name: "", value: "" })}
+                      >
+                        Click to add Attributes
+                      </Button>
+                    </Grid>
+                  )}
+                </React.Fragment>
+              )}
+            </FieldArray>
+            {/* End FieldArray */}
 
             <Stack
               direction="row"

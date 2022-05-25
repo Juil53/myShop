@@ -4,8 +4,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { languages } from "./languages/reducer";
 import createSagaMiddleware from "redux-saga";
 
-import orderReducer from "./orders/orderSlice"
+import orderReducer from "./orders/orderSlice";
 import usersReducer from "./users/usersSlice";
+import productReducer from "./admin_product/productSlice";
+
 import categories from "./categories/slice";
 import products from "./products/slice";
 import page from "./page/slice";
@@ -21,7 +23,8 @@ export const store = configureStore({
     categories,
     page,
     user: usersReducer,
-    order:orderReducer,
+    order: orderReducer,
+    adminProduct: productReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(middleware),

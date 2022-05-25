@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Button, IconButton, Select, MenuItem } from "@mui/material";
 import { Field, FieldArray } from "formik";
+import { useSelector,useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { actGetOptions } from "../../../../store/admin_product/action";
 
 const options = {
   insurances: [
@@ -22,9 +24,16 @@ const options = {
   ],
 };
 
-function AttributeOptions({ formik,setField }) {
-  return (
+function AttributeOptions({ formik, setField }) {
+  const dispatch = useDispatch()
+  const optionsData = useSelector((state) => state.adminProduct.options[0]);
+  console.log(optionsData);
 
+  useEffect(()=>{
+    dispatch(actGetOptions())
+  },[])
+
+  return (
     <>
       <FieldArray name="attribute">
         {({ push, remove }) => (
@@ -35,6 +44,7 @@ function AttributeOptions({ formik,setField }) {
                 color="secondary"
                 type="button"
                 onClick={() => push({ name: "", value: "" })}
+                // onClick={() => arrayHelper.push({ name: "", value: "" })}
                 startIcon={<AddIcon />}
               >
                 Attribute
@@ -43,11 +53,11 @@ function AttributeOptions({ formik,setField }) {
 
             {formik.values.attribute.map((item, index) => {
               // console.log(options[item.name])
+              // console.log(optionsData[item.name])
               return (
-
                 <React.Fragment key={index}>
                   <Grid item xs={3}>
-                    <Field
+                  <Field
                       name={`attribute[${index}].name`}
                       as={Select}
                       variant="outlined"
@@ -62,7 +72,7 @@ function AttributeOptions({ formik,setField }) {
                   </Grid>
 
                   <Grid item xs={8}>
-                    <Field
+                  <Field
                       name={`attribute[${index}].value`}
                       as={Select}
                       variant="outlined"
@@ -77,7 +87,7 @@ function AttributeOptions({ formik,setField }) {
                     </Field>
                   </Grid>
 
-                  <Grid item xs={1}>                    
+                  <Grid item xs={1}>
                     <IconButton
                       aria-label="delete"
                       color="error"
@@ -90,14 +100,12 @@ function AttributeOptions({ formik,setField }) {
                     </IconButton>
                   </Grid>
                 </React.Fragment>
-                
               );
             })}
           </React.Fragment>
         )}
       </FieldArray>
     </>
-    
   );
 }
 

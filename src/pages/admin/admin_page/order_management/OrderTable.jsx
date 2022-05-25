@@ -75,7 +75,7 @@ function OrderTable() {
   }, []);
 
   //renderTableHead
-  const tableHead = ["Delivery place", "ID", "Date", "Price", "Status", ""];
+  const tableHead = ["ID","Delivery place", "Date", "Price", "Status", ""];
 
   //renderTableBody
   const renderTableHead = () => {
@@ -96,6 +96,7 @@ function OrderTable() {
           hover={true}
           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
         >
+          <TableCell align="left">{order.id}</TableCell>
           <TableCell sx={{ fontWeight: 500 }}>
             <LocationOnIcon
               fontSize="small"
@@ -104,9 +105,8 @@ function OrderTable() {
             />
             {order.address.location}
           </TableCell>
-          <TableCell align="left">{order.id}</TableCell>
           <TableCell align="left">{order.date}</TableCell>
-          <TableCell align="left">{formatter.format(order.total_after_discount)}</TableCell>
+          <TableCell align="left">{formatter.format(order.totalAfterDiscount)}</TableCell>
 
           <TableCell
             align="left"
