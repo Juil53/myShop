@@ -111,13 +111,19 @@
         .delete-btn {
           position: absolute;
           cursor: pointer;
-          top: calc(50% - 1rem);
+          top: calc(50% - 1.2rem);
           right: -0.5rem;
           font-size: 1.8rem;
           transition: all 0.3s ease;
 
           i {
             color: $mainColor;
+          }
+        }
+
+        .delete-btn:hover {
+          i {
+            color: red;
           }
         }
       }
