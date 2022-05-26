@@ -1,6 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import { PRODUCT_ACTIONS } from "../../constants";
+import { removeAccents } from "../../utils";
 import { actions } from "./slice";
 import API from "../../service";
 
@@ -73,13 +74,7 @@ export function* fetchBestSellProducts() {
     if (!result) {
       throw { msg: "Get best selling product failed" };
     }
-    let data = [];
-
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].sold > 10) {
-        data.push(result[i]);
-      }
-    }
+    let data = result.filter((v) => v.sold > 10);
 
     yield put(actions.fetchBestSellingSuccess(data));
   } catch (err) {
@@ -88,7 +83,32 @@ export function* fetchBestSellProducts() {
   }
 }
 
+export function* searchProduct({ name }) {
+  yield put(actions.searchProductRequest());
+
+  try {
+    const result = yield call(API.get, { path: "products" });
+
+    if (!result) {
+      throw { msg: "Search product failed" };
+    }
+
+    const nameSearch = removeAccents(name.toLowerCase());
+
+    let data = result.filter((v) =>
+      removeAccents(v.name.toLowerCase()).includes(nameSearch)
+    );
+    console.log(data);
+
+    yield put(actions.searchProductSuccess(data));
+  } catch (err) {
+    console.log(err);
+    yield put(actions.searchProductFail());
+  }
+}
+
 export default function* root() {
+  yield takeEvery(PRODUCT_ACTIONS.SEARCH_PRODUCT, searchProduct);
   yield takeEvery(PRODUCT_ACTIONS.GET_HOT_PRODUCTS, fetchHotProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_ALL_PRODUCTS, fetchAllProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_NEW_PRODUCTS, fetchNewProducts);
