@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { PRODUCT_ACTIONS } from "../../../constants";
 
-const ProductsPage = () => {
+const SearchProduct = () => {
   const dispatch = useDispatch();
 
   const [searchParams] = useSearchParams();
@@ -14,7 +14,7 @@ const ProductsPage = () => {
     dispatch({ type: PRODUCT_ACTIONS.SEARCH_PRODUCT, name: query });
   }, []);
 
-  return <div className="page products-page">Products page</div>;
+  return <div className="page products-page">Result and more</div>;
 };
 
-export default ProductsPage;
+export default SearchProduct;
