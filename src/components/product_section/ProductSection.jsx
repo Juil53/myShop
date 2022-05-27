@@ -16,6 +16,13 @@ export default function ProductSection(props) {
     prevArrow: <PreButton />,
     responsive: [
       {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
         breakpoint: 768,
         settings: {
           slidesToShow: 2,
@@ -36,20 +43,7 @@ export default function ProductSection(props) {
     if (data.length <= 9) {
       return data.map((v) => (
         <div className="productsection__slide-container" key={v.id}>
-          <ProductCard
-            id={v.id}
-            cardDirection="vertical"
-            name={v.name}
-            priceAfterDiscount={v.priceAfterDiscount}
-            priceBeforeDiscount={v.priceBeforeDiscount}
-            img={v.image}
-            attributes={v.attributes}
-            quantity={v.quantity}
-            status={v.status}
-            brand={v.brand}
-            configurableProducts={v.configurableProducts}
-            configurableOptions={v.configurableOptions}
-          />
+          <ProductCard cardDirection="vertical" data={v} />
         </div>
       ));
     } else {
@@ -58,18 +52,7 @@ export default function ProductSection(props) {
 
       return afterSplice.map((v) => (
         <div className="productsection__slide-container" key={v.id}>
-          <ProductCard
-            id={v.id}
-            cardDirection="vertical"
-            name={v.name}
-            priceAfterDiscount={v.priceAfterDiscount}
-            priceBeforeDiscount={v.priceBeforeDiscount}
-            img={v.image}
-            attributes={v.attributes}
-            quantity={v.quantity}
-            status={v.status}
-            brand={v.brand}
-          />
+          <ProductCard cardDirection="vertical" data={v} />
         </div>
       ));
     }

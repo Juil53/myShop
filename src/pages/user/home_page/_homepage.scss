@@ -85,7 +85,7 @@
     width: 25%;
 
     .topic {
-      margin-top: 2rem;
+      margin-top: 3rem;
 
       .topic-title {
         font-size: 1.6rem;
@@ -93,7 +93,7 @@
       }
 
       .topic-content {
-        margin-top: 1rem;
+        margin-top: 2rem;
 
         .productcard {
           margin-top: 1rem;
@@ -101,7 +101,7 @@
       }
 
       .topic-btn {
-        margin-top: 1rem;
+        margin: 2rem 0;
 
         a {
           font-size: 1.4rem;
@@ -121,3 +121,74 @@
     width: 70%;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .home-page__main {
+    flex-direction: column;
+
+    .home-page__main-left {
+      width: 100%;
+    }
+
+    .home-page__main-right {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .home-page__main {
+    flex-direction: column;
+
+    .home-page__main-left {
+      width: 100%;
+    }
+
+    .home-page__main-right {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .home-page__main {
+    flex-direction: column-reverse;
+
+    .home-page__main-left {
+      width: 100%;
+      margin-top: 3rem;
+
+      .topic {
+
+        .topic-content {
+          max-width: 60%;
+
+          .productcard {
+            margin-top: 1rem;
+          }
+        }
+
+        .topic-btn {
+          margin-top: 1rem;
+
+          a {
+            font-size: 1.4rem;
+            transition: all ease 0.3s;
+          }
+        }
+
+        .topic-btn:hover {
+          a {
+            color: $mainColor;
+          }
+        }
+      }
+    }
+
+    .home-page__main-right {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {}
