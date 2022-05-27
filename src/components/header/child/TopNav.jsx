@@ -33,7 +33,7 @@ const TopNav = () => {
     }
   }
 
-  const SearchBox = (action) => {
+  const SearchBox = () => {
     return (
       <div className="nav-btn search-box">
         <button onClick={handleSearch}>
@@ -55,7 +55,7 @@ const TopNav = () => {
         <i className="fa-solid fa-phone"></i>
         19009597
       </div>
-      {SearchBox(handleSearch)}
+      {SearchBox()}
       <div className="nav-btn login-btn">
         <a href="/sign">
           <i className="fa-solid fa-user" />
