@@ -29,7 +29,7 @@ function ProductManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search by Name..."
+          label="Search by Name"
           size="small"
           sx={{ minWidth: "10%" }}
           // onChange={handleChange}
