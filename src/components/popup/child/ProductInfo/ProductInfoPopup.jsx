@@ -150,7 +150,7 @@ export default function ProductInfoPopup(props) {
             {createConfigurableOptions(data.configurableOptions)}
             <div className="productinfopopup__info-quantity row">
               <div className="title">Quantity</div>
-              <Quantity value="1" quantity={data.quantity} />
+              <Quantity value="1" quantity={numberOfProduct} />
               <div className="number-product">
                 {numberOfProduct} products avaiable
               </div>

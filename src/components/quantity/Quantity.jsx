@@ -16,13 +16,23 @@ const Quantity = (props) => {
   }
 
   function handleChangeInput(e) {
-    let tmp = parseInt(e.target.value);
-    if (tmp !== number && tmp <= parseInt(quantity)) {
-      return setNumber(tmp);
-    } else if (tmp > parseInt(quantity)) {
-      return setNumber(parseInt(quantity));
+    if (e.target.value) {
+      let number = parseInt(e.target.value);
+      if (number > quantity) {
+        return setNumber(quantity);
+      }
+      return setNumber(number);
+    } else {
+      return setNumber(e.target.value);
     }
   }
+
+  function checkValue() {
+    if (!number || number === 0) {
+      setNumber(1);
+    }
+  }
+
   return (
     <div className="quantity-container row">
       <button
@@ -32,7 +42,12 @@ const Quantity = (props) => {
       >
         -
       </button>
-      <input type="number" value={number} onChange={handleChangeInput} />
+      <input
+        type="number"
+        value={number}
+        onChange={handleChangeInput}
+        onBlur={checkValue}
+      />
       <button
         id="increase-btn"
         onClick={handleIncrease}
