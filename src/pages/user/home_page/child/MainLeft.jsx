@@ -10,14 +10,7 @@ const MainLeft = (props) => {
         let tmp = [...data];
         const dataAfterSlice = tmp.splice(0, 3);
         return dataAfterSlice.map((v) => (
-          <ProductCard
-            key={v.id}
-            cardDirection="row"
-            name={v.name}
-            priceAfterDiscount={v.priceAfterDiscount}
-            priceBeforeDiscount={v.priceBeforeDiscount}
-            img={v.image}
-          />
+          <ProductCard cardDirection="row" data={v} key={v.id} />
         ));
       }
 

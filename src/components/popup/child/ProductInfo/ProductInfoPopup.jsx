@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { utils } from "../../../../utils";
@@ -6,10 +5,62 @@ import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
 import Quantity from "../../../quantity/Quantity";
+import { isAvailableOption, getQuantityAvailable } from "./helper";
+import { useState } from "react";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
   const dispatch = useDispatch();
+
+  //Option dang chon
+  const [currentOption, setCurrentOption] = useState(() => {
+    const { configurableProducts = [] } = data;
+    if (!configurableProducts.length) return {};
+    const { available, selected, ...current } = configurableProducts.filter(
+      (p) => p.selected
+    )[0];
+
+    return current;
+  });
+
+  const [numberOfProduct, setNumberOfProduct] = useState(() => {
+    if (data.configurableOptions) {
+      return getQuantityAvailable({
+        product: data,
+        currentOption,
+      });
+    } else {
+      return data.quantity;
+    }
+  });
+
+  function check(optionId, optionValue) {
+    if (currentOption[optionId] === optionValue) return "active";
+
+    const rs = isAvailableOption({
+      product: data,
+      currentOption,
+      optionId,
+      optionValue,
+    });
+
+    return rs ? "" : "unavailable";
+  }
+
+  function changeOption(optionId, optionValue) {
+    const newOption = { ...currentOption };
+    const quantity = getQuantityAvailable({
+      product: data,
+      currentOption,
+      optionId,
+      optionValue,
+    });
+
+    setNumberOfProduct(quantity);
+
+    newOption[optionId] = optionValue;
+    setCurrentOption(newOption);
+  }
 
   function handleAddCart() {
     dispatch(
@@ -22,35 +73,28 @@ export default function ProductInfoPopup(props) {
     );
   }
 
-  function createColor(data) {
+  function createConfigurableOptions(data) {
     if (data) {
       if (data.length > 0) {
         return data.map((v) => (
           <div className="configurable-options row" key={v.id}>
             <div className="title">{v.name}</div>
-            {createOptionItem(v.values)}
+            {createOptionItem(v.id, v.values)}
           </div>
         ));
       }
     }
   }
 
-  function createOptionItem(data) {
-    if (data.length <= 3) {
-      return (
-        <div className="option row">
-          {data.map((i) => (
-            <div className="option-item" key={i + "configurableOptions"}>
-              {i}
-            </div>
-          ))}
-        </div>
-      );
-    }
+  function createOptionItem(id, values) {
     return (
       <div className="option option-more row">
-        {data.map((i) => (
-          <div className="option-item" key={i + "configurableOptions"}>
+        {values.map((i) => (
+          <div
+            onClick={() => changeOption(id, i)}
+            className={`option-item ${check(id, i)}`}
+            key={i + "configurableOptions"}
+          >
             {i}
           </div>
         ))}
@@ -60,7 +104,7 @@ export default function ProductInfoPopup(props) {
 
   return (
     <div className="modal center">
-      {!data.img ? (
+      {!data.image ? (
         <div className="productinfopopup">
           Something went wrong. Please try again later
           <div
@@ -72,7 +116,7 @@ export default function ProductInfoPopup(props) {
         </div>
       ) : (
         <div className="productinfopopup row">
-          <LeftImageSlider data={data.img} />
+          <LeftImageSlider data={data.image} />
           <div className="productinfopopup__info">
             <div className="productinfopopup__info-name font-bold">
               {data.name}
@@ -103,11 +147,13 @@ export default function ProductInfoPopup(props) {
                   </div>
                 ))}
             </div>
-            {createColor(data.configurableOptions)}
+            {createConfigurableOptions(data.configurableOptions)}
             <div className="productinfopopup__info-quantity row">
               <div className="title">Quantity</div>
               <Quantity value="1" quantity={data.quantity} />
-              <div className="number-product">325 products avaiable</div>
+              <div className="number-product">
+                {numberOfProduct} products avaiable
+              </div>
             </div>
             <button
               onClick={handleAddCart}
