@@ -1,16 +1,19 @@
 function priceBreak(price) {
-  price = price.toString();
-  let giatien = "";
-  let count = price.length % 3;
-  for (let i = 0; i < price.length; i++) {
-    giatien += price[i];
-    count--;
+  if (price) {
+    price = price.toString();
+    let giatien = "";
+    let count = price.length % 3;
+    for (let i = 0; i < price.length; i++) {
+      giatien += price[i];
+      count--;
 
-    if (count % 3 === 0 && i < price.length - 1) {
-      giatien += ".";
+      if (count % 3 === 0 && i < price.length - 1) {
+        giatien += ".";
+      }
     }
+    return giatien;
   }
-  return giatien;
+  return 0;
 }
 
 function discount(pricebefore, priceafter) {
