@@ -5,9 +5,11 @@ const orderSlice = createSlice({
   initialState: {
     orderData: null,
     orderDataPagination: null,
+    orderDetail: null,
     loading: false,
     error: null,
     orderPagination: null,
+    isOpen: false,
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -37,6 +39,18 @@ const orderSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    getOrderDetail(state, action) {
+      state.orderDetail = action.payload;
+    },
+
+    openModal(state, action) {
+      state.isOpen = true;
+    },
+
+    closeModal(state, action) {
+      state.isOpen = false;
+    },
   },
 });
 
@@ -47,6 +61,9 @@ export const {
   getOrderPaginationRequest,
   getOrderPaginationSuccess,
   getOrderPaginationFailed,
+  getOrderDetail,
+  openModal,
+  closeModal,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

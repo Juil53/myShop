@@ -15,3 +15,15 @@ export const selectOrderPagination = (state) => {
   const { orderDataPagination = [] } = order;
   return orderDataPagination;
 };
+
+export const selectModalOpen = (state) => {
+  const { order = {} } = state || {};
+  const { isOpen = false } = order;
+  return isOpen;
+};
+
+export const selectOrderDetail = (state) => {
+  const { order = {} } = state || {};
+  const { orderDetail = {} } = order;
+  return orderDetail;
+};

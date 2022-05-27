@@ -10,6 +10,10 @@ import {
   TableRow,
   Popover,
   Stack,
+  Modal,
+  Typography,
+  Grid,
+  Divider,
 } from "@mui/material";
 
 import {
@@ -30,45 +34,42 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import ArticleIcon from '@mui/icons-material/Article';
+import ArticleIcon from "@mui/icons-material/Article";
 import Loading from "../../../../components/loading/Loading";
+import { selectUserData } from "../../../../store/users/selector";
+import { actGetUser } from "../../../../store/users/actions";
+import { getOrderDetail, openModal } from "../../../../store/orders/orderSlice";
 
 function OrderTable() {
   const dispatch = useDispatch();
   const listOrder = useSelector(selectOrderData);
-  const orderDataPagination = useSelector(selectOrderPagination);
   const loading = useSelector(selectLoading);
+  const userList = useSelector(selectUserData);
+  const orderDataPagination = useSelector(selectOrderPagination);
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  // OPEN POPOVER
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  // CLOSE POPOVER
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+  const rowsPerPage = 10; // Get Order Data Pagination
 
-  //NumberFormatter
-  const formatter = new Intl.NumberFormat("vn-VN", {
-    style: "currency",
-    currency: "VND",
-  });
+  // HANDLE GET ORDER DETAIL
+  const handleGetOrderDetail = (order) => {
+    dispatch(openModal());
+    dispatch(getOrderDetail(order));
+  };
 
-  //StatusColor
+  // TABLE CONFIG
+  const [page, setPage] = React.useState(1);
+  const handleChangePage = (event, newPage) => setPage(newPage);
+  const count = listOrder ? Math.ceil(listOrder?.length / 10) : 0;
+
+  //STATUS COLOR
   const statusColors = {
     Successed: "#689f38",
     Pending: "#0288d1",
     Failed: "#c2185b",
   };
 
-  //StatusIcon
+  //STATUS ICON
   const statusIcon = (status) => {
     switch (status) {
       case "Successed":
@@ -97,46 +98,67 @@ function OrderTable() {
     }
   };
 
-  // Table config
-  const [page, setPage] = React.useState(1);
-  const handleChangePage = (event, newPage) => setPage(newPage);
-  const count = listOrder ? Math.ceil(listOrder?.length / 10) : 0;
+  //NUMBER FORMATTER
+  const formatter = new Intl.NumberFormat("vn-VN", {
+    style: "currency",
+    currency: "VND",
+  });
 
-  //Get Order Data
+  // OPEN POPOVER
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  // CLOSE POPOVER
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  //GET ORDER DATA
   React.useEffect(() => {
     dispatch(actGetOrder());
   }, []);
 
-  // Get Order Data Pagination
-  const rowsPerPage = 10;
+  //GET ORDER DATA PAGINATION
   React.useEffect(() => {
     dispatch(actGetOrderPagination(page, rowsPerPage));
   }, [page]);
 
-  //renderTableHead
-  const tableHead = ["ID", "Delivery place", "Date", "Price", "Status", ""];
+  //GET USER DATA
+  React.useEffect(() => {
+    dispatch(actGetUser());
+  }, []);
 
-  //renderTableBody
-  const renderTableHead = () => {
-    return tableHead.map((column, index) => {
-      return (
-        <TableCell key={index} align="left">
-          {column}
-        </TableCell>
-      );
-    });
+  //RENDER USER EMAIL
+  const renderEmail = (id) => {
+    const user = userList?.find((user) => user.id === id);
+    return user?.email;
   };
 
+  //RENDER TABLE BODY
   const renderTableBody = () => {
     return orderDataPagination?.map((order, index) => {
       return (
         <TableRow
           key={index}
           hover={true}
-          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+          sx={{ "&:last-child td, &:last-child th": { border: 0 },cursor:"pointer" }}
+          onClick={() => {
+            handleGetOrderDetail(order);
+          }}
         >
           <TableCell align="left">{order.id}</TableCell>
-          <TableCell sx={{ fontWeight: 500 }}>
+          <TableCell align="left">{order.userId}</TableCell>
+          <TableCell align="left">{renderEmail(order.userId)}</TableCell>
+          <TableCell
+            width="50px"
+            style={{
+              fontWeight: 500,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             <LocationOnIcon
               fontSize="small"
               color="secondary"
@@ -148,49 +170,26 @@ function OrderTable() {
           <TableCell align="left">
             {formatter.format(order.totalAfterDiscount)}
           </TableCell>
-
           <TableCell
             align="left"
             sx={{
               color: statusColors[order.status] ?? "#000",
               fontWeight: 700,
             }}
+            width="100px"
           >
             {statusIcon(order.status)}
             {order.status}
           </TableCell>
-
           <TableCell align="right">
             <IconButton
-              color="secondary"
-              aria-describedby={id}
-              onClick={handleClick}
-            >
-              <MoreVertIcon fontSize="inherit" />
-            </IconButton>
-            <Popover
-              id={id}
-              elevation={1}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+              color="success"
+              onClick={() => {
+                handleGetOrderDetail(order);
               }}
             >
-              <Stack spacing={1}>
-                <IconButton color="error">
-                  <DeleteOutlineOutlinedIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton color="secondary">
-                  <ModeEditOutlinedIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton color="success">
-                  <ArticleIcon fontSize="inherit" />
-                </IconButton>
-              </Stack>
-            </Popover>
+              <ArticleIcon fontSize="inherit" />
+            </IconButton>
           </TableCell>
         </TableRow>
       );
@@ -198,33 +197,49 @@ function OrderTable() {
   };
 
   return (
-    <Box>
-      {loading ? (
-        <Loading />
-      ) : (
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
-            <TableHead>
-              <TableRow hover={true}>{renderTableHead()}</TableRow>
-            </TableHead>
-            <TableBody>{renderTableBody()}</TableBody>
-          </Table>
-          <Box sx={{ textAlign: "center" }}>
-            <CustomPagination
-              showFirstButton
-              showLastButton
-              page={page}
-              count={count}
-              onChange={handleChangePage}
-              sx={{ mt: 5 }}
+    <>
+      <Box>
+        {loading ? (
+          <Loading />
+        ) : (
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 650 }}
+              aria-label="simple table"
               size="small"
-              shape="rounded"
-              variant="outlined"
-            />
-          </Box>
-        </TableContainer>
-      )}
-    </Box>
+              style={{ tableLayout: "fixed" }}
+            >
+              <TableHead>
+                <TableRow hover={true}>
+                  <TableCell width="70px">Order ID</TableCell>
+                  <TableCell width="80px">User ID</TableCell>
+                  <TableCell width="250px">Email</TableCell>
+                  <TableCell width="150px">Delivery place</TableCell>
+                  <TableCell width="100px">Date</TableCell>
+                  <TableCell width="100px">Price</TableCell>
+                  <TableCell width="150px">Status</TableCell>
+                  <TableCell width="50px"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{renderTableBody()}</TableBody>
+            </Table>
+            <Box sx={{ textAlign: "center" }}>
+              <CustomPagination
+                showFirstButton
+                showLastButton
+                page={page}
+                count={count}
+                onChange={handleChangePage}
+                sx={{ mt: 5 }}
+                size="small"
+                shape="rounded"
+                variant="outlined"
+              />
+            </Box>
+          </TableContainer>
+        )}
+      </Box>
+    </>
   );
 }
 

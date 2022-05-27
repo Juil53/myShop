@@ -11,6 +11,7 @@ import {
   MenuItem,
   Select,
   IconButton,
+  FormControlLabel,
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -34,11 +35,11 @@ const Input = styled("input")({
 export default function AddProduct() {
   const dispatch = useDispatch();
   const optionsData = useSelector((state) => state.adminProduct.options);
-
-  // const [toggle, setToggle] = useState(false);
-  // const handleToggle = () => {
-  //   toggle ? setToggle(false) : setToggle(true);
-  // };
+  const [toggle, setToggle] = useState(false);
+  const handleToggle = () => {
+    toggle ? setToggle(false) : setToggle(true);
+  };
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
     dispatch(actGetOptions());
@@ -54,14 +55,20 @@ export default function AddProduct() {
       image: "",
       quantity: "",
       price_before_discount: "",
-      // is_hot: toggle,
+      isHot: toggle,
     },
-    onSubmit: (values) => {
+
+    onSubmit: async (values) => {
+      console.log(values);
+      let image = document.getElementById("my_image");
+      image.src = URL.createObjectURL(values.image);
+
       const imageRef = ref(storage, `images/${values.image.name}`);
       //upload image to firebase
       uploadBytes(imageRef, values.image).then((result) => {
         alert("Image uploaded");
       });
+      await sleep(5000);
       //getDownload url
       getDownloadURL(imageRef)
         .then((url) => {
@@ -70,10 +77,10 @@ export default function AddProduct() {
         })
         .then(() => {
           dispatch(actAddProduct(values));
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      console.log(values).catch((error) => {
-        console.log(error);
-      });
     },
   });
 
@@ -153,6 +160,7 @@ export default function AddProduct() {
             <Grid item xs={4}>
               <TextField
                 name="price_before_discount"
+                type="number"
                 value={formik.values.price_before_discount}
                 onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
@@ -185,17 +193,31 @@ export default function AddProduct() {
                   Upload
                 </Button>
               </label>
-              <img></img>
+
+              {formik.values.image ? (
+                <img id="my_image" height="100px" style={{ margin: "1rem" }} />
+              ) : (
+                ""
+              )}
             </Grid>
 
-            {/* <Grid item xs={6}>
-              <Switch
-                name="is_hot"
-                value={formik.values.is_hot}
-                onChange={handleToggle}
-                checked={toggle}
+            <Grid item xs={6}>
+              <FormControlLabel
+                value="end"
+                control={
+                  <Field
+                    name="isHot"
+                    component={Switch}
+                    onChange={handleToggle}
+                    value={(formik.values.isHot = toggle)}
+                    checked={toggle}
+                    color="secondary"
+                  />
+                }
+                label="Hot"
+                labelPlacement="end"
               />
-            </Grid> */}
+            </Grid>
 
             <Grid item xs={12}>
               <TextField
@@ -216,76 +238,69 @@ export default function AddProduct() {
             <FieldArray name="attribute">
               {({ push, remove }) => (
                 <React.Fragment>
-                  {formik.values.attribute &&
-                  formik.values.attribute.length > 0 ? (
-                    formik.values.attribute.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <Grid item xs={3}>
-                          <Field
-                            name={`attribute[${index}].name`}
-                            as={Select}
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            onChange={formik.handleChange}
-                          >
-                            <MenuItem value="insurances">Insurances</MenuItem>
-                            <MenuItem value="origin">Origin</MenuItem>
-                            <MenuItem value="material">Material</MenuItem>
-                          </Field>
-                        </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      type="button"
+                      onClick={() => push({ name: "", value: "" })}
+                    >
+                      Click to add Attributes
+                    </Button>
+                  </Grid>
 
-                        <Grid item xs={7}>
-                          <Field
-                            name={`attribute[${index}].value`}
-                            as={Select}
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                          >
-                            {optionsData[item.name]?.map((option, index) => (
-                              <MenuItem key={index} value={option.value}>
-                                {option.key}
-                              </MenuItem>
-                            ))}
-                          </Field>
-                        </Grid>
+                  {formik.values.attribute && formik.values.attribute.length > 0
+                    ? formik.values.attribute.map((item, index) => (
+                        <React.Fragment key={index}>
+                          <Grid item xs={3}>
+                            <Field
+                              name={`attribute[${index}].name`}
+                              as={Select}
+                              variant="outlined"
+                              size="small"
+                              fullWidth
+                              onChange={formik.handleChange}
+                            >
+                              <MenuItem value="insurances">Insurances</MenuItem>
+                              <MenuItem value="origin">Origin</MenuItem>
+                              <MenuItem value="material">Material</MenuItem>
+                            </Field>
+                          </Grid>
 
-                        <Grid item xs={2}>
-                          <Stack
-                            direction="row"
-                            justifyContent="center"
-                            alignItems="center"
-                            spacing={1}
-                          >
-                            <IconButton
+                          <Grid item xs={8}>
+                            <Field
+                              name={`attribute[${index}].value`}
+                              as={Select}
                               variant="outlined"
-                              onClick={() => push({ name: "", value: "" })}
+                              size="small"
+                              fullWidth
                             >
-                              <AddIcon color="secondary" />
-                            </IconButton>
-                            <IconButton
-                              variant="outlined"
-                              onClick={() => remove(index)}
+                              {optionsData[item.name]?.map((option, index) => (
+                                <MenuItem key={index} value={option.value}>
+                                  {option.key}
+                                </MenuItem>
+                              ))}
+                            </Field>
+                          </Grid>
+
+                          <Grid item xs={1}>
+                            <Stack
+                              direction="row"
+                              justifyContent="center"
+                              alignItems="center"
+                              spacing={1}
                             >
-                              <DeleteIcon color="error" />
-                            </IconButton>
-                          </Stack>
-                        </Grid>
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    <Grid item xs={12}>
-                      <Button
-                        size="small"
-                        color="secondary"
-                        type="button"
-                        onClick={() => push({ name: "", value: "" })}
-                      >
-                        Click to add Attributes
-                      </Button>
-                    </Grid>
-                  )}
+                              <IconButton
+                                variant="outlined"
+                                onClick={() => remove(index)}
+                              >
+                                <DeleteIcon color="secondary" />
+                              </IconButton>
+                            </Stack>
+                          </Grid>
+                        </React.Fragment>
+                      ))
+                    : ""}
                 </React.Fragment>
               )}
             </FieldArray>
