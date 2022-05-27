@@ -5,8 +5,9 @@ import { SearchField } from "../../../../styles/styled_components/styledComponen
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
 import OrderTable from "./OrderTable";
-function OrderManagement() {
+import OrderModal from "./OrderModal";
 
+function OrderManagement() {
   const product__search = {
     display: "flex",
     justifyContent: "space-between",
@@ -33,22 +34,13 @@ function OrderManagement() {
           size="small"
           sx={{ minWidth: "10%" }}
         />
-        <Link to="add-order">
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            startIcon={<AddBoxRoundedIcon />}
-          >
-            Add Order
-          </Button>
-        </Link>
       </Box>
 
-      {/* ProductTable */}
-      <div className="">
-        <OrderTable/>
-      </div>
+      {/* ORDER TABLE */}
+      <OrderTable />
+
+      {/* ORDER MODAL */}
+      <OrderModal/>
     </>
   );
 }
