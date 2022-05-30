@@ -16,30 +16,30 @@ const drawerWidth = "25rem";
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
     color: theme.palette.secondary.main,
-    border: "1px solid",
+    // border: "1px solid",
   },
 }));
 
 const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
   transition: "all 100ms",
   "& .MuiTableCell-root": {
-    padding: 0,
+    padding:5,
   },
-  "&:hover": {
-    backgroundColor: theme.palette.secondary.main,
-    "& .MuiTableCell-root": {
-      color: "#Fff",
-    },
-  },
+  // "&:hover": {
+  //   backgroundColor: theme.palette.secondary.main,
+  //   "& .MuiTableCell-root": {
+  //     color: "#fff",
+  //   },
+  // },
 
-  "&:last-child td, &:last-child th": {
-    border: "1px solid gray !important",
-  },
+  // "&:last-child td, &:last-child th": {
+  //   border: "1px solid gray !important",
+  // },
 }));
 
 const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
-  border: "1px solid gray",
-  padding: 3,
+  // border: "1px solid gray",
+  // padding: 5,
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({

@@ -70,7 +70,7 @@ export function UserTable({ keyword }) {
     "Email",
     "Phone number",
     "Role",
-    "Actions",
+    "",
   ];
   const renderTableHead = () => {
     return tableHead.map((column, index) => {

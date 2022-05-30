@@ -13,41 +13,45 @@ import {
   IconButton,
   FormControlLabel,
 } from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useFormik, FormikProvider, FieldArray, Field } from "formik";
 import {
   actAddProduct,
-  actGetCategories,
   actGetOptions,
 } from "../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  selectOptions,
+  selectProductInfo,
+} from "../../../../store/admin_product/selector";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
 import PreviewImg from "./PreviewImg";
 
 const Input = styled("input")({
   display: "none",
 });
 
-export default function AddProduct() {
+export default function EditProduct() {
   const dispatch = useDispatch();
-  const optionsData = useSelector((state) => state.adminProduct.options);
-  const categoriesOptions = useSelector((state) => state.adminProduct.categories)
-  console.log(categoriesOptions)
-  const [hot, setHot] = useState(false);
-  const handleHot = () => (hot ? setHot(false) : setHot(true));
-  const [newProduct, setNewProduct] = useState(false);
-  const handleNewProduct = () =>
-    newProduct ? setNewProduct(false) : setNewProduct(true);
+  const [info,setInfo] = useState({})
+  const optionsData = useSelector(selectOptions);
+  const productInfo = useSelector(selectProductInfo);
+  console.log(info)
+
+  const [toggle, setToggle] = useState(false);
+  const handleToggle = () => {
+    toggle ? setToggle(false) : setToggle(true);
+  };
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
     dispatch(actGetOptions());
-    dispatch(actGetCategories());
+    setInfo(productInfo)
   }, []);
 
   const formik = useFormik({
@@ -55,15 +59,12 @@ export default function AddProduct() {
       name: "",
       brand: "",
       attribute: [],
-      category:[],
-      desc: "",
+      description: "",
       status: "",
       image: null,
       quantity: 0,
       priceBeforeDiscount: 0,
-      priceAfterDiscount: null,
-      isHot: hot,
-      isNew: newProduct,
+      isHot: toggle,
     },
 
     onSubmit: async (values, { resetForm }) => {
@@ -82,12 +83,6 @@ export default function AddProduct() {
         })
         .then(() => {
           dispatch(actAddProduct(values));
-          // data = {
-          //   ...values,
-          //   categories: {
-
-          //   }
-          // }
         })
         .catch((error) => {
           console.log(error);
@@ -95,6 +90,13 @@ export default function AddProduct() {
       resetForm({ values: "" });
     },
   });
+
+  useEffect(() => {
+    if(productInfo){
+      
+    }
+  })
+
 
   return (
     <FormikProvider value={formik}>
@@ -112,7 +114,7 @@ export default function AddProduct() {
         </Link>
 
         <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
-          Add Product
+          Edit Product
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
@@ -214,16 +216,16 @@ export default function AddProduct() {
               </Stack>
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={6}>
               <FormControlLabel
                 value="end"
                 control={
                   <Field
                     name="isHot"
                     component={Switch}
-                    onChange={handleHot}
-                    value={(formik.values.isHot = hot)}
-                    checked={hot}
+                    onChange={handleToggle}
+                    value={(formik.values.isHot = toggle)}
+                    checked={toggle}
                     color="secondary"
                   />
                 }
@@ -232,29 +234,11 @@ export default function AddProduct() {
               />
             </Grid>
 
-            <Grid item xs={3}>
-              <FormControlLabel
-                value="end"
-                control={
-                  <Field
-                    name="isNew"
-                    component={Switch}
-                    onChange={handleNewProduct}
-                    value={(formik.values.isNew = newProduct)}
-                    checked={newProduct}
-                    color="secondary"
-                  />
-                }
-                label="New"
-                labelPlacement="end"
-              />
-            </Grid>
-
             <Grid item xs={12}>
               <TextField
-                name="desc"
+                name="description"
                 label="Description"
-                value={formik.values.desc}
+                value={formik.values.description}
                 onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
@@ -265,83 +249,7 @@ export default function AddProduct() {
               />
             </Grid>
 
-            {/* Categories */}
-            <FieldArray name="category">
-              {({ push, remove }) => (
-                <React.Fragment>
-                  <Grid item xs={12}>
-                    <Button
-                      size="small"
-                      color="secondary"
-                      type="button"
-                      onClick={() => push({ name: "", value: "" })}
-                    >
-                      Click to add Categories
-                    </Button>
-                  </Grid>
-
-                  {formik.values.category && formik.values.category.length > 0
-                    ? formik.values.category.map((item, index) => (
-                        <React.Fragment key={index}>
-                          {/* {console.log(formik.values.category[item.name])} */}
-                          <Grid item xs={3}>
-                            <Field
-                              name={`category[${index}].name`}
-                              as={Select}
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                              onChange={formik.handleChange}
-                            >
-                              <MenuItem value={item.id}>{item.name}</MenuItem>
-
-                              {/* <MenuItem value="cateShirt">Shirt</MenuItem>
-                              <MenuItem value="catePants">Pants</MenuItem>
-                              <MenuItem value="cateDressAndSkirt">Dress and Skirt</MenuItem>
-                              <MenuItem value="cateShoes">Shoes</MenuItem> */}
-                            </Field>
-                          </Grid>
-
-                          <Grid item xs={8}>
-                            <Field
-                              name={`category[${index}].value`}
-                              as={Select}
-                              variant="outlined"
-                              size="small"
-                              fullWidth
-                            >
-                              {optionsData[item.name]?.map((option, index) => (
-                                <MenuItem key={index} value={option.value}>
-                                  {option.key}
-                                </MenuItem>
-                              ))}
-                            </Field>
-                          </Grid>
-
-                          <Grid item xs={1}>
-                            <Stack
-                              direction="row"
-                              justifyContent="center"
-                              alignItems="center"
-                              spacing={1}
-                            >
-                              <IconButton
-                                variant="outlined"
-                                onClick={() => remove(index)}
-                              >
-                                <DeleteIcon color="secondary" />
-                              </IconButton>
-                            </Stack>
-                          </Grid>
-                        </React.Fragment>
-                      ))
-                    : ""}
-                </React.Fragment>
-              )}
-            </FieldArray>
-            {/*  End Categories */}
-
-            {/* Attribute */}
+            {/* FieldArray */}
             <FieldArray name="attribute">
               {({ push, remove }) => (
                 <React.Fragment>
@@ -411,7 +319,7 @@ export default function AddProduct() {
                 </React.Fragment>
               )}
             </FieldArray>
-            {/* End Attribute */}
+            {/* End FieldArray */}
 
             <Stack
               direction="row"

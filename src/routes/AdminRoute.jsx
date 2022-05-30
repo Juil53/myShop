@@ -43,6 +43,14 @@ const routeAdmin = [
     ),
   },
   {
+    page: "EditProduct",
+    exact: true,
+    path: "/product-management/edit-product",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/product_management/EditProduct")
+    ),
+  },
+  {
     page: "OrderManagement",
     exact: true,
     path: "/order-management",

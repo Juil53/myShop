@@ -41,15 +41,15 @@ function ProductManagement() {
             size="small"
             startIcon={<AddBoxRoundedIcon />}
           >
-            Add Product
+            Add
           </Button>
         </Link>
       </Box>
 
       {/* ProductTable */}
-      <div className="product__table">
+      <Box className="product__table">
         <ProductTable />
-      </div>
+      </Box>
     </>
   );
 }

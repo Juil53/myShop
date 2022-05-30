@@ -21,3 +21,9 @@ export const selectProductPagination = (state) => {
   const { productsPagination = [] } = adminProduct;
   return productsPagination;
 };
+
+export const selectProductInfo = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { productInfo = [] } = adminProduct;
+  return productInfo;
+};

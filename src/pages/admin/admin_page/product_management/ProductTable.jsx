@@ -6,18 +6,21 @@ import {
   TableRow,
   IconButton,
   Box,
+  TableCell,
+  Paper,
+  Popover,
+  Stack,
 } from "@mui/material";
 
 import {
   CustomizedTableHead,
-  CustomizeTableRow,
-  CustomizeTableCell,
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../../../components/loading/Loading";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useSelector, useDispatch } from "react-redux";
 import {
   actDeleteProduct,
@@ -30,14 +33,32 @@ import {
   selectLoading,
   selectProductPagination,
 } from "../../../../store/admin_product/selector";
+import { Link } from "react-router-dom";
+import { getProductInfo } from "../../../../store/admin_product/productSlice";
 
 export default function ProductTable() {
-
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const allProduct = useSelector(selectAllProduct);
   const paginationProduct = useSelector(selectProductPagination);
   const [page, setPage] = React.useState(1);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  // Handle Get Product Info
+  const handleProductInfo = (product) => {
+    dispatch(getProductInfo(product));
+  };
 
   // Get All Product
   React.useEffect(() => {
@@ -51,10 +72,8 @@ export default function ProductTable() {
   }, [page]);
 
   //Handle Delete User
-  const handleDelete = (productId) => (
-    dispatch(actDeleteProduct(productId)),
-    setPage(1)
-  );
+  const handleDelete = (productId) => dispatch(actDeleteProduct(productId));
+  // setPage(1)
 
   // Format currency
   const formatter = new Intl.NumberFormat("vn-VN", {
@@ -70,13 +89,17 @@ export default function ProductTable() {
   const renderTableBody = () => {
     return paginationProduct?.map((product, index) => {
       return (
-        <CustomizeTableRow
+        <TableRow
           key={index}
-          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+          hover={true}
+          sx={{
+            "&:last-child td, &:last-child th": { border: 0 },
+            cursor: "pointer",
+          }}
         >
-          <CustomizeTableCell align="center">{product.id}</CustomizeTableCell>
-          <CustomizeTableCell align="center">{product.name}</CustomizeTableCell>
-          <CustomizeTableCell align="center">
+          <TableCell align="left">{product.id}</TableCell>
+          <TableCell align="left">{product.name}</TableCell>
+          <TableCell align="center">
             <img
               src={product.image}
               alt="product"
@@ -87,35 +110,55 @@ export default function ProductTable() {
                 objectFit: "contain",
               }}
             />
-          </CustomizeTableCell>
-          <CustomizeTableCell align="center">
-            {product.quantity}
-          </CustomizeTableCell>
-          <CustomizeTableCell align="center">
+          </TableCell>
+          <TableCell align="center">{product.quantity}</TableCell>
+          <TableCell align="center">
             {formatter.format(product.priceBeforeDiscount)}
-          </CustomizeTableCell>
-          <CustomizeTableCell align="center">
-            <IconButton
-              size="small"
-              sx={{ color: "error.light" }}
-              onClick={() => {
-                window.confirm("Are you sure?");
-                handleDelete(product.id);
+          </TableCell>
+          <TableCell align="center">
+            <IconButton onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+
+            <Popover
+              elevation={2}
+              id={id}
+              open={open}
+              anchorEl={anchorEl || null}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "center",
               }}
             >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
-            <IconButton
-              size="small"
-              sx={{ color: "info.dark" }}
-              onClick={() => {
-                // handleGetUserInfo(user);
-              }}
-            >
-              <EditIcon fontSize="inherit" />
-            </IconButton>
-          </CustomizeTableCell>
-        </CustomizeTableRow>
+              <Stack direction="column">
+                <IconButton
+                  size="small"
+                  sx={{ color: "error.light" }}
+                  onClick={() => {
+                    window.confirm("Are you sure?");
+                    handleDelete(product.id);
+                    handleClose();
+                  }}
+                >
+                  <DeleteIcon fontSize="inherit" />
+                </IconButton>
+
+                <Link to="edit-product">
+                  <IconButton
+                    size="small"
+                    color="success"
+                    onClick={() => {
+                      handleProductInfo(product);
+                    }}
+                  >
+                    <EditIcon fontSize="inherit" />
+                  </IconButton>
+                </Link>
+              </Stack>
+            </Popover>
+          </TableCell>
+        </TableRow>
       );
     });
   };
@@ -125,38 +168,51 @@ export default function ProductTable() {
       {loading ? (
         <Loading />
       ) : (
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <CustomizedTableHead>
-              <TableRow>
-                <CustomizeTableCell align="center">ID</CustomizeTableCell>
-                <CustomizeTableCell align="center">
-                  PRODUCT NAME
-                </CustomizeTableCell>
-                <CustomizeTableCell align="center">IMAGE</CustomizeTableCell>
-                <CustomizeTableCell align="center">QUANTITY</CustomizeTableCell>
-                <CustomizeTableCell align="center">PRICE</CustomizeTableCell>
-                <CustomizeTableCell align="center">ACTION</CustomizeTableCell>
-              </TableRow>
-            </CustomizedTableHead>
-            <TableBody>{renderTableBody()}</TableBody>
-          </Table>
-          <Box sx={{ textAlign: "center" }}>
-            <CustomPagination
-              showFirstButton
-              showLastButton
-              page={page}
-              count={count}
-              onChange={handleChangePage}
-              sx={{ mt: 5 }}
+        <Box
+          component={Paper}
+          elevation={2}
+          padding={2}
+          sx={{ backgroundColor: "#E7EBF0" }}
+        >
+          <TableContainer
+            style={{ width: "100%" }}
+            sx={{
+              maxHeight: 500,
+            }}
+          >
+            <Table
+              stickyHeader
+              aria-label="sticky table"
               size="small"
-              shape="rounded"
-              variant="outlined"
-            />
-          </Box>
-        </TableContainer>
+              sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+            >
+              <CustomizedTableHead>
+                <TableRow>
+                  <TableCell align="left">ID</TableCell>
+                  <TableCell align="left">Product Name</TableCell>
+                  <TableCell align="center">Image</TableCell>
+                  <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">Price</TableCell>
+                  <TableCell align="center"></TableCell>
+                </TableRow>
+              </CustomizedTableHead>
+              <TableBody>{renderTableBody()}</TableBody>
+            </Table>
+          </TableContainer>
+
+          <CustomPagination
+            showFirstButton
+            showLastButton
+            page={page}
+            count={count || 0}
+            onChange={handleChangePage}
+            sx={{ mt: 2 }}
+            size="small"
+            shape="rounded"
+            variant="outlined"
+          />
+        </Box>
       )}
     </>
   );
 }
-
