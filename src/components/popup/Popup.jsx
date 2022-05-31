@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -7,10 +7,12 @@ import { actions } from "../../store/page/slice";
 import { POPUP } from "../../constants";
 
 import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
+import AddCartPopup from "./child/AddCartPopup/AddCartPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
-  const { active } = popup || [];
+  const [isActive, setIsActive] = useState(false);
+  const { active = [] } = popup || {};
   const dispatch = useDispatch();
 
   const createPopup = (type, data) => {
@@ -21,6 +23,10 @@ export default function Popup() {
             closePopup={() => handleClosePopup(type)}
             data={data}
           />
+        );
+      case POPUP.ADD_CART_POPUP:
+        return (
+          <AddCartPopup closePopup={() => handleClosePopup(type)} data={data} />
         );
       default:
         return <></>;
@@ -45,12 +51,16 @@ export default function Popup() {
     const body = document.body;
     const scrollbarWidth = window.innerWidth - body.clientWidth + "px";
 
-    if (active.length) {
+    if (active.length && !isActive) {
       body.classList.add("has-popup");
       body.style.paddingRight = scrollbarWidth;
-    } else {
+      setIsActive(true);
+    }
+
+    if (!active.length) {
       body.classList.remove("has-popup");
       body.style.paddingRight = "0";
+      setIsActive(false);
     }
   }, [active]);
 

@@ -6,35 +6,14 @@ import { actions } from "../../store/page/slice";
 
 export default function ProductCard(props) {
   const dispatch = useDispatch();
-  const {
-    priceAfterDiscount,
-    priceBeforeDiscount,
-    cardDirection,
-    name,
-    img,
-    attributes,
-    quantity,
-    status,
-    brand,
-    configurableProducts,
-    configurableOptions,
-  } = props;
+  const { cardDirection, data } = props;
 
   function handleShowPopup() {
     dispatch(
       actions.activePopup({
         type: POPUP.PRODUCT_INFO_POPUP,
         data: {
-          name: name,
-          priceAfterDiscount: priceAfterDiscount,
-          priceBeforeDiscount: priceBeforeDiscount,
-          img: img,
-          attributes: attributes,
-          quantity: quantity,
-          status: status,
-          brand: brand,
-          configurableOptions: configurableOptions,
-          configurableProducts: configurableProducts,
+          ...data,
         },
       })
     );
@@ -51,16 +30,22 @@ export default function ProductCard(props) {
           }
         >
           <div className="img-container">
-            <img src={img} alt="" />
+            <img src={data.image} alt="" />
           </div>
           {cardDirection !== "row" && (
             <div className="productcard__image-overlay"></div>
           )}
         </div>
         {cardDirection !== "row" &&
-          utils.discount(priceBeforeDiscount, priceAfterDiscount) > 0 && (
+          utils.discount(data.priceBeforeDiscount, data.priceAfterDiscount) >
+            0 && (
             <div className="productcard__discount">
-              -{utils.discount(priceBeforeDiscount, priceAfterDiscount)}%
+              -
+              {utils.discount(
+                data.priceBeforeDiscount,
+                data.priceAfterDiscount
+              )}
+              %
             </div>
           )}
         <div
@@ -70,12 +55,14 @@ export default function ProductCard(props) {
               : "productcard__info"
           }
         >
-          <div className="productcard__info-name">{name}</div>
+          <div className="productcard__info-name">{data.name}</div>
           <div className="productcard__info__price text-brand font-bold">
-            {utils.priceBreak(priceAfterDiscount)}₫
-            {priceAfterDiscount !== priceBeforeDiscount && (
+            {data.priceAfterDiscount
+              ? utils.priceBreak(data.priceAfterDiscount) + "₫"
+              : "Update later"}
+            {data.priceAfterDiscount !== data.priceBeforeDiscount && (
               <span className="price-compare">
-                {utils.priceBreak(priceBeforeDiscount)}₫
+                {utils.priceBreak(data.priceBeforeDiscount)}₫
               </span>
             )}
           </div>
