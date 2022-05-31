@@ -211,19 +211,23 @@ function OrderTable() {
         {loading ? (
           <Loading />
         ) : (
-          <Box sx={{ textAlign: "-webkit-center" }}>
+          <Box
+            component={Paper}
+            elevation={2}
+            padding={2}
+            sx={{ backgroundColor: "#E7EBF0" }}
+          >
             <TableContainer
-              component={Paper}
-              elevation={2}
+              style={{ width: "100%" }}
               sx={{
-                ...style,
+                maxHeight: 450,
               }}
             >
               <Table
-                sx={{ minWidth: 1000 }}
-                aria-label="simple table"
+                stickyHeader
+                aria-label="sticky table"
                 size="small"
-                style={{ tableLayout: "fixed" }}
+                sx={{ minWidth: "110%", backgroundColor: "#fff" }}
               >
                 <TableHead>
                   <TableRow hover={true}>
@@ -241,19 +245,17 @@ function OrderTable() {
               </Table>
             </TableContainer>
 
-            <Box sx={{ textAlign: "center", marginBottom: 2 }}>
-              <CustomPagination
-                showFirstButton
-                showLastButton
-                page={page}
-                count={count}
-                onChange={handleChangePage}
-                sx={{ mt: 5 }}
-                size="small"
-                shape="rounded"
-                variant="outlined"
-              />
-            </Box>
+            <CustomPagination
+              showFirstButton
+              showLastButton
+              page={page}
+              count={count || 0}
+              onChange={handleChangePage}
+              sx={{ mt: 2 }}
+              size="small"
+              shape="rounded"
+              variant="outlined"
+            />
           </Box>
         )}
       </Box>

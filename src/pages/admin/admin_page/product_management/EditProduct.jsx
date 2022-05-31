@@ -24,7 +24,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
-  selectOptions,
+  selectAttributes,
   selectProductInfo,
 } from "../../../../store/admin_product/selector";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -39,7 +39,7 @@ const Input = styled("input")({
 export default function EditProduct() {
   const dispatch = useDispatch();
   const [info,setInfo] = useState({})
-  const optionsData = useSelector(selectOptions);
+  const optionsData = useSelector(selectAttributes);
   const productInfo = useSelector(selectProductInfo);
   console.log(info)
 

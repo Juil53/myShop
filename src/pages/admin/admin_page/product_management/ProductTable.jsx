@@ -177,7 +177,7 @@ export default function ProductTable() {
           <TableContainer
             style={{ width: "100%" }}
             sx={{
-              maxHeight: 500,
+              maxHeight: 400,
             }}
           >
             <Table
