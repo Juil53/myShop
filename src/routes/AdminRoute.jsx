@@ -39,7 +39,15 @@ const routeAdmin = [
     exact: true,
     path: "/product-management/add-product",
     element: lazy(() =>
-      import("../pages/admin/admin_page/product_management/AddProduct")
+      import("../pages/admin/admin_page/product_management/add_product/AddProduct")
+    ),
+  },
+  {
+    page: "EditProduct",
+    exact: true,
+    path: "/product-management/edit-product",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/product_management/EditProduct")
     ),
   },
   {

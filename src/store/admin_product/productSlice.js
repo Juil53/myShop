@@ -6,8 +6,10 @@ const productSlice = createSlice({
     options: [],
     loading: false,
     error: null,
-    products: null,
-    productsPagination:null,
+    products: [],
+    productsPagination: null,
+    productInfo: null,
+    categories: []
   },
   reducers: {
     getOptionsRequest(state, action) {
@@ -20,6 +22,20 @@ const productSlice = createSlice({
     },
 
     getOptionsFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    getCategoriesRequest(state, action) {
+      state.loading = true;
+    },
+
+    getCategoriesSuccess(state, action) {
+      state.loading = false;
+      state.categories = action.payload;
+    },
+
+    getCategoriesFailed(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -65,6 +81,10 @@ const productSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    getProductInfo(state, action) {
+      state.productInfo = action.payload;
+    },
   },
 });
 
@@ -72,6 +92,9 @@ export const {
   getOptionsRequest,
   getOptionsSuccess,
   getOptionsFailed,
+  getCategoriesRequest,
+  getCategoriesSuccess,
+  getCategoriesFailed,
   submitProductRequest,
   submitProductSuccess,
   submitProductFailed,
@@ -80,7 +103,8 @@ export const {
   getAllProductFailed,
   getProductPaginationRequest,
   getProductPaginationSuccess,
-  getProductPaginationFailed
+  getProductPaginationFailed,
+  getProductInfo
 } = productSlice.actions;
 
 export default productSlice.reducer;

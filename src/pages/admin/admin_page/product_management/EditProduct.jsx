@@ -13,10 +13,6 @@ import {
   IconButton,
   FormControlLabel,
 } from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useFormik, FormikProvider, FieldArray, Field } from "formik";
@@ -27,14 +23,26 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { storage } from "../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  selectAttributes,
+  selectProductInfo,
+} from "../../../../store/admin_product/selector";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PreviewImg from "./PreviewImg";
 
 const Input = styled("input")({
   display: "none",
 });
 
-export default function AddProduct() {
+export default function EditProduct() {
   const dispatch = useDispatch();
-  const optionsData = useSelector((state) => state.adminProduct.options);
+  const [info,setInfo] = useState({})
+  const optionsData = useSelector(selectAttributes);
+  const productInfo = useSelector(selectProductInfo);
+  console.log(info)
+
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
     toggle ? setToggle(false) : setToggle(true);
@@ -43,6 +51,7 @@ export default function AddProduct() {
 
   useEffect(() => {
     dispatch(actGetOptions());
+    setInfo(productInfo)
   }, []);
 
   const formik = useFormik({
@@ -52,16 +61,14 @@ export default function AddProduct() {
       attribute: [],
       description: "",
       status: "",
-      image: "",
-      quantity: "",
-      price_before_discount: "",
+      image: null,
+      quantity: 0,
+      priceBeforeDiscount: 0,
       isHot: toggle,
     },
 
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       console.log(values);
-      let image = document.getElementById("my_image");
-      image.src = URL.createObjectURL(values.image);
 
       const imageRef = ref(storage, `images/${values.image.name}`);
       //upload image to firebase
@@ -72,7 +79,6 @@ export default function AddProduct() {
       //getDownload url
       getDownloadURL(imageRef)
         .then((url) => {
-          console.log(url);
           formik.values.image = url;
         })
         .then(() => {
@@ -81,8 +87,16 @@ export default function AddProduct() {
         .catch((error) => {
           console.log(error);
         });
+      resetForm({ values: "" });
     },
   });
+
+  useEffect(() => {
+    if(productInfo){
+      
+    }
+  })
+
 
   return (
     <FormikProvider value={formik}>
@@ -90,17 +104,17 @@ export default function AddProduct() {
         component={Paper}
         elevation={5}
         padding={5}
-        width="80%"
+        width="100%"
         margin="auto"
       >
         <Link to="/admin/product-management">
           <Button startIcon={<ArrowBackIcon />} color="secondary">
-            Back to Products list...
+            Back
           </Button>
         </Link>
 
         <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
-          Add Product
+          Edit Product
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
@@ -147,6 +161,7 @@ export default function AddProduct() {
             <Grid item xs={4}>
               <TextField
                 name="quantity"
+                type="number"
                 value={formik.values.quantity}
                 onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
@@ -159,9 +174,9 @@ export default function AddProduct() {
 
             <Grid item xs={4}>
               <TextField
-                name="price_before_discount"
+                name="priceBeforeDiscount"
                 type="number"
-                value={formik.values.price_before_discount}
+                value={formik.values.priceBeforeDiscount}
                 onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
@@ -172,33 +187,33 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={6}>
-              <label htmlFor="contained-button-file">
-                <Input
-                  accept="image/*"
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  name="image"
-                  onChange={(event) =>
-                    formik.setFieldValue("image", event.target.files[0])
-                  }
-                />
-                <Button
-                  variant="outlined"
-                  component="span"
-                  color="secondary"
-                  size="small"
-                >
-                  <PhotoCamera sx={{ marginRight: "5px" }} />
-                  Upload
-                </Button>
-              </label>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <label htmlFor="contained-button-file">
+                  <Input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    name="image"
+                    onChange={(event) =>
+                      formik.setFieldValue("image", event.target.files[0])
+                    }
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    component="span"
+                    startIcon={<PhotoCamera />}
+                  >
+                    Upload
+                  </Button>
 
-              {formik.values.image ? (
-                <img id="my_image" height="100px" style={{ margin: "1rem" }} />
-              ) : (
-                ""
-              )}
+                  {formik.values.image && (
+                    <PreviewImg image={formik.values.image} />
+                  )}
+                </label>
+              </Stack>
             </Grid>
 
             <Grid item xs={6}>
@@ -222,6 +237,7 @@ export default function AddProduct() {
             <Grid item xs={12}>
               <TextField
                 name="description"
+                label="Description"
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
@@ -230,7 +246,6 @@ export default function AddProduct() {
                 fullWidth
                 multiline
                 rows={3}
-                label="Description"
               />
             </Grid>
 
@@ -326,8 +341,9 @@ export default function AddProduct() {
                 color="secondary"
                 type="submit"
                 size="small"
+                onClick={formik.resetForm}
               >
-                Cancel
+                Reset
               </Button>
             </Stack>
           </Grid>

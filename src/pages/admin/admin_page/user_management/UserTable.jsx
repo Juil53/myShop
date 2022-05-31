@@ -4,6 +4,7 @@ import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
 import {
   Box,
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -26,7 +27,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../../../components/loading/Loading";
 
 export function UserTable({ keyword }) {
-
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
   const rows = useSelector(selectUserData);
@@ -70,7 +70,7 @@ export function UserTable({ keyword }) {
     "Email",
     "Phone number",
     "Role",
-    "Actions",
+    "",
   ];
   const renderTableHead = () => {
     return tableHead.map((column, index) => {
@@ -124,31 +124,46 @@ export function UserTable({ keyword }) {
   };
 
   const tablePc = (
-    <TableContainer>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
-        <TableHead>
-          <TableRow hover={true}>
-            <TableCell>ID</TableCell>
-            {renderTableHead()}
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderTableBody()}</TableBody>
-      </Table>
-      <Box sx={{ textAlign: "center" }}>
-        <CustomPagination
-          showFirstButton
-          showLastButton
-          page={page}
-          count={count}
-          onChange={handleChangePage}
-          sx={{ mt: 5 }}
+    <Box
+      component={Paper}
+      elevation={2}
+      padding={2}
+      sx={{ backgroundColor: "#E7EBF0" }}
+    >
+      <TableContainer
+        style={{ width: "100%" }}
+        sx={{
+          maxHeight: 450,
+        }}
+      >
+        <Table
+          stickyHeader
+          aria-label="sticky table"
           size="small"
-          shape="rounded"
-          variant="outlined"
-        />
-      </Box>
-    </TableContainer>
+          sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+        >
+          <TableHead>
+            <TableRow hover={true}>
+              <TableCell>ID</TableCell>
+              {renderTableHead()}
+            </TableRow>
+          </TableHead>
+          <TableBody>{renderTableBody()}</TableBody>
+        </Table>
+      </TableContainer>
+      <CustomPagination
+        showFirstButton
+        showLastButton
+        page={page}
+        count={count}
+        onChange={handleChangePage}
+        sx={{ mt: 2 }}
+        size="small"
+        shape="rounded"
+        variant="outlined"
+      />
+    </Box>
   );
 
-  return <Box>{loading ? <Loading/> : tablePc}</Box>;
+  return <Box>{loading ? <Loading /> : tablePc}</Box>;
 }

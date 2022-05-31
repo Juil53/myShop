@@ -15,7 +15,6 @@ import "../../../../scss/App.scss";
 function UserManagement() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
-  console.log(loading)
   const keyword = useSelector(selectUserKeyword);
   const handleChange = (event) => dispatch(getKeyword(event.target.value));
 
@@ -50,7 +49,7 @@ function UserManagement() {
             size="small"
             startIcon={<AddIcon />}
           >
-            Add User
+            Add
           </Button>
         </Link>
       </div>

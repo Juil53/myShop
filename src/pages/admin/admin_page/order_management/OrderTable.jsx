@@ -14,6 +14,7 @@ import {
   Typography,
   Grid,
   Divider,
+  Paper,
 } from "@mui/material";
 
 import {
@@ -39,6 +40,11 @@ import Loading from "../../../../components/loading/Loading";
 import { selectUserData } from "../../../../store/users/selector";
 import { actGetUser } from "../../../../store/users/actions";
 import { getOrderDetail, openModal } from "../../../../store/orders/orderSlice";
+
+const style = {
+  width: { xs: 600, md: 900, lg: "100%" },
+  maxHeight: 500,
+};
 
 function OrderTable() {
   const dispatch = useDispatch();
@@ -142,7 +148,10 @@ function OrderTable() {
         <TableRow
           key={index}
           hover={true}
-          sx={{ "&:last-child td, &:last-child th": { border: 0 },cursor:"pointer" }}
+          sx={{
+            "&:last-child td, &:last-child th": { border: 0 },
+            cursor: "pointer",
+          }}
           onClick={() => {
             handleGetOrderDetail(order);
           }}
@@ -202,41 +211,52 @@ function OrderTable() {
         {loading ? (
           <Loading />
         ) : (
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 650 }}
-              aria-label="simple table"
-              size="small"
-              style={{ tableLayout: "fixed" }}
+          <Box
+            component={Paper}
+            elevation={2}
+            padding={2}
+            sx={{ backgroundColor: "#E7EBF0" }}
+          >
+            <TableContainer
+              style={{ width: "100%" }}
+              sx={{
+                maxHeight: 450,
+              }}
             >
-              <TableHead>
-                <TableRow hover={true}>
-                  <TableCell width="70px">Order ID</TableCell>
-                  <TableCell width="80px">User ID</TableCell>
-                  <TableCell width="250px">Email</TableCell>
-                  <TableCell width="150px">Delivery place</TableCell>
-                  <TableCell width="100px">Date</TableCell>
-                  <TableCell width="100px">Price</TableCell>
-                  <TableCell width="150px">Status</TableCell>
-                  <TableCell width="50px"></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>{renderTableBody()}</TableBody>
-            </Table>
-            <Box sx={{ textAlign: "center" }}>
-              <CustomPagination
-                showFirstButton
-                showLastButton
-                page={page}
-                count={count}
-                onChange={handleChangePage}
-                sx={{ mt: 5 }}
+              <Table
+                stickyHeader
+                aria-label="sticky table"
                 size="small"
-                shape="rounded"
-                variant="outlined"
-              />
-            </Box>
-          </TableContainer>
+                sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+              >
+                <TableHead>
+                  <TableRow hover={true}>
+                    <TableCell width="70px">Order ID</TableCell>
+                    <TableCell width="80px">User ID</TableCell>
+                    <TableCell width="250px">Email</TableCell>
+                    <TableCell width="150px">Delivery place</TableCell>
+                    <TableCell width="100px">Date</TableCell>
+                    <TableCell width="100px">Price</TableCell>
+                    <TableCell width="150px">Status</TableCell>
+                    <TableCell width="50px"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>{renderTableBody()}</TableBody>
+              </Table>
+            </TableContainer>
+
+            <CustomPagination
+              showFirstButton
+              showLastButton
+              page={page}
+              count={count || 0}
+              onChange={handleChangePage}
+              sx={{ mt: 2 }}
+              size="small"
+              shape="rounded"
+              variant="outlined"
+            />
+          </Box>
         )}
       </Box>
     </>

@@ -3,6 +3,9 @@ import {
   getAllProductFailed,
   getAllProductRequest,
   getAllProductSuccess,
+  getCategoriesFailed,
+  getCategoriesRequest,
+  getCategoriesSuccess,
   getOptionsFailed,
   getOptionsRequest,
   getOptionsSuccess,
@@ -23,6 +26,19 @@ export const actGetOptions = () => {
       dispatch(getOptionsSuccess(result));
     } catch (error) {
       dispatch(getOptionsFailed(error));
+    }
+  };
+};
+
+//GET CATEGORIES
+export const actGetCategories = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(getCategoriesRequest());
+      const result = await apiInstance.get("categories");
+      dispatch(getCategoriesSuccess(result));
+    } catch (error) {
+      dispatch(getCategoriesFailed(error));
     }
   };
 };
