@@ -18,26 +18,32 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { useFormik, FormikProvider, FieldArray, Field } from "formik";
+import {
+  useFormik,
+  FormikProvider,
+  FieldArray,
+  Field,
+  Formik,
+  Form,
+} from "formik";
 import {
   actAddProduct,
   actGetCategories,
   actGetOptions,
-} from "../../../../store/admin_product/action";
+} from "../../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
-import { storage } from "../../../../utils/firebase";
+import { storage } from "../../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import PreviewImg from "./PreviewImg";
-
-const Input = styled("input")({
-  display: "none",
-});
+import PreviewImg from "../PreviewImg";
+import AttributeInput from "./AttributeInput";
+import ImageInput from "./ImageInput";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
   const optionsData = useSelector((state) => state.adminProduct.options);
-  const categoriesOptions = useSelector((state) => state.adminProduct.categories)
-  console.log(categoriesOptions)
+  const categoriesOptions = useSelector(
+    (state) => state.adminProduct.categories
+  );
   const [hot, setHot] = useState(false);
   const handleHot = () => (hot ? setHot(false) : setHot(true));
   const [newProduct, setNewProduct] = useState(false);
@@ -50,78 +56,88 @@ export default function AddProduct() {
     dispatch(actGetCategories());
   }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      brand: "",
-      attribute: [],
-      category:[],
-      desc: "",
-      status: "",
-      image: null,
-      quantity: 0,
-      priceBeforeDiscount: 0,
-      priceAfterDiscount: null,
-      isHot: hot,
-      isNew: newProduct,
-    },
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     brand: "",
+  //     attribute: [],
+  //     category: [],
+  //     desc: "",
+  //     status: "",
+  //     image: null,
+  //     quantity: 0,
+  //     priceBeforeDiscount: 0,
+  //     priceAfterDiscount: null,
+  //     isHot: hot,
+  //     isNew: newProduct,
+  //   },
 
-    onSubmit: async (values, { resetForm }) => {
-      console.log(values);
+  // onSubmit: async (values, { resetForm }) => {
+  // console.log(values);
+  // const imageRef = ref(storage, `images/${values.image.name}`);
+  // //upload image to firebase
+  // uploadBytes(imageRef, values.image).then((result) => {
+  //   alert("Image uploaded");
+  // });
+  // await sleep(5000);
+  // //getDownload url
+  // getDownloadURL(imageRef)
+  //   .then((url) => {
+  //     formik.values.image = url;
+  //   })
+  //   .then(() => {
+  //     dispatch(actAddProduct(values));
+  //     // data = {
+  //     //   ...values,
+  //     //   categories: {
 
-      const imageRef = ref(storage, `images/${values.image.name}`);
-      //upload image to firebase
-      uploadBytes(imageRef, values.image).then((result) => {
-        alert("Image uploaded");
-      });
-      await sleep(5000);
-      //getDownload url
-      getDownloadURL(imageRef)
-        .then((url) => {
-          formik.values.image = url;
-        })
-        .then(() => {
-          dispatch(actAddProduct(values));
-          // data = {
-          //   ...values,
-          //   categories: {
-
-          //   }
-          // }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      resetForm({ values: "" });
-    },
-  });
+  //     //   }
+  //     // }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  // resetForm({ values: "" });
+  //   },
+  // });
 
   return (
-    <FormikProvider value={formik}>
-      <Box
-        component={Paper}
-        elevation={5}
-        padding={5}
-        width="100%"
-        margin="auto"
+    <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
+      <Link to="/admin/product-management">
+        <Button startIcon={<ArrowBackIcon />} color="secondary">
+          Back
+        </Button>
+      </Link>
+
+      <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
+        Add Product
+      </Typography>
+
+      <Formik
+        initialValues={{
+          name: "",
+          brand: "",
+          attribute: [],
+          category: [],
+          desc: "",
+          status: "",
+          image: "",
+          quantity: 0,
+          priceBeforeDiscount: 0,
+          priceAfterDiscount: null,
+          isHot: false,
+          isNew: false,
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          console.log(values);
+        }}
       >
-        <Link to="/admin/product-management">
-          <Button startIcon={<ArrowBackIcon />} color="secondary">
-            Back
-          </Button>
-        </Link>
-
-        <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
-          Add Product
-        </Typography>
-
-        <form onSubmit={formik.handleSubmit}>
+        <Form>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField
+              <Field
+                as={TextField}
                 name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Product Name"
@@ -131,10 +147,9 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={6}>
-              <TextField
+              <Field
+                as={TextField}
                 name="brand"
-                value={formik.values.brand}
-                onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Brand"
@@ -144,10 +159,9 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
+              <Field
+                as={TextField}
                 name="status"
-                value={formik.values.status}
-                onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Status"
@@ -157,11 +171,10 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
+              <Field
+                as={TextField}
                 name="quantity"
                 type="number"
-                value={formik.values.quantity}
-                onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Quantity"
@@ -171,11 +184,10 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
+              <Field
+                as={TextField}
                 name="priceBeforeDiscount"
                 type="number"
-                value={formik.values.priceBeforeDiscount}
-                onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Price"
@@ -185,48 +197,13 @@ export default function AddProduct() {
             </Grid>
 
             <Grid item xs={6}>
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <label htmlFor="contained-button-file">
-                  <Input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    name="image"
-                    onChange={(event) =>
-                      formik.setFieldValue("image", event.target.files[0])
-                    }
-                  />
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="secondary"
-                    component="span"
-                    startIcon={<PhotoCamera />}
-                  >
-                    Upload
-                  </Button>
-
-                  {formik.values.image && (
-                    <PreviewImg image={formik.values.image} />
-                  )}
-                </label>
-              </Stack>
+              <ImageInput />
             </Grid>
 
             <Grid item xs={3}>
               <FormControlLabel
                 value="end"
-                control={
-                  <Field
-                    name="isHot"
-                    component={Switch}
-                    onChange={handleHot}
-                    value={(formik.values.isHot = hot)}
-                    checked={hot}
-                    color="secondary"
-                  />
-                }
+                control={<Field as={Switch} name="isHot" color="secondary" />}
                 label="Hot"
                 labelPlacement="end"
               />
@@ -235,27 +212,17 @@ export default function AddProduct() {
             <Grid item xs={3}>
               <FormControlLabel
                 value="end"
-                control={
-                  <Field
-                    name="isNew"
-                    component={Switch}
-                    onChange={handleNewProduct}
-                    value={(formik.values.isNew = newProduct)}
-                    checked={newProduct}
-                    color="secondary"
-                  />
-                }
+                control={<Field as={Switch} name="isNew" color="secondary" />}
                 label="New"
                 labelPlacement="end"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <TextField
+              <Field
+                as={TextField}
                 name="desc"
                 label="Description"
-                value={formik.values.desc}
-                onChange={formik.handleChange}
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 size="small"
@@ -265,8 +232,12 @@ export default function AddProduct() {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <AttributeInput />
+            </Grid>
+
             {/* Categories */}
-            <FieldArray name="category">
+            {/* <FieldArray name="category">
               {({ push, remove }) => (
                 <React.Fragment>
                   <Grid item xs={12}>
@@ -283,29 +254,25 @@ export default function AddProduct() {
                   {formik.values.category && formik.values.category.length > 0
                     ? formik.values.category.map((item, index) => (
                         <React.Fragment key={index}>
-                          {/* {console.log(formik.values.category[item.name])} */}
                           <Grid item xs={3}>
-                            <Field
+                            <Select
                               name={`category[${index}].name`}
-                              as={Select}
                               variant="outlined"
                               size="small"
                               fullWidth
                               onChange={formik.handleChange}
                             >
-                              <MenuItem value={item.id}>{item.name}</MenuItem>
+                              // <MenuItem value={item.id}>{item.name}</MenuItem>
 
-                              {/* <MenuItem value="cateShirt">Shirt</MenuItem>
-                              <MenuItem value="catePants">Pants</MenuItem>
-                              <MenuItem value="cateDressAndSkirt">Dress and Skirt</MenuItem>
-                              <MenuItem value="cateShoes">Shoes</MenuItem> */}
-                            </Field>
+                                <MenuItem value="cateShirt">Shirt</MenuItem>
+                                <MenuItem value="catePants">Pants</MenuItem>
+                                <MenuItem value="cateDressAndSkirt">Dress and Skirt</MenuItem>
+                                <MenuItem value="cateShoes">Shoes</MenuItem>
                           </Grid>
 
                           <Grid item xs={8}>
-                            <Field
+                            <Select
                               name={`category[${index}].value`}
-                              as={Select}
                               variant="outlined"
                               size="small"
                               fullWidth
@@ -315,7 +282,7 @@ export default function AddProduct() {
                                   {option.key}
                                 </MenuItem>
                               ))}
-                            </Field>
+                            </Select>
                           </Grid>
 
                           <Grid item xs={1}>
@@ -338,11 +305,11 @@ export default function AddProduct() {
                     : ""}
                 </React.Fragment>
               )}
-            </FieldArray>
+            </FieldArray> */}
             {/*  End Categories */}
 
             {/* Attribute */}
-            <FieldArray name="attribute">
+            {/* <FieldArray name="attribute">
               {({ push, remove }) => (
                 <React.Fragment>
                   <Grid item xs={12}>
@@ -360,9 +327,8 @@ export default function AddProduct() {
                     ? formik.values.attribute.map((item, index) => (
                         <React.Fragment key={index}>
                           <Grid item xs={3}>
-                            <Field
+                            <Select
                               name={`attribute[${index}].name`}
-                              as={Select}
                               variant="outlined"
                               size="small"
                               fullWidth
@@ -371,13 +337,12 @@ export default function AddProduct() {
                               <MenuItem value="insurances">Insurances</MenuItem>
                               <MenuItem value="origin">Origin</MenuItem>
                               <MenuItem value="material">Material</MenuItem>
-                            </Field>
+                            </Select>
                           </Grid>
 
                           <Grid item xs={8}>
-                            <Field
+                            <Select
                               name={`attribute[${index}].value`}
-                              as={Select}
                               variant="outlined"
                               size="small"
                               fullWidth
@@ -387,7 +352,7 @@ export default function AddProduct() {
                                   {option.key}
                                 </MenuItem>
                               ))}
-                            </Field>
+                            </Select>
                           </Grid>
 
                           <Grid item xs={1}>
@@ -410,7 +375,7 @@ export default function AddProduct() {
                     : ""}
                 </React.Fragment>
               )}
-            </FieldArray>
+            </FieldArray> */}
             {/* End Attribute */}
 
             <Stack
@@ -433,14 +398,13 @@ export default function AddProduct() {
                 color="secondary"
                 type="submit"
                 size="small"
-                onClick={formik.resetForm}
               >
                 Reset
               </Button>
             </Stack>
           </Grid>
-        </form>
-      </Box>
-    </FormikProvider>
+        </Form>
+      </Formik>
+    </Box>
   );
 }
