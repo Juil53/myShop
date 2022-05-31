@@ -40,7 +40,6 @@ import ImageInput from "./ImageInput";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
-  const optionsData = useSelector((state) => state.adminProduct.options);
   const categoriesOptions = useSelector(
     (state) => state.adminProduct.categories
   );
@@ -52,7 +51,6 @@ export default function AddProduct() {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
-    dispatch(actGetOptions());
     dispatch(actGetCategories());
   }, []);
 
@@ -117,7 +115,7 @@ export default function AddProduct() {
         initialValues={{
           name: "",
           brand: "",
-          attribute: [],
+          attributes: [],
           category: [],
           desc: "",
           status: "",
