@@ -5,7 +5,7 @@ import { getKeyword } from "../../../../store/users/usersSlice";
 import { selectUserKeyword } from "../../../../store/users/selector";
 import { UserTable } from "./UserTable";
 import { Button, InputAdornment, Typography } from "@mui/material";
-import { SearchField } from "../../../../styles/styled_components/styledComponent";
+import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import UserModal from "./UserModal";
@@ -29,7 +29,7 @@ function UserManagement() {
         User Management
       </Typography>
       <div className="container usermanagement">
-        <SearchField
+        <TextFieldCustom
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
