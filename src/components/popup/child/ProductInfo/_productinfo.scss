@@ -2,14 +2,15 @@
 .productinfopopup {
   position: relative;
   padding-bottom: 1rem;
-  max-width: 70%;
+  max-width: 75%;
   max-height: 90vh;
   border-radius: 0.5rem;
-  overflow-y: auto;
+  overflow: auto;
   background-color: $whiteColor;
 
   .productinfopopup__left {
     padding: 2rem;
+    padding-left: 4rem;
     width: 35rem;
     align-items: center;
 
@@ -34,14 +35,6 @@
           width: 100%;
           padding-top: 100%;
         }
-      }
-    }
-
-    .special {
-      width: 70%;
-
-      .subimg {
-        padding-left: 0;
       }
     }
   }
@@ -137,7 +130,7 @@
 
       .option-item.unavailable {
         color: $grayColor-1;
-        pointer-events: none;
+        // pointer-events: none;
       }
 
       .option-item.active {
@@ -167,13 +160,33 @@
       }
     }
 
-    .addcart-btn {
+    .special {
+      max-width: 85%;
+    }
+
+    .function-container {
       margin: 3rem auto 0;
-      width: 23rem;
+      justify-content: space-evenly;
+    }
+
+    .cancel-btn,
+    .addcart-btn {
+      width: 16rem;
       height: 4rem;
       display: block;
       font-size: 1.4rem;
       text-transform: uppercase;
+    }
+
+    .cancel-btn {
+      margin-right: 0.5rem;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .cancel-btn:hover {
+      color: $mainColor;
+      border: 1px solid $mainColor;
     }
   }
 
@@ -183,21 +196,41 @@
   }
 
   .slick-prev {
-    left: -2rem;
+    left: -2.5rem;
   }
 
   .slick-next {
-    right: -2rem;
+    right: -2.5rem;
   }
 }
 
-.productinfopopup::-webkit-scrollbar {
-  display: none;
-}
+// .productinfopopup::-webkit-scrollbar {
+//   display: none;
+// }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .productinfopopup {
-    max-width: 80%;
+    max-width: 85%;
+
+    .productinfopopup__info {
+      .configurable-options {
+        min-width: 70%;
+
+        .option {
+          margin-left: 2rem;
+        }
+      }
+
+      .productinfopopup__info-quantity {
+        max-width: none;
+      }
+
+      .cancel-btn,
+      .addcart-btn {
+        width: 14rem;
+        height: 4rem;
+      }
+    }
   }
 }
 

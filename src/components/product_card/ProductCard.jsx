@@ -60,11 +60,12 @@ export default function ProductCard(props) {
             {data.priceAfterDiscount
               ? utils.priceBreak(data.priceAfterDiscount) + "₫"
               : "Update later"}
-            {data.priceAfterDiscount !== data.priceBeforeDiscount && (
-              <span className="price-compare">
-                {utils.priceBreak(data.priceBeforeDiscount)}₫
-              </span>
-            )}
+            {data.priceAfterDiscount &&
+              data.priceAfterDiscount !== data.priceBeforeDiscount && (
+                <span className="price-compare">
+                  {utils.priceBreak(data.priceBeforeDiscount)}₫
+                </span>
+              )}
           </div>
           <div className="productcard__info-feature">
             <button className="detail-btn bg-white text-bold">More info</button>

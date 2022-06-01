@@ -1,11 +1,21 @@
-import { useSelector } from "react-redux";
-import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { utils, debounce } from "../../../utils";
+import { selectCart } from "../../../store/cart/selectors";
+import { CART_ACTIONS, LOADING_STATUS } from "../../../constants";
 
 const TopNav = () => {
   const language = useSelector((state) => state.languages);
+  const cart = useSelector(selectCart);
   const [searchKey, setSearchKey] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (cart.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: CART_ACTIONS.GET_CART });
+    }
+  }, []);
 
   const handleSearch = () => {
     if (!searchKey) return;
@@ -49,67 +59,92 @@ const TopNav = () => {
     );
   };
 
+  const createMoreInfo = (data) => {
+    if (data && data.length && data.length > 0) {
+      return data.map((v) => <span key={v}>{v}</span>);
+    }
+  };
+
+  const createProductList = (data) => {
+    if (data && data.length && data.length > 0) {
+      return data.map((v) => (
+        <div className="product-item row" key={v.id}>
+          <div className="img">
+            <img src={v.image} alt="" />
+          </div>
+          <div className="info">
+            <a className="name">{v.name}</a>
+            <div className="more-info">
+              {Object.values(v.optionSelected) &&
+                createMoreInfo(Object.values(v.optionSelected))}
+            </div>
+            <div className="price">
+              {utils.priceBreak(v.priceAfterDiscount)}₫
+            </div>
+            <div className="quantity">
+              Số lượng: <span>{v.quantity}</span>
+            </div>
+          </div>
+          <div className="delete-btn">
+            <i className="fa-solid fa-trash"></i>
+          </div>
+        </div>
+      ));
+    }
+  };
+
   return (
-    <div className="header__top-nav row">
-      <div className="nav-btn nav-btn-phone">
-        <i className="fa-solid fa-phone"></i>
-        19009597
-      </div>
-      {SearchBox()}
-      <div className="nav-btn login-btn">
-        <a href="/sign">
-          <i className="fa-solid fa-user" />
-          {language.header.top_nav.login[language.current]}
-        </a>
-      </div>
-      <div className="nav-btn register-btn">
-        <a href="/login">
-          <i className="fa-solid fa-lock-open"></i>
-          {language.header.top_nav.register[language.current]}
-        </a>
-      </div>
-      <div className="nav-btn cart-btn">
-        <a href="/cart">
-          <i className="fa-solid fa-cart-shopping"></i>
-          {language.header.top_nav.cart[language.current]}
-        </a>
-        <div className="cart-dropdown-container">
-          <div className="cart-dropdown-content">
-            <div className="product-list">
-              <div className="product-item row">
-                <div className="img">
-                  <img src="/img/sp1.png" alt="" />
+    <React.Fragment>
+      <div className="header__top-nav row">
+        <div className="nav-btn nav-btn-phone">
+          <i className="fa-solid fa-phone"></i>
+          19009597
+        </div>
+        {SearchBox()}
+        <div className="nav-btn login-btn">
+          <a href="/sign">
+            <i className="fa-solid fa-user" />
+            {language.header.top_nav.login[language.current]}
+          </a>
+        </div>
+        <div className="nav-btn register-btn">
+          <a href="/login">
+            <i className="fa-solid fa-lock-open"></i>
+            {language.header.top_nav.register[language.current]}
+          </a>
+        </div>
+        <div className="nav-btn cart-btn">
+          <a href="/cart">
+            <i className="fa-solid fa-cart-shopping"></i>
+            {language.header.top_nav.cart[language.current]}
+          </a>
+          <div className="cart-dropdown-container">
+            {cart.data && Object.keys(cart.data).length !== 0 ? (
+              <div className="cart-dropdown-content">
+                <div className="product-list">
+                  {createProductList(cart.data.productList)}
                 </div>
-                <div className="info">
-                  <a className="name">
-                    Giày tây nâu đỏ thương hiệu Converse all star
-                  </a>
-                  <div className="more-info">Màu nâu</div>
-                  <div className="price">{utils.priceBreak(500000)}₫</div>
-                  <div className="quantity">
-                    Số lượng: <span>1</span>
+                <div className="sum row">
+                  <div className="title">Total money: </div>
+                  <div className="total-money">
+                    {utils.priceBreak(cart.data.totalAmount)}₫
                   </div>
                 </div>
-                <div className="delete-btn">
-                  <i className="fa-solid fa-trash"></i>
-                </div>
+                <div className="payment-btn button-style">Payment</div>
               </div>
-            </div>
-            <div className="sum row">
-              <div className="title">Total money: </div>
-              <div className="total-money">{utils.priceBreak(1500000)}₫</div>
-            </div>
-            <div className="payment-btn button-style">Payment</div>
-          </div>
-          <div className="empty-cart">
-            <div className="img">
-              <img src="/img/empty_cart.png" alt="" />
-            </div>
-            <div className="text">Your cart is empty</div>
+            ) : (
+              <div className="empty-cart">
+                <div className="img">
+                  <img src="/img/empty_cart.png" alt="" />
+                </div>
+                <div className="text">Your cart is empty</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
+      <div className="header-nav-phone">{SearchBox()}</div>
+    </React.Fragment>
   );
 };
 

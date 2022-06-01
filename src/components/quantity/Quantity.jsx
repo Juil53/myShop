@@ -1,16 +1,18 @@
 import { useState } from "react";
 const Quantity = (props) => {
-  const { value, quantity } = props;
+  const { value, quantity, changeValue } = props;
   const [number, setNumber] = useState(parseInt(value));
 
   function handleDecrease() {
     if (number - 1 > 0) {
+      changeValue(number - 1);
       return setNumber(number - 1);
     }
   }
 
   function handleIncrease() {
     if (number + 1 <= parseInt(quantity)) {
+      changeValue(number + 1);
       return setNumber(number + 1);
     }
   }
@@ -19,8 +21,10 @@ const Quantity = (props) => {
     if (e.target.value) {
       let number = parseInt(e.target.value);
       if (number > quantity) {
+        changeValue(quantity);
         return setNumber(quantity);
       }
+      changeValue(number);
       return setNumber(number);
     } else {
       return setNumber(e.target.value);
@@ -29,6 +33,7 @@ const Quantity = (props) => {
 
   function checkValue() {
     if (!number || number === 0) {
+      changeValue(1);
       setNumber(1);
     }
   }

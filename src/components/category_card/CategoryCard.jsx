@@ -69,7 +69,9 @@ export default function CategoryCard(props) {
   return (
     <div className="categorycard">
       <div className="title">Danh mục sản phẩm</div>
-      <div className="categorycard__content">{createCategory(categories)}</div>
+      <div className="categorycard__content">
+        {categories && categories.length && createCategory(categories)}
+      </div>
     </div>
   );
 }

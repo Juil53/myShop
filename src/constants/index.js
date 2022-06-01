@@ -52,3 +52,7 @@ export const PRODUCT_ACTIONS = {
 export const CATEGORY_ACTIONS = {
   GET_ALL_CATEGORIES: "GET_ALL_CATEGORIES",
 };
+
+export const CART_ACTIONS = {
+  GET_CART: "GET_CART",
+};
