@@ -80,3 +80,21 @@ export const getQuantityAvailable = ({
 
   return availableOptions[JSON.stringify(key)];
 };
+
+export const selectUnavailableOption = ({
+  product = {},
+  optionId = "",
+  optionValue = "",
+}) => {
+  const baseOption = {
+    [optionId]: optionValue,
+  };
+  const availableOptions = getAvailableOptions(product);
+  for (let i in availableOptions) {
+    const option = JSON.parse(i);
+    if (option[optionId] === optionValue && availableOptions[i]) {
+      console.log(option);
+      return [option, availableOptions[i]];
+    }
+  }
+};

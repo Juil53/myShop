@@ -1,6 +1,5 @@
 import Slider from "react-slick";
 import { useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const LeftImageSlider = (props) => {
   const { data } = props;
@@ -22,7 +21,7 @@ const LeftImageSlider = (props) => {
   };
 
   function createSubSlider(data) {
-    if (data.length <= 1) {
+    if (!data || data.length <= 1 || typeof data === "string") {
       return <></>;
     }
 
@@ -35,7 +34,6 @@ const LeftImageSlider = (props) => {
         {data.map((v) => (
           <div className="subimg" key={v}>
             <div className="img-container">
-              {/* <LazyLoadImage effect="flur" src={v} /> */}
               <img src={v} alt="" />
             </div>
           </div>
@@ -45,6 +43,23 @@ const LeftImageSlider = (props) => {
   }
 
   function createMainSlider(data) {
+    if (!data) {
+      return <></>;
+    }
+
+    if (typeof data === "string") {
+      return (
+        <Slider
+          {...settings_mainSlider}
+          asNavFor={subSlider}
+          ref={(slider1) => setMainSlider(slider1)}
+        >
+          <div className="img-container">
+            <img src={data} alt="" />
+          </div>
+        </Slider>
+      );
+    }
     return (
       <Slider
         {...settings_mainSlider}
@@ -53,7 +68,6 @@ const LeftImageSlider = (props) => {
       >
         {data.map((v) => (
           <div className="img-container" key={v}>
-            {/* <LazyLoadImage effect="flur" src={v} /> */}
             <img src={v} alt="" />
           </div>
         ))}

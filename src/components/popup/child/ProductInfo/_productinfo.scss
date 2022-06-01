@@ -10,6 +10,7 @@
 
   .productinfopopup__left {
     padding: 2rem;
+    padding-left: 4rem;
     width: 35rem;
     align-items: center;
 
@@ -137,7 +138,7 @@
 
       .option-item.unavailable {
         color: $grayColor-1;
-        pointer-events: none;
+        // pointer-events: none;
       }
 
       .option-item.active {
@@ -167,13 +168,28 @@
       }
     }
 
-    .addcart-btn {
+    .function-container {
       margin: 3rem auto 0;
-      width: 23rem;
+      justify-content: space-between;
+    }
+
+    .cancel-btn,
+    .addcart-btn {
+      width: 16rem;
       height: 4rem;
       display: block;
       font-size: 1.4rem;
       text-transform: uppercase;
+    }
+
+    .cancel-btn {
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .cancel-btn:hover {
+      color: $mainColor;
+      border: 1px solid $mainColor;
     }
   }
 
@@ -183,11 +199,11 @@
   }
 
   .slick-prev {
-    left: -2rem;
+    left: -2.5rem;
   }
 
   .slick-next {
-    right: -2rem;
+    right: -2.5rem;
   }
 }
 

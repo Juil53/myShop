@@ -1,12 +1,16 @@
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 import { utils } from "../../../../utils";
 import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
 import Quantity from "../../../quantity/Quantity";
-import { isAvailableOption, getQuantityAvailable } from "./helper";
-import { useState } from "react";
+import {
+  isAvailableOption,
+  getQuantityAvailable,
+  selectUnavailableOption,
+} from "./helper";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
@@ -47,19 +51,29 @@ export default function ProductInfoPopup(props) {
     return rs ? "" : "unavailable";
   }
 
-  function changeOption(optionId, optionValue) {
-    const newOption = { ...currentOption };
-    const quantity = getQuantityAvailable({
-      product: data,
-      currentOption,
-      optionId,
-      optionValue,
-    });
+  function changeOption(optionId, optionValue, isAvailable) {
+    if (isAvailable) {
+      const newOption = { ...currentOption };
+      const quantity = getQuantityAvailable({
+        product: data,
+        currentOption,
+        optionId,
+        optionValue,
+      });
 
-    setNumberOfProduct(quantity);
+      setNumberOfProduct(quantity);
 
-    newOption[optionId] = optionValue;
-    setCurrentOption(newOption);
+      newOption[optionId] = optionValue;
+      setCurrentOption(newOption);
+    } else {
+      const [newOption, newQty] = selectUnavailableOption({
+        product: data,
+        optionId,
+        optionValue,
+      });
+      setCurrentOption(newOption);
+      setNumberOfProduct(newQty);
+    }
   }
 
   function handleAddCart() {
@@ -91,7 +105,7 @@ export default function ProductInfoPopup(props) {
       <div className="option option-more row">
         {values.map((i) => (
           <div
-            onClick={() => changeOption(id, i)}
+            onClick={() => changeOption(id, i, !check(id, i))}
             className={`option-item ${check(id, i)}`}
             key={i + "configurableOptions"}
           >
@@ -100,6 +114,10 @@ export default function ProductInfoPopup(props) {
         ))}
       </div>
     );
+  }
+
+  function handleSelectUnavailableOption(id, value) {
+    selectUnavailableOption({ optionId: id, optionValue: value });
   }
 
   return (
@@ -155,13 +173,17 @@ export default function ProductInfoPopup(props) {
                 {numberOfProduct} products avaiable
               </div>
             </div>
-            <button
-              onClick={handleAddCart}
-              className="addcart-btn button-style"
-            >
-              Add to cart
-            </button>
-            <div style={{ height: "1.5rem" }}></div>
+            <div className="function-container row">
+              <button onClick={closePopup} className="cancel-btn">
+                Back
+              </button>
+              <button
+                onClick={handleAddCart}
+                className="addcart-btn button-style"
+              >
+                Add to cart
+              </button>
+            </div>
           </div>
           <div className="popup__cancel-btn round" onClick={closePopup}>
             <i className="fa-solid fa-xmark"></i>
