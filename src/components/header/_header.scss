@@ -186,7 +186,6 @@
 
         //WHEN CART NOT EMPTY
         .cart-dropdown-content {
-          display: none;
           min-width: 37.5rem;
           max-height: 62.5rem;
           background-color: $whiteColor;
@@ -203,6 +202,7 @@
 
               .img {
                 img {
+                  border: 1px solid $mainColor;
                   width: 10rem;
                   height: 10rem;
                 }
@@ -235,6 +235,10 @@
                   font-size: 1.2rem;
                   color: $grayColor-3;
                   font-style: italic;
+
+                  span {
+                    margin-right: 0.2rem;
+                  }
                 }
 
                 .price {

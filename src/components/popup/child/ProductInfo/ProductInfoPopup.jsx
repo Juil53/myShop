@@ -121,13 +121,13 @@ export default function ProductInfoPopup(props) {
     const product = {
       ...others,
       priceAfterDiscount,
-      itemSelected: {},
+      optionSelected: {},
       quantity: number,
       totalPrice: number * priceAfterDiscount,
     };
 
     if (Object.keys(currentOption).length !== 0) {
-      product.itemSelected = { ...currentOption };
+      product.optionSelected = { ...currentOption };
     }
 
     const cart = localStorage.get("cart")
@@ -146,7 +146,7 @@ export default function ProductInfoPopup(props) {
         if (Object.keys(currentOption).length !== 0) {
           const sameOption = sameProduct.filter(
             (v) =>
-              JSON.stringify(v.itemSelected) === JSON.stringify(currentOption)
+              JSON.stringify(v.optionSelected) === JSON.stringify(currentOption)
           );
 
           if (sameOption.length && sameOption.length !== 0) {
