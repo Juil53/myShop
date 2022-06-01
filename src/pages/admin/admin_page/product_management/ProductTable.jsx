@@ -111,7 +111,7 @@ export default function ProductTable() {
               }}
             />
           </TableCell>
-          <TableCell align="center">{product.quantity}</TableCell>
+          <TableCell align="center">{product.available}</TableCell>
           <TableCell align="center">
             {formatter.format(product.priceBeforeDiscount)}
           </TableCell>
