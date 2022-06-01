@@ -1,15 +1,35 @@
-import { combineReducers } from "redux";
-import { popup } from "./popup/reducer";
-import { products } from "./products/reducer";
+// import { combineReducers, applyMiddleware } from "redux";
+// import thunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 import { languages } from "./languages/reducer";
-import { categories } from "./categories/reducer";
-import userReducer from "./users/reducer";
+import createSagaMiddleware from "redux-saga";
 
-const rootReducer = combineReducers({
-  popup,
-  products,
-  languages,
-  categories,
-  userReducer,
+import orderReducer from "./orders/orderSlice";
+import usersReducer from "./users/usersSlice";
+import productReducer from "./admin_product/productSlice";
+
+import categories from "./categories/slice";
+import products from "./products/slice";
+import page from "./page/slice";
+import cart from "./cart/slice";
+import saga from "./saga";
+
+let sagaMiddleware = createSagaMiddleware();
+const middleware = [sagaMiddleware];
+
+export const store = configureStore({
+  reducer: {
+    products,
+    languages,
+    categories,
+    page,
+    cart,
+    user: usersReducer,
+    order: orderReducer,
+    adminProduct: productReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware),
 });
-export default rootReducer;
+
+sagaMiddleware.run(saga);

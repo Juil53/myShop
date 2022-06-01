@@ -1,0 +1,241 @@
+//product info popup
+.productinfopopup {
+  position: relative;
+  padding-bottom: 1rem;
+  max-width: 75%;
+  max-height: 90vh;
+  border-radius: 0.5rem;
+  overflow: auto;
+  background-color: $whiteColor;
+
+  .productinfopopup__left {
+    padding: 2rem;
+    padding-left: 4rem;
+    width: 35rem;
+    align-items: center;
+
+    .main-img {
+      width: 100%;
+      overflow: hidden;
+
+      .img-container {
+        border: 1px solid $mainColor;
+        padding-top: 100%;
+      }
+    }
+
+    .subimg-container {
+      width: 100%;
+
+      .subimg {
+        width: 100%;
+        padding: 0 0.5rem;
+
+        .img-container {
+          width: 100%;
+          padding-top: 100%;
+        }
+      }
+    }
+  }
+
+  .productinfopopup__info {
+    padding: 2rem;
+    margin-left: 2rem;
+    width: 60%;
+    font-size: 1.4rem;
+
+    .title {
+      font-weight: 600;
+    }
+
+    .productinfopopup__info-name {
+      font-size: 2.2rem;
+      max-width: 90%;
+    }
+
+    .productinfopopup__info-name:hover {
+      color: $mainColor;
+      cursor: pointer;
+    }
+
+    .productinfopopup__info-vend {
+      margin-top: 0.8rem;
+      color: $blackColor-3;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid $grayColor-1;
+      font-weight: 600;
+
+      .left {
+        border-right: 1px solid $grayColor-1;
+        padding: 0 0.8rem 0 0;
+      }
+
+      .right {
+        margin-left: 0.8rem;
+      }
+
+      span {
+        margin-left: 0.5rem;
+        font-weight: 400;
+      }
+    }
+
+    .productinfopopup__info-price {
+      margin-top: 1rem;
+      font-size: 2rem;
+
+      span {
+        color: $grayColor-2;
+        text-decoration: line-through;
+        font-weight: 500;
+        font-size: 1.4rem;
+        margin-left: 1.4rem;
+      }
+    }
+
+    .productinfopopup__info-attributes {
+      margin-top: 2rem;
+      color: $blackColor-3;
+      font-size: 1.4rem;
+
+      div {
+        margin-top: 0.8rem;
+      }
+    }
+
+    .configurable-options {
+      min-width: 60%;
+      margin-top: 1.5rem;
+      align-items: center;
+
+      .title {
+        min-width: 5rem;
+      }
+
+      .option {
+        margin-left: 3.5rem;
+        font-size: 1.2rem;
+      }
+
+      .option-item {
+        border: 1px solid $grayColor-1;
+        margin: 0 0.3rem;
+        padding: 0.5rem;
+        border-radius: 1.2rem;
+        min-width: 3rem;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .option-item.unavailable {
+        color: $grayColor-1;
+        // pointer-events: none;
+      }
+
+      .option-item.active {
+        border: 1px solid $mainColor;
+        color: $mainColor;
+      }
+
+      .option-item:hover {
+        border: 1px solid $mainColor;
+        color: $mainColor;
+      }
+
+      .option-item__click {
+        border: 1px solid $mainColor;
+        color: $mainColor;
+      }
+    }
+
+    .productinfopopup__info-quantity {
+      padding-top: 1.6rem;
+      justify-content: space-between;
+      align-items: center;
+
+      .number-product {
+        color: $grayColor-3;
+        font-size: 1.2rem;
+      }
+    }
+
+    .special {
+      max-width: 85%;
+    }
+
+    .function-container {
+      margin: 3rem auto 0;
+      justify-content: space-evenly;
+    }
+
+    .cancel-btn,
+    .addcart-btn {
+      width: 16rem;
+      height: 4rem;
+      display: block;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+    }
+
+    .cancel-btn {
+      margin-right: 0.5rem;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .cancel-btn:hover {
+      color: $mainColor;
+      border: 1px solid $mainColor;
+    }
+  }
+
+  .slick-next::before,
+  .slick-prev::before {
+    opacity: 1;
+  }
+
+  .slick-prev {
+    left: -2.5rem;
+  }
+
+  .slick-next {
+    right: -2.5rem;
+  }
+}
+
+// .productinfopopup::-webkit-scrollbar {
+//   display: none;
+// }
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .productinfopopup {
+    max-width: 85%;
+
+    .productinfopopup__info {
+      .configurable-options {
+        min-width: 70%;
+
+        .option {
+          margin-left: 2rem;
+        }
+      }
+
+      .productinfopopup__info-quantity {
+        max-width: none;
+      }
+
+      .cancel-btn,
+      .addcart-btn {
+        width: 14rem;
+        height: 4rem;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .productinfopopup {
+    max-width: 60%;
+  }
+}

@@ -1,37 +1,68 @@
-import { appActions } from "../../store/actions/PopupActions";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { constant } from "../../constants";
-import ProductInfoPopup from "./child/ProductInfoPopup";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-export default function Popup(props) {
-  const popup = useSelector((state) => state.app.popup);
+import { pageSelector } from "../../store/page/selector";
+import { actions } from "../../store/page/slice";
+import { POPUP } from "../../constants";
+
+import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
+import AddCartPopup from "./child/AddCartPopup/AddCartPopup";
+
+export default function Popup() {
+  const { popup } = useSelector(pageSelector);
+  const [isActive, setIsActive] = useState(false);
+  const { active = [] } = popup || {};
   const dispatch = useDispatch();
-  //Define popups
-  const popups = {
-    [constant.NO_POPUP]: <div></div>,
-    [constant.PRODUCT_INFO_POPUP]: (
-      <ProductInfoPopup closePopup={handleClosePopup} />
-    ),
+
+  const createPopup = (type, data) => {
+    switch (type) {
+      case POPUP.PRODUCT_INFO_POPUP:
+        return (
+          <ProductInfoPopup
+            closePopup={() => handleClosePopup(type)}
+            data={data}
+          />
+        );
+      case POPUP.ADD_CART_POPUP:
+        return (
+          <AddCartPopup closePopup={() => handleClosePopup(type)} data={data} />
+        );
+      default:
+        return <></>;
+    }
   };
 
-  function handleClosePopup() {
-    dispatch(appActions.changePopup(constant.NO_POPUP));
+  const createPopups = () => {
+    return active.map((v) => {
+      return (
+        <React.Fragment key={v.type}>
+          {createPopup(v.type, v.data)}
+        </React.Fragment>
+      );
+    });
+  };
+
+  function handleClosePopup(type) {
+    dispatch(actions.hidePopup(type));
   }
 
   useEffect(() => {
-    const page = document.getElementById("page");
-    if (popup.type === constant.NO_POPUP) {
-      if (page.classList.contains("haspopup")) {
-        page.classList.remove("haspopup");
-      }
-    } else {
-      if (!page.classList.contains("haspopup")) {
-        page.classList.add("haspopup");
-      }
-    }
-  });
+    const body = document.body;
+    const scrollbarWidth = window.innerWidth - body.clientWidth + "px";
 
-  return popups[popup.type];
+    if (active.length && !isActive) {
+      body.classList.add("has-popup");
+      body.style.paddingRight = scrollbarWidth;
+      setIsActive(true);
+    }
+
+    if (!active.length) {
+      body.classList.remove("has-popup");
+      body.style.paddingRight = "0";
+      setIsActive(false);
+    }
+  }, [active]);
+
+  return <>{createPopups()}</>;
 }

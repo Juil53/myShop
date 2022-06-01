@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 export default function Footer() {
-  const language = useSelector((state) => state.language);
+  const language = useSelector((state) => state.languages);
   const footer = language.footer;
   const footer_top_left = footer.top_footer.left;
   const footer_top_mid = footer.top_footer.mid;
@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="footer__top-left">
           <div className="logo">
             <div className="img-container">
-              <img src="./img/logomyShopwhite.png" alt="" />
+              <img src="/img/logomyShopwhite.png" alt="" />
             </div>
           </div>
           <div className="nav row">

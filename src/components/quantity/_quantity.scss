@@ -1,0 +1,28 @@
+.quantity-container {
+  button {
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid $grayColor-1;
+    font-size: 18px;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background-color: $whiteColor;
+    color: $mainColor;
+    border: 1px solid $mainColor;
+  }
+
+  button:disabled {
+    background-color: $grayColor-1;
+    pointer-events: none;
+  }
+
+  input {
+    width: 4rem;
+    text-align: center;
+    outline: none;
+    font-size: 1.6rem;
+    border: 1px solid $grayColor-1;
+  }
+}

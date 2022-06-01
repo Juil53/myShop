@@ -1,37 +1,77 @@
-import AdminContainer from "../pages/admin/AdminContainer";
-import Dashboard from "../pages/admin/admin-page/dashboard/Dashboard";
-import UserManagement from "../pages/admin/admin-page/user-management/UserManagement";
-import ProductManagement from "../pages/admin/admin-page/product-management/ProductManagement";
+import { lazy, Suspense } from "react";
+import { Route } from "react-router-dom";
 
 const routeAdmin = [
   {
     page: "Dashboard",
-    exact: false,
-    path: "/admin/dashboard",
-    element: <Dashboard />,
+    exact: true,
+    path: "/dashboard",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/dashboard/Dashboard")
+    ),
   },
   {
     page: "UserManagement",
-    exact: false,
-    path: "/admin/user-management",
-    element: <UserManagement />,
+    exact: true,
+    path: "/user-management",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/user_management/UserManagement")
+    ),
+  },
+  {
+    page: "AddUser",
+    exact: true,
+    path: "/user-management/add-user",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/user_management/AddUser")
+    ),
   },
   {
     page: "ProductManagement",
-    exact: false,
-    path: "/admin/product-management",
-    element: <ProductManagement />,
+    exact: true,
+    path: "/product-management",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/product_management/ProductManagement")
+    ),
+  },
+  {
+    page: "AddProduct",
+    exact: true,
+    path: "/product-management/add-product",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/product_management/add_product/AddProduct")
+    ),
+  },
+  {
+    page: "EditProduct",
+    exact: true,
+    path: "/product-management/edit-product",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/product_management/EditProduct")
+    ),
+  },
+  {
+    page: "OrderManagement",
+    exact: true,
+    path: "/order-management",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/order_management/OrderManagement")
+    ),
   },
 ];
 
 const renderRouteAdmin = () => {
   return routeAdmin.map((route, index) => {
     return (
-      <AdminContainer
+      <Route
         key={index}
         exact={route.exact}
         path={route.path}
-        element={route.element}
+        element={
+          <Suspense fallback={<>...</>}>
+            <route.element />
+          </Suspense>
+        }
       />
     );
   });

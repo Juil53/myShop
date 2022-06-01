@@ -1,26 +1,22 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import MyDrawer from "./admin_page/component/Drawer";
+import { Routes } from "react-router-dom";
 import { Box } from "@mui/material";
-import MyDrawer from "./admin-page/component/Drawer";
+import { renderRouteAdmin } from "../../routes/AdminRoute";
+
+const content = {
+  flexGrow: 1,
+  p: 3,
+  mt: 8,
+};
 
 export default function AdminContainer(props) {
-  const { exact, path, element } = props;
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <MyDrawer className="sidebar" />
-        <Box
-          className="content"
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            mt: 2,
-          }}
-        >
-          <Routes>
-            <Route exact={exact} path={path} element={element} />
-          </Routes>
+        <Box className="content" component="main" sx={content}>
+          <Routes>{renderRouteAdmin()}</Routes>
         </Box>
       </Box>
     </>
