@@ -90,7 +90,7 @@ const CustomDrawer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-const SearchField = styled(TextField)(({ theme }) => ({
+const TextFieldCustom = styled(TextField)(({ theme }) => ({
   "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
     color: theme.palette.secondary.dark,
   },
@@ -116,6 +116,6 @@ export {
   CustomizeToolbar,
   CustomeNavlink,
   CustomDrawer,
-  SearchField,
+  TextFieldCustom,
   CustomPagination,
 };

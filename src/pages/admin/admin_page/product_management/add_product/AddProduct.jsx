@@ -3,7 +3,6 @@ import {
   Box,
   Grid,
   Paper,
-  TextField,
   Typography,
   Button,
   Stack,
@@ -12,19 +11,21 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
+import { Field, Formik, Form } from "formik";
 import {
-  Field,
-  Formik,
-  Form,
-} from "formik";
-import {
+  actAddProduct,
   actGetCategories,
   actGetOptions,
 } from "../../../../../store/admin_product/action";
-import { useSelector, useDispatch } from "react-redux";
+import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
+import { useDispatch } from "react-redux";
+import { storage } from "../../../../../utils/firebase/index";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import ImageInput from "./ImageInput";
 import AttributeInput from "./AttributeInput";
-import CategoryInput from "./CategoryInput";
+import CategoriesCheckBox from "./CategoriesCheckbox";
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export default function AddProduct() {
   const dispatch = useDispatch();
@@ -51,18 +52,45 @@ export default function AddProduct() {
           name: "",
           brand: "",
           attributes: [],
-          categories: [],
+          categories: [{ name: "", value: "" }],
           desc: "",
           status: "",
-          image: "",
+          image: null,
           quantity: 0,
           priceBeforeDiscount: 0,
-          priceAfterDiscount: null,
+          priceAfterDiscount: 0,
           isHot: false,
           isNew: false,
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          const subCate = values.categories.map((item, index) => {
+            const { name, value } = values.categories[index];
+            value?.push(name);
+            return value;
+          });
+          values.categories = subCate;
+
+          const imageRef = ref(storage, `images/${values.image.name}`);
+          //upload image to firebase
+          uploadBytes(imageRef, values.image).then((result) => {
+            alert("Image uploaded");
+          });
+          await sleep(5000);
+          //getDownload url
+          getDownloadURL(imageRef)
+            .then((url) => {
+              console.log(url);
+              values.image = url;
+            })
+            .then(() => {
+              dispatch(actAddProduct(values));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
           console.log(values);
+          resetForm();
         }}
       >
         <Form>
@@ -70,46 +98,49 @@ export default function AddProduct() {
             {/* Name */}
             <Grid item xs={6}>
               <Field
-                as={TextField}
+                as={TextFieldCustom}
                 name="name"
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Product Name"
                 size="small"
                 fullWidth
+                placeholder="T-shirt..."
               />
             </Grid>
 
             {/* Brand */}
             <Grid item xs={6}>
               <Field
-                as={TextField}
+                as={TextFieldCustom}
                 name="brand"
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Brand"
                 size="small"
                 fullWidth
+                placeholder="Uniqlo..."
               />
             </Grid>
 
             {/* Status */}
             <Grid item xs={4}>
               <Field
-                as={TextField}
+                as={TextFieldCustom}
                 name="status"
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
                 label="Status"
                 size="small"
                 fullWidth
+                placeholder="Available"
               />
             </Grid>
 
             {/* Quantity */}
             <Grid item xs={4}>
               <Field
-                as={TextField}
+                as={TextFieldCustom}
                 name="quantity"
                 type="number"
                 InputLabelProps={{ shrink: true }}
@@ -117,13 +148,14 @@ export default function AddProduct() {
                 label="Quantity"
                 size="small"
                 fullWidth
+                placeholder="100"
               />
             </Grid>
 
             {/* Price */}
             <Grid item xs={4}>
               <Field
-                as={TextField}
+                as={TextFieldCustom}
                 name="priceBeforeDiscount"
                 type="number"
                 InputLabelProps={{ shrink: true }}
@@ -131,6 +163,7 @@ export default function AddProduct() {
                 label="Price"
                 size="small"
                 fullWidth
+                placeholder="100000"
               />
             </Grid>
 
@@ -162,7 +195,7 @@ export default function AddProduct() {
             {/* Description */}
             <Grid item xs={12}>
               <Field
-                as={TextField}
+                as={TextFieldCustom}
                 name="desc"
                 label="Description"
                 InputLabelProps={{ shrink: true }}
@@ -171,17 +204,18 @@ export default function AddProduct() {
                 fullWidth
                 multiline
                 rows={3}
+                placeholder="Áo khoác Cardigan với phong cách trẻ trung, thiết kế đơn giản dễ phối đồ,... "
               />
             </Grid>
 
-            {/* Categories */}
+            {/* Categories Checkbox */}
             <Grid item xs={12}>
-              <CategoryInput />
+              <CategoriesCheckBox />
             </Grid>
 
             {/* Attribute */}
             <Grid item xs={12}>
-              <AttributeInput test="test"/>
+              <AttributeInput />
             </Grid>
 
             <Stack
@@ -208,7 +242,6 @@ export default function AddProduct() {
                 Reset
               </Button>
             </Stack>
-
           </Grid>
         </Form>
       </Formik>

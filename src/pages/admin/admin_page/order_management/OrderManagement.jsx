@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, InputAdornment, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { SearchField } from "../../../../styles/styled_components/styledComponent";
+import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
 import OrderTable from "./OrderTable";
@@ -22,7 +22,7 @@ function OrderManagement() {
         Orders Management
       </Typography>
       <Box className="product__search" sx={product__search}>
-        <SearchField
+        <TextFieldCustom
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

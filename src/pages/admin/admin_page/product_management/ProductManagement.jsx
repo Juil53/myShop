@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchField } from "../../../../styles/styled_components/styledComponent";
+import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import { InputAdornment, Button, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ function ProductManagement() {
         Product Management
       </Typography>
       <Box className="product__search" sx={product__search}>
-        <SearchField
+        <TextFieldCustom
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
