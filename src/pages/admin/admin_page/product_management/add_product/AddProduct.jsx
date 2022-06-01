@@ -56,7 +56,7 @@ export default function AddProduct() {
           desc: "",
           status: "",
           image: null,
-          quantity: 0,
+          available: 0,
           priceBeforeDiscount: 0,
           priceAfterDiscount: 0,
           isHot: false,
@@ -137,15 +137,15 @@ export default function AddProduct() {
               />
             </Grid>
 
-            {/* Quantity */}
+            {/* Available */}
             <Grid item xs={4}>
               <Field
                 as={TextFieldCustom}
-                name="quantity"
+                name="available"
                 type="number"
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
-                label="Quantity"
+                label="Available"
                 size="small"
                 fullWidth
                 placeholder="100"
