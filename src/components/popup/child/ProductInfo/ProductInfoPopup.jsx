@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 import { utils } from "../../../../utils";
+import localStorage from "../../../../service/localStorage";
 import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
@@ -16,6 +17,8 @@ export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
   const dispatch = useDispatch();
 
+  const [number, setNumber] = useState(1);
+
   //Option dang chon
   const [currentOption, setCurrentOption] = useState(() => {
     const { configurableProducts = [] } = data;
@@ -27,6 +30,7 @@ export default function ProductInfoPopup(props) {
     return current;
   });
 
+  //so luong san pham con lai cua option tuong ung
   const [numberOfProduct, setNumberOfProduct] = useState(() => {
     if (data.configurableOptions) {
       return getQuantityAvailable({
@@ -34,7 +38,7 @@ export default function ProductInfoPopup(props) {
         currentOption,
       });
     } else {
-      return data.quantity;
+      return data.available;
     }
   });
 
@@ -76,17 +80,6 @@ export default function ProductInfoPopup(props) {
     }
   }
 
-  function handleAddCart() {
-    dispatch(
-      actions.activePopup({
-        type: POPUP.ADD_CART_POPUP,
-        data: {
-          ...data,
-        },
-      })
-    );
-  }
-
   function createConfigurableOptions(data) {
     if (data) {
       if (data.length > 0) {
@@ -116,8 +109,79 @@ export default function ProductInfoPopup(props) {
     );
   }
 
-  function handleSelectUnavailableOption(id, value) {
-    selectUnavailableOption({ optionId: id, optionValue: value });
+  function handleAddCart() {
+    const {
+      configurableProducts = [],
+      configurableOptions = [],
+      attributes = [],
+      priceAfterDiscount,
+      ...others
+    } = data;
+
+    const product = {
+      ...others,
+      priceAfterDiscount,
+      itemSelected: {},
+      quantity: number,
+      totalPrice: number * priceAfterDiscount,
+    };
+
+    if (Object.keys(currentOption).length !== 0) {
+      product.itemSelected = { ...currentOption };
+    }
+
+    const cart = localStorage.get("cart")
+      ? localStorage.get("cart")
+      : {
+          productList: [],
+          totalAmount: 0,
+        };
+
+    if (cart.productList.length === 0) {
+      cart.productList.push(product);
+    } else {
+      const sameProduct = cart.productList.filter((v) => v.id === product.id);
+
+      if (sameProduct.length && sameProduct.length !== 0) {
+        if (Object.keys(currentOption).length !== 0) {
+          const sameOption = sameProduct.filter(
+            (v) =>
+              JSON.stringify(v.itemSelected) === JSON.stringify(currentOption)
+          );
+
+          if (sameOption.length && sameOption.length !== 0) {
+            sameOption[0].quantity = sameOption[0].quantity + product.quantity;
+            sameOption[0].totalPrice =
+              sameOption[0].quantity * product.priceAfterDiscount;
+          } else {
+            cart.productList.push(product);
+          }
+        } else {
+          sameProduct[0].quantity = sameProduct[0].quantity + product.quantity;
+          sameProduct[0].totalPrice =
+            sameProduct[0].quantity * product.priceAfterDiscount;
+        }
+      } else {
+        cart.productList.push(product);
+      }
+    }
+
+    //tinh lai tong tien
+    cart.totalAmount = cart.productList.reduce(
+      (pre, cur) => pre + cur.totalPrice,
+      0
+    );
+
+    localStorage.set("cart", cart);
+
+    dispatch(
+      actions.activePopup({
+        type: POPUP.ADD_CART_POPUP,
+        data: {
+          ...data,
+        },
+      })
+    );
   }
 
   return (
@@ -142,23 +206,30 @@ export default function ProductInfoPopup(props) {
             <div className="productinfopopup__info-vend row">
               <div className="left">
                 Brand:
-                <span>{data.brand ? data.brand : "Not yet been update"}</span>
+                <span>{data.brand ? data.brand : "Updating"}</span>
               </div>
               <div className="right">
                 Status:
-                <span>{data.status ? data.status : "Not yet been update"}</span>
+                <span>{data.status ? data.status : "Updating"}</span>
               </div>
             </div>
             <div className="productinfopopup__info-price text-brand font-bold">
-              {utils.priceBreak(data.priceAfterDiscount)}₫
-              {data.priceAfterDiscount !== data.priceBeforeDiscount && (
-                <span className="price-compare">
-                  {utils.priceBreak(data.priceBeforeDiscount)}₫
-                </span>
-              )}
+              {data.priceAfterDiscount
+                ? utils.priceBreak(data.priceAfterDiscount) + "₫"
+                : "Update later"}
+              {data.priceAfterDiscount &&
+                data.priceAfterDiscount !== data.priceBeforeDiscount && (
+                  <span className="price-compare">
+                    {data.priceBeforeDiscount &&
+                      utils.priceBreak(data.priceBeforeDiscount)}
+                    ₫
+                  </span>
+                )}
             </div>
             <div className="productinfopopup__info-attributes">
               {data.attributes &&
+                data.attributes.length > 0 &&
+                typeof data.attributes !== "string" &&
                 data.attributes.map((v) => (
                   <div key={v.name + "att"}>
                     - {v.name}: <span>{v.value}</span>
@@ -166,9 +237,19 @@ export default function ProductInfoPopup(props) {
                 ))}
             </div>
             {createConfigurableOptions(data.configurableOptions)}
-            <div className="productinfopopup__info-quantity row">
+            <div
+              className={
+                data.image && data.image.length === 1
+                  ? "productinfopopup__info-quantity row special"
+                  : "productinfopopup__info-quantity row"
+              }
+            >
               <div className="title">Quantity</div>
-              <Quantity value="1" quantity={numberOfProduct} />
+              <Quantity
+                value={number}
+                quantity={numberOfProduct}
+                changeValue={setNumber}
+              />
               <div className="number-product">
                 {numberOfProduct} products avaiable
               </div>
@@ -184,9 +265,6 @@ export default function ProductInfoPopup(props) {
                 Add to cart
               </button>
             </div>
-          </div>
-          <div className="popup__cancel-btn round" onClick={closePopup}>
-            <i className="fa-solid fa-xmark"></i>
           </div>
         </div>
       )}

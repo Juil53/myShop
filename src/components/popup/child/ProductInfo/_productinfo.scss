@@ -2,10 +2,10 @@
 .productinfopopup {
   position: relative;
   padding-bottom: 1rem;
-  max-width: 70%;
+  max-width: 75%;
   max-height: 90vh;
   border-radius: 0.5rem;
-  overflow-y: auto;
+  overflow: auto;
   background-color: $whiteColor;
 
   .productinfopopup__left {
@@ -35,14 +35,6 @@
           width: 100%;
           padding-top: 100%;
         }
-      }
-    }
-
-    .special {
-      width: 70%;
-
-      .subimg {
-        padding-left: 0;
       }
     }
   }
@@ -168,9 +160,13 @@
       }
     }
 
+    .special {
+      max-width: 85%;
+    }
+
     .function-container {
       margin: 3rem auto 0;
-      justify-content: space-between;
+      justify-content: space-evenly;
     }
 
     .cancel-btn,
@@ -183,6 +179,7 @@
     }
 
     .cancel-btn {
+      margin-right: 0.5rem;
       border: 1px solid transparent;
       transition: all 0.3s ease;
     }
@@ -207,13 +204,33 @@
   }
 }
 
-.productinfopopup::-webkit-scrollbar {
-  display: none;
-}
+// .productinfopopup::-webkit-scrollbar {
+//   display: none;
+// }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .productinfopopup {
-    max-width: 80%;
+    max-width: 85%;
+
+    .productinfopopup__info {
+      .configurable-options {
+        min-width: 70%;
+
+        .option {
+          margin-left: 2rem;
+        }
+      }
+
+      .productinfopopup__info-quantity {
+        max-width: none;
+      }
+
+      .cancel-btn,
+      .addcart-btn {
+        width: 14rem;
+        height: 4rem;
+      }
+    }
   }
 }
 

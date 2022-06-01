@@ -78,13 +78,7 @@ const LeftImageSlider = (props) => {
   return (
     <div className="productinfopopup__left vertical">
       <div className="main-img">{createMainSlider(data)}</div>
-      <div
-        className={
-          data.length > 1 ? "subimg-container" : "subimg-container special"
-        }
-      >
-        {createSubSlider(data)}
-      </div>
+      <div className="subimg-container">{createSubSlider(data)}</div>
     </div>
   );
 };

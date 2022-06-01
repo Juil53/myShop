@@ -90,6 +90,7 @@ export const selectUnavailableOption = ({
     [optionId]: optionValue,
   };
   const availableOptions = getAvailableOptions(product);
+
   for (let i in availableOptions) {
     const option = JSON.parse(i);
     if (option[optionId] === optionValue && availableOptions[i]) {
