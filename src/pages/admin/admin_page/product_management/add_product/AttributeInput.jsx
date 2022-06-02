@@ -56,7 +56,7 @@ export default function AttributeInput({ productInfo }) {
                     {/* Options */}
                     <Grid item xs={3}>
                       <SelectInput
-                        name={`attributes.${index}.name`}
+                        name={`attributes.${index}`}
                         variant="outlined"
                         size="small"
                         label="Attribute"
@@ -79,7 +79,7 @@ export default function AttributeInput({ productInfo }) {
                     {/* Detail options */}
                     <Grid item xs={8}>
                       <SelectInput
-                        name={`attributes.${index}.value`}
+                        name={`attributes.${index}`}
                         variant="outlined"
                         size="small"
                         label="Detail"

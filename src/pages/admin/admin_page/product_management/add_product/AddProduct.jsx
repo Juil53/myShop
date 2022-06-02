@@ -52,7 +52,7 @@ export default function AddProduct() {
           name: "",
           brand: "",
           attributes: [],
-          categories: [{ name: "", value: "" }],
+          categories: [],
           desc: "",
           status: "",
           image: null,

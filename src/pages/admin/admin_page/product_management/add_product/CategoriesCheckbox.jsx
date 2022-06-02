@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actGetCategories } from "../../../../../store/admin_product/action";
 import { selectCategories } from "../../../../../store/admin_product/selector";
 import {
+  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -21,24 +22,23 @@ function CategoriesCheckBox() {
     values: { categories },
     setFieldValue,
   } = useFormikContext();
-  console.log(categories)
+  console.log("categories", categories);
 
   useEffect(() => {
     dispatch(actGetCategories());
   }, []);
 
   const categoriesData = useSelector(selectCategories);
+
   const categoriesDetail = (categoryName) => {
     if (categoryName) {
       const { subCate = [] } =
-        categoriesData.find((option) => option.id == categoryName) || {};
-      return subCate.map((option, index) => (
-        <FormControlLabel
-          key={`subCate_${index}`}
-          control={<Field as={Checkbox} name={`categories[0].value`} />}
-          label={option.name}
-          value={option.id}
-        />
+        categoriesData.find((category) => category.id === categoryName) || {};
+      return subCate.map((cate, index) => (
+        <label>
+          <Field type="checkbox" name={`categories.${index}.value`} key={index}/>
+          {cate.name}
+        </label>
       ));
     }
   };
@@ -49,18 +49,29 @@ function CategoriesCheckBox() {
         <FieldArray name="categories">
           {({ insert, remove, push }) => (
             <>
+              <Grid item xs={12}>
+                <Button
+                  size="small"
+                  color="secondary"
+                  type="button"
+                  onClick={() => push({ name: "", value: "" })}
+                >
+                  Click to add Categories
+                </Button>
+              </Grid>
+
               {categories.length > 0 &&
                 categories.map((category, index) => (
                   <React.Fragment key={`categories${index}`}>
                     <Grid item xs={3}>
                       <FormControl fullWidth>
                         <SelectInput
-                          name={`categories[0].name`}
+                          name={`categories.${index}.name`}
                           variant="outlined"
                           size="small"
                           label="Categories"
                           fullWidth
-                          disabled={category.name ? true : false}
+                          // disabled={category.name ? true : false}
                         >
                           {categoriesData?.map((category) => (
                             <MenuItem key={category.id} value={category.id}>
