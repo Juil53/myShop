@@ -63,34 +63,35 @@ export default function AddProduct() {
           isNew: false,
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          const subCate = values.categories.map((item, index) => {
-            const { name, value } = values.categories[index];
-            value?.push(name);
-            return value;
-          });
-          values.categories = subCate;
+          console.log(values)
+          // const subCate = values.categories.map((item, index) => {
+          //   const { name, value } = values.categories[index];
+          //   value?.push(name);
+          //   return value;
+          // });
+          // values.categories = subCate;
 
-          const imageRef = ref(storage, `images/${values.image.name}`);
-          //upload image to firebase
-          uploadBytes(imageRef, values.image).then((result) => {
-            alert("Image uploaded");
-          });
-          await sleep(5000);
-          //getDownload url
-          getDownloadURL(imageRef)
-            .then((url) => {
-              console.log(url);
-              values.image = url;
-            })
-            .then(() => {
-              dispatch(actAddProduct(values));
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          // const imageRef = ref(storage, `images/${values.image.name}`);
+          // //upload image to firebase
+          // uploadBytes(imageRef, values.image).then((result) => {
+          //   alert("Image uploaded");
+          // });
+          // await sleep(5000);
+          // //getDownload url
+          // getDownloadURL(imageRef)
+          //   .then((url) => {
+          //     console.log(url);
+          //     values.image = url;
+          //   })
+          //   .then(() => {
+          //     dispatch(actAddProduct(values));
+          //   })
+          //   .catch((error) => {
+          //     console.log(error);
+          //   });
 
-          console.log(values);
-          resetForm();
+          // console.log(values);
+          // resetForm();
         }}
       >
         <Form>

@@ -7,7 +7,7 @@ import { selectAttributes } from "../../../../../store/admin_product/selector";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SelectInput from "./SelectInput";
 
-export default function AttributeInput({ productInfo }) {
+export default function AttributeInput() {
   const dispatch = useDispatch();
   const {
     values: { attributes },
@@ -56,7 +56,7 @@ export default function AttributeInput({ productInfo }) {
                     {/* Options */}
                     <Grid item xs={3}>
                       <SelectInput
-                        name={`attributes.${index}`}
+                        name={`attributes.${index}.name`}
                         variant="outlined"
                         size="small"
                         label="Attribute"
@@ -70,16 +70,16 @@ export default function AttributeInput({ productInfo }) {
                         ))}
 
                         {/* Edit */}
-                        <MenuItem key={index} value={attribute.name} disabled>
+                        {/* <MenuItem key={index} value={attribute.name} disabled>
                           {attribute.name}
-                        </MenuItem>
+                        </MenuItem> */}
                       </SelectInput>
                     </Grid>
 
                     {/* Detail options */}
                     <Grid item xs={8}>
                       <SelectInput
-                        name={`attributes.${index}`}
+                        name={`attributes.${index}.value`}
                         variant="outlined"
                         size="small"
                         label="Detail"
@@ -89,9 +89,9 @@ export default function AttributeInput({ productInfo }) {
                         {attributeDetail(attributes[index].name)}
 
                         {/* Edit */}
-                        <MenuItem key={index} value={attribute.value} disabled>
+                        {/* <MenuItem key={index} value={attribute.value} disabled>
                           {attribute.value}
-                        </MenuItem>
+                        </MenuItem> */}
                       </SelectInput>
                     </Grid>
 

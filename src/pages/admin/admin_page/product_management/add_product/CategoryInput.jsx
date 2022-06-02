@@ -14,16 +14,7 @@ import { FieldArray, useFormikContext, useField } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetCategories } from "../../../../../store/admin_product/action";
 import { selectCategories } from "../../../../../store/admin_product/selector";
-
-const SelectInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <FormControl sx={{ width: "100%" }}>
-      <InputLabel id="demo-simple-select-standard-label">{label}</InputLabel>
-      <Select {...field} {...props} label={label} />
-    </FormControl>
-  );
-};
+import SelectInput from "./SelectInput";
 
 export default function CategoryInput() {
   const dispatch = useDispatch();
@@ -69,7 +60,7 @@ export default function CategoryInput() {
 
               {categories.length > 0 &&
                 categories.map((category, index) => (
-                  <React.Fragment key={`categories${index}`}>
+                  <React.Fragment key={`categories_${index}`}>
                     <Grid item xs={3}>
                       <SelectInput
                         name={`categories.${index}.name`}
