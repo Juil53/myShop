@@ -191,7 +191,7 @@ export default function ProductTable() {
                   <TableCell align="left">ID</TableCell>
                   <TableCell align="left">Product Name</TableCell>
                   <TableCell align="center">Image</TableCell>
-                  <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">Available</TableCell>
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center"></TableCell>
                 </TableRow>

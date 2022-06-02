@@ -175,7 +175,6 @@ export default function AddProduct() {
             {/* Hot */}
             <Grid item xs={3}>
               <FormControlLabel
-                value="end"
                 control={<Field as={Switch} name="isHot" color="secondary" />}
                 label="Hot"
                 labelPlacement="end"
@@ -185,7 +184,6 @@ export default function AddProduct() {
             {/* New */}
             <Grid item xs={3}>
               <FormControlLabel
-                value="end"
                 control={<Field as={Switch} name="isNew" color="secondary" />}
                 label="New"
                 labelPlacement="end"

@@ -1,22 +1,13 @@
 import React, { useEffect } from "react";
-import {
-  Button,
-  Grid,
-  IconButton,
-  MenuItem,
-  Select,
-  Stack,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Button, Grid, IconButton, MenuItem, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { FieldArray, useFormikContext, useField } from "formik";
+import { FieldArray, useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetOptions } from "../../../../../store/admin_product/action";
 import { selectAttributes } from "../../../../../store/admin_product/selector";
 import SelectInput from "./SelectInput";
 
-export default function AttributeInput() {
+export default function AttributeInput({ productInfo }) {
   const dispatch = useDispatch();
   const {
     values: { attributes },
@@ -26,7 +17,11 @@ export default function AttributeInput() {
     dispatch(actGetOptions());
   }, []);
 
+  console.log("attributes", attributes);
+
   const options = useSelector(selectAttributes);
+  console.log("options", options);
+
   const attributeDetail = (attributeName) => {
     if (attributeName) {
       const { data = [] } =
@@ -39,6 +34,14 @@ export default function AttributeInput() {
     } else {
       return <MenuItem></MenuItem>;
     }
+  };
+
+  const attributeDetailEdit = () => {
+    return attributes.map((attribute, index) => (
+      <MenuItem key={`attributeDetail_${index}`} value={attribute.value}>
+        {attribute.value}
+      </MenuItem>
+    ));
   };
 
   return (
@@ -61,6 +64,7 @@ export default function AttributeInput() {
               {attributes.length > 0 &&
                 attributes.map((attribute, index) => (
                   <React.Fragment key={`attribute_${index}`}>
+                    {/* Options */}
                     <Grid item xs={3}>
                       <SelectInput
                         name={`attributes.${index}.name`}
@@ -68,15 +72,24 @@ export default function AttributeInput() {
                         size="small"
                         label="Attribute"
                         fullWidth
+                        value={attribute.name}
                       >
-                        {options.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.name}
-                          </MenuItem>
-                        ))}
+                        {/* Add */}
+                        {!productInfo &&
+                          options.map((option) => (
+                            <MenuItem key={option.id} value={option.id}>
+                              {option.name}
+                            </MenuItem>
+                          ))}
+
+                        {/* Edit */}
+                        {/* <MenuItem key={index} value={attribute.name} disabled>
+                          {attribute.name}
+                        </MenuItem> */}
                       </SelectInput>
                     </Grid>
 
+                    {/* Detail options */}
                     <Grid item xs={8}>
                       <SelectInput
                         name={`attributes.${index}.value`}
@@ -85,7 +98,14 @@ export default function AttributeInput() {
                         label="Detail"
                         fullWidth
                       >
-                        {attributeDetail(attributes[index].name)}
+                        {/* Add */}
+                        {!productInfo &&
+                          attributeDetail(attributes[index].name)}
+
+                        {/* Edit */}
+                        {productInfo &&
+                          attributeDetailEdit(attributes[index].name)}
+                        {/* {attributeDetail(attributes[index].name)} */}
                       </SelectInput>
                     </Grid>
 
