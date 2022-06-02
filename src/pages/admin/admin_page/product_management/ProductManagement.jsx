@@ -35,7 +35,7 @@ function ProductManagement() {
           sx={{ minWidth: "10%" }}
           // onChange={handleChange}
         />
-        <Link to="add-product">
+        <Link to="add">
           <Button
             variant="contained"
             color="secondary"

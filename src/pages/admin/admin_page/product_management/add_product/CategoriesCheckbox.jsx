@@ -21,6 +21,7 @@ function CategoriesCheckBox() {
     values: { categories },
     setFieldValue,
   } = useFormikContext();
+  console.log(categories)
 
   useEffect(() => {
     dispatch(actGetCategories());

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -37,7 +37,7 @@ export default function AddProduct() {
 
   return (
     <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
-      <Link to="/admin/product-management">
+      <Link to="/admin/products">
         <Button startIcon={<ArrowBackIcon />} color="secondary">
           Back
         </Button>

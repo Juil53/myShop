@@ -62,7 +62,7 @@ function MyDrawer(props) {
     {
       text: "Product",
       icon: <FormatListBulletedIcon />,
-      href: "/admin/product-management",
+      href: "/admin/products",
     },
     {
       text: "Orders",
