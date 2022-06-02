@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Button, Grid, IconButton, MenuItem, Stack } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { FieldArray, useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetOptions } from "../../../../../store/admin_product/action";
 import { selectAttributes } from "../../../../../store/admin_product/selector";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SelectInput from "./SelectInput";
 
 export default function AttributeInput({ productInfo }) {
@@ -17,31 +17,20 @@ export default function AttributeInput({ productInfo }) {
     dispatch(actGetOptions());
   }, []);
 
-  console.log("attributes", attributes);
-
   const options = useSelector(selectAttributes);
-  console.log("options", options);
 
   const attributeDetail = (attributeName) => {
     if (attributeName) {
       const { data = [] } =
-        options.find((option) => option.id == attributeName) || {};
+        options.find((option) => option.name === attributeName) || {};
       return data.map((option, index) => (
         <MenuItem key={`attributeDetail_${index}`} value={option.value}>
-          {option.key}
+          {option.value}
         </MenuItem>
       ));
     } else {
       return <MenuItem></MenuItem>;
     }
-  };
-
-  const attributeDetailEdit = () => {
-    return attributes.map((attribute, index) => (
-      <MenuItem key={`attributeDetail_${index}`} value={attribute.value}>
-        {attribute.value}
-      </MenuItem>
-    ));
   };
 
   return (
@@ -67,45 +56,42 @@ export default function AttributeInput({ productInfo }) {
                     {/* Options */}
                     <Grid item xs={3}>
                       <SelectInput
-                        name={`attributes.${index}.name`}
+                        name={`attributes.${index}`}
                         variant="outlined"
                         size="small"
                         label="Attribute"
                         fullWidth
-                        value={attribute.name}
                       >
                         {/* Add */}
-                        {!productInfo &&
-                          options.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.name}
-                            </MenuItem>
-                          ))}
+                        {options.map((option) => (
+                          <MenuItem key={option.id} value={option.name}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
 
                         {/* Edit */}
-                        {/* <MenuItem key={index} value={attribute.name} disabled>
+                        <MenuItem key={index} value={attribute.name} disabled>
                           {attribute.name}
-                        </MenuItem> */}
+                        </MenuItem>
                       </SelectInput>
                     </Grid>
 
                     {/* Detail options */}
                     <Grid item xs={8}>
                       <SelectInput
-                        name={`attributes.${index}.value`}
+                        name={`attributes.${index}`}
                         variant="outlined"
                         size="small"
                         label="Detail"
                         fullWidth
                       >
                         {/* Add */}
-                        {!productInfo &&
-                          attributeDetail(attributes[index].name)}
+                        {attributeDetail(attributes[index].name)}
 
                         {/* Edit */}
-                        {productInfo &&
-                          attributeDetailEdit(attributes[index].name)}
-                        {/* {attributeDetail(attributes[index].name)} */}
+                        <MenuItem key={index} value={attribute.value} disabled>
+                          {attribute.value}
+                        </MenuItem>
                       </SelectInput>
                     </Grid>
 

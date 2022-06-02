@@ -9,10 +9,11 @@ import {
   Switch,
   FormControlLabel,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 import {
   actAddProduct,
+  actGetAllProduct,
   actGetOptions,
 } from "../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
@@ -27,33 +28,18 @@ import AttributeInput from "./add_product/AttributeInput";
 
 export default function EditProduct() {
   const dispatch = useDispatch();
-  const productInfo = useSelector(selectProductInfo);
-  const [info, setInfo] = useState({
-    name: "",
-    brand: "",
-    attributes: [],
-    categories: "",
-    desc: "",
-    status: "",
-    image: "",
-    available: "",
-    priceBeforeDiscount: "",
-    priceAfterDiscount: "",
-    isHot: false,
-    isNew: false,
-  });
+  let params = useParams();
+  const info = useSelector((state => selectProductInfo(state, params.id)));
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
+    dispatch(actGetAllProduct())
     dispatch(actGetOptions());
-    setInfo(productInfo);
-  }, [info]);
-
-  console.log("info", info);
+  }, [])
 
   return (
     <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
-      <Link to="/admin/product-management">
+      <Link to="/admin/products">
         <Button startIcon={<ArrowBackIcon />} color="secondary">
           Back
         </Button>
@@ -69,7 +55,7 @@ export default function EditProduct() {
             name: info.name || "",
             brand: info.brand || "",
             attributes: info.attributes || [],
-            categories: [],
+            categories: info.categories || [],
             desc: info.desc || "",
             status: info.status || "",
             image: null,
@@ -248,12 +234,12 @@ export default function EditProduct() {
 
                 {/* Categories Checkbox */}
                 <Grid item xs={12}>
-                  <CategoriesCheckBox />
+                  <CategoriesCheckBox productInfo={info}/>
                 </Grid>
 
                 {/* Attribute */}
                 <Grid item xs={12}>
-                  <AttributeInput productInfo={productInfo}/>
+                  <AttributeInput productInfo={info}/>
                 </Grid>
 
                 <Stack

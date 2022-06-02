@@ -33,7 +33,7 @@ import {
   selectLoading,
   selectProductPagination,
 } from "../../../../store/admin_product/selector";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getProductInfo } from "../../../../store/admin_product/productSlice";
 
 export default function ProductTable() {
@@ -43,6 +43,7 @@ export default function ProductTable() {
   const paginationProduct = useSelector(selectProductPagination);
   const [page, setPage] = React.useState(1);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -90,12 +91,13 @@ export default function ProductTable() {
     return paginationProduct?.map((product, index) => {
       return (
         <TableRow
-          key={index}
+          key={`product_${index}`}
           hover={true}
           sx={{
             "&:last-child td, &:last-child th": { border: 0 },
             cursor: "pointer",
           }}
+          onClick={() => navigate(`/admin/products/edit/${product.id}`)}
         >
           <TableCell align="left">{product.id}</TableCell>
           <TableCell align="left">{product.name}</TableCell>
@@ -144,7 +146,7 @@ export default function ProductTable() {
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
 
-                <Link to="edit-product">
+                {/* <Link to="edit-product">
                   <IconButton
                     size="small"
                     color="success"
@@ -154,7 +156,7 @@ export default function ProductTable() {
                   >
                     <EditIcon fontSize="inherit" />
                   </IconButton>
-                </Link>
+                </Link> */}
               </Stack>
             </Popover>
           </TableCell>

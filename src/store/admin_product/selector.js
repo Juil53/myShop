@@ -28,8 +28,8 @@ export const selectProductPagination = (state) => {
   return productsPagination;
 };
 
-export const selectProductInfo = (state) => {
+export const selectProductInfo = (state, id) => {
   const { adminProduct = {} } = state || {};
-  const { productInfo = [] } = adminProduct;
-  return productInfo;
+  const { products = [] } = adminProduct;
+  return products.find((product) => product.id === id);
 };
