@@ -113,7 +113,6 @@
 
     .configurable-options {
       min-width: 60%;
-      max-width: 70%;
       margin-top: 1.5rem;
       align-items: center;
 
@@ -122,23 +121,28 @@
       }
 
       .option {
-        min-width: 60%;
         margin-left: 3.5rem;
-        justify-content: space-evenly;
         font-size: 1.2rem;
       }
 
-      .option-more {
-        min-width: 70%;
-      }
-
       .option-item {
-        border: 1px solid $blackColor-3;
+        border: 1px solid $grayColor-1;
+        margin: 0 0.3rem;
         padding: 0.5rem;
         border-radius: 1.2rem;
         min-width: 3rem;
         text-align: center;
         cursor: pointer;
+      }
+
+      .option-item.unavailable {
+        color: $grayColor-1;
+        pointer-events: none;
+      }
+
+      .option-item.active {
+        border: 1px solid $mainColor;
+        color: $mainColor;
       }
 
       .option-item:hover {
@@ -191,82 +195,9 @@
   display: none;
 }
 
-@media only screen and (max-width: 600px) {}
-
-@media only screen and (min-width: 601px) and (max-width: 767px) {}
-
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .productinfopopup {
-    .productinfopopup__left {
-      width: 25rem;
-
-      .main-img {
-        width: 100%;
-        overflow: hidden;
-
-        .img-container {
-          width: 100%;
-          padding-top: 100%;
-        }
-      }
-    }
-
-    .productinfopopup__info {
-      .title {
-        font-weight: 600;
-      }
-
-      .productinfopopup__info-name {
-        font-size: 1.8rem;
-      }
-
-      .productinfopopup__info-price {
-        font-size: 1.6rem;
-      }
-
-      .productinfopopup__info-attributes {
-        margin-top: 2rem;
-        color: $blackColor-3;
-        font-size: 1.4rem;
-
-        div {
-          margin-top: 0.8rem;
-        }
-      }
-
-      .productinfopopup__info-color,
-      .productinfopopup__info-size {
-        max-width: 80%;
-        margin-top: 1.5rem;
-        align-items: center;
-
-
-        .color,
-        .size {
-          margin-left: 3rem;
-        }
-
-        .color-item,
-        .size-item {
-          border: 1px solid $blackColor-3;
-          padding: 0.5rem;
-          border-radius: 1.2rem;
-          cursor: pointer;
-        }
-      }
-
-      .productinfopopup__info-quantity {
-        max-width: 100%;
-
-        button {
-          font-size: 1.6rem;
-        }
-
-        input {
-          width: 3.5rem;
-        }
-      }
-    }
+    max-width: 80%;
   }
 }
 

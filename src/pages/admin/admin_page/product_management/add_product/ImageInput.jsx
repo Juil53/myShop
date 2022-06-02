@@ -17,9 +17,9 @@ export default function ImageInput() {
           accept="image/*"
           multiple
           type="file"
-          hidden
+          hidden          
           onChange={(event) => {
-            setFieldValue("image", event.currentTarget.files[0]);
+            setFieldValue("image",(event.target.files));
           }}
         />
         <Button

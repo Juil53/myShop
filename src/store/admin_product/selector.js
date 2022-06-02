@@ -1,7 +1,13 @@
-export const selectOptions = (state) => {
+export const selectAttributes = (state) => {
   const { adminProduct = {} } = state || {};
   const { options = [] } = adminProduct;
   return options;
+};
+
+export const selectCategories = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { categories = [] } = adminProduct;
+  return categories;
 };
 
 export const selectLoading = (state) => {

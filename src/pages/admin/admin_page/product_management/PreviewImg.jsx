@@ -1,38 +1,40 @@
-import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
+import { useFormikContext } from "formik";
 
 const PreviewImg = () => {
+  const [preview, setPreview] = useState([]);
   const {
     values: { image },
   } = useFormikContext();
 
   useEffect(() => {
-    console.log(image);
     if (image) {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = () => {
-        setPreview(reader.result);
-      };
+      let src = []
+      for (let i = 0; i < image.length; i++) {
+        const file = image[i];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          src = [...src, event.target.result];
+          setPreview(src);
+        };
+      }
     }
   }, [image]);
 
-  const [preview, setPreview] = useState(null);
-
-  if (image) {
     return (
-      <div>
-        <img
-          src={preview}
-          height="100px"
-          width="100px"
-          style={{ marginTop: "5px", marginBottom: "5px" }}
-        />
+      <div id="previewImg">
+        {preview.map((src, index) => (
+          <img
+            key={`previewImg_${index}`}
+            src={src}
+            height="100px"
+            width="100px"
+            style={{ margin:"5px 5px 5px 0",borderRadius:'5px' }}
+          />
+        ))}
       </div>
     );
-  } else {
-    return <></>;
-  }
 };
 
 export default PreviewImg;

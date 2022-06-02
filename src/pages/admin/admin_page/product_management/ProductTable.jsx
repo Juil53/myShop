@@ -111,7 +111,7 @@ export default function ProductTable() {
               }}
             />
           </TableCell>
-          <TableCell align="center">{product.quantity}</TableCell>
+          <TableCell align="center">{product.available}</TableCell>
           <TableCell align="center">
             {formatter.format(product.priceBeforeDiscount)}
           </TableCell>
@@ -177,7 +177,7 @@ export default function ProductTable() {
           <TableContainer
             style={{ width: "100%" }}
             sx={{
-              maxHeight: 500,
+              maxHeight: 400,
             }}
           >
             <Table
@@ -191,7 +191,7 @@ export default function ProductTable() {
                   <TableCell align="left">ID</TableCell>
                   <TableCell align="left">Product Name</TableCell>
                   <TableCell align="center">Image</TableCell>
-                  <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">Available</TableCell>
                   <TableCell align="center">Price</TableCell>
                   <TableCell align="center"></TableCell>
                 </TableRow>

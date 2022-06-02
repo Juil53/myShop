@@ -1,18 +1,48 @@
-import { useDispatch, useSelector } from "react-redux";
-import { utils } from "../../../utils";
+import { useSelector } from "react-redux";
+import { useCallback, useState } from "react";
+
+import { utils, debounce } from "../../../utils";
 
 const TopNav = () => {
-  const dispatch = useDispatch();
   const language = useSelector((state) => state.languages);
+  const [searchKey, setSearchKey] = useState("");
+
+  const handleSearch = () => {
+    if (!searchKey) return;
+    document.location.href = "/product?query=" + searchKey;
+    console.log(searchKey);
+  };
+
+  //Tri hoan thuc thi ham
+  const debounceSearch = useCallback(
+    debounce((value) => {
+      console.log(value);
+      setSearchKey(value);
+    }, 100),
+    []
+  );
+
+  function handleChangeInput({ target }) {
+    const { value } = target;
+    debounceSearch(value);
+  }
+
+  function handleKeyDown(e) {
+    if (e.code === "Enter") {
+      handleSearch();
+    }
+  }
 
   const SearchBox = () => {
     return (
       <div className="nav-btn search-box">
-        <button>
-          <i className="fa-solid fa-magnifying-glass"></i>
+        <button onClick={handleSearch}>
+          <i className="fa-solid fa-magnifying-glass" />
         </button>
         <input
           type="text"
+          onChange={handleChangeInput}
+          onKeyDown={handleKeyDown}
           placeholder={language.header.top_nav.search[language.current]}
         />
       </div>
@@ -25,15 +55,15 @@ const TopNav = () => {
         <i className="fa-solid fa-phone"></i>
         19009597
       </div>
-      <SearchBox />
+      {SearchBox()}
       <div className="nav-btn login-btn">
         <a href="/sign">
-          <i className="fa-solid fa-user"></i>
+          <i className="fa-solid fa-user" />
           {language.header.top_nav.login[language.current]}
         </a>
       </div>
       <div className="nav-btn register-btn">
-        <a href="/sign">
+        <a href="/login">
           <i className="fa-solid fa-lock-open"></i>
           {language.header.top_nav.register[language.current]}
         </a>

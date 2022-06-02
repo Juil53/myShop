@@ -19,6 +19,10 @@ const initialState = {
     status: LOADING_STATUS.IDLE,
     data: [],
   },
+  searchResult: {
+    status: LOADING_STATUS.IDLE,
+    data: [],
+  },
 };
 
 const productSlice = createSlice({
@@ -76,6 +80,19 @@ const productSlice = createSlice({
 
     fetchBestSellingFail: (state) => {
       state.bestSellingProducts.status = LOADING_STATUS.FAIL;
+    },
+
+    searchProductRequest: (state) => {
+      state.searchResult.status = LOADING_STATUS.LOADING;
+    },
+
+    searchProductSuccess: (state, action) => {
+      state.searchResult.status = LOADING_STATUS.SUCCESS;
+      state.searchResult.data = action.payload;
+    },
+
+    searchProductFail: (state) => {
+      state.searchResult.status = LOADING_STATUS.FAIL;
     },
   },
 });
