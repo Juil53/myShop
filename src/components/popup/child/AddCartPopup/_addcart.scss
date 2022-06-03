@@ -93,18 +93,29 @@
             img {
               width: 100%;
               height: 100%;
+              border: 1px solid $mainColor;
             }
           }
 
-          .name {
-            transition: all 0.3s ease;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            font-size: 1.4rem;
-            font-weight: 600;
+          .nameandmore {
+            display: block;
+            width: calc(100% - 11rem);
+
+            .name {
+              transition: all 0.3s ease;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              font-size: 1.4rem;
+              font-weight: 600;
+            }
+
+            .more {
+              font-size: 1.2rem;
+              color: $grayColor;
+            }
           }
         }
 
@@ -128,25 +139,11 @@
         }
       }
     }
-
-    // .product-list::-webkit-scrollbar {
-    //   display: none;
-    // }
   }
 
   .add-cart__footer {
     margin-top: 1rem;
-    justify-content: space-between;
-
-    .back-btn {
-      font-size: 1.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .back-btn:hover {
-      color: $mainColor;
-    }
+    justify-content: flex-end;
 
     .total-money {
       span {
@@ -159,12 +156,23 @@
   .order-container {
     display: flex;
     justify-content: flex-end;
-  }
 
-  .order-btn {
-    margin-top: 1.5rem;
-    padding: 1.2rem 0;
-    width: 23rem;
-    text-transform: uppercase;
+
+    .order-btn,
+    .back-btn {
+      margin-top: 1.5rem;
+      padding: 1rem 0;
+      width: 20rem;
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      margin-right: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      color: $mainColor;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetCategories } from "../../../../../store/admin_product/action";
@@ -6,7 +6,6 @@ import { selectCategories } from "../../../../../store/admin_product/selector";
 import {
   Button,
   Checkbox,
-  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
@@ -23,6 +22,7 @@ function CategoriesCheckBox() {
     values: { categories },
     setFieldValue,
   } = useFormikContext();
+  console.log("categories", categories);
 
   useEffect(() => {
     dispatch(actGetCategories());
@@ -30,23 +30,25 @@ function CategoriesCheckBox() {
 
   const categoriesData = useSelector(selectCategories);
 
-  const categoriesDetail = (categoryId, parentIndex) => {
-    if (categoryId) {
+  // Lay ID tai parent Select so sanh vs Id Categories trong data, trung ID lay ra subCate data
+  // map subCate data de render checkbox ben phai
+  const categoriesDetail = (categoryName, parentIndex) => {
+    if (categoryName) {
       const { subCate = [] } =
-        categoriesData.find((category) => category.id === categoryId) || {};
-
+        categoriesData.find((category) => category.id === categoryName) || {};
       return (
-        <FieldArray name={`categories.${parentIndex}.subCate`}>
+        <FieldArray name={`categories.${parentIndex}.value`}>
           {({ insert, remove, push }) => (
             <FormGroup>
               <Stack direction="row" spacing={1}>
                 {subCate.map((cate, index) => (
                   <FormControlLabel
-                    key={`sub_cate_${index}`}
+                    key={`subCate_${index}`}
+                    checked={cate.id == `categories.${index}.name`} //check neu value = state categories.${index}.value
                     control={
                       <Field
                         as={Checkbox}
-                        name={`categories.${parentIndex}.subCate`}
+                        name={`categories.${parentIndex}.value`}
                         value={cate.id}
                       />
                     }
@@ -72,37 +74,42 @@ function CategoriesCheckBox() {
                   size="small"
                   color="secondary"
                   type="button"
-                  onClick={() => push({ id: "", subCate: [] })}
+                  onClick={() => push({ name: "", value: [] })}
                 >
                   Click to add Categories
                 </Button>
               </Grid>
 
+              {/* Check State formik categories de map ra field select Category */}
               {categories.length > 0 &&
                 categories.map((category, index) => (
                   <React.Fragment key={`categories${index}`}>
+                    {/* Parent field */}
                     <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <SelectInput
-                          name={`categories.${index}.id`}
-                          variant="outlined"
-                          size="small"
-                          label="Categories"
-                          fullWidth
-                        >
-                          {categoriesData?.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
-                              {category.name}
-                            </MenuItem>
-                          ))}
-                        </SelectInput>
-                      </FormControl>
+                      <SelectInput
+                        name={`categories.${index}.name`}
+                        variant="outlined"
+                        size="small"
+                        label="Categories"
+                        fullWidth
+                      >
+                        {categoriesData?.map((category, index) => (
+                          <MenuItem
+                            key={`category_${index}`}
+                            value={category.id}
+                          >
+                            {category.name}
+                          </MenuItem>
+                        ))}
+                      </SelectInput>
                     </Grid>
 
+                    {/* Child field, truyen name,index tu stateCategory */}
                     <Grid item xs={8}>
-                      {categoriesDetail(category.id, index)}
+                      {categoriesDetail(category.name, index)}
                     </Grid>
 
+                    {/* Delete */}
                     <Grid item xs={1}>
                       <Stack
                         direction="row"

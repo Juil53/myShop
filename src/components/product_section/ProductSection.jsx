@@ -40,6 +40,9 @@ export default function ProductSection(props) {
   };
 
   function createProductCard(data) {
+    if (!data) {
+      return <></>;
+    }
     if (data.length <= 9) {
       return data.map((v) => (
         <div className="productsection__slide-container" key={v.id}>

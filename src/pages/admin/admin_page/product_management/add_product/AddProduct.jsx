@@ -55,7 +55,7 @@ export default function AddProduct() {
           categories: [],
           desc: "",
           status: "",
-          image: null,
+          image: "",
           available: 0,
           priceBeforeDiscount: 0,
           priceAfterDiscount: 0,
@@ -63,42 +63,37 @@ export default function AddProduct() {
           isNew: false,
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          console.log(values)
           let cateArr = [];
-          values.categories.forEach((category, index) => {
+          values.categories.forEach((category) => {
             const { id, subCate } = category;
             cateArr = [id, ...subCate];
           });
           let editedValues = {
             ...values,
-            categories: cateArr
-          }
+            categories: cateArr,
+          };
 
-          console.log(editedValues)
-          
-
-
-          // const imageRef = ref(storage, `images/${values.image.name}`);
-          // //upload image to firebase
-          // uploadBytes(imageRef, values.image).then((result) => {
-          //   alert("Image uploaded");
-          // });
-          // await sleep(5000);
-          // //getDownload url
-          // getDownloadURL(imageRef)
-          //   .then((url) => {
-          //     console.log(url);
-          //     values.image = url;
-          //   })
-          //   .then(() => {
-          //     dispatch(actAddProduct(values));
-          //   })
-          //   .catch((error) => {
-          //     console.log(error);
-          //   });
-
+          const imageRef = ref(storage, `images/${values.image.name}`);
+          //upload image to firebase
+          uploadBytes(imageRef, values.image).then((result) => {
+            alert("Image uploaded");
+          });
+          await sleep(5000);
+          //getDownload url
+          getDownloadURL(imageRef)
+            .then((url) => {
+              console.log(url);
+              values.image = url;
+            })
+            .then(() => {
+              dispatch(actAddProduct(values));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
           // console.log(values);
-          // resetForm();
+          console.log(editedValues);
+          resetForm();
         }}
       >
         <Form>

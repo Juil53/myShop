@@ -6,6 +6,8 @@ import ProductDetail from "../pages/user/product_detail/ProductDetail";
 import SigninSignup from "../pages/user/signin_signup/SigninSignup";
 import Wrapper from "../pages/user/Wrapper";
 import SearchProduct from "../pages/user/search_products/SearchProduct";
+import CartPage from "../pages/user/cart_page/CartPage";
+import Payment from "../pages/user/payment/Payment";
 
 function UserRoutes() {
   return (
@@ -15,6 +17,8 @@ function UserRoutes() {
         <Route path="product" element={<SearchProduct />} />
         <Route path="product/:id" element={<ProductDetail />} />
         <Route path="sign" element={<SigninSignup />} />
+        <Route path="cart" element={<CartPage />} />
+        <Route path="payment" element={<Payment />} />
       </Route>
     </Routes>
   );

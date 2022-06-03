@@ -1,0 +1,143 @@
+.cart-page {
+  width: 90%;
+  margin-left: 5%;
+
+  .breadcums {
+    margin-top: 2rem;
+    display: flex;
+
+    span {
+      padding: 0 0.8rem;
+    }
+
+    a:hover {
+      color: $mainColor;
+    }
+
+    li {
+      color: $mainColor;
+    }
+  }
+
+  .title {
+    margin: 2rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .cart-table {
+
+    td,
+    th {
+      padding: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .cart-header {
+      th {
+        padding: 2px;
+        border-bottom: 1px solid $grayColor-1;
+      }
+
+      .image {
+        width: 20%;
+      }
+
+      .name {
+        width: 25%;
+      }
+
+      .price,
+      .quantity,
+      .amount {
+        width: 15%;
+      }
+
+      .delete {
+        width: 10%;
+      }
+    }
+
+    .cart-data {
+      text-align: center;
+
+      .cart-item {
+        td {
+          border-bottom: 1px solid $grayColor-1;
+        }
+
+        .image {
+          display: block;
+          margin: 0 auto;
+          width: 10rem;
+          height: 10rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .name {
+          a {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            cursor: pointer;
+          }
+
+          a:hover {
+            color: $mainColor;
+          }
+
+          .more {
+            color: $grayColor;
+            font-size: 1.4rem;
+          }
+        }
+
+        .quantity {
+          .quantity-container {
+            justify-content: center;
+          }
+        }
+
+        .delete {
+          .delete-btn {
+            font-size: 2rem;
+          }
+
+          .delete-btn:hover {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+
+  .total-money {
+    padding: 1rem;
+    font-size: 1.8rem;
+    justify-content: flex-end;
+
+    span {
+      margin-left: 0.5rem;
+      color: $mainColor;
+      font-weight: 600;
+    }
+  }
+
+  .payment-container {
+    justify-content: flex-end;
+
+    .payment-btn {
+      padding: 1rem 2rem;
+      text-align: center;
+      min-width: 30rem;
+      text-transform: uppercase;
+    }
+  }
+}

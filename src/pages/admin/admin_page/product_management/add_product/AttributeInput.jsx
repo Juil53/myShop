@@ -23,9 +23,9 @@ export default function AttributeInput() {
     if (attributeName) {
       const { data = [] } =
         options.find((option) => option.name === attributeName) || {};
-      return data.map((option, index) => (
-        <MenuItem key={`attributeDetail_${index}`} value={option.value}>
-          {option.value}
+      return data.map((item, index) => (
+        <MenuItem key={`attributeDetail_${index}`} value={item.value}>
+          {item.value}
         </MenuItem>
       ));
     } else {
@@ -62,17 +62,11 @@ export default function AttributeInput() {
                         label="Attribute"
                         fullWidth
                       >
-                        {/* Add */}
                         {options.map((option) => (
                           <MenuItem key={option.id} value={option.name}>
                             {option.name}
                           </MenuItem>
                         ))}
-
-                        {/* Edit */}
-                        {/* <MenuItem key={index} value={attribute.name} disabled>
-                          {attribute.name}
-                        </MenuItem> */}
                       </SelectInput>
                     </Grid>
 
@@ -85,13 +79,7 @@ export default function AttributeInput() {
                         label="Detail"
                         fullWidth
                       >
-                        {/* Add */}
                         {attributeDetail(attributes[index].name)}
-
-                        {/* Edit */}
-                        {/* <MenuItem key={index} value={attribute.value} disabled>
-                          {attribute.value}
-                        </MenuItem> */}
                       </SelectInput>
                     </Grid>
 

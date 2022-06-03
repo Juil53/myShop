@@ -25,17 +25,18 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ImageInput from "./add_product/ImageInput";
 import CategoriesCheckBox from "./add_product/CategoriesCheckbox";
 import AttributeInput from "./add_product/AttributeInput";
+import CategoriesEdit from "./add_product/CategoriesEdit";
 
 export default function EditProduct() {
   const dispatch = useDispatch();
   let params = useParams();
-  const info = useSelector((state => selectProductInfo(state, params.id)));
+  const info = useSelector((state) => selectProductInfo(state, params.id));
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
-    dispatch(actGetAllProduct())
+    dispatch(actGetAllProduct());
     dispatch(actGetOptions());
-  }, [])
+  }, []);
 
   return (
     <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
@@ -67,33 +68,38 @@ export default function EditProduct() {
           }}
           enableReinitialize
           onSubmit={async (values, { resetForm }) => {
-            const subCate = values.categories.map((item, index) => {
-              const { name, value } = values.categories[index];
-              value?.push(name);
-              return value;
+            let cateArr = [];
+            values.categories.forEach((category) => {
+              if (category.id && category.subCate) {
+                const { id, subCate } = category;
+                cateArr = [id, ...subCate];
+              }
             });
-            values.categories = subCate;
+            let editedValues = {
+              ...values,
+              categories: cateArr,
+            };
 
-            const imageRef = ref(storage, `images/${values.image.name}`);
-            //upload image to firebase
-            uploadBytes(imageRef, values.image).then((result) => {
-              alert("Image uploaded");
-            });
-            await sleep(5000);
-            //getDownload url
-            getDownloadURL(imageRef)
-              .then((url) => {
-                console.log(url);
-                values.image = url;
-              })
-              .then(() => {
-                dispatch(actAddProduct(values));
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            // const imageRef = ref(storage, `images/${values.image.name}`);
+            // //upload image to firebase
+            // uploadBytes(imageRef, values.image).then((result) => {
+            //   alert("Image uploaded");
+            // });
+            // await sleep(5000);
+            // //getDownload url
+            // getDownloadURL(imageRef)
+            //   .then((url) => {
+            //     console.log(url);
+            //     values.image = url;
+            //   })
+            //   .then(() => {
+            //     dispatch(actAddProduct(values));
+            //   })
+            //   .catch((error) => {
+            //     console.log(error);
+            //   });
 
-            console.log(values);
+            console.log(editedValues);
             resetForm();
           }}
         >
@@ -227,19 +233,19 @@ export default function EditProduct() {
                     size="small"
                     fullWidth
                     multiline
-                    rows={3}
+                    rows={5}
                     placeholder="Áo khoác Cardigan với phong cách trẻ trung, thiết kế đơn giản dễ phối đồ,... "
                   />
                 </Grid>
 
                 {/* Categories Checkbox */}
                 <Grid item xs={12}>
-                  <CategoriesCheckBox productInfo={info}/>
+                  <CategoriesEdit productInfo={info} />
                 </Grid>
 
                 {/* Attribute */}
                 <Grid item xs={12}>
-                  <AttributeInput productInfo={info}/>
+                  <AttributeInput productInfo={info} />
                 </Grid>
 
                 <Stack
