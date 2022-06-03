@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { utils, debounce } from "../../../utils";
 import { selectCart } from "../../../store/cart/selectors";
 import { CART_ACTIONS, LOADING_STATUS } from "../../../constants";
+import localStorage from "../../../service/localStorage";
 
 const TopNav = () => {
   const language = useSelector((state) => state.languages);
@@ -15,7 +16,7 @@ const TopNav = () => {
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch({ type: CART_ACTIONS.GET_CART });
     }
-  }, []);
+  });
 
   const handleSearch = () => {
     if (!searchKey) return;
@@ -67,8 +68,8 @@ const TopNav = () => {
 
   const createProductList = (data) => {
     if (data && data.length && data.length > 0) {
-      return data.map((v) => (
-        <div className="product-item row" key={v.id}>
+      return data.map((v, i) => (
+        <div className="product-item row" key={"product_item" + v.id + i}>
           <div className="img">
             <img src={v.image} alt="" />
           </div>
@@ -84,9 +85,6 @@ const TopNav = () => {
             <div className="quantity">
               Số lượng: <span>{v.quantity}</span>
             </div>
-          </div>
-          <div className="delete-btn">
-            <i className="fa-solid fa-trash"></i>
           </div>
         </div>
       ));

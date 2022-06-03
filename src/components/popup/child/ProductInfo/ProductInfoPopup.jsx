@@ -1,9 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 import { utils } from "../../../../utils";
 import localStorage from "../../../../service/localStorage";
-import { POPUP } from "../../../../constants";
+import { CART_ACTIONS, POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
 import Quantity from "../../../quantity/Quantity";
@@ -12,9 +12,11 @@ import {
   getQuantityAvailable,
   selectUnavailableOption,
 } from "./helper";
+import { selectCart } from "../../../../store/cart/selectors";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
+  const cart = useSelector(selectCart);
   const dispatch = useDispatch();
 
   const [number, setNumber] = useState(1);
@@ -130,17 +132,23 @@ export default function ProductInfoPopup(props) {
       product.optionSelected = { ...currentOption };
     }
 
-    const cart = localStorage.get("cart")
-      ? localStorage.get("cart")
-      : {
-          productList: [],
-          totalAmount: 0,
-        };
+    const currentCart =
+      cart.data &&
+      cart.data.productList &&
+      cart.data.productList.length &&
+      cart.data.productList.length > 0
+        ? localStorage.get("cart")
+        : {
+            productList: [],
+            totalAmount: 0,
+          };
 
-    if (cart.productList.length === 0) {
-      cart.productList.push(product);
+    if (currentCart.productList.length === 0) {
+      currentCart.productList.push(product);
     } else {
-      const sameProduct = cart.productList.filter((v) => v.id === product.id);
+      const sameProduct = currentCart.productList.filter(
+        (v) => v.id === product.id
+      );
 
       if (sameProduct.length && sameProduct.length !== 0) {
         if (Object.keys(currentOption).length !== 0) {
@@ -154,7 +162,7 @@ export default function ProductInfoPopup(props) {
             sameOption[0].totalPrice =
               sameOption[0].quantity * product.priceAfterDiscount;
           } else {
-            cart.productList.push(product);
+            currentCart.productList.push(product);
           }
         } else {
           sameProduct[0].quantity = sameProduct[0].quantity + product.quantity;
@@ -162,17 +170,17 @@ export default function ProductInfoPopup(props) {
             sameProduct[0].quantity * product.priceAfterDiscount;
         }
       } else {
-        cart.productList.push(product);
+        currentCart.productList.push(product);
       }
     }
 
     //tinh lai tong tien
-    cart.totalAmount = cart.productList.reduce(
+    currentCart.totalAmount = currentCart.productList.reduce(
       (pre, cur) => pre + cur.totalPrice,
       0
     );
 
-    localStorage.set("cart", cart);
+    dispatch({ type: CART_ACTIONS.ADD_CART, cart: currentCart });
 
     dispatch(
       actions.activePopup({
