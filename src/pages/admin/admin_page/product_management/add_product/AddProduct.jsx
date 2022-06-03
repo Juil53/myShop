@@ -64,12 +64,19 @@ export default function AddProduct() {
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           console.log(values)
-          // const subCate = values.categories.map((item, index) => {
-          //   const { name, value } = values.categories[index];
-          //   value?.push(name);
-          //   return value;
-          // });
-          // values.categories = subCate;
+          let cateArr = [];
+          values.categories.forEach((category, index) => {
+            const { id, subCate } = category;
+            cateArr = [id, ...subCate];
+          });
+          let editedValues = {
+            ...values,
+            categories: cateArr
+          }
+
+          console.log(editedValues)
+          
+
 
           // const imageRef = ref(storage, `images/${values.image.name}`);
           // //upload image to firebase
