@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { utils, debounce } from "../../../utils";
 import { selectCart } from "../../../store/cart/selectors";
 import { CART_ACTIONS, LOADING_STATUS } from "../../../constants";
-import localStorage from "../../../service/localStorage";
 
 const TopNav = () => {
   const language = useSelector((state) => state.languages);
