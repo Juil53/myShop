@@ -143,17 +143,7 @@
 
   .add-cart__footer {
     margin-top: 1rem;
-    justify-content: space-between;
-
-    .back-btn {
-      font-size: 1.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .back-btn:hover {
-      color: $mainColor;
-    }
+    justify-content: flex-end;
 
     .total-money {
       span {
@@ -166,12 +156,23 @@
   .order-container {
     display: flex;
     justify-content: flex-end;
-  }
 
-  .order-btn {
-    margin-top: 1.5rem;
-    padding: 1rem 0;
-    width: 23rem;
-    text-transform: uppercase;
+
+    .order-btn,
+    .back-btn {
+      margin-top: 1.5rem;
+      padding: 1rem 0;
+      width: 20rem;
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      margin-right: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      color: $mainColor;
+    }
   }
 }

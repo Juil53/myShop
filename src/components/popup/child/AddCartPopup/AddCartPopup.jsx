@@ -132,9 +132,6 @@ const AddCartPopup = (props) => {
           </div>
         </div>
         <div className="add-cart__footer row">
-          <div className="back-btn" onClick={closePopup}>
-            <i className="fa-solid fa-arrow-left"></i>
-          </div>
           <div className="total-money">
             Total money:{" "}
             <span>
@@ -143,10 +140,10 @@ const AddCartPopup = (props) => {
           </div>
         </div>
         <div className="order-container">
+          <button className="back-btn" onClick={closePopup}>
+            Back
+          </button>
           <button className="button-style order-btn">Order</button>
-        </div>
-        <div className="popup__cancel-btn round" onClick={closePopup}>
-          <i className="fa-solid fa-xmark"></i>
         </div>
       </div>
     </div>
