@@ -8,6 +8,7 @@ import { POPUP } from "../../constants";
 
 import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
 import AddCartPopup from "./child/AddCartPopup/AddCartPopup";
+import SelectionPopup from "./child/selection/SelectionPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -27,6 +28,13 @@ export default function Popup() {
       case POPUP.ADD_CART_POPUP:
         return (
           <AddCartPopup closePopup={() => handleClosePopup(type)} data={data} />
+        );
+      case POPUP.SELECTION_POPUP:
+        return (
+          <SelectionPopup
+            closePopup={() => handleClosePopup(type)}
+            data={data}
+          />
         );
       default:
         return <></>;

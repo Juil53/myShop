@@ -12,7 +12,7 @@ const HeaderNav = (props) => {
   };
 
   const createMegaDropdown = (data) => {
-    if (data && !data.length && data.length > 0) {
+    if (data && data.length && data.length > 0) {
       return data.map((v) => {
         return (
           <div className="mega__dropdown-content" key={v.id}>

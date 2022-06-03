@@ -1,8 +1,107 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CART_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
+
 import { utils } from "../../../../utils";
 import Quantity from "../../../quantity/Quantity";
+import { selectCart } from "../../../../store/cart/selectors";
+import localStorage from "../../../../service/localStorage";
+import { actions } from "../../../../store/page/slice";
 
 const AddCartPopup = (props) => {
   const { closePopup, data } = props;
+  const dispatch = useDispatch();
+  const cart = useSelector(selectCart);
+
+  useEffect(() => {
+    if (cart.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: CART_ACTIONS.GET_CART });
+    }
+  });
+
+  function deleteItem(item) {
+    dispatch(
+      actions.activePopup({
+        type: POPUP.SELECTION_POPUP,
+        data: {
+          title: "Delete product",
+          message: "Do you want to continue removing this item from your cart?",
+          action: () => {
+            const currentCart = localStorage.get("cart");
+            const index = currentCart.productList.indexOf(item);
+
+            if (currentCart.productList.length > 0) {
+              currentCart.productList.splice(index, 1);
+            } else {
+              currentCart.productList = [];
+            }
+
+            if (
+              currentCart.productList.length &&
+              currentCart.productList.length >= 0
+            ) {
+              currentCart.totalAmount = currentCart.productList.reduce(
+                (pre, cur) => pre + cur.totalPrice,
+                0
+              );
+              dispatch({ type: CART_ACTIONS.ADD_CART, cart: currentCart });
+            } else {
+              dispatch({ type: CART_ACTIONS.DELETE_CART });
+            }
+
+            dispatch(actions.hidePopup(POPUP.SELECTION_POPUP));
+          },
+        },
+      })
+    );
+  }
+
+  const createOptionItem = (data) => {
+    if (data && data.length && data.length > 0) {
+      return data.map((v, i) => <span key={"option" + i}> {v} </span>);
+    }
+  };
+
+  const createCartItem = (data) => {
+    if (data && data.length && data.length >= 1) {
+      return data.map((v) => (
+        <div
+          className="item row"
+          key={"cart_item" + v.id + JSON.stringify(v.optionSelected)}
+        >
+          <div className="data product-info row">
+            <div className="img">
+              <img src={v.image} alt="" />
+            </div>
+            <div className="nameandmore">
+              <div className="name">{v.name}</div>
+              <div className="more">
+                Type:
+                {Object.values(v.optionSelected) &&
+                  createOptionItem(Object.values(v.optionSelected))}
+              </div>
+            </div>
+          </div>
+          <div className="data price">
+            {utils.priceBreak(v.priceAfterDiscount)}₫
+          </div>
+          <div className="data quantity">
+            <Quantity value={v.quantity} quantity="10" />
+          </div>
+          <div className="data amount">{utils.priceBreak(v.totalPrice)}₫</div>
+          <div
+            className="delete-btn"
+            onClick={() => {
+              deleteItem(v);
+            }}
+          >
+            <i className="fa-solid fa-trash"></i>
+          </div>
+        </div>
+      ));
+    }
+  };
+
   return (
     <div className="modal center">
       <div className="popup-add-cart">
@@ -13,7 +112,13 @@ const AddCartPopup = (props) => {
           <span>{data.name}</span> added to your cart
         </div>
         <div className="cart-status">
-          <span>1</span> products in your cart
+          {cart.data &&
+            cart.data.productList &&
+            cart.data.productList.length &&
+            cart.data.productList.length > 0 && (
+              <span>{cart.data.productList.length} </span>
+            )}
+          products in your cart
         </div>
         <div className="add-cart__content">
           <div className="product-header row">
@@ -23,42 +128,7 @@ const AddCartPopup = (props) => {
             <div className="title amount">Amount</div>
           </div>
           <div className="product-list">
-            <div className="item row">
-              <div className="data product-info row">
-                <div className="img">
-                  <img src="/img/sp1.png" alt="" />
-                </div>
-                <div className="name">
-                  Giày tây nâu đỏ thương hiệu Converse on star
-                </div>
-              </div>
-              <div className="data price">{utils.priceBreak(500000)}₫</div>
-              <div className="data quantity">
-                <Quantity value="2" quantity="10" />
-              </div>
-              <div className="data amount">{utils.priceBreak(1000000)}₫</div>
-              <div className="delete-btn">
-                <i className="fa-solid fa-trash"></i>
-              </div>
-            </div>
-            <div className="item row">
-              <div className="data product-info row">
-                <div className="img">
-                  <img src="/img/sp1.png" alt="" />
-                </div>
-                <div className="name">
-                  Giày tây nâu đỏ thương hiệu Converse on star
-                </div>
-              </div>
-              <div className="data price">{utils.priceBreak(500000)}₫</div>
-              <div className="data quantity">
-                <Quantity value="2" quantity="10" />
-              </div>
-              <div className="data amount">{utils.priceBreak(1000000)}₫</div>
-              <div className="delete-btn">
-                <i className="fa-solid fa-trash"></i>
-              </div>
-            </div>
+            {cart.data ? createCartItem(cart.data.productList) : <></>}
           </div>
         </div>
         <div className="add-cart__footer row">
@@ -66,7 +136,10 @@ const AddCartPopup = (props) => {
             <i className="fa-solid fa-arrow-left"></i>
           </div>
           <div className="total-money">
-            Total money: <span>{utils.priceBreak(1000000)}₫</span>
+            Total money:{" "}
+            <span>
+              {cart.data ? utils.priceBreak(cart.data.totalAmount) : "0 "}₫
+            </span>
           </div>
         </div>
         <div className="order-container">
