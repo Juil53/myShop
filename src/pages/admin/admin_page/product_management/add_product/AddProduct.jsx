@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -37,7 +37,7 @@ export default function AddProduct() {
 
   return (
     <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
-      <Link to="/admin/product-management">
+      <Link to="/admin/products">
         <Button startIcon={<ArrowBackIcon />} color="secondary">
           Back
         </Button>
@@ -52,10 +52,10 @@ export default function AddProduct() {
           name: "",
           brand: "",
           attributes: [],
-          categories: [{ name: "", value: "" }],
+          categories: [],
           desc: "",
           status: "",
-          image: null,
+          image: "",
           available: 0,
           priceBeforeDiscount: 0,
           priceAfterDiscount: 0,
@@ -63,12 +63,15 @@ export default function AddProduct() {
           isNew: false,
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          const subCate = values.categories.map((item, index) => {
-            const { name, value } = values.categories[index];
-            value?.push(name);
-            return value;
-          });
-          values.categories = subCate;
+          // let cateArr = [];
+          // values.categories.forEach((category) => {
+          //   const { id, subCate } = category;
+          //   cateArr = [id, ...subCate];
+          // });
+          // let editedValues = {
+          //   ...values,
+          //   categories: cateArr,
+          // };
 
           const imageRef = ref(storage, `images/${values.image.name}`);
           //upload image to firebase
@@ -88,8 +91,8 @@ export default function AddProduct() {
             .catch((error) => {
               console.log(error);
             });
-
           console.log(values);
+          // console.log(editedValues);
           resetForm();
         }}
       >
@@ -175,7 +178,6 @@ export default function AddProduct() {
             {/* Hot */}
             <Grid item xs={3}>
               <FormControlLabel
-                value="end"
                 control={<Field as={Switch} name="isHot" color="secondary" />}
                 label="Hot"
                 labelPlacement="end"
@@ -185,7 +187,6 @@ export default function AddProduct() {
             {/* New */}
             <Grid item xs={3}>
               <FormControlLabel
-                value="end"
                 control={<Field as={Switch} name="isNew" color="secondary" />}
                 label="New"
                 labelPlacement="end"

@@ -60,11 +60,15 @@ export const actAddProduct = (product) => {
 
 // GET PRODUCT
 export const actGetAllProduct = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      dispatch(getAllProductRequest());
-      const result = await apiInstance.get("products");
-      dispatch(getAllProductSuccess(result));
+      const { adminProduct = {} } = getState() || {};
+      const { products = [] } = adminProduct;
+      if (products.length === 0) {
+        dispatch(getAllProductRequest());
+        const result = await apiInstance.get("products");
+        dispatch(getAllProductSuccess(result));
+      }
     } catch (error) {
       dispatch(getAllProductFailed(error));
     }
