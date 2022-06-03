@@ -63,15 +63,15 @@ export default function AddProduct() {
           isNew: false,
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          // let cateArr = [];
-          // values.categories.forEach((category) => {
-          //   const { id, subCate } = category;
-          //   cateArr = [id, ...subCate];
-          // });
-          // let editedValues = {
-          //   ...values,
-          //   categories: cateArr,
-          // };
+          let cateArr = [];
+          values.categories.forEach((category) => {
+            const { id, subCate } = category;
+            cateArr = [id, ...subCate];
+          });
+          let editedValues = {
+            ...values,
+            categories: cateArr,
+          };
 
           const imageRef = ref(storage, `images/${values.image.name}`);
           //upload image to firebase
@@ -91,8 +91,8 @@ export default function AddProduct() {
             .catch((error) => {
               console.log(error);
             });
-          console.log(values);
-          // console.log(editedValues);
+          // console.log(values);
+          console.log(editedValues);
           resetForm();
         }}
       >

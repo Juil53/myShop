@@ -44,6 +44,7 @@ function CategoriesCheckBox() {
                 {subCate.map((cate, index) => (
                   <FormControlLabel
                     key={`subCate_${index}`}
+                    checked={cate.id == `categories.${index}.name`} //check neu value = state categories.${index}.value
                     control={
                       <Field
                         as={Checkbox}
