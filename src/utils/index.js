@@ -26,6 +26,10 @@ function discount(pricebefore, priceafter) {
   return kq;
 }
 
+function calAmount(quantity, unitPrice) {
+  return quantity * unitPrice;
+}
+
 export const delay = (time) =>
   new Promise((resolve) => {
     setTimeout(() => {
@@ -79,4 +83,5 @@ export const clone = (obj) => JSON.parse(JSON.stringify(obj));
 export const utils = {
   priceBreak,
   discount,
+  calAmount,
 };

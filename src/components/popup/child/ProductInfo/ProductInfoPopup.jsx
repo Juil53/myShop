@@ -126,6 +126,7 @@ export default function ProductInfoPopup(props) {
       optionSelected: {},
       quantity: number,
       totalPrice: number * priceAfterDiscount,
+      available: numberOfProduct,
     };
 
     if (Object.keys(currentOption).length !== 0) {
@@ -143,7 +144,7 @@ export default function ProductInfoPopup(props) {
             totalAmount: 0,
           };
 
-    if (currentCart.productList.length === 0) {
+    if (currentCart.productList && currentCart.productList.length === 0) {
       currentCart.productList.push(product);
     } else {
       const sameProduct = currentCart.productList.filter(
