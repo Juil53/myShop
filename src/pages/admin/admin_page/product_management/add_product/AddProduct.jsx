@@ -55,7 +55,7 @@ export default function AddProduct() {
           categories: [],
           desc: "",
           status: "",
-          image: null,
+          image: "",
           available: 0,
           priceBeforeDiscount: 0,
           priceAfterDiscount: 0,
@@ -63,12 +63,15 @@ export default function AddProduct() {
           isNew: false,
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          const subCate = values.categories.map((item, index) => {
-            const { name, value } = values.categories[index];
-            value?.push(name);
-            return value;
-          });
-          values.categories = subCate;
+          // let cateArr = [];
+          // values.categories.forEach((category) => {
+          //   const { id, subCate } = category;
+          //   cateArr = [id, ...subCate];
+          // });
+          // let editedValues = {
+          //   ...values,
+          //   categories: cateArr,
+          // };
 
           const imageRef = ref(storage, `images/${values.image.name}`);
           //upload image to firebase
@@ -88,8 +91,8 @@ export default function AddProduct() {
             .catch((error) => {
               console.log(error);
             });
-
           console.log(values);
+          // console.log(editedValues);
           resetForm();
         }}
       >
