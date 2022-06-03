@@ -1,19 +1,10 @@
 import React, { useEffect } from "react";
-import {
-  Button,
-  Grid,
-  IconButton,
-  MenuItem,
-  Select,
-  Stack,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { FieldArray, useFormikContext, useField } from "formik";
+import { Button, Grid, IconButton, MenuItem, Stack } from "@mui/material";
+import { FieldArray, useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetOptions } from "../../../../../store/admin_product/action";
 import { selectAttributes } from "../../../../../store/admin_product/selector";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SelectInput from "./SelectInput";
 
 export default function AttributeInput() {
@@ -27,13 +18,14 @@ export default function AttributeInput() {
   }, []);
 
   const options = useSelector(selectAttributes);
+
   const attributeDetail = (attributeName) => {
     if (attributeName) {
       const { data = [] } =
-        options.find((option) => option.id == attributeName) || {};
-      return data.map((option, index) => (
-        <MenuItem key={`attributeDetail_${index}`} value={option.value}>
-          {option.key}
+        options.find((option) => option.name === attributeName) || {};
+      return data.map((item, index) => (
+        <MenuItem key={`attributeDetail_${index}`} value={item.value}>
+          {item.value}
         </MenuItem>
       ));
     } else {
@@ -61,6 +53,7 @@ export default function AttributeInput() {
               {attributes.length > 0 &&
                 attributes.map((attribute, index) => (
                   <React.Fragment key={`attribute_${index}`}>
+                    {/* Options */}
                     <Grid item xs={3}>
                       <SelectInput
                         name={`attributes.${index}.name`}
@@ -70,13 +63,14 @@ export default function AttributeInput() {
                         fullWidth
                       >
                         {options.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
+                          <MenuItem key={option.id} value={option.name}>
                             {option.name}
                           </MenuItem>
                         ))}
                       </SelectInput>
                     </Grid>
 
+                    {/* Detail options */}
                     <Grid item xs={8}>
                       <SelectInput
                         name={`attributes.${index}.value`}
