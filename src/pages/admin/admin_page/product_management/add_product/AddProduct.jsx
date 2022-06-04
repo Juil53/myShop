@@ -23,7 +23,7 @@ import { storage } from "../../../../../utils/firebase/index";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import ImageInput from "./ImageInput";
 import AttributeInput from "./AttributeInput";
-import CategoriesCheckBox from "./CategoriesCheckbox";
+import CategoriesInput from "./CategoriesInput";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -63,38 +63,38 @@ export default function AddProduct() {
           isNew: false,
         }}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          let cateArr = [];
-          values.categories.forEach((category) => {
-            const { id, subCate } = category;
-            cateArr = [id, ...subCate];
-          });
-          let editedValues = {
-            ...values,
-            categories: cateArr,
-          };
+          console.log(values);
+          // let cateArr = [];
+          // values.categories.forEach((category) => {
+          //   const { id, subCate } = category;
+          //   cateArr = [id, ...subCate];
+          // });
+          // let editedValues = {
+          //   ...values,
+          //   categories: cateArr,
+          // };
 
-          const imageRef = ref(storage, `images/${values.image.name}`);
-          //upload image to firebase
-          uploadBytes(imageRef, values.image).then((result) => {
-            alert("Image uploaded");
-          });
-          await sleep(5000);
-          //getDownload url
-          getDownloadURL(imageRef)
-            .then((url) => {
-              console.log(url);
-              values.image = url;
-            })
-            .then(() => {
-              dispatch(actAddProduct(values));
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          // console.log(values);
-          console.log(editedValues);
-          resetForm();
-        }}
+          // const imageRef = ref(storage, `images/${values.image.name}`);
+          // //upload image to firebase
+          // uploadBytes(imageRef, values.image).then((result) => {
+          //   alert("Image uploaded");
+          // });
+          // await sleep(5000);
+          // //getDownload url
+          // getDownloadURL(imageRef)
+          //   .then((url) => {
+          //     console.log(url);
+          //     values.image = url;
+          //   })
+          //   .then(() => {
+          //     dispatch(actAddProduct(values));
+          //   })
+          //   .catch((error) => {
+          //     console.log(error);
+          //   });
+          // resetForm();
+        }
+      }
       >
         <Form>
           <Grid container spacing={2}>
@@ -211,7 +211,7 @@ export default function AddProduct() {
 
             {/* Categories Checkbox */}
             <Grid item xs={12}>
-              <CategoriesCheckBox />
+              <CategoriesInput />
             </Grid>
 
             {/* Attribute */}

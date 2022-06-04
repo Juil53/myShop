@@ -14,6 +14,7 @@ import { Field, Form, Formik } from "formik";
 import {
   actAddProduct,
   actGetAllProduct,
+  actGetCategories,
   actGetOptions,
 } from "../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,9 +24,8 @@ import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ImageInput from "./add_product/ImageInput";
-import CategoriesCheckBox from "./add_product/CategoriesCheckbox";
+import CategoriesInput from "./add_product/CategoriesInput";
 import AttributeInput from "./add_product/AttributeInput";
-import CategoriesEdit from "./add_product/CategoriesEdit";
 
 export default function EditProduct() {
   const dispatch = useDispatch();
@@ -34,8 +34,9 @@ export default function EditProduct() {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
-    dispatch(actGetAllProduct());
     dispatch(actGetOptions());
+    dispatch(actGetCategories());
+    dispatch(actGetAllProduct());
   }, []);
 
   return (
@@ -56,7 +57,7 @@ export default function EditProduct() {
             name: info.name || "",
             brand: info.brand || "",
             attributes: info.attributes || [],
-            categories: info.categories || [],
+            categories: info.category || [],
             desc: info.desc || "",
             status: info.status || "",
             image: null,
@@ -68,17 +69,18 @@ export default function EditProduct() {
           }}
           enableReinitialize
           onSubmit={async (values, { resetForm }) => {
-            let cateArr = [];
-            values.categories.forEach((category) => {
-              if (category.id && category.subCate) {
-                const { id, subCate } = category;
-                cateArr = [id, ...subCate];
-              }
-            });
-            let editedValues = {
-              ...values,
-              categories: cateArr,
-            };
+            console.log(values)
+            // let cateArr = [];
+            // values.categories.forEach((category) => {
+            //   if (category.id && category.subCate) {
+            //     const { id, subCate } = category;
+            //     cateArr = [id, ...subCate];
+            //   }
+            // });
+            // let editedValues = {
+            //   ...values,
+            //   categories: cateArr,
+            // };
 
             // const imageRef = ref(storage, `images/${values.image.name}`);
             // //upload image to firebase
@@ -99,8 +101,7 @@ export default function EditProduct() {
             //     console.log(error);
             //   });
 
-            console.log(editedValues);
-            resetForm();
+            // resetForm();
           }}
         >
           {({ values }) => (
@@ -240,12 +241,12 @@ export default function EditProduct() {
 
                 {/* Categories Checkbox */}
                 <Grid item xs={12}>
-                  <CategoriesEdit productInfo={info} />
+                  <CategoriesInput/>
                 </Grid>
 
                 {/* Attribute */}
                 <Grid item xs={12}>
-                  <AttributeInput productInfo={info} />
+                  <AttributeInput/>
                 </Grid>
 
                 <Stack
