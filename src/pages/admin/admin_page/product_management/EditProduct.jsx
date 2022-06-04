@@ -57,7 +57,7 @@ export default function EditProduct() {
             name: info.name || "",
             brand: info.brand || "",
             attributes: info.attributes || [],
-            categories: info.category || [],
+            categories: info.categories || [],
             desc: info.desc || "",
             status: info.status || "",
             image: null,

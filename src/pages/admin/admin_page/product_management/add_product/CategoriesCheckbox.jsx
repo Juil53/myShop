@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Stack,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, FormGroup, Stack } from "@mui/material";
 import { useFormikContext } from "formik";
 
 const CategoriesCheckBox = ({ subCate }) => {
@@ -21,6 +16,7 @@ const CategoriesCheckBox = ({ subCate }) => {
 
   const handleChange = (e) => {
     const value = e.target.value;
+    console.log(value);
     let arr = [];
 
     if (e.target.checked) {
@@ -40,6 +36,7 @@ const CategoriesCheckBox = ({ subCate }) => {
             key={`subCate_${index}`}
             control={
               <Checkbox
+                color="secondary"
                 value={cate.id}
                 checked={categoriesClone.includes(cate.id)}
                 onChange={handleChange}

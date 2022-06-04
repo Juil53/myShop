@@ -12,11 +12,12 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import CategoriesCheckBox from "./CategoriesCheckBox";
+import CategoriesCheckBox from "./CategoriesCheckbox";
 
 const CategoriesInput = () => {
   const dispatch = useDispatch();
   const [mainCate, setMainCate] = useState("");
+  const categoriesData = useSelector(selectCategories);
   const {
     values: { categories },
     setFieldValue,
@@ -24,14 +25,14 @@ const CategoriesInput = () => {
 
   useEffect(() => {
     if (categories.length !== 0) {
-      const category = categoriesData.find((category) => categories.includes(category.id))
+      const category = categoriesData.find((category) =>
+        categories.includes(category.id)
+      );
       if (category) {
         setMainCate(category.id);
       }
     }
-  }, [categories])
-
-  const categoriesData = useSelector(selectCategories);
+  }, [categories]);
 
   // Lay ID tai parent Select so sanh vs Id Categories trong data, trung ID lay ra subCate data
   // map subCate data de render checkbox ben phai
@@ -39,7 +40,6 @@ const CategoriesInput = () => {
     if (mainCate) {
       const { subCate = [] } =
         categoriesData.find((category) => category.id === mainCate) || {};
-
       return <CategoriesCheckBox subCate={subCate} />;
     }
   };
@@ -51,7 +51,9 @@ const CategoriesInput = () => {
   };
 
   const categoryChips = (categoriesRemove) => {
-    const category = categoriesData.find((category) => categories.includes(category.id))
+    const category = categoriesData.find((category) =>
+      categories.includes(category.id)
+    );
     const categoryList = category ? [...category.subCate, category] : [];
 
     return categoryList
@@ -73,13 +75,6 @@ const CategoriesInput = () => {
             <>
               <Grid item xs={12}>
                 <Stack direction="row" spacing={1}>
-                  {/* {categories.map((category, index) => (
-                    <Chip
-                      key={`category_${index}`}
-                      label={category}
-                      onDelete={() => remove(index)}
-                    />
-                  ))} */}
                   {categoryChips(remove)}
                 </Stack>
               </Grid>
@@ -91,6 +86,7 @@ const CategoriesInput = () => {
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Categories</InputLabel>
             <Select
+              size="small"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Categories"
