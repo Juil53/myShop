@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CART_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
 
-import { utils } from "../../../../utils";
+import { clone, utils } from "../../../../utils";
 import { selectCart } from "../../../../store/cart/selectors";
-import localStorage from "../../../../service/localStorage";
 import { actions } from "../../../../store/page/slice";
 import CartItem from "./child/CartItem";
 
@@ -12,44 +11,30 @@ const AddCartPopup = (props) => {
   const { closePopup, data } = props;
   const dispatch = useDispatch();
   const cart = useSelector(selectCart);
+  const { productList = [], totalAmount } = cart.data;
 
   useEffect(() => {
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch({ type: CART_ACTIONS.GET_CART });
+    } else {
+      if (productList.length === 0) {
+        closePopup();
+      }
     }
   });
 
-  function deleteItem(index) {
+  function deleteItem(product) {
+    const newProduct = clone(product);
+    newProduct.quantity = 0;
+
     dispatch(
       actions.activePopup({
         type: POPUP.SELECTION_POPUP,
         data: {
           title: "Delete product",
           message: "Do you want to continue removing this item from your cart?",
-          action: () => {
-            const currentCart = localStorage.get("cart");
-
-            if (currentCart.productList.length > 0) {
-              currentCart.productList.splice(index, 1);
-            } else {
-              currentCart.productList = [];
-            }
-
-            if (
-              currentCart.productList.length &&
-              currentCart.productList.length >= 0
-            ) {
-              currentCart.totalAmount = currentCart.productList.reduce(
-                (pre, cur) => pre + cur.totalPrice,
-                0
-              );
-              dispatch({ type: CART_ACTIONS.ADD_CART, cart: currentCart });
-            } else {
-              dispatch({ type: CART_ACTIONS.DELETE_CART });
-            }
-
-            dispatch(actions.hidePopup(POPUP.SELECTION_POPUP));
-          },
+          actionType: "delete cart",
+          product: newProduct,
         },
       })
     );
@@ -60,9 +45,10 @@ const AddCartPopup = (props) => {
       return data.map((v, i) => {
         return (
           <CartItem
+            cart={data}
             data={v}
             index={i}
-            actionDelete={deleteItem}
+            actionDelete={() => deleteItem(v)}
             key={"cart_item" + v.id + JSON.stringify(v.optionSelected)}
           />
         );
@@ -80,12 +66,9 @@ const AddCartPopup = (props) => {
           <span>{data.name}</span> added to your cart
         </div>
         <div className="cart-status">
-          {cart.data &&
-            cart.data.productList &&
-            cart.data.productList.length &&
-            cart.data.productList.length > 0 && (
-              <span>{cart.data.productList.length} </span>
-            )}
+          {productList && productList.length && productList.length > 0 && (
+            <span>{cart.data.productList.length} </span>
+          )}
           products in your cart
         </div>
         <div className="add-cart__content">
@@ -95,16 +78,12 @@ const AddCartPopup = (props) => {
             <div className="title quantity">Quantity</div>
             <div className="title amount">Amount</div>
           </div>
-          <div className="product-list">
-            {cart.data ? createCartItem(cart.data.productList) : <></>}
-          </div>
+          <div className="product-list">{createCartItem(productList)}</div>
         </div>
         <div className="add-cart__footer row">
           <div className="total-money">
             Total money:{" "}
-            <span>
-              {cart.data ? utils.priceBreak(cart.data.totalAmount) : "0 "}₫
-            </span>
+            <span>{cart.data ? utils.priceBreak(totalAmount) : "0 "}₫</span>
           </div>
         </div>
         <div className="order-container">

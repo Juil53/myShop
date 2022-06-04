@@ -1,6 +1,17 @@
+import { useDispatch } from "react-redux";
+import { CART_ACTIONS } from "../../../../constants";
+
 const SelectionPopup = (props) => {
   const { closePopup, data } = props;
-  const { message, action } = data || [];
+  const { message, product, actionType } = data || [];
+  const dispatch = useDispatch();
+
+  const confirmActions = {
+    "delete cart": (product) => {
+      dispatch({ type: CART_ACTIONS.UPDATE_CART, product: product });
+      closePopup();
+    },
+  };
 
   return (
     <div className="modal center">
@@ -13,7 +24,10 @@ const SelectionPopup = (props) => {
           <button className="cancel-btn" onClick={closePopup}>
             Cancel
           </button>
-          <button className="confirm-btn button-style" onClick={action}>
+          <button
+            className="confirm-btn button-style"
+            onClick={() => confirmActions[actionType](product)}
+          >
             Confirm
           </button>
         </div>

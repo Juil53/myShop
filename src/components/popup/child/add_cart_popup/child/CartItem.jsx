@@ -1,22 +1,33 @@
 import { useState } from "react";
 
-import { utils } from "../../../../../utils";
+import { clone, updateCart, utils } from "../../../../../utils";
+import { useDispatch } from "react-redux";
+import { CART_ACTIONS } from "../../../../../constants";
 
 const CartItem = (props) => {
-  const { data, index, actionDelete } = props;
+  const { data, actionDelete } = props;
   const [number, setNumber] = useState(data.quantity);
-  const [amount, setAmount] = useState(data.totalPrice);
+  const dispatch = useDispatch();
+
+  function updateItem(number) {
+    const newProduct = clone(data);
+    newProduct.quantity = number;
+    dispatch({
+      type: CART_ACTIONS.UPDATE_CART,
+      product: newProduct,
+    });
+  }
 
   function handleDecrease() {
     if (number - 1 > 0) {
-      setAmount(utils.calAmount(number - 1, data.priceAfterDiscount));
+      updateItem(number - 1);
       return setNumber(number - 1);
     }
   }
 
   function handleIncrease(quantity) {
     if (number + 1 <= quantity) {
-      setAmount(utils.calAmount(number + 1, data.priceAfterDiscount));
+      updateItem(number + 1);
       return setNumber(number + 1);
     }
   }
@@ -24,27 +35,28 @@ const CartItem = (props) => {
   function handleChangeInput(e) {
     if (e.target.value) {
       let number = parseInt(e.target.value);
+
       if (number > data.available) {
-        setAmount(utils.calAmount(data.available, data.priceAfterDiscount));
         return setNumber(data.available);
       }
-      setAmount(utils.calAmount(number, data.priceAfterDiscount));
       return setNumber(number);
     } else {
       return setNumber(e.target.value);
     }
   }
 
-  function checkValue(quantity, price) {
+  function checkValue(quantity) {
     if (!number || number === 0) {
-      setAmount(utils.calAmount(quantity, price));
-      setNumber(quantity);
+      updateItem(quantity);
+      return setNumber(quantity);
+    } else {
+      updateItem(number);
     }
   }
 
   const createOptionItem = (data) => {
     if (data && data.length && data.length > 0) {
-      return data.map((v, i) => <span key={"option" + i}> {v} </span>);
+      return data.map((v, i) => <span key={"option" + i}>{v} </span>);
     }
   };
 
@@ -56,11 +68,11 @@ const CartItem = (props) => {
         </div>
         <div className="nameandmore">
           <div className="name">{data.name}</div>
-          <div className="more">
-            Type:
-            {Object.values(data.optionSelected) &&
-              createOptionItem(Object.values(data.optionSelected))}
-          </div>
+          {Object.values(data.optionSelected).length > 0 && (
+            <div className="more">
+              Type: {createOptionItem(Object.values(data.optionSelected))}
+            </div>
+          )}
         </div>
       </div>
       <div className="data price">
@@ -89,13 +101,8 @@ const CartItem = (props) => {
           </button>
         </div>
       </div>
-      <div className="data amount">{utils.priceBreak(amount)}₫</div>
-      <div
-        className="delete-btn"
-        onClick={() => {
-          actionDelete(index);
-        }}
-      >
+      <div className="data amount">{utils.priceBreak(data.totalPrice)}₫</div>
+      <div className="delete-btn" onClick={actionDelete}>
         <i className="fa-solid fa-trash"></i>
       </div>
     </div>

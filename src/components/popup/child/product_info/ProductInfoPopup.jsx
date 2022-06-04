@@ -1,8 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 import { utils } from "../../../../utils";
-import localStorage from "../../../../service/localStorage";
 import { CART_ACTIONS, POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
@@ -12,11 +11,9 @@ import {
   getQuantityAvailable,
   selectUnavailableOption,
 } from "./helper";
-import { selectCart } from "../../../../store/cart/selectors";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
-  const cart = useSelector(selectCart);
   const dispatch = useDispatch();
 
   const [number, setNumber] = useState(1);
@@ -122,6 +119,7 @@ export default function ProductInfoPopup(props) {
 
     const product = {
       ...others,
+      cartItemID: new Date().getTime(),
       priceAfterDiscount,
       optionSelected: {},
       quantity: number,
@@ -133,55 +131,10 @@ export default function ProductInfoPopup(props) {
       product.optionSelected = { ...currentOption };
     }
 
-    const currentCart =
-      cart.data &&
-      cart.data.productList &&
-      cart.data.productList.length &&
-      cart.data.productList.length > 0
-        ? localStorage.get("cart")
-        : {
-            productList: [],
-            totalAmount: 0,
-          };
-
-    if (currentCart.productList && currentCart.productList.length === 0) {
-      currentCart.productList.push(product);
-    } else {
-      const sameProduct = currentCart.productList.filter(
-        (v) => v.id === product.id
-      );
-
-      if (sameProduct.length && sameProduct.length !== 0) {
-        if (Object.keys(currentOption).length !== 0) {
-          const sameOption = sameProduct.filter(
-            (v) =>
-              JSON.stringify(v.optionSelected) === JSON.stringify(currentOption)
-          );
-
-          if (sameOption.length && sameOption.length !== 0) {
-            sameOption[0].quantity = sameOption[0].quantity + product.quantity;
-            sameOption[0].totalPrice =
-              sameOption[0].quantity * product.priceAfterDiscount;
-          } else {
-            currentCart.productList.push(product);
-          }
-        } else {
-          sameProduct[0].quantity = sameProduct[0].quantity + product.quantity;
-          sameProduct[0].totalPrice =
-            sameProduct[0].quantity * product.priceAfterDiscount;
-        }
-      } else {
-        currentCart.productList.push(product);
-      }
-    }
-
-    //tinh lai tong tien
-    currentCart.totalAmount = currentCart.productList.reduce(
-      (pre, cur) => pre + cur.totalPrice,
-      0
-    );
-
-    dispatch({ type: CART_ACTIONS.ADD_CART, cart: currentCart });
+    dispatch({
+      type: CART_ACTIONS.ADD_CART,
+      product: product,
+    });
 
     dispatch(
       actions.activePopup({

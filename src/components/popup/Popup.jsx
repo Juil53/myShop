@@ -6,9 +6,9 @@ import { pageSelector } from "../../store/page/selector";
 import { actions } from "../../store/page/slice";
 import { POPUP } from "../../constants";
 
-import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
-import AddCartPopup from "./child/AddCartPopup/AddCartPopup";
-import SelectionPopup from "./child/selection/SelectionPopup";
+import ProductInfoPopup from "./child/product_info/ProductInfoPopup";
+import AddCartPopup from "./child/add_cart_popup/AddCartPopup";
+import SelectionPopup from "./child/selection_popup/SelectionPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
