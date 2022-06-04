@@ -1,5 +1,3 @@
-import localStorage from "../service/localStorage";
-
 function priceBreak(price) {
   if (price) {
     price = price.toString();
@@ -31,48 +29,6 @@ function discount(pricebefore, priceafter) {
 function calAmount(quantity, unitPrice) {
   return quantity * unitPrice;
 }
-
-export const updateCart = (product, currentOption, curNumber) => {
-  const cart = localStorage.get("cart");
-  const currentCart =
-    cart &&
-    cart.productList &&
-    cart.productList.length &&
-    cart.productList.length > 0
-      ? { ...cart }
-      : {
-          productList: [],
-          totalAmount: 0,
-        };
-
-  const sameProduct = currentCart.productList.filter(
-    (v) => v.id === product.id
-  );
-
-  if (Object.keys(currentOption).length !== 0) {
-    const sameOption = sameProduct.filter(
-      (v) => JSON.stringify(v.optionSelected) === JSON.stringify(currentOption)
-    );
-
-    if (sameOption.length && sameOption.length !== 0) {
-      sameOption[0].quantity = curNumber;
-      sameOption[0].totalPrice =
-        sameOption[0].quantity * product.priceAfterDiscount;
-    }
-  } else {
-    sameProduct[0].quantity = curNumber;
-    sameProduct[0].totalPrice =
-      sameProduct[0].quantity * product.priceAfterDiscount;
-  }
-
-  //tinh lai tong tien
-  currentCart.totalAmount = currentCart.productList.reduce(
-    (pre, cur) => pre + cur.totalPrice,
-    0
-  );
-
-  return currentCart;
-};
 
 export const delay = (time) =>
   new Promise((resolve) => {

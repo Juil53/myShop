@@ -4,7 +4,6 @@ import { CART_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
 
 import { clone, utils } from "../../../../utils";
 import { selectCart } from "../../../../store/cart/selectors";
-import localStorage from "../../../../service/localStorage";
 import { actions } from "../../../../store/page/slice";
 import CartItem from "./child/CartItem";
 
@@ -12,10 +11,15 @@ const AddCartPopup = (props) => {
   const { closePopup, data } = props;
   const dispatch = useDispatch();
   const cart = useSelector(selectCart);
+  const { productList = [], totalAmount } = cart.data;
 
   useEffect(() => {
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch({ type: CART_ACTIONS.GET_CART });
+    } else {
+      if (productList.length === 0) {
+        closePopup();
+      }
     }
   });
 
@@ -62,12 +66,9 @@ const AddCartPopup = (props) => {
           <span>{data.name}</span> added to your cart
         </div>
         <div className="cart-status">
-          {cart.data &&
-            cart.data.productList &&
-            cart.data.productList.length &&
-            cart.data.productList.length > 0 && (
-              <span>{cart.data.productList.length} </span>
-            )}
+          {productList && productList.length && productList.length > 0 && (
+            <span>{cart.data.productList.length} </span>
+          )}
           products in your cart
         </div>
         <div className="add-cart__content">
@@ -77,16 +78,12 @@ const AddCartPopup = (props) => {
             <div className="title quantity">Quantity</div>
             <div className="title amount">Amount</div>
           </div>
-          <div className="product-list">
-            {cart.data ? createCartItem(cart.data.productList) : <></>}
-          </div>
+          <div className="product-list">{createCartItem(productList)}</div>
         </div>
         <div className="add-cart__footer row">
           <div className="total-money">
             Total money:{" "}
-            <span>
-              {cart.data ? utils.priceBreak(cart.data.totalAmount) : "0 "}₫
-            </span>
+            <span>{cart.data ? utils.priceBreak(totalAmount) : "0 "}₫</span>
           </div>
         </div>
         <div className="order-container">

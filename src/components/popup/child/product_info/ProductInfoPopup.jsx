@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 import { utils } from "../../../../utils";
@@ -11,7 +11,6 @@ import {
   getQuantityAvailable,
   selectUnavailableOption,
 } from "./helper";
-import { selectCart } from "../../../../store/cart/selectors";
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;

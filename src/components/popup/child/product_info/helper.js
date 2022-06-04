@@ -36,7 +36,7 @@ export const getAvailableOptions = (product) => {
   configurableProducts.forEach((p) => {
     const key = {};
 
-    optionsId.map((option) => {
+    optionsId.forEach((option) => {
       key[option] = p[option];
     });
 
@@ -86,9 +86,6 @@ export const selectUnavailableOption = ({
   optionId = "",
   optionValue = "",
 }) => {
-  const baseOption = {
-    [optionId]: optionValue,
-  };
   const availableOptions = getAvailableOptions(product);
 
   for (let i in availableOptions) {
