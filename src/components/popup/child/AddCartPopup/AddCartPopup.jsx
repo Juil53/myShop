@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CART_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
 
-import { utils } from "../../../../utils";
+import { clone, utils } from "../../../../utils";
 import { selectCart } from "../../../../store/cart/selectors";
 import localStorage from "../../../../service/localStorage";
 import { actions } from "../../../../store/page/slice";
@@ -19,37 +19,18 @@ const AddCartPopup = (props) => {
     }
   });
 
-  function deleteItem(index) {
+  function deleteItem(product) {
+    const newProduct = clone(product);
+    newProduct.quantity = 0;
+
     dispatch(
       actions.activePopup({
         type: POPUP.SELECTION_POPUP,
         data: {
           title: "Delete product",
           message: "Do you want to continue removing this item from your cart?",
-          action: () => {
-            const currentCart = localStorage.get("cart");
-
-            if (currentCart.productList.length > 0) {
-              currentCart.productList.splice(index, 1);
-            } else {
-              currentCart.productList = [];
-            }
-
-            if (
-              currentCart.productList.length &&
-              currentCart.productList.length >= 0
-            ) {
-              currentCart.totalAmount = currentCart.productList.reduce(
-                (pre, cur) => pre + cur.totalPrice,
-                0
-              );
-              dispatch({ type: CART_ACTIONS.ADD_CART, cart: currentCart });
-            } else {
-              dispatch({ type: CART_ACTIONS.DELETE_CART });
-            }
-
-            dispatch(actions.hidePopup(POPUP.SELECTION_POPUP));
-          },
+          actionType: "delete cart",
+          product: newProduct,
         },
       })
     );
@@ -60,9 +41,10 @@ const AddCartPopup = (props) => {
       return data.map((v, i) => {
         return (
           <CartItem
+            cart={data}
             data={v}
             index={i}
-            actionDelete={deleteItem}
+            actionDelete={() => deleteItem(v)}
             key={"cart_item" + v.id + JSON.stringify(v.optionSelected)}
           />
         );
