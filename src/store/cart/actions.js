@@ -26,9 +26,9 @@ export function* addCart({ product }) {
   }
 }
 
-export function* updateCart({ product, quantity }) {
+export function* updateCart({ product }) {
   try {
-    yield put(actions.updateCart({ product, quantity }));
+    yield put(actions.updateCart({ product }));
   } catch (e) {
     console.log(e);
   }

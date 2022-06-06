@@ -84,7 +84,6 @@ const handleAddCart = (currentCart, { product }) => {
 };
 
 const handleUpdateCart = (currentCart, { product }) => {
-  console.log(product.quantity);
   const newCart = clone(currentCart);
 
   const sameProduct = newCart.productList.filter(
@@ -99,9 +98,8 @@ const handleUpdateCart = (currentCart, { product }) => {
       sameProduct[0].quantity = product.quantity;
       sameProduct[0].totalPrice =
         sameProduct[0].quantity * product.priceAfterDiscount;
-
-      newCart.totalAmount = calTotal(newCart);
     }
+    newCart.totalAmount = calTotal(newCart);
   }
 
   localStorage.set("cart", newCart);
