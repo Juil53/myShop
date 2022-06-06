@@ -14,6 +14,7 @@ function UserRoutes() {
     <Routes>
       <Route path="" element={<Wrapper />}>
         <Route path="" element={<Home currentPage="home" />} />
+        <Route path="home" element={<Home currentPage="home" />} />
         <Route path="product" element={<SearchProduct />} />
         <Route path="product/:id" element={<ProductDetail />} />
         <Route path="sign" element={<SigninSignup />} />

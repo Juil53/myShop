@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import { clone, updateCart, utils } from "../../../../../utils";
+import { clone, utils } from "../../../../../utils";
 import { useDispatch } from "react-redux";
 import { CART_ACTIONS } from "../../../../../constants";
+import Quantity from "../../../../quantity/Quantity";
 
 const CartItem = (props) => {
   const { data, actionDelete } = props;
@@ -16,42 +17,6 @@ const CartItem = (props) => {
       type: CART_ACTIONS.UPDATE_CART,
       product: newProduct,
     });
-  }
-
-  function handleDecrease() {
-    if (number - 1 > 0) {
-      updateItem(number - 1);
-      return setNumber(number - 1);
-    }
-  }
-
-  function handleIncrease(quantity) {
-    if (number + 1 <= quantity) {
-      updateItem(number + 1);
-      return setNumber(number + 1);
-    }
-  }
-
-  function handleChangeInput(e) {
-    if (e.target.value) {
-      let number = parseInt(e.target.value);
-
-      if (number > data.available) {
-        return setNumber(data.available);
-      }
-      return setNumber(number);
-    } else {
-      return setNumber(e.target.value);
-    }
-  }
-
-  function checkValue(quantity) {
-    if (!number || number === 0) {
-      updateItem(quantity);
-      return setNumber(quantity);
-    } else {
-      updateItem(number);
-    }
   }
 
   const createOptionItem = (data) => {
@@ -79,27 +44,14 @@ const CartItem = (props) => {
         {utils.priceBreak(data.priceAfterDiscount)}₫
       </div>
       <div className="data quantity">
-        <div className="quantity-container row">
-          <button onClick={handleDecrease} disabled={number - 1 < 1}>
-            -
-          </button>
-          <input
-            type="number"
-            value={number}
-            onChange={handleChangeInput}
-            onBlur={() => {
-              checkValue(data.quantity, data.priceAfterDiscount);
-            }}
-          />
-          <button
-            onClick={() => {
-              handleIncrease(data.available, data.priceAfterDiscount);
-            }}
-            disabled={number + 1 > data.available}
-          >
-            +
-          </button>
-        </div>
+        <Quantity
+          value={number}
+          available={data.available}
+          changeValue={setNumber}
+          type="update"
+          quantity={data.quantity}
+          updateItem={updateItem}
+        />
       </div>
       <div className="data amount">{utils.priceBreak(data.totalPrice)}₫</div>
       <div className="delete-btn" onClick={actionDelete}>

@@ -209,8 +209,9 @@ export default function ProductInfoPopup(props) {
               <div className="title">Quantity</div>
               <Quantity
                 value={number}
-                quantity={numberOfProduct}
+                available={numberOfProduct}
                 changeValue={setNumber}
+                type="add"
               />
               <div className="number-product">
                 {numberOfProduct} products avaiable

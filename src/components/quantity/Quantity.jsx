@@ -1,17 +1,24 @@
 import { useState } from "react";
+
 const Quantity = (props) => {
-  const { value, quantity, changeValue } = props;
+  const { value, available, changeValue, type, quantity, updateItem } = props;
   const [number, setNumber] = useState(parseInt(value));
 
   function handleDecrease() {
     if (number - 1 > 0) {
+      if (type === "update" && updateItem) {
+        updateItem(number - 1);
+      }
       changeValue(number - 1);
       return setNumber(number - 1);
     }
   }
 
   function handleIncrease() {
-    if (number + 1 <= parseInt(quantity)) {
+    if (number + 1 <= parseInt(available)) {
+      if (type === "update" && updateItem) {
+        updateItem(number + 1);
+      }
       changeValue(number + 1);
       return setNumber(number + 1);
     }
@@ -20,10 +27,12 @@ const Quantity = (props) => {
   function handleChangeInput(e) {
     if (e.target.value) {
       let number = parseInt(e.target.value);
-      if (number > quantity) {
-        changeValue(quantity);
-        return setNumber(quantity);
+
+      if (number > available) {
+        changeValue(available);
+        return setNumber(available);
       }
+
       changeValue(number);
       return setNumber(number);
     } else {
@@ -33,8 +42,16 @@ const Quantity = (props) => {
 
   function checkValue() {
     if (!number || number === 0) {
-      changeValue(1);
-      setNumber(1);
+      if (type === "update" && updateItem && quantity) {
+        updateItem(quantity);
+        changeValue(quantity);
+        setNumber(quantity);
+      } else {
+        changeValue(1);
+        setNumber(1);
+      }
+    } else {
+      updateItem(number);
     }
   }
 
@@ -56,7 +73,7 @@ const Quantity = (props) => {
       <button
         id="increase-btn"
         onClick={handleIncrease}
-        disabled={number + 1 > parseInt(quantity)}
+        disabled={number + 1 > parseInt(available)}
       >
         +
       </button>

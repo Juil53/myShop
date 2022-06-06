@@ -66,10 +66,17 @@ const AddCartPopup = (props) => {
           <span>{data.name}</span> added to your cart
         </div>
         <div className="cart-status">
-          {productList && productList.length && productList.length > 0 && (
-            <span>{cart.data.productList.length} </span>
+          {productList && productList.length > 1 ? (
+            <span>
+              {cart.data.productList.length}
+              &nbsp; products in your cart
+            </span>
+          ) : (
+            <span>
+              {cart.data.productList.length}
+              &nbsp; product in your cart
+            </span>
           )}
-          products in your cart
         </div>
         <div className="add-cart__content">
           <div className="product-header row">

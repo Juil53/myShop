@@ -116,7 +116,9 @@ const TopNav = () => {
             {language.header.top_nav.cart[language.current]}
           </a>
           <div className="cart-dropdown-container">
-            {cart.data && Object.keys(cart.data).length !== 0 ? (
+            {cart.data &&
+            cart.data.productList &&
+            cart.data.productList.length !== 0 ? (
               <div className="cart-dropdown-content">
                 <div className="product-list">
                   {createProductList(cart.data.productList)}
