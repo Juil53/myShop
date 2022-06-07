@@ -18,7 +18,6 @@ import {
 } from "../../../../styles/styled_components/styledComponent";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../../../components/loading/Loading";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useSelector, useDispatch } from "react-redux";
@@ -34,59 +33,47 @@ import {
   selectProductPagination,
 } from "../../../../store/admin_product/selector";
 import { Link, useNavigate } from "react-router-dom";
-import { getProductInfo } from "../../../../store/admin_product/productSlice";
 
 export default function ProductTable() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector(selectLoading);
   const allProduct = useSelector(selectAllProduct);
   const paginationProduct = useSelector(selectProductPagination);
   const [page, setPage] = React.useState(1);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  let navigate = useNavigate();
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  // Handle Get Product Info
-  const handleProductInfo = (product) => {
-    dispatch(getProductInfo(product));
-  };
-
-  // Get All Product
+  // GET ALL PRODUCT
   React.useEffect(() => {
     dispatch(actGetAllProduct());
   }, []);
 
-  // Get Product Pagination
+  // GET PRODUCT PAGINATION
   const rowsPerPage = 10;
   React.useEffect(() => {
     dispatch(actProductPagination(page, rowsPerPage));
   }, [page]);
 
-  //Handle Delete User
+  // HANDLE DELETE PRODUCT
   const handleDelete = (productId) => dispatch(actDeleteProduct(productId));
-  // setPage(1)
 
-  // Format currency
+  // FORMAT CURRENCY
   const formatter = new Intl.NumberFormat("vn-VN", {
     style: "currency",
     currency: "VND",
   });
 
-  // ChangePage, total Page
+  // CHANGE PAGE
   const handleChangePage = (event, newPage) => setPage(newPage);
   const count = allProduct ? Math.ceil(allProduct?.length / 10) : 0;
 
-  //renderBody
+  // RENDER BODY
   const renderTableBody = () => {
     return paginationProduct?.map((product, index) => {
       return (
@@ -114,9 +101,7 @@ export default function ProductTable() {
             />
           </TableCell>
           <TableCell align="center">{product.available}</TableCell>
-          <TableCell align="center">
-            {formatter.format(product.priceBeforeDiscount)}
-          </TableCell>
+          <TableCell align="center">{formatter.format(product.priceBeforeDiscount)}</TableCell>
           <TableCell align="center">
             <IconButton onClick={handleClick}>
               <MoreVertIcon />
@@ -145,18 +130,6 @@ export default function ProductTable() {
                 >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
-
-                {/* <Link to="edit-product">
-                  <IconButton
-                    size="small"
-                    color="success"
-                    onClick={() => {
-                      handleProductInfo(product);
-                    }}
-                  >
-                    <EditIcon fontSize="inherit" />
-                  </IconButton>
-                </Link> */}
               </Stack>
             </Popover>
           </TableCell>
@@ -170,16 +143,10 @@ export default function ProductTable() {
       {loading ? (
         <Loading />
       ) : (
-        <Box
-          component={Paper}
-          elevation={2}
-          padding={2}
-          sx={{ backgroundColor: "#E7EBF0" }}
-        >
+        <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
           <TableContainer
-            style={{ width: "100%" }}
             sx={{
-              maxHeight: 400,
+              maxHeight: "65vh",
             }}
           >
             <Table
@@ -214,7 +181,7 @@ export default function ProductTable() {
             variant="outlined"
           />
         </Box>
-      )}
+      )}    
     </>
   );
 }

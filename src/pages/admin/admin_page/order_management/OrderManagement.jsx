@@ -1,20 +1,25 @@
 import React from "react";
-import { Box, Button, InputAdornment, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, InputAdornment, Typography } from "@mui/material";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
 import OrderTable from "./OrderTable";
-import OrderModal from "./OrderModal";
+import OrderModal from "./order_modal/OrderModal";
+import { selectOrderKeyword } from "../../../../store/orders/selector";
+import { useDispatch, useSelector } from "react-redux";
+import { getKeyword } from "../../../../store/orders/orderSlice";
+
+const product__search = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginTop: "2rem",
+  marginBottom: "2rem",
+};
 
 function OrderManagement() {
-  const product__search = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "2rem",
-    marginBottom: "2rem",
-  };
+  const dispatch = useDispatch();
+  const keyword = useSelector(selectOrderKeyword);
+  const handleChange = (event) => dispatch(getKeyword(event.target.value));
 
   return (
     <>
@@ -30,17 +35,18 @@ function OrderManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search by ID..."
+          label="Search by OrderId..."
           size="small"
           sx={{ minWidth: "10%" }}
+          onChange={handleChange}
         />
       </Box>
 
       {/* ORDER TABLE */}
-      <OrderTable />
+      <OrderTable keyword={keyword} />
 
       {/* ORDER MODAL */}
-      <OrderModal/>
+      <OrderModal />
     </>
   );
 }

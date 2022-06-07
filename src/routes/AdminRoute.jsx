@@ -13,7 +13,7 @@ const routeAdmin = [
   {
     page: "UserManagement",
     exact: true,
-    path: "/user-management",
+    path: "/users",
     element: lazy(() =>
       import("../pages/admin/admin_page/user_management/UserManagement")
     ),
@@ -21,7 +21,7 @@ const routeAdmin = [
   {
     page: "AddUser",
     exact: true,
-    path: "/user-management/add-user",
+    path: "/users/add",
     element: lazy(() =>
       import("../pages/admin/admin_page/user_management/AddUser")
     ),
@@ -53,7 +53,7 @@ const routeAdmin = [
   {
     page: "OrderManagement",
     exact: true,
-    path: "/order-management",
+    path: "/orders",
     element: lazy(() =>
       import("../pages/admin/admin_page/order_management/OrderManagement")
     ),

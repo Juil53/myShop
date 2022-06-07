@@ -10,6 +10,7 @@ const orderSlice = createSlice({
     error: null,
     orderPagination: null,
     isOpen: false,
+    keyword:null
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -51,6 +52,39 @@ const orderSlice = createSlice({
     closeModal(state, action) {
       state.isOpen = false;
     },
+
+    submitOrderRequest(state, action) {
+      state.loading = true;
+    },
+
+    submitOrderSuccess(state, action) {
+      state.loading = false;
+
+      const orderList = [...state.orderData];
+      if (action.payload.id) {
+        const index = orderList.findIndex(
+          (order) => order.id === action.payload.id
+        );
+        if (index !== -1) {
+            //Edit
+          orderList[index] = action.payload;
+        } else {
+            //Add
+          orderList.push(action.payload);
+        }
+      }
+
+      state.orderData = orderList;
+    },
+
+    submitOrderFailed(state,action){
+        state.loading = false;
+        state.error = action.payload
+    },
+
+    getKeyword(state,action){
+      state.keyword = action.payload
+    }
   },
 });
 
@@ -64,6 +98,10 @@ export const {
   getOrderDetail,
   openModal,
   closeModal,
+  submitOrderRequest,
+  submitOrderSuccess,
+  submitOrderFailed,
+  getKeyword
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

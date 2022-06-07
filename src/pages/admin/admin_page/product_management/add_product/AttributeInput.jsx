@@ -79,7 +79,7 @@ export default function AttributeInput() {
                         label="Detail"
                         fullWidth
                       >
-                        {attributeDetail(attributes[index].name)}
+                        {attributeDetail(attribute.name)}
                       </SelectInput>
                     </Grid>
 

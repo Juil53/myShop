@@ -37,16 +37,11 @@ const header = {
 
 function MyDrawer(props) {
   const { window } = props;
+  const container = window !== undefined ? () => window().document.body : undefined;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
   const [open, setOpen] = React.useState(true);
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const handleClick = () => setOpen(!open)
 
   const itemList = [
     {
@@ -57,7 +52,7 @@ function MyDrawer(props) {
     {
       text: "User",
       icon: <AccountBoxIcon />,
-      href: "/admin/user-management",
+      href: "/admin/users",
     },
     {
       text: "Product",
@@ -67,7 +62,7 @@ function MyDrawer(props) {
     {
       text: "Orders",
       icon: <LocalGroceryStoreIcon />,
-      href: "/admin/order-management",
+      href: "/admin/orders",
     },
   ];
 
@@ -75,11 +70,7 @@ function MyDrawer(props) {
     <Box>
       {/* Drawer Header Txt*/}
       <Toolbar className="adminToolbar">
-        <img
-          src="/img/logomyShop.png"
-          alt="logo"
-          style={{ width: "100%", height: "100%" }}
-        />
+        <img src="/img/logomyShop.png" alt="logo" style={{ width: "100%", height: "100%" }} />
       </Toolbar>
       <Divider />
       {/* List Page */}
@@ -105,9 +96,7 @@ function MyDrawer(props) {
     <Box>
       {/* Header */}
       <AppBar className="header" position="fixed" sx={header}>
-        <CustomizeToolbar
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
+        <CustomizeToolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -118,7 +107,9 @@ function MyDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Stack spacing={8} direction="row" alignItems="center">
-            <Typography variant="h6" fontWeight={700}>Hello! Tom</Typography>
+            <Typography variant="h6" fontWeight={700}>
+              Hello! Tom
+            </Typography>
             <Badge badgeContent={4} color="error">
               <MailIcon color="#fff" />
             </Badge>
@@ -127,11 +118,7 @@ function MyDrawer(props) {
         </CustomizeToolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <CustomDrawer
           container={container}
           variant="temporary"

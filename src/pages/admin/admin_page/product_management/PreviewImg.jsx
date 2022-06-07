@@ -1,40 +1,78 @@
 import React, { useEffect, useState } from "react";
-import { useFormikContext } from "formik";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { selectProductInfo } from "../../../../store/admin_product/selector";
 
-const PreviewImg = () => {
+const style = {
+  display: "flex",
+};
+
+const styleImg = {
+  display: "flex",
+  flexDirection: "column",
+};
+
+const PreviewImg = ({ files }) => {
+  const [name, setName] = useState("");
   const [preview, setPreview] = useState([]);
-  const {
-    values: { image },
-  } = useFormikContext();
+  const params = useParams();
+  const product = useSelector((state) => selectProductInfo(state, params.id));
 
   useEffect(() => {
-    if (image) {
-      let src = []
-      for (let i = 0; i < image.length; i++) {
-        const file = image[i];
+    if (files) {
+      let src = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
         const reader = new FileReader();
         reader.readAsDataURL(file);
+        setName(file.name);
         reader.onload = (event) => {
           src = [...src, event.target.result];
           setPreview(src);
         };
       }
     }
-  }, [image]);
+  }, [files]);
 
-    return (
-      <div id="previewImg">
+  return (
+    <>
+      {product && (
+        <div style={{ display: "flex" }}>
+          {product &&
+            product.image.map((img, index) => (
+              <img
+                key={`img_${index}`}
+                src={img}
+                alt=""
+                style={{
+                  margin: "5px 5px 5px 0",
+                  borderRadius: "5px",
+                  height: "100px",
+                  width: "100px",
+                }}
+              />
+            ))}
+        </div>
+      )}
+
+      <div id="previewImg" style={style}>
         {preview.map((src, index) => (
-          <img
-            key={`previewImg_${index}`}
-            src={src}
-            height="100px"
-            width="100px"
-            style={{ margin:"5px 5px 5px 0",borderRadius:'5px' }}
-          />
+          <div key={`previewImg_${index}`} style={styleImg}>
+            <img
+              src={src}
+              style={{
+                margin: "5px 5px 5px 0",
+                borderRadius: "5px",
+                height: "100px",
+                width: "100px",
+              }}
+            />
+            <span style={{ width: "100px" }}>{name}</span>
+          </div>
         ))}
       </div>
-    );
+    </>
+  );
 };
 
 export default PreviewImg;

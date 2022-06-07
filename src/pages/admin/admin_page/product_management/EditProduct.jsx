@@ -14,28 +14,27 @@ import { Field, Form, Formik } from "formik";
 import {
   actAddProduct,
   actGetAllProduct,
+  actGetCategories,
   actGetOptions,
 } from "../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
-import { storage } from "../../../../utils/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ImageInput from "./add_product/ImageInput";
-import CategoriesCheckBox from "./add_product/CategoriesCheckbox";
+import CategoriesInput from "./add_product/CategoriesInput";
 import AttributeInput from "./add_product/AttributeInput";
 
 export default function EditProduct() {
+  const params = useParams();
   const dispatch = useDispatch();
-  let params = useParams();
-  const info = useSelector((state => selectProductInfo(state, params.id)));
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const info = useSelector((state) => selectProductInfo(state, params.id));
 
   useEffect(() => {
-    dispatch(actGetAllProduct())
     dispatch(actGetOptions());
-  }, [])
+    dispatch(actGetCategories());
+    dispatch(actGetAllProduct());
+  }, []);
 
   return (
     <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
@@ -67,34 +66,7 @@ export default function EditProduct() {
           }}
           enableReinitialize
           onSubmit={async (values, { resetForm }) => {
-            const subCate = values.categories.map((item, index) => {
-              const { name, value } = values.categories[index];
-              value?.push(name);
-              return value;
-            });
-            values.categories = subCate;
-
-            const imageRef = ref(storage, `images/${values.image.name}`);
-            //upload image to firebase
-            uploadBytes(imageRef, values.image).then((result) => {
-              alert("Image uploaded");
-            });
-            await sleep(5000);
-            //getDownload url
-            getDownloadURL(imageRef)
-              .then((url) => {
-                console.log(url);
-                values.image = url;
-              })
-              .then(() => {
-                dispatch(actAddProduct(values));
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-
             console.log(values);
-            resetForm();
           }}
         >
           {({ values }) => (
@@ -186,12 +158,7 @@ export default function EditProduct() {
                 <Grid item xs={3}>
                   <FormControlLabel
                     control={
-                      <Field
-                        as={Switch}
-                        name="isHot"
-                        color="secondary"
-                        checked={values.isHot}
-                      />
+                      <Field as={Switch} name="isHot" color="secondary" checked={values.isHot} />
                     }
                     label="Hot"
                     labelPlacement="end"
@@ -203,12 +170,7 @@ export default function EditProduct() {
                   <FormControlLabel
                     value="end"
                     control={
-                      <Field
-                        as={Switch}
-                        name="isNew"
-                        color="secondary"
-                        checked={values.isNew}
-                      />
+                      <Field as={Switch} name="isNew" color="secondary" checked={values.isNew} />
                     }
                     label="New"
                     labelPlacement="end"
@@ -227,19 +189,19 @@ export default function EditProduct() {
                     size="small"
                     fullWidth
                     multiline
-                    rows={3}
+                    rows={5}
                     placeholder="Áo khoác Cardigan với phong cách trẻ trung, thiết kế đơn giản dễ phối đồ,... "
                   />
                 </Grid>
 
                 {/* Categories Checkbox */}
                 <Grid item xs={12}>
-                  <CategoriesCheckBox productInfo={info}/>
+                  <CategoriesInput />
                 </Grid>
 
                 {/* Attribute */}
                 <Grid item xs={12}>
-                  <AttributeInput productInfo={info}/>
+                  <AttributeInput />
                 </Grid>
 
                 <Stack
@@ -249,20 +211,10 @@ export default function EditProduct() {
                   marginTop={2}
                   paddingLeft={2}
                 >
-                  <Button
-                    variant="contained"
-                    color="success"
-                    type="submit"
-                    size="small"
-                  >
+                  <Button variant="contained" color="success" type="submit" size="small">
                     Submit
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    size="small"
-                  >
+                  <Button variant="contained" color="secondary" type="submit" size="small">
                     Reset
                   </Button>
                 </Stack>

@@ -90,7 +90,7 @@ export const actProductPagination = (page, limit) => {
   };
 };
 
-// DELETE USER
+// DELETE PRODUCT
 export const actDeleteProduct = (productId) => {
   return async (dispatch) => {
     try {

@@ -1,90 +1,63 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import DoneIcon from "@mui/icons-material/Done";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
-import ErrorIcon from "@mui/icons-material/Error";
+import React, { useEffect, useState } from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "../../../../store/orders/orderSlice";
+import { closeModal } from "../../../../../store/orders/orderSlice";
+import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
 import {
-  selectModalOpen,
-  selectOrderDetail,
-} from "../../../../store/orders/selector";
-import { Divider, Grid, IconButton, Stack } from "@mui/material";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "700px",
-  height:"500px",
-  overflow:'scroll',
-  bgcolor: "background.paper",
-  border: "1px solid #000",
-  boxShadow: 8,
-  p: 2,
-};
-
-const statusStyle = (orderDetail) => ({
-  color: statusColors[orderDetail.status] ?? "#000",
-  fontWeight: 700,
-});
-
-const title = {
-  fontWeight: 500,
-};
-
-// Format currency
-const formatter = new Intl.NumberFormat("vn-VN", {
-  style: "currency",
-  currency: "VND",
-});
-
-//STATUS COLOR
-const statusColors = {
-  Successed: "#689f38",
-  Pending: "#0288d1",
-  Failed: "#c2185b",
-};
-
-//STATUS ICON
-const statusIcon = (status) => {
-  switch (status) {
-    case "Successed":
-      return (
-        <DoneIcon
-          fontSize="small"
-          sx={{ verticalAlign: "middle", marginRight: 1 }}
-        />
-      );
-    case "Pending":
-      return (
-        <AutorenewIcon
-          fontSize="small"
-          sx={{ verticalAlign: "middle", marginRight: 1 }}
-        />
-      );
-    case "Failed":
-      return (
-        <ErrorIcon
-          fontSize="small"
-          sx={{ verticalAlign: "middle", marginRight: 1 }}
-        />
-      );
-    default:
-      break;
-  }
-};
+  Modal,
+  Typography,
+  Button,
+  Divider,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+} from "@mui/material";
+import { actUpdateOrderStatus } from "../../../../../store/orders/action";
+import { CustomBox } from "../../../../../styles/styled_components/styledComponent";
+import { statusStyle, title, statusColors} from "./OrderModalStyle";
+import StatusIcons from "./StatusIcons";
 
 const OrderModal = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector(selectModalOpen);
   const orderDetail = useSelector(selectOrderDetail);
+  const [order, setOrder] = useState({ status: "" });
   const handleClose = () => dispatch(closeModal());
+
+  // Format currency
+  const formatter = new Intl.NumberFormat("vn-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setOrder({
+      ...order,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(actUpdateOrderStatus(order, order.id));
+    handleClose();
+  };
+
+  useEffect(() => {
+    if (orderDetail) {
+      setOrder(orderDetail);
+    } else {
+      setOrder({
+        status: "",
+      });
+    }
+  }, [orderDetail]);
 
   return (
     <div>
@@ -94,7 +67,7 @@ const OrderModal = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <CustomBox>
           <Grid container justifyContent="space-between">
             <Grid item>
               <Typography variant="h4" sx={{ fontWeight: 700 }}>
@@ -103,7 +76,7 @@ const OrderModal = () => {
             </Grid>
             <Grid item>
               <IconButton onClick={handleClose}>
-                <CloseIcon color="secondary"/>
+                <CloseIcon color="secondary" />
               </IconButton>
             </Grid>
           </Grid>
@@ -111,12 +84,52 @@ const OrderModal = () => {
           {orderDetail && (
             <>
               <Stack direction="row">
-                <Typography sx={statusStyle(orderDetail)}>
-                  {statusIcon(orderDetail.status)}
-                </Typography>
-                <Typography sx={statusStyle(orderDetail)}>
-                  {orderDetail.status}
-                </Typography>
+                <Typography sx={statusStyle(orderDetail)}></Typography>
+
+                <FormControl sx={{ width: "max-content" }}>
+                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                  <Select
+                    name="status"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    size="small"
+                    value={order.status}
+                    label={order.status}
+                    onChange={handleChange}
+                    sx={{
+                      color: statusColors[order.status] ?? "#000",
+                      fontWeight: 700,
+                    }}
+                  >
+                    <MenuItem
+                      value="Successed"
+                      sx={{
+                        color: statusColors.Successed ?? "#000",
+                        fontWeight: 700,
+                      }}
+                    >
+                      <StatusIcons status="Successed"/>
+                    </MenuItem>
+                    <MenuItem
+                      value="Failed"
+                      sx={{
+                        color: statusColors.Failed ?? "#000",
+                        fontWeight: 700,
+                      }}
+                    >
+                      <StatusIcons status="Failed"/>
+                    </MenuItem>
+                    <MenuItem
+                      value="Pending"
+                      sx={{
+                        color: statusColors.Pending ?? "#000",
+                        fontWeight: 700,
+                      }}
+                    >
+                      <StatusIcons status="Pending"/>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Stack>
 
               <Grid container spacing={1} mt={1}>
@@ -155,12 +168,9 @@ const OrderModal = () => {
                   <Divider sx={{ my: 1 }} />
                   <Typography>{orderDetail.paymentMethod}</Typography>
                   <Typography>{orderDetail.shipmentMethod.name}</Typography>
-                  <Typography>
-                    {formatter.format(orderDetail.shipmentMethod.fee)}
-                  </Typography>
+                  <Typography>{formatter.format(orderDetail.shipmentMethod.fee)}</Typography>
                   <Typography sx={title}>
-                    {orderDetail.totalBeforeDiscount -
-                      orderDetail.totalAfterDiscount}
+                    {orderDetail.totalBeforeDiscount - orderDetail.totalAfterDiscount}
                   </Typography>
                   <Typography sx={title} color="error" fontWeight={700}>
                     {formatter.format(orderDetail.totalAfterDiscount)}
@@ -185,12 +195,9 @@ const OrderModal = () => {
                                 <Grid item xs={9}>
                                   <Typography>{item.name}</Typography>
                                   <Typography>
-                                    Price:{" "}
-                                    {formatter.format(item.priceBeforeDiscount)}
+                                    Price: {formatter.format(item.priceBeforeDiscount)}
                                   </Typography>
-                                  <Typography>
-                                    Quantity: {item.quantity}
-                                  </Typography>
+                                  <Typography>Quantity: {item.quantity}</Typography>
                                 </Grid>
                               </Grid>
                             </React.Fragment>
@@ -201,9 +208,12 @@ const OrderModal = () => {
                   })}
                 </Grid>
               </Grid>
+              <Button variant="contained" size="small" color="success" onClick={handleSubmit}>
+                Submit
+              </Button>
             </>
           )}
-        </Box>
+        </CustomBox>
       </Modal>
     </div>
   );

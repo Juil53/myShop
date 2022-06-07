@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -10,7 +10,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Field, Formik, Form } from "formik";
 import {
   actAddProduct,
@@ -19,16 +19,15 @@ import {
 } from "../../../../../store/admin_product/action";
 import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
 import { useDispatch } from "react-redux";
-import { storage } from "../../../../../utils/firebase/index";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import ImageInput from "./ImageInput";
 import AttributeInput from "./AttributeInput";
-import CategoriesCheckBox from "./CategoriesCheckbox";
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+import CategoriesInput from "./CategoriesInput";
+import { storage } from "../../../../../utils/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(actGetOptions());
@@ -55,44 +54,34 @@ export default function AddProduct() {
           categories: [],
           desc: "",
           status: "",
-          image: "",
+          image: [],
           available: 0,
           priceBeforeDiscount: 0,
           priceAfterDiscount: 0,
           isHot: false,
           isNew: false,
         }}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          // let cateArr = [];
-          // values.categories.forEach((category) => {
-          //   const { id, subCate } = category;
-          //   cateArr = [id, ...subCate];
-          // });
-          // let editedValues = {
-          //   ...values,
-          //   categories: cateArr,
-          // };
-
-          const imageRef = ref(storage, `images/${values.image.name}`);
-          //upload image to firebase
-          uploadBytes(imageRef, values.image).then((result) => {
-            alert("Image uploaded");
-          });
-          await sleep(5000);
-          //getDownload url
-          getDownloadURL(imageRef)
-            .then((url) => {
-              console.log(url);
-              values.image = url;
-            })
-            .then(() => {
-              dispatch(actAddProduct(values));
-            })
-            .catch((error) => {
-              console.log(error);
+        onSubmit={async (values, { resetForm }) => {
+          const tempUrl = [];
+          if (values.image.length !== 0) {
+            values.image.map((file, index) => {
+              const imageRef = ref(storage, `images/${file.name}`);
+              uploadBytes(imageRef, file).then((result) => {
+                // setFiles((prevState) => [...prevState]);
+                getDownloadURL(imageRef).then((url) => {
+                  tempUrl.push(url);
+                });
+              });
             });
-          console.log(values);
-          // console.log(editedValues);
+          }
+
+          const editedValues = {
+            ...values,
+            image: tempUrl,
+          };
+
+          dispatch(actAddProduct(editedValues));
+          navigate("/admin/products")
           resetForm();
         }}
       >
@@ -211,7 +200,7 @@ export default function AddProduct() {
 
             {/* Categories Checkbox */}
             <Grid item xs={12}>
-              <CategoriesCheckBox />
+              <CategoriesInput />
             </Grid>
 
             {/* Attribute */}
@@ -219,27 +208,11 @@ export default function AddProduct() {
               <AttributeInput />
             </Grid>
 
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-              marginTop={2}
-              paddingLeft={2}
-            >
-              <Button
-                variant="contained"
-                color="success"
-                type="submit"
-                size="small"
-              >
+            <Stack direction="row" alignItems="center" spacing={1} marginTop={2} paddingLeft={2}>
+              <Button variant="contained" color="success" type="submit" size="small">
                 Submit
               </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
-                size="small"
-              >
+              <Button variant="contained" color="secondary" type="submit" size="small">
                 Reset
               </Button>
             </Stack>

@@ -27,3 +27,9 @@ export const selectOrderDetail = (state) => {
   const { orderDetail = {} } = order;
   return orderDetail;
 };
+
+export const selectOrderKeyword = (state) => {
+  const { order = {} } = state || {};
+  const { keyword = [] } = order;
+  return keyword;
+};
