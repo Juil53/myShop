@@ -3,16 +3,9 @@ import { FieldArray, useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetCategories } from "../../../../../store/admin_product/action";
 import { selectCategories } from "../../../../../store/admin_product/selector";
-import {
-  Chip,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-} from "@mui/material";
+import { Chip, FormControl, Grid, InputLabel, MenuItem, Select, Stack } from "@mui/material";
 import CategoriesCheckBox from "./CategoriesCheckbox";
+import SelectInput from "./SelectInput";
 
 const CategoriesInput = () => {
   const dispatch = useDispatch();
@@ -25,21 +18,16 @@ const CategoriesInput = () => {
 
   useEffect(() => {
     if (categories.length !== 0) {
-      const category = categoriesData.find((category) =>
-        categories.includes(category.id)
-      );
+      const category = categoriesData.find((category) => categories.includes(category.id));
       if (category) {
         setMainCate(category.id);
       }
     }
   }, [categories]);
 
-  // Lay ID tai parent Select so sanh vs Id Categories trong data, trung ID lay ra subCate data
-  // map subCate data de render checkbox ben phai
   const categoriesDetail = () => {
     if (mainCate) {
-      const { subCate = [] } =
-        categoriesData.find((category) => category.id === mainCate) || {};
+      const { subCate = [] } = categoriesData.find((category) => category.id === mainCate) || {};
       return <CategoriesCheckBox subCate={subCate} />;
     }
   };
@@ -51,11 +39,8 @@ const CategoriesInput = () => {
   };
 
   const categoryChips = (categoriesRemove) => {
-    const category = categoriesData.find((category) =>
-      categories.includes(category.id)
-    );
+    const category = categoriesData.find((category) => categories.includes(category.id));
     const categoryList = category ? [...category.subCate, category] : [];
-
     return categoryList
       .filter((category) => categories.includes(category.id))
       .map((category, index) => (
@@ -84,8 +69,8 @@ const CategoriesInput = () => {
 
         <Grid item xs={3}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Categories</InputLabel>
-            <Select
+            <SelectInput
+              name=""
               size="small"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -98,7 +83,7 @@ const CategoriesInput = () => {
                   {category.name}
                 </MenuItem>
               ))}
-            </Select>
+            </SelectInput>
           </FormControl>
         </Grid>
 

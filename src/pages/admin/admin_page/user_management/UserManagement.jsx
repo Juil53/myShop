@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import UserModal from "./UserModal";
 
-import "../../../../scss/App.scss";
+// import "../../../../scss/App.scss";
 
 function UserManagement() {
   const dispatch = useDispatch();
@@ -19,8 +19,7 @@ function UserManagement() {
   const handleChange = (event) => dispatch(getKeyword(event.target.value));
 
   const handleClearSeach = () => (
-    (document.querySelector(".search__input").value = null),
-    dispatch(getKeyword(null))
+    (document.querySelector(".search__input").value = null), dispatch(getKeyword(null))
   );
 
   return (
@@ -42,24 +41,17 @@ function UserManagement() {
           sx={{ minWidth: "10%" }}
           onChange={handleChange}
         />
-        <Link to="add-user">
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            startIcon={<AddIcon />}
-          >
+        <Link to="add">
+          <Button variant="contained" color="secondary" size="small" startIcon={<AddIcon />}>
             Add
           </Button>
         </Link>
       </div>
 
-      {/* DataTable */}
       <div className="table">
         <UserTable keyword={keyword} />
       </div>
 
-      {/* Modal */}
       <UserModal />
     </>
   );

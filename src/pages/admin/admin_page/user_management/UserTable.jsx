@@ -1,6 +1,12 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
+import { actDeleteUser, actGetUser, actGetUserPagination } from "../../../../store/users/actions";
+import { selectUserData, selectUserDataPagination } from "../../../../store/users/selector";
+import { CustomPagination } from "../../../../styles/styled_components/styledComponent";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Loading from "../../../../components/loading/Loading";
 import {
   Box,
   IconButton,
@@ -12,66 +18,34 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import {
-  actDeleteUser,
-  actGetUser,
-  actGetUserPagination,
-} from "../../../../store/users/actions";
-import {
-  selectUserData,
-  selectUserDataPagination,
-} from "../../../../store/users/selector";
-import { CustomPagination } from "../../../../styles/styled_components/styledComponent";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import Loading from "../../../../components/loading/Loading";
 
 export function UserTable({ keyword }) {
+  const ROWS_PER_PAGE = 10;
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
   const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
   const rowsPagination = useSelector(selectUserDataPagination);
+  const [page, setPage] = React.useState(1);
   const paginationData = keyword
-    ? rows?.filter(
-        (user) =>
-          user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1
-      )
+    ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : rowsPagination;
 
-  //Get All User Data
-  React.useEffect(() => {
-    dispatch(actGetUser());
-  }, []);
-
-  //Handle Delete User
+  const handleChangePage = (event, newPage) => setPage(newPage);
   const handleDelete = (userId) => dispatch(actDeleteUser(userId));
 
-  //Handle Edit User
   const handleGetUserInfo = (user) => {
     dispatch(openModal());
     dispatch(getUserInfo(user));
   };
 
-  // Table config
-  const [page, setPage] = React.useState(1);
-  const handleChangePage = (event, newPage) => setPage(newPage);
-
-  // Get User Data Pagination
-  const rowsPerPage = 10;
   React.useEffect(() => {
-    dispatch(actGetUserPagination(page, rowsPerPage));
+    dispatch(actGetUser());
+    dispatch(actGetUserPagination(page, ROWS_PER_PAGE));
   }, [page]);
 
-  //renderTableHead
-  const tableHead = [
-    "First Name",
-    "Last Name",
-    "Email",
-    "Phone number",
-    "Role",
-    "",
-  ];
+  // RENDER TABLE HEAD
+  const tableHead = ["First Name", "Last Name", "Email", "Phone number", "Role", ""];
   const renderTableHead = () => {
     return tableHead.map((column, index) => {
       return (
@@ -82,7 +56,7 @@ export function UserTable({ keyword }) {
     });
   };
 
-  //renderTableBody
+  // RENDER TABLE BODY
   const renderTableBody = () => {
     return paginationData?.map((user, index) => {
       return (
@@ -100,22 +74,22 @@ export function UserTable({ keyword }) {
           <TableCell align="center">
             <IconButton
               size="small"
-              sx={{ color: "error.light" }}
+              color="secondary"
+              onClick={() => {
+                handleGetUserInfo(user);
+              }}
+            >
+              <EditIcon fontSize="inherit" />
+            </IconButton>
+            <IconButton
+              size="small"
+              color="error"
               onClick={() => {
                 window.alert("Are you sure?");
                 handleDelete(user.id);
               }}
             >
               <DeleteIcon fontSize="inherit" />
-            </IconButton>
-            <IconButton
-              size="small"
-              sx={{ color: "info.dark" }}
-              onClick={() => {
-                handleGetUserInfo(user);
-              }}
-            >
-              <EditIcon fontSize="inherit" />
             </IconButton>
           </TableCell>
         </TableRow>
@@ -124,16 +98,11 @@ export function UserTable({ keyword }) {
   };
 
   const tablePc = (
-    <Box
-      component={Paper}
-      elevation={2}
-      padding={2}
-      sx={{ backgroundColor: "#E7EBF0" }}
-    >
+    <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
       <TableContainer
-        style={{ width: "100%" }}
         sx={{
-          maxHeight: 450,
+          maxHeight: "100vh",
+          width: "100%",
         }}
       >
         <Table

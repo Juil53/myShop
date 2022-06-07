@@ -1,8 +1,9 @@
 import {
+  Box,
   Drawer,
   ListItemButton,
   Pagination,
-  TableCell,
+  Select,
   TableHead,
   TableRow,
   TextField,
@@ -16,30 +17,14 @@ const drawerWidth = "25rem";
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
     color: theme.palette.secondary.main,
-    // border: "1px solid",
   },
 }));
 
 const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
   transition: "all 100ms",
   "& .MuiTableCell-root": {
-    padding:5,
+    padding: 5,
   },
-  // "&:hover": {
-  //   backgroundColor: theme.palette.secondary.main,
-  //   "& .MuiTableCell-root": {
-  //     color: "#fff",
-  //   },
-  // },
-
-  // "&:last-child td, &:last-child th": {
-  //   border: "1px solid gray !important",
-  // },
-}));
-
-const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
-  // border: "1px solid gray",
-  // padding: 5,
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -85,9 +70,6 @@ const CustomDrawer = styled(Drawer)(({ theme }) => ({
     boxSizing: "border-box",
     width: drawerWidth,
   },
-  "& .MuiToolbar-root": {
-    // backgroundColor: theme.palette.secondary.dark,
-  },
 }));
 
 const TextFieldCustom = styled(TextField)(({ theme }) => ({
@@ -108,14 +90,34 @@ const CustomPagination = styled(Pagination)(({ theme }) => ({
   },
 }));
 
+const CustomSelect = styled(Select)(({ theme }) => ({
+  "& .MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root.Mui-focused": {
+    borderColor: theme.palette.secondary.dark,
+  },
+}));
+
+const CustomBox = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "700px",
+  height: "500px",
+  overflow: "scroll",
+  backgroundColor: theme.palette.background.paper,
+  border: "1px solid #000",
+  padding: "2rem",
+}));
+
 export {
   CustomizedTableHead,
   CustomizeTableRow,
-  CustomizeTableCell,
   CustomizedListItemButton,
   CustomizeToolbar,
   CustomeNavlink,
   CustomDrawer,
   TextFieldCustom,
   CustomPagination,
+  CustomSelect,
+  CustomBox
 };

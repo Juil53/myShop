@@ -18,8 +18,6 @@ import {
   actGetOptions,
 } from "../../../../store/admin_product/action";
 import { useSelector, useDispatch } from "react-redux";
-import { storage } from "../../../../utils/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -28,10 +26,9 @@ import CategoriesInput from "./add_product/CategoriesInput";
 import AttributeInput from "./add_product/AttributeInput";
 
 export default function EditProduct() {
+  const params = useParams();
   const dispatch = useDispatch();
-  let params = useParams();
   const info = useSelector((state) => selectProductInfo(state, params.id));
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
     dispatch(actGetOptions());
@@ -69,39 +66,7 @@ export default function EditProduct() {
           }}
           enableReinitialize
           onSubmit={async (values, { resetForm }) => {
-            console.log(values)
-            // let cateArr = [];
-            // values.categories.forEach((category) => {
-            //   if (category.id && category.subCate) {
-            //     const { id, subCate } = category;
-            //     cateArr = [id, ...subCate];
-            //   }
-            // });
-            // let editedValues = {
-            //   ...values,
-            //   categories: cateArr,
-            // };
-
-            // const imageRef = ref(storage, `images/${values.image.name}`);
-            // //upload image to firebase
-            // uploadBytes(imageRef, values.image).then((result) => {
-            //   alert("Image uploaded");
-            // });
-            // await sleep(5000);
-            // //getDownload url
-            // getDownloadURL(imageRef)
-            //   .then((url) => {
-            //     console.log(url);
-            //     values.image = url;
-            //   })
-            //   .then(() => {
-            //     dispatch(actAddProduct(values));
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //   });
-
-            // resetForm();
+            console.log(values);
           }}
         >
           {({ values }) => (
@@ -193,12 +158,7 @@ export default function EditProduct() {
                 <Grid item xs={3}>
                   <FormControlLabel
                     control={
-                      <Field
-                        as={Switch}
-                        name="isHot"
-                        color="secondary"
-                        checked={values.isHot}
-                      />
+                      <Field as={Switch} name="isHot" color="secondary" checked={values.isHot} />
                     }
                     label="Hot"
                     labelPlacement="end"
@@ -210,12 +170,7 @@ export default function EditProduct() {
                   <FormControlLabel
                     value="end"
                     control={
-                      <Field
-                        as={Switch}
-                        name="isNew"
-                        color="secondary"
-                        checked={values.isNew}
-                      />
+                      <Field as={Switch} name="isNew" color="secondary" checked={values.isNew} />
                     }
                     label="New"
                     labelPlacement="end"
@@ -241,12 +196,12 @@ export default function EditProduct() {
 
                 {/* Categories Checkbox */}
                 <Grid item xs={12}>
-                  <CategoriesInput/>
+                  <CategoriesInput />
                 </Grid>
 
                 {/* Attribute */}
                 <Grid item xs={12}>
-                  <AttributeInput/>
+                  <AttributeInput />
                 </Grid>
 
                 <Stack
@@ -256,20 +211,10 @@ export default function EditProduct() {
                   marginTop={2}
                   paddingLeft={2}
                 >
-                  <Button
-                    variant="contained"
-                    color="success"
-                    type="submit"
-                    size="small"
-                  >
+                  <Button variant="contained" color="success" type="submit" size="small">
                     Submit
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    size="small"
-                  >
+                  <Button variant="contained" color="secondary" type="submit" size="small">
                     Reset
                   </Button>
                 </Stack>

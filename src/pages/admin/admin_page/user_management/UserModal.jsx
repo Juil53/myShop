@@ -3,25 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, MenuItem, TextField, Modal } from "@mui/material";
 import { actUpdateUserInfo } from "../../../../store/users/actions";
 import { closeModal } from "../../../../store/users/usersSlice";
-import {
-  selectUserInfo,
-  selectUserOpen,
-} from "../../../../store/users/selector";
+import { selectUserInfo, selectUserOpen } from "../../../../store/users/selector";
+import { CustomBox } from "../../../../styles/styled_components/styledComponent";
 
-// Modal Style
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
-//Modal Select Role
+//MODAL SELECT ROLE
 const roles = [
   {
     value: "Client",
@@ -37,6 +22,7 @@ export default function BasicModal() {
   const dispatch = useDispatch();
   const open = useSelector(selectUserOpen);
   const userInfo = useSelector(selectUserInfo);
+  const handleClose = () => dispatch(closeModal());
   const [role, setRole] = React.useState("");
   const [state, setState] = React.useState({
     firstname: "",
@@ -47,7 +33,6 @@ export default function BasicModal() {
     role: "",
   });
 
-  //CHECK SHOW USER INFO TO MODAL
   React.useEffect(() => {
     if (userInfo) {
       setState({
@@ -71,7 +56,6 @@ export default function BasicModal() {
     }
   }, [userInfo]);
 
-  //GET VALUE FROM FORM
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setRole(event.target.value);
@@ -81,18 +65,10 @@ export default function BasicModal() {
     });
   };
 
-  //SUBMIT USER
   const handleSubmit = (event) => {
     event.preventDefault();
     if (userInfo !== null)
-      return (
-        dispatch(actUpdateUserInfo(state, userInfo.id)), dispatch(closeModal())
-      );
-  };
-
-  //HANDLE CLOSE MODAL
-  const handleClose = () => {
-    dispatch(closeModal());
+      return dispatch(actUpdateUserInfo(state, userInfo.id)), dispatch(closeModal());
   };
 
   return (
@@ -103,11 +79,9 @@ export default function BasicModal() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          {/* Modal Content */}
-          <Box
-            component="form"
-          >
+        <CustomBox>
+          {/* MODAL CONTENT */}
+          <Box component="form">
             <h1 className="admin__title">Edit User</h1>
             <div className="admin__form">
               <TextField
@@ -176,16 +150,12 @@ export default function BasicModal() {
               </TextField>
             </div>
             <div className="admin__btn">
-              <button
-                className="btn btn--success"
-                type="submit"
-                onClick={handleSubmit}
-              >
+              <button className="btn btn--success" type="submit" onClick={handleSubmit}>
                 Submit
               </button>
             </div>
           </Box>
-        </Box>
+        </CustomBox>
       </Modal>
     </div>
   );

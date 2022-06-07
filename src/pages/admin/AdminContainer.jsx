@@ -8,6 +8,7 @@ const content = {
   flexGrow: 1,
   p: 3,
   mt: 8,
+  width:'100%'
 };
 
 export default function AdminContainer(props) {

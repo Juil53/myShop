@@ -33,7 +33,6 @@ function ProductManagement() {
           label="Search by Name"
           size="small"
           sx={{ minWidth: "10%" }}
-          // onChange={handleChange}
         />
         <Link to="add">
           <Button
@@ -48,7 +47,7 @@ function ProductManagement() {
       </Box>
 
       {/* ProductTable */}
-      <Box className="product__table">
+      <Box>
         <ProductTable />
       </Box>
     </>

@@ -4,10 +4,10 @@ import { Box, MenuItem, TextField, Modal, Button, Typography } from "@mui/materi
 import { useFormik } from "formik";
 import { validation } from "../../../../validation/Validation";
 import { actAddUser } from "../../../../store/users/actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-//Select Role
+// SELECT ROLE
 const roles = [
   {
     value: "Client",
@@ -49,6 +49,7 @@ const admin__btn = {
 
 export default function AddUser(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [role, setRole] = React.useState("");
   const formik = useFormik({
     initialValues: {
@@ -62,6 +63,7 @@ export default function AddUser(props) {
     validationSchema: validation,
     onSubmit: (values) => {
       dispatch(actAddUser(values));
+      navigate("/admin/users")
       props.close();
     },
   });
@@ -77,7 +79,7 @@ export default function AddUser(props) {
           component="form"
           onSubmit={formik.handleSubmit}
         >
-          <Link to="/admin/user-management">
+          <Link to="/admin/users">
             <Button startIcon={<ArrowBackIcon/>} color="secondary">Back to List User...</Button>
           </Link>
           <Typography variant="h4" fontWeight={700}>Add User</Typography>
