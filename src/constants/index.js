@@ -60,3 +60,7 @@ export const CART_ACTIONS = {
   UPDATE_CART: "UPDATE_CART",
   DELETE_CART: "DELETE_CART",
 };
+
+export const USER_ACTIONS = {
+  FIND_USER: "FIND_USER",
+};
