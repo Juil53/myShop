@@ -40,6 +40,10 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+input:-webkit-autofill {
+  transition: background-color 5000s
+}
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -179,6 +183,7 @@ ul>li {
 
   span {
     padding: 0 0.8rem;
+    color: black;
   }
 
   a:hover {
