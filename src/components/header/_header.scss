@@ -107,6 +107,10 @@
       left: 0;
     }
   }
+
+  .header-nav-phone {
+    justify-content: space-between;
+  }
 }
 
 .header {
@@ -338,10 +342,6 @@
         color: black;
       }
     }
-  }
-
-  .header-nav-phone {
-    display: none;
   }
 }
 
