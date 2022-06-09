@@ -1,12 +1,5 @@
-import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo, openModal } from "../../../../store/users/usersSlice";
-import { actDeleteUser, actGetUser, actGetUserPagination } from "../../../../store/users/actions";
-import { selectUserData, selectUserDataPagination } from "../../../../store/users/selector";
-import { CustomPagination } from "../../../../styles/styled_components/styledComponent";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import Loading from "../../../../components/loading/Loading";
 import {
   Box,
   IconButton,
@@ -18,6 +11,24 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../../../components/loading/Loading";
+import {
+  selectUserData,
+  selectUserDataPagination,
+  selectUserInfo,
+} from "../../../../store/users/selector";
+import {
+  getUserInfo,
+  getUserPaginationRequest,
+  getUserRequest,
+  openModal,
+} from "../../../../store/users/usersSlice";
+import {
+  CustomizedTableHead,
+  CustomPagination,
+} from "../../../../styles/styled_components/styledComponent";
 
 export function UserTable({ keyword }) {
   const ROWS_PER_PAGE = 10;
@@ -26,13 +37,18 @@ export function UserTable({ keyword }) {
   const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
   const rowsPagination = useSelector(selectUserDataPagination);
+  const userInfo = useSelector(selectUserInfo);
   const [page, setPage] = React.useState(1);
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : rowsPagination;
 
   const handleChangePage = (event, newPage) => setPage(newPage);
-  const handleDelete = (userId) => dispatch(actDeleteUser(userId));
+
+  const handleDelete = (userId) => {
+    dispatch({ type: "DELETE_USER", payload: userId });
+    dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
+  };
 
   const handleGetUserInfo = (user) => {
     dispatch(openModal());
@@ -40,20 +56,25 @@ export function UserTable({ keyword }) {
   };
 
   React.useEffect(() => {
-    dispatch(actGetUser());
-    dispatch(actGetUserPagination(page, ROWS_PER_PAGE));
-  }, [page]);
+    dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
+    dispatch(getUserRequest());
+  }, [page, userInfo]);
 
   // RENDER TABLE HEAD
-  const tableHead = ["First Name", "Last Name", "Email", "Phone number", "Role", ""];
   const renderTableHead = () => {
-    return tableHead.map((column, index) => {
-      return (
-        <TableCell key={index} align="center">
-          {column}
-        </TableCell>
-      );
-    });
+    return (
+      <CustomizedTableHead>
+        <TableRow>
+          <TableCell align="center">User ID</TableCell>
+          <TableCell align="left">First Name</TableCell>
+          <TableCell align="left">Last Name</TableCell>
+          <TableCell align="left">Email</TableCell>
+          <TableCell align="center">Phone number</TableCell>
+          <TableCell align="center">Role</TableCell>
+          <TableCell align="center"></TableCell>
+        </TableRow>
+      </CustomizedTableHead>
+    );
   };
 
   // RENDER TABLE BODY
@@ -65,10 +86,10 @@ export function UserTable({ keyword }) {
           hover={true}
           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
         >
-          <TableCell>{user.id}</TableCell>
-          <TableCell align="center">{user.firstname}</TableCell>
-          <TableCell align="center">{user.lastname}</TableCell>
-          <TableCell align="center">{user.email}</TableCell>
+          <TableCell align="center">{user.id}</TableCell>
+          <TableCell align="left">{user.firstname}</TableCell>
+          <TableCell align="left">{user.lastname}</TableCell>
+          <TableCell align="left">{user.email}</TableCell>
           <TableCell align="center">{user.phonenumber}</TableCell>
           <TableCell align="center">{user.role}</TableCell>
           <TableCell align="center">
@@ -111,12 +132,7 @@ export function UserTable({ keyword }) {
           size="small"
           sx={{ minWidth: "110%", backgroundColor: "#fff" }}
         >
-          <TableHead>
-            <TableRow hover={true}>
-              <TableCell>ID</TableCell>
-              {renderTableHead()}
-            </TableRow>
-          </TableHead>
+          {renderTableHead()}
           <TableBody>{renderTableBody()}</TableBody>
         </Table>
       </TableContainer>

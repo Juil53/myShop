@@ -1,24 +1,16 @@
-import { Button, Stack } from "@mui/material";
-import { storage } from "../../../../../utils/firebase";
-import { useFormikContext } from "formik";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import PreviewImg from "../PreviewImg";
 import { useEffect, useState } from "react";
+import { Button, Stack } from "@mui/material";
+import { useFormikContext } from "formik";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import PreviewImg from "../PreviewImg";
 
 export default function ImageInput() {
   const [files, setFiles] = useState([]);
-  
-  const {
-    values: { image },
-    setFieldValue,
-  } = useFormikContext();
+  const { setFieldValue } = useFormikContext();
 
-  useEffect(()=>{
+  useEffect(() => {
     setFieldValue("image", files);
-  },[files])
+  }, [files]);
 
   return (
     <>

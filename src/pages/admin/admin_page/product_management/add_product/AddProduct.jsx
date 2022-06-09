@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -10,28 +10,28 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link, useNavigate } from "react-router-dom";
-import { Field, Formik, Form } from "formik";
-import {
-  actAddProduct,
-  actGetCategories,
-  actGetOptions,
-} from "../../../../../store/admin_product/action";
-import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
-import { useDispatch } from "react-redux";
 import ImageInput from "./ImageInput";
 import AttributeInput from "./AttributeInput";
 import CategoriesInput from "./CategoriesInput";
+import { Link, useNavigate } from "react-router-dom";
+import { Field, Formik, Form } from "formik";
+import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
+import { useDispatch } from "react-redux";
 import { storage } from "../../../../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getCategoriesRequest,
+  getOptionsRequest,
+  submitProductRequest,
+} from "../../../../../store/admin_product/productSlice";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(actGetOptions());
-    dispatch(actGetCategories());
+    dispatch(getOptionsRequest());
+    dispatch(getCategoriesRequest());
   }, []);
 
   return (
@@ -63,16 +63,16 @@ export default function AddProduct() {
         }}
         onSubmit={async (values, { resetForm }) => {
           const tempUrl = [];
-          if (values.image.length !== 0) {
-            values.image.map((file, index) => {
+
+          try {
+            for (let file of values.image) {
               const imageRef = ref(storage, `images/${file.name}`);
-              uploadBytes(imageRef, file).then((result) => {
-                // setFiles((prevState) => [...prevState]);
-                getDownloadURL(imageRef).then((url) => {
-                  tempUrl.push(url);
-                });
-              });
-            });
+              await uploadBytes(imageRef, file);
+              const url = await getDownloadURL(imageRef);
+              tempUrl.push(url);
+            }
+          } catch (error) {
+            console.log(error);
           }
 
           const editedValues = {
@@ -80,8 +80,10 @@ export default function AddProduct() {
             image: tempUrl,
           };
 
-          dispatch(actAddProduct(editedValues));
-          navigate("/admin/products")
+          console.log(editedValues);
+
+          dispatch(submitProductRequest({ editedValues }));
+          navigate("/admin/products");
           resetForm();
         }}
       >

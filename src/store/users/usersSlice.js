@@ -49,14 +49,12 @@ const usersSlice = createSlice({
 
       const userList = [...state.userData];
       if (action.payload.email) {
-        const index = userList.findIndex(
-          (user) => user.email === action.payload.email
-        );
+        const index = userList.findIndex((user) => user.email === action.payload.email);
         if (index !== -1) {
-            //Edit
+          //Edit
           userList[index] = action.payload;
         } else {
-            //Add
+          //Add
           userList.push(action.payload);
         }
       }
@@ -64,27 +62,30 @@ const usersSlice = createSlice({
       state.userData = userList;
     },
 
-    submitUserFailed(state,action){
-        state.loading = false;
-        state.error = action.payload
+    submitUserFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
 
-    getUserInfo(state,action){
-        state.userInfo = action.payload;
+    getUserInfo(state, action) {
+      state.userInfo = action.payload;
     },
 
-    openModal(state,action){
+    updateUserInfo(state, action) {
+      state.userInfo = action.payload;
+    },
+
+    openModal(state, action) {
       state.open = true;
     },
 
-    closeModal(state,action){
+    closeModal(state, action) {
       state.open = false;
     },
 
-    getKeyword(state,action){
-      state.keyword = action.payload
-    }
-
+    getKeyword(state, action) {
+      state.keyword = action.payload;
+    },
   },
 });
 
@@ -99,9 +100,10 @@ export const {
   submitUserSuccess,
   submitUserFailed,
   getUserInfo,
+  updateUserInfo,
   openModal,
   closeModal,
-  getKeyword
+  getKeyword,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

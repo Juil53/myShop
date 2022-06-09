@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
-  Box,
-  Grid,
-  Paper,
-  Typography,
-  Button,
-  Stack,
-  Switch,
-  FormControlLabel,
+  Box, Button, FormControlLabel, Grid,
+  Paper, Stack,
+  Switch, Typography
 } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import {
-  actAddProduct,
-  actGetAllProduct,
-  actGetCategories,
-  actGetOptions,
-} from "../../../../store/admin_product/action";
-import { useSelector, useDispatch } from "react-redux";
+  getAllProductRequest,
+  getCategoriesRequest,
+  getOptionsRequest
+} from "../../../../store/admin_product/productSlice";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ImageInput from "./add_product/ImageInput";
-import CategoriesInput from "./add_product/CategoriesInput";
 import AttributeInput from "./add_product/AttributeInput";
+import CategoriesInput from "./add_product/CategoriesInput";
+import ImageInput from "./add_product/ImageInput";
 
 export default function EditProduct() {
   const params = useParams();
@@ -31,9 +25,9 @@ export default function EditProduct() {
   const info = useSelector((state) => selectProductInfo(state, params.id));
 
   useEffect(() => {
-    dispatch(actGetOptions());
-    dispatch(actGetCategories());
-    dispatch(actGetAllProduct());
+    dispatch(getOptionsRequest());
+    dispatch(getCategoriesRequest());
+    dispatch(getAllProductRequest());
   }, []);
 
   return (

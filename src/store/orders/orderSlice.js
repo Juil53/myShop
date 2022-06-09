@@ -10,7 +10,7 @@ const orderSlice = createSlice({
     error: null,
     orderPagination: null,
     isOpen: false,
-    keyword:null
+    keyword: null,
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -45,6 +45,10 @@ const orderSlice = createSlice({
       state.orderDetail = action.payload;
     },
 
+    updateOrderDetail(state, action) {
+      state.orderDetail = action.payload;
+    },
+
     openModal(state, action) {
       state.isOpen = true;
     },
@@ -62,14 +66,12 @@ const orderSlice = createSlice({
 
       const orderList = [...state.orderData];
       if (action.payload.id) {
-        const index = orderList.findIndex(
-          (order) => order.id === action.payload.id
-        );
+        const index = orderList.findIndex((order) => order.id === action.payload.id);
         if (index !== -1) {
-            //Edit
+          //Edit
           orderList[index] = action.payload;
         } else {
-            //Add
+          //Add
           orderList.push(action.payload);
         }
       }
@@ -77,14 +79,14 @@ const orderSlice = createSlice({
       state.orderData = orderList;
     },
 
-    submitOrderFailed(state,action){
-        state.loading = false;
-        state.error = action.payload
+    submitOrderFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
 
-    getKeyword(state,action){
-      state.keyword = action.payload
-    }
+    getKeyword(state, action) {
+      state.keyword = action.payload;
+    },
   },
 });
 
@@ -96,12 +98,13 @@ export const {
   getOrderPaginationSuccess,
   getOrderPaginationFailed,
   getOrderDetail,
+  updateOrderDetail,
   openModal,
   closeModal,
   submitOrderRequest,
   submitOrderSuccess,
   submitOrderFailed,
-  getKeyword
+  getKeyword,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

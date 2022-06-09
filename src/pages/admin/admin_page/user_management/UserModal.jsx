@@ -1,9 +1,8 @@
+import { Box, MenuItem, Modal, TextField } from "@mui/material";
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Box, MenuItem, TextField, Modal } from "@mui/material";
-import { actUpdateUserInfo } from "../../../../store/users/actions";
-import { closeModal } from "../../../../store/users/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUserInfo, selectUserOpen } from "../../../../store/users/selector";
+import { closeModal, updateUserInfo } from "../../../../store/users/usersSlice";
 import { CustomBox } from "../../../../styles/styled_components/styledComponent";
 
 //MODAL SELECT ROLE
@@ -68,7 +67,7 @@ export default function BasicModal() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (userInfo !== null)
-      return dispatch(actUpdateUserInfo(state, userInfo.id)), dispatch(closeModal());
+      return dispatch(updateUserInfo({ state, id: userInfo.id })), dispatch(closeModal());
   };
 
   return (

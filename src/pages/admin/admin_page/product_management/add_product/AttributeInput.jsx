@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Grid, IconButton, MenuItem, Stack } from "@mui/material";
 import { FieldArray, useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { actGetOptions } from "../../../../../store/admin_product/action";
+import { getOptionsRequest } from "../../../../../store/admin_product/productSlice";
 import { selectAttributes } from "../../../../../store/admin_product/selector";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SelectInput from "./SelectInput";
@@ -14,15 +14,14 @@ export default function AttributeInput() {
   } = useFormikContext();
 
   useEffect(() => {
-    dispatch(actGetOptions());
+    dispatch(getOptionsRequest());
   }, []);
 
   const options = useSelector(selectAttributes);
 
   const attributeDetail = (attributeName) => {
     if (attributeName) {
-      const { data = [] } =
-        options.find((option) => option.name === attributeName) || {};
+      const { data = [] } = options.find((option) => option.name === attributeName) || {};
       return data.map((item, index) => (
         <MenuItem key={`attributeDetail_${index}`} value={item.value}>
           {item.value}
@@ -90,10 +89,7 @@ export default function AttributeInput() {
                         alignItems="center"
                         spacing={1}
                       >
-                        <IconButton
-                          variant="outlined"
-                          onClick={() => remove(index)}
-                        >
+                        <IconButton variant="outlined" onClick={() => remove(index)}>
                           <DeleteIcon color="secondary" />
                         </IconButton>
                       </Stack>
