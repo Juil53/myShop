@@ -1,48 +1,49 @@
-import React from "react";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DoneIcon from "@mui/icons-material/Done";
+import EditIcon from "@mui/icons-material/Edit";
+import ErrorIcon from "@mui/icons-material/Error";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Box,
-  IconButton,
-  Table,
+  IconButton, Paper,
+  Stack, Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
-  Paper,  
-  Stack,
+  TableRow
 } from "@mui/material";
-
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../../../components/loading/Loading";
+import {
+  getOrderDetail,
+  getOrderPaginationRequest,
+  getOrderRequest,
+  openModal
+} from "../../../../store/orders/orderSlice";
 import {
   selectLoading,
   selectOrderData,
-  selectOrderPagination,
+  selectOrderDetail,
+  selectOrderPagination
 } from "../../../../store/orders/selector";
-
+import { selectUserData } from "../../../../store/users/selector";
+import { getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
-  CustomPagination,
+  CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
-import {
-  actDeleteOrder,
-  actGetOrder,
-  actGetOrderPagination,
-} from "../../../../store/orders/action";
-import { useSelector, useDispatch } from "react-redux";
-import DoneIcon from "@mui/icons-material/Done";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
-import ErrorIcon from "@mui/icons-material/Error";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import Loading from "../../../../components/loading/Loading";
-import { selectUserData } from "../../../../store/users/selector";
-import { actGetUser } from "../../../../store/users/actions";
-import { getOrderDetail, openModal } from "../../../../store/orders/orderSlice";
+
+
+
 
 export default function OrderTable({ keyword }) {
   const dispatch = useDispatch();
   const listOrder = useSelector(selectOrderData);
   const loading = useSelector(selectLoading);
   const userList = useSelector(selectUserData);
+  const orderDetail = useSelector(selectOrderDetail);
   const orderDataPagination = useSelector(selectOrderPagination);
   const [page, setPage] = React.useState(1);
   const ROWS_PER_PAGE = 10;
@@ -56,8 +57,18 @@ export default function OrderTable({ keyword }) {
     dispatch(getOrderDetail(order));
   };
 
+  //GET ORDER DATA PAGINATION
+  React.useEffect(() => {
+    dispatch(getOrderPaginationRequest({ page, ROWS_PER_PAGE }));
+    dispatch(getOrderRequest());
+    dispatch(getUserRequest());
+  }, [page,orderDetail]);
+
   // HANDLE DETELE ORDER
-  const handleDeleteOrder = (orderId) => dispatch(actDeleteOrder(orderId));
+  const handleDeleteOrder = (orderId) => (
+    dispatch({ type: "DELETE_ORDER", payload: orderId }),
+    dispatch(getOrderPaginationRequest({ page, ROWS_PER_PAGE }))
+  );
 
   // TABLE CONFIG
   const handleChangePage = (event, newPage) => setPage(newPage);
@@ -89,17 +100,6 @@ export default function OrderTable({ keyword }) {
     style: "currency",
     currency: "VND",
   });
-
-  //GET ORDER DATA PAGINATION
-  React.useEffect(() => {
-    dispatch(actGetOrderPagination(page, ROWS_PER_PAGE));
-  }, [page]);
-
-  //GET USER DATA,ORDER DATA
-  React.useEffect(() => {
-    dispatch(actGetOrder());
-    dispatch(actGetUser());
-  }, []);
 
   //RENDER USER EMAIL
   const renderEmail = (id) => {

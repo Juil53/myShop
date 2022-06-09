@@ -1,38 +1,31 @@
-import * as React from "react";
-import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-  IconButton,
-  Box,
-  TableCell,
-  Paper,
-  Popover,
-  Stack,
-} from "@mui/material";
-
-import {
-  CustomizedTableHead,
-  CustomPagination,
-} from "../../../../styles/styled_components/styledComponent";
-
 import DeleteIcon from "@mui/icons-material/Delete";
-import Loading from "../../../../components/loading/Loading";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useSelector, useDispatch } from "react-redux";
+import EditIcon from "@mui/icons-material/Edit";
 import {
-  actDeleteProduct,
-  actGetAllProduct,
-  actProductPagination,
-} from "../../../../store/admin_product/action";
-
+  Box, IconButton, Paper,
+  Stack, Table,
+  TableBody, TableCell, TableContainer,
+  TableRow
+} from "@mui/material";
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../../../components/loading/Loading";
+import {
+  getAllProductRequest,
+  getProductPaginationRequest
+} from "../../../../store/admin_product/productSlice";
 import {
   selectAllProduct,
   selectLoading,
-  selectProductPagination,
+  selectProductPagination
 } from "../../../../store/admin_product/selector";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  CustomizedTableHead,
+  CustomPagination
+} from "../../../../styles/styled_components/styledComponent";
+
+
+
 
 export default function ProductTable() {
   const dispatch = useDispatch();
@@ -41,27 +34,23 @@ export default function ProductTable() {
   const allProduct = useSelector(selectAllProduct);
   const paginationProduct = useSelector(selectProductPagination);
   const [page, setPage] = React.useState(1);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   // GET ALL PRODUCT
   React.useEffect(() => {
-    dispatch(actGetAllProduct());
+    dispatch(getAllProductRequest());
   }, []);
 
   // GET PRODUCT PAGINATION
-  const rowsPerPage = 10;
+  const ROWS_PER_PAGE = 10;
   React.useEffect(() => {
-    dispatch(actProductPagination(page, rowsPerPage));
+    dispatch(getProductPaginationRequest({ page, ROWS_PER_PAGE }));
   }, [page]);
 
   // HANDLE DELETE PRODUCT
-  const handleDelete = (productId) => dispatch(actDeleteProduct(productId));
+  const handleDelete = (productId) => (
+    dispatch({ type: "DELETE_PRODUCT", payload: productId }),
+    dispatch(getProductPaginationRequest({ page, ROWS_PER_PAGE }))
+  );
 
   // FORMAT CURRENCY
   const formatter = new Intl.NumberFormat("vn-VN", {
@@ -84,7 +73,7 @@ export default function ProductTable() {
             "&:last-child td, &:last-child th": { border: 0 },
             cursor: "pointer",
           }}
-          onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+          // onClick={() => navigate(`/admin/products/edit/${product.id}`)}
         >
           <TableCell align="left">{product.id}</TableCell>
           <TableCell align="left">{product.name}</TableCell>
@@ -103,35 +92,25 @@ export default function ProductTable() {
           <TableCell align="center">{product.available}</TableCell>
           <TableCell align="center">{formatter.format(product.priceBeforeDiscount)}</TableCell>
           <TableCell align="center">
-            <IconButton onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
-
-            <Popover
-              elevation={2}
-              id={id}
-              open={open}
-              anchorEl={anchorEl || null}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            >
-              <Stack direction="column">
-                <IconButton
-                  size="small"
-                  sx={{ color: "error.light" }}
-                  onClick={() => {
-                    window.confirm("Are you sure?");
-                    handleDelete(product.id);
-                    handleClose();
-                  }}
-                >
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </Stack>
-            </Popover>
+            <Stack direction="row">
+              <IconButton
+                size="small"
+                sx={{ color: "error.light" }}
+                onClick={() => {
+                  window.confirm("Are you sure?");
+                  handleDelete(product.id);
+                }}
+              >
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+              <IconButton
+                size="small"
+                color="secondary"
+                onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+              >
+                <EditIcon fontSize="inherit" />
+              </IconButton>
+            </Stack>
           </TableCell>
         </TableRow>
       );
@@ -181,7 +160,7 @@ export default function ProductTable() {
             variant="outlined"
           />
         </Box>
-      )}    
+      )}
     </>
   );
 }

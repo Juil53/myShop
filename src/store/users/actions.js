@@ -1,81 +1,68 @@
+import { call, put, takeEvery } from "redux-saga/effects";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
-  getUserRequest,
-  getUserSuccess,
-  getUserFailed,
-  getUserPaginationRequest,
-  getUserPaginationSuccess,
-  getUserPaginationFailed,
-  submitUserRequest,
-  submitUserSuccess,
-  submitUserFailed,
+  getUserFailed, getUserPaginationFailed, getUserPaginationSuccess, getUserSuccess, submitUserFailed, submitUserSuccess
 } from "./usersSlice";
 
-//GET USER DATA == thunk => Saga
-export const actGetUser = () => {
-  return async (dispatch) => {
-    try {
-      dispatch(getUserRequest());
-      const result = await apiInstance.get("user");
-      dispatch(getUserSuccess(result));
-    } catch (error) {
-      dispatch(getUserFailed(error));
-    }
-  };
-};
+//GET USER DATA
+export function* actGetUser() {
+  try {
+    const result = yield call(apiInstance.get, "user");
+    yield put(getUserSuccess(result));
+  } catch (err) {
+    console.log(err);
+    yield put(getUserFailed());
+  }
+}
 
 // GET USER DATA PAGINATION
-export const actGetUserPagination = (page, limit) => {
-  return async (dispatch) => {
-    try {
-      dispatch(getUserPaginationRequest());
-      const result = await apiInstance.get(
-        `user?_page=${page}&_limit=${limit}`
-      );
-      dispatch(getUserPaginationSuccess(result));
-    } catch (error) {
-      dispatch(getUserPaginationFailed(error));
-    }
-  };
-};
+export function* actGetUserPagination(action) {
+  const { page, ROWS_PER_PAGE } = action.payload;
+  try {
+    const result = yield call(apiInstance.get, `user?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+    yield put(getUserPaginationSuccess(result));
+  } catch (err) {
+    yield put(getUserPaginationFailed());
+  }
+}
 
 // ADD USER
-export const actAddUser = (user) => {
-  return async (dispatch) => {
-    try {
-      dispatch(submitUserRequest());
-      const result = await apiInstance.post("user", user);
-      dispatch(submitUserSuccess(result));
-      actGetUserPagination();
-    } catch (error) {
-      dispatch(submitUserFailed(error));
-    }
-  };
-};
+export function* actAddUser(action) {
+  const { values } = action.payload;
+  try {
+    const result = yield call(apiInstance.post, "user", values);
+    yield put(submitUserSuccess(result));
+  } catch (err) {
+    console.log(err);
+    yield put(submitUserFailed());
+  }
+}
 
 // DELETE USER
-export const actDeleteUser = (userId) => {
-  return async (dispatch) => {
-    try {
-      apiInstance.delete(`user/${userId}`);
-      alert("Delete Success");
-      dispatch(actGetUserPagination());
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
+export function* actDeleteUser(action) {
+  try {
+    yield call(apiInstance.delete, `user/${action.payload}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 // UPDATE USER
-export const actUpdateUserInfo = (user, userId) => {
-  return async (dispatch) => {
-    try {
-      dispatch(submitUserRequest());
-      const result = await apiInstance.put(`user/${userId}`, user);
-      dispatch(submitUserSuccess(result));
-      dispatch(actGetUserPagination());
-    } catch (error) {
-      dispatch(submitUserFailed(error));
-    }
-  };
-};
+export function* actUpdateUserInfo(action) {
+  try {
+    const result = yield call(apiInstance.put, `user/${action.payload.id}`,action.payload.state);
+    yield put(submitUserSuccess(result));
+    yield put(actGetUserPagination())
+  } catch (err) {
+    console.log(err);
+    yield put(submitUserFailed());
+  }
+}
+
+export default function* userSaga() {
+  yield takeEvery("users/getUserRequest", actGetUser);
+  yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
+  yield takeEvery("users/submitUserRequest", actAddUser);
+  yield takeEvery("DELETE_USER", actDeleteUser);
+  yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
+}

@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from "react";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
-import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "../../../../../store/orders/orderSlice";
-import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
-  Modal,
-  Typography,
   Button,
   Divider,
   FormControl,
   Grid,
   IconButton,
   InputLabel,
-  MenuItem,
-  Select,
-  Stack,
+  MenuItem, Modal, Select,
+  Stack, Typography
 } from "@mui/material";
-import { actUpdateOrderStatus } from "../../../../../store/orders/action";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, updateOrderDetail } from "../../../../../store/orders/orderSlice";
+import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
 import { CustomBox } from "../../../../../styles/styled_components/styledComponent";
-import { statusStyle, title, statusColors} from "./OrderModalStyle";
+import { statusColors, statusStyle, title } from "./OrderModalStyle";
 import StatusIcons from "./StatusIcons";
 
 const OrderModal = () => {
@@ -45,8 +41,11 @@ const OrderModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(actUpdateOrderStatus(order, order.id));
-    handleClose();
+    if (orderDetail !== null)
+      return (
+        dispatch(updateOrderDetail(order)),
+        dispatch(closeModal())
+      );
   };
 
   useEffect(() => {
@@ -108,7 +107,7 @@ const OrderModal = () => {
                         fontWeight: 700,
                       }}
                     >
-                      <StatusIcons status="Successed"/>
+                      <StatusIcons status="Successed" />
                     </MenuItem>
                     <MenuItem
                       value="Failed"
@@ -117,7 +116,7 @@ const OrderModal = () => {
                         fontWeight: 700,
                       }}
                     >
-                      <StatusIcons status="Failed"/>
+                      <StatusIcons status="Failed" />
                     </MenuItem>
                     <MenuItem
                       value="Pending"
@@ -126,7 +125,7 @@ const OrderModal = () => {
                         fontWeight: 700,
                       }}
                     >
-                      <StatusIcons status="Pending"/>
+                      <StatusIcons status="Pending" />
                     </MenuItem>
                   </Select>
                 </FormControl>

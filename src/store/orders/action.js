@@ -1,58 +1,50 @@
+import { call, put, takeEvery } from "redux-saga/effects";
 import apiInstance from "../../utils/axios/axiosInstance";
-import { getOrderRequest, getOrderSuccess, getOrderFailed, getOrderPaginationRequest, getOrderPaginationSuccess, getOrderPaginationFailed, submitOrderRequest, submitOrderSuccess, submitOrderFailed } from "./orderSlice";
+import {
+  getOrderFailed, getOrderPaginationFailed, getOrderPaginationSuccess, getOrderSuccess, submitOrderFailed, submitOrderSuccess
+} from "./orderSlice";
 
 //GET ORDER DATA
-export const actGetOrder = () => {
-  return async (dispatch) => {
-    try {
-      dispatch(getOrderRequest());
-      const result = await apiInstance.get("orders");
-      dispatch(getOrderSuccess(result));
-    } catch (error) {
-      dispatch(getOrderFailed(error));
-    }
-  };
-};
+export function* actGetOrder() {
+  try {
+    const result = yield call(apiInstance.get, "orders");
+    yield put(getOrderSuccess(result));
+  } catch (err) {
+    yield put(getOrderFailed(err));
+  }
+}
 
 //GET ORDER DATA PAGINATION
-export const actGetOrderPagination = (page, limit) => {
-  return async (dispatch) => {
-    try {
-      dispatch(getOrderPaginationRequest());
-      const result = await apiInstance.get(
-        `orders?_page=${page}&_limit=${limit}`
-      );
-      dispatch(getOrderPaginationSuccess(result));
-    } catch (error) {
-      dispatch(getOrderPaginationFailed(error));
-    }
-  };
-};
+export function* actGetOrderPagination(action) {
+  const { page, ROWS_PER_PAGE } = action.payload;
+  try {
+    const result = yield call(apiInstance.get, `orders?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+    yield put(getOrderPaginationSuccess(result));
+  } catch (err) {
+    yield put(getOrderPaginationFailed(err));
+  }
+}
 
 // UPDATE ORDER STATUS
-export const actUpdateOrderStatus = (order,orderId) => {
-  return async (dispatch) => {
-    try {
-      dispatch(submitOrderRequest());
-      const result = await apiInstance.put(`orders/${orderId}`, order);
-      dispatch(submitOrderSuccess(result));
-      dispatch(actGetOrderPagination())
-    } catch (error) {
-      dispatch(submitOrderFailed(error));
-    }
-  };
-};
+export function* actUpdateOrderStatus(action) {
+  try {
+    const result = yield call(apiInstance.put, `orders/${action.payload.id}`,action.payload);
+    yield put(submitOrderSuccess(result));
+  } catch (err) {
+    yield put(submitOrderFailed(err));
+  }
+}
 
 // DELETE ORDER
-export const actDeleteOrder = (orderId) => {
-  return async (dispatch) => {
-    try {
-      apiInstance.delete(`orders/${orderId}`);
-      alert("Delete Order Success");
-      dispatch(actGetOrderPagination());
-      dispatch(actGetOrder());
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
+export function* actDeleteOrder(action) {
+  try {
+    yield call(apiInstance.delete, `orders/${action.payload}`);
+  } catch (err) {}
+}
+
+export default function* adminOrderSaga() {
+  yield takeEvery("order/getOrderRequest", actGetOrder);
+  yield takeEvery("order/getOrderPaginationRequest", actGetOrderPagination);
+  yield takeEvery("order/updateOrderDetail", actUpdateOrderStatus);
+  yield takeEvery("DELETE_ORDER", actDeleteOrder);
+}

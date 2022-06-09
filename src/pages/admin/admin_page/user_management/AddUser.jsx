@@ -1,11 +1,11 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import { useFormik } from "formik";
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { Box, MenuItem, TextField, Modal, Button, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import { validation } from "../../../../validation/Validation";
-import { actAddUser } from "../../../../store/users/actions";
 import { Link, useNavigate } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { submitUserRequest } from "../../../../store/users/usersSlice";
+import { validation } from "../../../../validation/Validation";
 
 // SELECT ROLE
 const roles = [
@@ -62,7 +62,7 @@ export default function AddUser(props) {
     },
     validationSchema: validation,
     onSubmit: (values) => {
-      dispatch(actAddUser(values));
+      dispatch(submitUserRequest({values}));
       navigate("/admin/users")
       props.close();
     },

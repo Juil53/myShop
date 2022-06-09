@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select } from "@mui/material";
+import { FormControl, InputLabel } from "@mui/material";
 import { useField } from "formik";
 import { CustomSelect } from "../../../../../styles/styled_components/styledComponent";
 

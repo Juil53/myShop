@@ -12,10 +12,9 @@ import categories from "./categories/slice";
 import products from "./products/slice";
 import page from "./page/slice";
 import cart from "./cart/slice";
-import saga from "./saga";
+import rootSaga from "./saga";
 
 let sagaMiddleware = createSagaMiddleware();
-const middleware = [sagaMiddleware];
 
 export const store = configureStore({
   reducer: {
@@ -29,7 +28,9 @@ export const store = configureStore({
     adminProduct: productReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(middleware),
+    getDefaultMiddleware({
+      thunk: false,
+    }).concat(sagaMiddleware),
 });
 
-sagaMiddleware.run(saga);
+sagaMiddleware.run(rootSaga);

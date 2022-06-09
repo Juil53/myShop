@@ -1,11 +1,11 @@
-import React from "react";
-import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import { InputAdornment, Button, Box, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import SearchIcon from "@mui/icons-material/Search";
+import { Box, Button, InputAdornment, Typography } from "@mui/material";
+import React from "react";
+import { Link } from "react-router-dom";
+import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import ProductTable from "./ProductTable";
+
 
 const product__search = {
   display: "flex",

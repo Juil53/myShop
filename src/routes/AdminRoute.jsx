@@ -6,33 +6,25 @@ const routeAdmin = [
     page: "Dashboard",
     exact: true,
     path: "/dashboard",
-    element: lazy(() =>
-      import("../pages/admin/admin_page/dashboard/Dashboard")
-    ),
+    element: lazy(() => import("../pages/admin/admin_page/dashboard/Dashboard")),
   },
   {
     page: "UserManagement",
     exact: true,
     path: "/users",
-    element: lazy(() =>
-      import("../pages/admin/admin_page/user_management/UserManagement")
-    ),
+    element: lazy(() => import("../pages/admin/admin_page/user_management/UserManagement")),
   },
   {
     page: "AddUser",
     exact: true,
     path: "/users/add",
-    element: lazy(() =>
-      import("../pages/admin/admin_page/user_management/AddUser")
-    ),
+    element: lazy(() => import("../pages/admin/admin_page/user_management/AddUser")),
   },
   {
     page: "ProductManagement",
     exact: true,
     path: "/products",
-    element: lazy(() =>
-      import("../pages/admin/admin_page/product_management/ProductManagement")
-    ),
+    element: lazy(() => import("../pages/admin/admin_page/product_management/ProductManagement")),
   },
   {
     page: "AddProduct",
@@ -46,17 +38,13 @@ const routeAdmin = [
     page: "EditProduct",
     exact: true,
     path: "/products/edit/:id",
-    element: lazy(() =>
-      import("../pages/admin/admin_page/product_management/EditProduct")
-    ),
+    element: lazy(() => import("../pages/admin/admin_page/product_management/EditProduct")),
   },
   {
     page: "OrderManagement",
     exact: true,
     path: "/orders",
-    element: lazy(() =>
-      import("../pages/admin/admin_page/order_management/OrderManagement")
-    ),
+    element: lazy(() => import("../pages/admin/admin_page/order_management/OrderManagement")),
   },
 ];
 
