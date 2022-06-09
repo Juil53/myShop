@@ -111,7 +111,7 @@ const TopNav = () => {
           </a>
         </div>
         <div className="nav-btn cart-btn">
-          <a href="/cart">
+          <a href="cart">
             <i className="fa-solid fa-cart-shopping"></i>
             {language.header.top_nav.cart[language.current]}
           </a>
@@ -142,7 +142,15 @@ const TopNav = () => {
           </div>
         </div>
       </div>
-      <div className="header-nav-phone">{SearchBox()}</div>
+      <div className="header-nav-phone row">
+        {SearchBox()}
+        <a href="sign" className="login-btn">
+          <i className="fa-solid fa-user" />
+        </a>
+        <a href="cart" className="cart-btn">
+          <i className="fa-solid fa-cart-shopping"></i>
+        </a>
+      </div>
     </React.Fragment>
   );
 };

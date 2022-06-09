@@ -40,6 +40,10 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+input:-webkit-autofill {
+  transition: background-color 5000s
+}
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -171,4 +175,22 @@ ul>li {
   border: 1px solid $mainColor;
   background-color: $whiteColor;
   color: $mainColor
+}
+
+.breadcums {
+  margin-top: 2rem;
+  display: flex;
+
+  span {
+    padding: 0 0.8rem;
+    color: black;
+  }
+
+  a:hover {
+    color: $mainColor;
+  }
+
+  li {
+    color: $mainColor;
+  }
 }
