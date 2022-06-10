@@ -14,8 +14,8 @@ const SearchProduct = () => {
   const { categories } = useSelector(categoriesSelector);
   const {
     allProducts: { data, status },
-    bestSellingProducts,
-  } = useSelector(productSelector);
+    newProducts,
+  } = useSelector(productSelector);  
 
   useEffect(() => {
     setProductSorted(data);
@@ -24,6 +24,9 @@ const SearchProduct = () => {
   useEffect(() => {
     if (status === LOADING_STATUS.IDLE) {
       dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
+    }
+    if (newProducts.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: PRODUCT_ACTIONS.GET_NEW_PRODUCTS });
     }
   }, []);
 
@@ -97,7 +100,7 @@ const SearchProduct = () => {
 
   return (
     <div className="home-page__main row">
-      <MainLeft categories={categories.data} data={bestSellingProducts.data} />
+      <MainLeft categories={categories.data} data={newProducts.data} />
       <div className="home-page__main-right">
         <h2>ALL PRODUCTS</h2>
 
