@@ -12,6 +12,7 @@ import categories from "./categories/slice";
 import products from "./products/slice";
 import page from "./page/slice";
 import cart from "./cart/slice";
+import userReducer from "./user/slice";
 import rootSaga from "./saga";
 
 let sagaMiddleware = createSagaMiddleware();
@@ -26,6 +27,7 @@ export const store = configureStore({
     user: usersReducer,
     order: orderReducer,
     adminProduct: productReducer,
+    login: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -9,6 +9,7 @@ import { POPUP } from "../../constants";
 import ProductInfoPopup from "./child/product_info/ProductInfoPopup";
 import AddCartPopup from "./child/add_cart_popup/AddCartPopup";
 import SelectionPopup from "./child/selection_popup/SelectionPopup";
+import WaitingPopup from "./child/waiting_popup/WaitingPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -25,10 +26,12 @@ export default function Popup() {
             data={data}
           />
         );
+
       case POPUP.ADD_CART_POPUP:
         return (
           <AddCartPopup closePopup={() => handleClosePopup(type)} data={data} />
         );
+
       case POPUP.SELECTION_POPUP:
         return (
           <SelectionPopup
@@ -36,6 +39,10 @@ export default function Popup() {
             data={data}
           />
         );
+
+      case POPUP.WAITING_POPUP:
+        return <WaitingPopup />;
+
       default:
         return <></>;
     }

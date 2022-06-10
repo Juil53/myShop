@@ -7,6 +7,7 @@ import {
   LOADING_STATUS,
   PAGE_ACTIONS,
   PRODUCT_ACTIONS,
+  USER_ACTIONS,
 } from "../../../constants";
 
 import { pageSelector } from "../../../store/page/selector";
@@ -20,6 +21,8 @@ import Loading from "../../../components/loading/Loading";
 import Banner from "./child/Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
 import MainLeft from "./child/MainLeft";
+import { loginUser } from "../../../store/user/selectors";
+import localStorage from "../../../service/localStorage";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ export default function HomePage() {
   const { hotProducts, newProducts, bestSellingProducts } =
     useSelector(productSelector);
   const { categories } = useSelector(categoriesSelector);
+  const userLogin = localStorage.get("user");
 
   const banner_settings = {
     infinite: true,
@@ -56,6 +60,8 @@ export default function HomePage() {
     if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
       dispatch({ type: PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS });
     }
+
+    console.log(userLogin);
   }, []);
 
   function createBanner(data) {

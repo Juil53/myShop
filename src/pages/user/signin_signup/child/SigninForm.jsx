@@ -1,8 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
+import { actions } from "../../../../store/page/slice";
+import { loginUser } from "../../../../store/user/selectors";
+
 import { checkEmailFormat } from "../../../../utils";
 
 const SigninForm = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector(loginUser);
+
   const [isShowPassword, setIsShowPassword] = useState("password");
+
+  useEffect(() => {
+    if (userLogin.status === LOADING_STATUS.LOADING) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else if (
+      Object.keys(userLogin.data).length !== 0 &&
+      userLogin.status === LOADING_STATUS.SUCCESS
+    ) {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+      console.log(userLogin.data);
+      window.location.href = window.location.origin;
+    } else if (userLogin.status === LOADING_STATUS.FAIL) {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+      const errorMsg = document.getElementById("signin-error-msg");
+      errorMsg.textContent = userLogin.msg;
+    }
+  });
 
   function handleShowPassword() {
     if (isShowPassword === "password") {
@@ -45,7 +71,7 @@ const SigninForm = () => {
     field.removeAttribute("data-error");
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const email = document.getElementById("signin-email-ip").value;
     const password = document.getElementById("signin-password-ip").value;
     const errorMsg = document.getElementById("signin-error-msg");
@@ -59,7 +85,11 @@ const SigninForm = () => {
       } else if (!checkEmailFormat(email)) {
         errorMsg.textContent = "Email is wrong format";
       } else {
-        console.log("login");
+        dispatch({
+          type: USER_ACTIONS.LOGIN_USER,
+          email: email,
+          password: password,
+        });
       }
     }
   };
