@@ -1,0 +1,10 @@
+.waiting-popup {
+  img {
+    width: 13rem;
+    height: 13rem;
+  }
+}
+
+.modal.waiting {
+  background: rgba($color: #000000, $alpha: 0.5);
+}

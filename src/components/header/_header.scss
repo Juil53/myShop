@@ -103,12 +103,13 @@
       }
     }
 
-    .phone-menu-btn.phone-menu-active~.dropdown-menu {
+    .phone-menuheader-nav-phone-btn.phone-menu-active~.dropdown-menu {
       left: 0;
     }
   }
 
   .header-nav-phone {
+    display: none;
     justify-content: space-between;
   }
 }

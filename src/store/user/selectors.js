@@ -1,4 +1,4 @@
-export const getUser = (state) => {
-  const { userData = {} } = state || [];
-  return userData;
+export const loginUser = (state) => {
+  const { login = {} } = state || [];
+  return login;
 };

@@ -30,7 +30,6 @@
 
     .sign-tab-content {
       padding: 2rem 1rem 1rem;
-      //border: 1px solid $grayColor-1;
       border-top: none;
 
       .form {
@@ -42,7 +41,7 @@
       .input-field {
         display: flex;
         position: relative;
-        width: 65%;
+        width: 60%;
         height: 4rem;
         margin: 1.5rem 0;
         border-radius: 1.6rem;
@@ -97,14 +96,14 @@
       }
 
       .error-msg {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         color: red;
         font-size: 1.2rem;
       }
 
       .login-btn,
       .signup-btn {
-        width: 50%;
+        width: 45%;
         padding: 1.2rem 0;
         margin-top: 1.5rem;
         text-transform: uppercase;
@@ -112,7 +111,7 @@
       }
 
       .social-text {
-        margin-top: 2rem;
+        margin-top: 1rem;
         color: $grayColor-3;
         font-size: 1.4rem;
       }
