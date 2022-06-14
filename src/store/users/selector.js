@@ -10,10 +10,10 @@ export const selectUserOpen = (state) => {
   return open;
 };
 
-export const selectUserInfo = (state) => {
+export const selectUserInfo = (state, id) => {
   const { user = {} } = state || {};
-  const { userInfo = [] } = user;
-  return userInfo;
+  const { userData = [] } = user;
+  return userData.find((user) => user.id === id);
 };
 
 export const selectUserDataPagination = (state) => {
@@ -27,4 +27,3 @@ export const selectUserData = (state) => {
   const { userData = [] } = user;
   return userData;
 };
-

@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -53,3 +54,5 @@ export const signup = async (email, password, info) => {
     return null;
   }
 };
+
+export const storage = getStorage(firebase);

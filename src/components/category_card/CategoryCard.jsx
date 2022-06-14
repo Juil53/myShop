@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function CategoryCard(props) {
-  const { categories } = props;
+export default function CategoryCard({ categories}) {
   const [active, setActive] = useState([]);
 
   function handleActiveDropdown(cate) {
@@ -27,7 +27,8 @@ export default function CategoryCard(props) {
                     : "categorycard__category-name row"
                 }
               >
-                <a href="#">{v.name}</a>
+                <Link to={`?category=${v.id}`}>{v.name}</Link>
+
                 <div
                   className="dropdown-btn"
                   onClick={() => {
@@ -40,9 +41,7 @@ export default function CategoryCard(props) {
               {v.subCate && (
                 <div
                   className={
-                    active.includes(v.id)
-                      ? "subcate-dropdown subcate-active"
-                      : "subcate-dropdown"
+                    active.includes(v.id) ? "subcate-dropdown subcate-active" : "subcate-dropdown"
                   }
                 >
                   {createSubCateDropdown(v.subCate)}
@@ -60,7 +59,9 @@ export default function CategoryCard(props) {
       return (
         <div className="subcate" key={v.id}>
           <i className="fa-solid fa-star"></i>
-          <a href="#">{v.name}</a>
+          <button onClick={() => {}} value={v.id}>
+            {v.name}
+          </button>
         </div>
       );
     });

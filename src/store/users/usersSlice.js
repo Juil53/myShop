@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const usersSlice = createSlice({
   name: "users",
   initialState: {
-    userData: null,
-    userDataPagination: null,
-    userInfo: null,
-    error: null,
+    userData: [],
+    userDataPagination: [],
+    userInfo: {},
+    error: "",
     loading: false,
     open: false,
-    keyword: null,
+    keyword: "",
   },
   reducers: {
     getUserRequest(state, action) {

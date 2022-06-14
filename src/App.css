@@ -734,6 +734,13 @@ ul > li {
       padding: 0.5rem 0;
       width: 10rem; }
 
+.waiting-popup img {
+  width: 13rem;
+  height: 13rem; }
+
+.modal.waiting {
+  background: rgba(0, 0, 0, 0.5); }
+
 .popup__cancel-btn {
   position: absolute;
   top: 0.5rem;
@@ -819,9 +826,10 @@ ul > li {
     width: 2rem;
     transform: translateY(0) rotate(315deg);
     transition-delay: 0.25s; }
-  .header-phone .header-phone__menu .phone-menu-btn.phone-menu-active ~ .dropdown-menu {
+  .header-phone .header-phone__menu .phone-menuheader-nav-phone-btn.phone-menu-active ~ .dropdown-menu {
     left: 0; }
   .header-phone .header-nav-phone {
+    display: none;
     justify-content: space-between; }
 
 .header {
@@ -1306,6 +1314,12 @@ ul > li {
   width: 100%;
   justify-content: space-between;
   position: relative; }
+  .categorycard__category .categorycard__category-name button {
+    background-color: transparent;
+    padding: 0.5rem 0;
+    font-size: 1.6rem; }
+    .categorycard__category .categorycard__category-name button:hover {
+      color: #35c0c5; }
   .categorycard__category .categorycard__category-name a,
   .categorycard__category .categorycard__category-name i {
     transition: all ease 0.3s; }
@@ -1634,7 +1648,7 @@ ul > li {
       .signin-signup-page .signin-signup-container .sign-tab-content .input-field {
         display: flex;
         position: relative;
-        width: 65%;
+        width: 60%;
         height: 4rem;
         margin: 1.5rem 0;
         border-radius: 1.6rem;
@@ -1672,18 +1686,18 @@ ul > li {
         .signin-signup-page .signin-signup-container .sign-tab-content .input-field:focus-within i {
           color: #35c0c5; }
       .signin-signup-page .signin-signup-container .sign-tab-content .error-msg {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         color: red;
         font-size: 1.2rem; }
       .signin-signup-page .signin-signup-container .sign-tab-content .login-btn,
       .signin-signup-page .signin-signup-container .sign-tab-content .signup-btn {
-        width: 50%;
+        width: 45%;
         padding: 1.2rem 0;
         margin-top: 1.5rem;
         text-transform: uppercase;
         transition: all ease 0.3s; }
       .signin-signup-page .signin-signup-container .sign-tab-content .social-text {
-        margin-top: 2rem;
+        margin-top: 1rem;
         color: #898989;
         font-size: 1.4rem; }
       .signin-signup-page .signin-signup-container .sign-tab-content .social-media {
