@@ -13,12 +13,15 @@ import HeaderNav from "./child/HeaderNav";
 import CartButton from "./child/CartButton";
 import SearchBar from "./child/SearchBar";
 import { utils } from "../../utils";
+import localStorage from "../../service/localStorage";
+import User from "./child/User";
 
 export default function Header() {
   const { languages } = useSelector((state) => state);
   const { categories } = useSelector(categoriesSelector);
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
+  const userLogin = localStorage.get("user");
 
   const [currentPage, setCurrentPage] = useState("home");
 
@@ -59,18 +62,24 @@ export default function Header() {
               19009597
             </div>
             <SearchBar />
-            <div className="nav-btn login-btn">
-              <a href="/sign">
-                <i className="fa-solid fa-user" />
-                Sign in
-              </a>
-            </div>
-            <div className="nav-btn register-btn">
-              <a href="/login">
-                <i className="fa-solid fa-lock-open"></i>
-                Sign up
-              </a>
-            </div>
+            {userLogin ? (
+              <User data={userLogin} />
+            ) : (
+              <>
+                <div className="nav-btn login-btn">
+                  <a href="/sign">
+                    <i className="fa-solid fa-user" />
+                    Sign in
+                  </a>
+                </div>
+                <div className="nav-btn register-btn">
+                  <a href="/login">
+                    <i className="fa-solid fa-lock-open"></i>
+                    Sign up
+                  </a>
+                </div>
+              </>
+            )}
             {cart.data && <CartButton data={cart.data} />}
           </div>
         </div>
@@ -114,9 +123,15 @@ export default function Header() {
         <SearchBar />
         <div className="header-phone__right">
           <div className="nav-btn login-btn">
-            <a href="/sign">
-              <i className="fa-solid fa-user" />
-            </a>
+            {userLogin ? (
+              <a href="/user">
+                <i className="fa-solid fa-user" />
+              </a>
+            ) : (
+              <a href="/sign">
+                <i className="fa-solid fa-user" />
+              </a>
+            )}
           </div>
           <div className="nav-btn cart-btn">
             <a href="/cart">

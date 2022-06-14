@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LOADING_STATUS } from "../../constants";
+import localStorage from "../../service/localStorage";
 
 const usersSlice = createSlice({
   name: "users",
+
   initialState: {
     userData: null,
     userDataPagination: null,
@@ -10,7 +13,13 @@ const usersSlice = createSlice({
     loading: false,
     open: false,
     keyword: null,
+    loginUser: {
+      status: LOADING_STATUS.IDLE,
+      data: localStorage.get("user"),
+      msg: "",
+    },
   },
+
   reducers: {
     getUserRequest(state, action) {
       state.loading = true;
@@ -49,7 +58,9 @@ const usersSlice = createSlice({
 
       const userList = [...state.userData];
       if (action.payload.email) {
-        const index = userList.findIndex((user) => user.email === action.payload.email);
+        const index = userList.findIndex(
+          (user) => user.email === action.payload.email
+        );
         if (index !== -1) {
           //Edit
           userList[index] = action.payload;
@@ -86,6 +97,34 @@ const usersSlice = createSlice({
     getKeyword(state, action) {
       state.keyword = action.payload;
     },
+
+    loginRequest: (state) => {
+      state.loginUser.msg = "Loading";
+      state.loginUser.status = LOADING_STATUS.LOADING;
+    },
+
+    loginSuccess: (state, action) => {
+      state.loginUser.data = action.payload;
+      localStorage.set("user", action.payload);
+      state.loginUser.status = LOADING_STATUS.SUCCESS;
+      state.loginUser.msg = "Success";
+    },
+
+    loginFail: (state) => {
+      state.loginUser.data = null;
+      state.loginUser.status = LOADING_STATUS.FAIL;
+      state.loginUser.msg = "Wrong username or password";
+    },
+
+    getLoginUserInfo: (state, action) => {
+      state.data = action.payload;
+    },
+
+    signout: (state) => {
+      state.loginUser.data = null;
+      localStorage.remove("user");
+      state.loginUser.status = LOADING_STATUS.IDLE;
+    },
   },
 });
 
@@ -104,6 +143,11 @@ export const {
   openModal,
   closeModal,
   getKeyword,
+  loginRequest,
+  loginSuccess,
+  loginFail,
+  getLoginUserInfo,
+  signout,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

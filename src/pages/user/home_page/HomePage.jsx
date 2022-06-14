@@ -21,7 +21,6 @@ import Loading from "../../../components/loading/Loading";
 import Banner from "./child/Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
 import MainLeft from "./child/MainLeft";
-import { loginUser } from "../../../store/user/selectors";
 import localStorage from "../../../service/localStorage";
 
 export default function HomePage() {
@@ -60,8 +59,6 @@ export default function HomePage() {
     if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
       dispatch({ type: PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS });
     }
-
-    console.log(userLogin);
   }, []);
 
   function createBanner(data) {

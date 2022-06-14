@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
-import { loginUser } from "../../../../store/user/selectors";
+import { loginUser } from "../../../../store/users/selector";
 
 import { checkEmailFormat } from "../../../../utils";
 
 const SigninForm = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector(loginUser);
+  console.log(userLogin);
 
   const [isShowPassword, setIsShowPassword] = useState("password");
 
@@ -17,6 +18,7 @@ const SigninForm = () => {
     if (userLogin.status === LOADING_STATUS.LOADING) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (
+      userLogin.data &&
       Object.keys(userLogin.data).length !== 0 &&
       userLogin.status === LOADING_STATUS.SUCCESS
     ) {

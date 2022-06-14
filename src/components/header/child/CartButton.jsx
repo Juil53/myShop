@@ -39,6 +39,9 @@ const CartButton = (props) => {
         <i className="fa-solid fa-cart-shopping"></i>
         <span>Cart</span>
       </a>
+      <span className="product-quantity">
+        {data.productList && data.productList.length}
+      </span>
       <div className="cart-dropdown-container">
         {data.productList && data.productList.length !== 0 ? (
           <div className="cart-dropdown-content">

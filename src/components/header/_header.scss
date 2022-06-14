@@ -180,6 +180,7 @@
         border-left: 1px solid $grayColor-1;
         height: 9.2rem;
         line-height: 9.2rem;
+        transition: all ease 0.3s;
 
         i {
           color: $mainColor;
@@ -192,6 +193,36 @@
         }
       }
 
+      .cart-btn {
+        i {
+          color: $whiteColor;
+        }
+      }
+
+      .cart-btn:hover {
+        i {
+          color: $mainColor;
+        }
+      }
+
+      .user-btn {
+        .user-dropdown {
+          a {
+            i {
+              margin-left: 0.3rem;
+              color: $grayColor-3;
+            }
+          }
+
+          a:hover {
+            i {
+              color: $mainColor;
+            }
+          }
+        }
+      }
+
+      .user-btn:hover,
       .register-btn:hover,
       .login-btn:hover {
         background-color: $mainColor;
@@ -215,6 +246,21 @@
     i,
     :no-button {
       color: $whiteColor;
+    }
+
+    .product-quantity {
+      line-height: normal;
+      position: absolute;
+      top: -0.5rem;
+      right: -0.6rem;
+      font-size: 1.2rem;
+      background-color: $mainColor;
+      color: $whiteColor;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      text-align: center;
+      display: none;
     }
 
     .cart-dropdown-container {
@@ -366,7 +412,7 @@
   }
 
   .cart-btn:hover {
-    background-color: transparent;
+    background-color: $whiteColor;
 
     .cart-dropdown-container {
       visibility: visible;
@@ -380,6 +426,60 @@
 
     button {
       color: black;
+    }
+  }
+
+  //user button
+  .user-btn {
+    position: relative;
+    cursor: pointer;
+
+    .user-dropdown {
+      line-height: normal;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      visibility: hidden;
+      opacity: 0;
+      padding: 1rem;
+      top: 10rem;
+      right: -7rem;
+      z-index: 5;
+      min-width: 23rem;
+      background-color: $whiteColor;
+      box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3),
+        0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
+      transition: all 0.3s ease-in-out;
+
+      .title {
+        text-align: center;
+        color: $grayColor-3;
+        font-size: 1.6rem;
+      }
+
+      a {
+        padding: 1rem;
+        color: $grayColor-3;
+        border-bottom: 1px solid $grayColor;
+        transition: all ease 0.3s;
+      }
+
+      a:hover {
+        color: $mainColor;
+        border-bottom: 1px solid $mainColor;
+
+        i {
+          color: $mainColor;
+        }
+      }
+    }
+  }
+
+  .user-btn:hover {
+    .user-dropdown {
+      visibility: visible;
+      opacity: 1;
+      top: 9.2rem;
     }
   }
 
@@ -579,6 +679,10 @@
 
         span {
           display: none;
+        }
+
+        .product-quantity {
+          display: block;
         }
 
         .cart-dropdown-container {

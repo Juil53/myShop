@@ -21,6 +21,7 @@ const authInstance = getAuth(firebase);
 const adapter = ({ user = {}, _tokenResponse = {} }) => {
   const { accessToken, displayName, email } = user;
   const { refreshToken } = _tokenResponse;
+
   return {
     accessToken,
     displayName,
@@ -32,11 +33,13 @@ const adapter = ({ user = {}, _tokenResponse = {} }) => {
 export const signin = async (email = "", password = "") => {
   try {
     const res = await signInWithEmailAndPassword(authInstance, email, password);
+
     if (!res.user) return null;
 
     return adapter(res);
   } catch (e) {
     console.log(e, JSON.stringify(e));
+
     return null;
   }
 };
@@ -44,10 +47,13 @@ export const signin = async (email = "", password = "") => {
 export const signup = async (email, password, info) => {
   try {
     const { user } = await createUserWithEmailAndPassword(email, password);
+
     if (!user) return null;
+
     const rs = await user.updateProfile({
       info,
     });
+
     return rs;
   } catch (e) {
     return null;
