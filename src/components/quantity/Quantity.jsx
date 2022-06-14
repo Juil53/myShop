@@ -11,6 +11,10 @@ const Quantity = (props) => {
       }
       changeValue(number - 1);
       return setNumber(number - 1);
+    } else {
+      if (type === "update" && updateItem) {
+        updateItem(number - 1);
+      }
     }
   }
 
@@ -41,29 +45,43 @@ const Quantity = (props) => {
   }
 
   function checkValue() {
-    if (!number || number === 0) {
-      if (type === "update" && updateItem && quantity) {
-        updateItem(quantity);
+    if (type === "update" && updateItem && quantity) {
+      if (number) {
+        updateItem(number);
+      } else if (number === 0) {
+        updateItem(number);
         changeValue(quantity);
         setNumber(quantity);
       } else {
-        changeValue(1);
-        setNumber(1);
+        updateItem(quantity);
+        changeValue(quantity);
+        setNumber(quantity);
       }
     } else {
-      updateItem(number);
+      changeValue(1);
+      setNumber(1);
     }
   }
 
   return (
     <div className="quantity-container row">
-      <button
-        id="descrease-btn"
-        onClick={handleDecrease}
-        disabled={number - 1 < 1}
-      >
-        -
-      </button>
+      {type === "update" ? (
+        <button
+          id="descrease-btn"
+          onClick={handleDecrease}
+          disabled={number - 1 < 0}
+        >
+          -
+        </button>
+      ) : (
+        <button
+          id="descrease-btn"
+          onClick={handleDecrease}
+          disabled={number - 1 < 1}
+        >
+          -
+        </button>
+      )}
       <input
         type="number"
         value={number}

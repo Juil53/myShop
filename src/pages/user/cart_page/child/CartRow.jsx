@@ -11,11 +11,17 @@ const CartRow = (props) => {
 
   function updateItem(number) {
     const newProduct = clone(data);
+
     newProduct.quantity = number;
-    dispatch({
-      type: CART_ACTIONS.UPDATE_CART,
-      product: newProduct,
-    });
+
+    if (number !== 0) {
+      dispatch({
+        type: CART_ACTIONS.UPDATE_CART,
+        product: newProduct,
+      });
+    } else {
+      actionDelete();
+    }
   }
 
   const createOptionItem = (data) => {
