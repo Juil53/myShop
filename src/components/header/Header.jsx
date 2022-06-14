@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CATEGORY_ACTIONS, LOADING_STATUS } from "../../constants";
+import {
+  CATEGORY_ACTIONS,
+  LOADING_STATUS,
+  CART_ACTIONS,
+} from "../../constants";
 import { categoriesSelector } from "../../store/categories/selector";
+import { selectCart } from "../../store/cart/selectors";
 
 import HeaderNav from "./child/HeaderNav";
-import Language from "./child/Language";
-import TopNav from "./child/TopNav";
+import CartButton from "./child/CartButton";
+import SearchBar from "./child/SearchBar";
+import { utils } from "../../utils";
+import localStorage from "../../service/localStorage";
+import User from "./child/User";
 
 export default function Header() {
   const { languages } = useSelector((state) => state);
   const { categories } = useSelector(categoriesSelector);
+  const cart = useSelector(selectCart);
   const dispatch = useDispatch();
+  const userLogin = localStorage.get("user");
 
   const [currentPage, setCurrentPage] = useState("home");
 
   useEffect(() => {
     if (categories.status === LOADING_STATUS.IDLE) {
       dispatch({ type: CATEGORY_ACTIONS.GET_ALL_CATEGORIES });
+    }
+    if (cart.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: CART_ACTIONS.GET_CART });
     }
   }, []);
 
@@ -43,7 +56,32 @@ export default function Header() {
               <img src="/img/logomyShop.png" alt="" />
             </div>
           </div>
-          <TopNav />
+          <div className="header__top-nav row">
+            <div className="nav-btn nav-btn-phone">
+              <i className="fa-solid fa-phone"></i>
+              19009597
+            </div>
+            <SearchBar />
+            {userLogin ? (
+              <User data={userLogin} />
+            ) : (
+              <>
+                <div className="nav-btn login-btn">
+                  <a href="/sign">
+                    <i className="fa-solid fa-user" />
+                    Sign in
+                  </a>
+                </div>
+                <div className="nav-btn register-btn">
+                  <a href="/login">
+                    <i className="fa-solid fa-lock-open"></i>
+                    Sign up
+                  </a>
+                </div>
+              </>
+            )}
+            {cart.data && <CartButton data={cart.data} />}
+          </div>
         </div>
         <div className="header__nav row">
           <HeaderNav
@@ -51,7 +89,9 @@ export default function Header() {
             currentPage={currentPage}
             categories={categories}
           />
-          <Language language={languages} />
+          <div className="header__nav-right">
+            {cart.data && <CartButton data={cart.data} />}
+          </div>
         </div>
       </div>
       <div className="header-phone">
@@ -80,7 +120,26 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <TopNav />
+        <SearchBar />
+        <div className="header-phone__right">
+          <div className="nav-btn login-btn">
+            {userLogin ? (
+              <a href="/user">
+                <i className="fa-solid fa-user" />
+              </a>
+            ) : (
+              <a href="/sign">
+                <i className="fa-solid fa-user" />
+              </a>
+            )}
+          </div>
+          <div className="nav-btn cart-btn">
+            <a href="/cart">
+              <i className="fa-solid fa-cart-shopping" />
+            </a>
+            <span className="product-quantity">1</span>
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

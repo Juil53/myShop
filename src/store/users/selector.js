@@ -28,3 +28,8 @@ export const selectUserData = (state) => {
   return userData;
 };
 
+export const loginUser = (state) => {
+  const { user = {} } = state || {};
+  const { loginUser = {} } = user;
+  return loginUser;
+};
