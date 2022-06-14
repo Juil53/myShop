@@ -204,9 +204,31 @@
   }
 }
 
-// .productinfopopup::-webkit-scrollbar {
-//   display: none;
-// }
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .productinfopopup {
+    max-width: 85%;
+
+    .productinfopopup__info {
+      .configurable-options {
+        min-width: 70%;
+
+        .option {
+          margin-left: 2rem;
+        }
+      }
+
+      .productinfopopup__info-quantity {
+        max-width: none;
+      }
+
+      .cancel-btn,
+      .addcart-btn {
+        width: 14rem;
+        height: 4rem;
+      }
+    }
+  }
+}
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .productinfopopup {
