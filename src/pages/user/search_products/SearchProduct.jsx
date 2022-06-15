@@ -5,20 +5,21 @@ import { useSearchParams } from "react-router-dom";
 import Loading from "../../../components/loading/Loading";
 import ProductCard from "../../../components/product_card/ProductCard";
 import { LOADING_STATUS, PRODUCT_ACTIONS } from "../../../constants";
-import {
-  categoriesSelector, selectLoading
-} from "../../../store/categories/selector";
-import { productSelector } from "../../../store/products/selector";
+import { categoriesSelector, selectLoading } from "../../../store/categories/selector";
+import { productSelector, selectProduct } from "../../../store/products/selector";
 import MainLeft from "../home_page/child/MainLeft";
 
 const SearchProduct = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchTemp = searchParams.get("category");
-  const [productSorted, setProductSorted] = useState([]);
   const [title, setTitle] = useState("Default");
+  
   const { categories } = useSelector(categoriesSelector);
   const loading = useSelector(selectLoading);
+  const mainCate = searchParams.get("category");
+  const subCate = searchParams.get("subcate");
+  const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate));
+  const [productSorted, setProductSorted] = useState([]);
 
   const {
     allProducts: { data, status },
@@ -26,19 +27,15 @@ const SearchProduct = () => {
   } = useSelector(productSelector);
 
   useEffect(() => {
-    if (searchTemp) {
-      setProductSorted(data.filter((product) => product.categories.includes(searchTemp)));
-    } else {
-      setProductSorted(data);
-    }
-  }, [searchTemp]);
-
-  useEffect(() => {
     if (status === LOADING_STATUS.IDLE || newProducts.status === LOADING_STATUS.IDLE) {
       dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
       dispatch({ type: PRODUCT_ACTIONS.GET_NEW_PRODUCTS });
     }
   }, []);
+
+  useEffect(()=>{
+    setProductSorted(dataFilter)
+  },[dataFilter])
 
   //HANDLE DEFAULT SORT
   const handleDefaultSort = () => {
@@ -98,7 +95,7 @@ const SearchProduct = () => {
 
   //RENDER CARDS
   const handleRenderCard = (dataArr) => {
-    return productSorted.map((product, index) => (
+    return productSorted?.map((product, index) => (
       <ProductCard key={`product_${index}`} cardDirection="vertical" data={product} />
     ));
   };

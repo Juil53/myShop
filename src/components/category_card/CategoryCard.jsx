@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useSearchParams } from "react-router-dom";
 
 export default function CategoryCard({ categories}) {
   const [active, setActive] = useState([]);
+  const [searchParams,setSearchParams] = useSearchParams()
+  const mainCateUrl = searchParams.get('category')
 
   function handleActiveDropdown(cate) {
     const tmp = [...active];
@@ -59,9 +61,9 @@ export default function CategoryCard({ categories}) {
       return (
         <div className="subcate" key={v.id}>
           <i className="fa-solid fa-star"></i>
-          <button onClick={() => {}} value={v.id}>
+          <Link to={`?category=${mainCateUrl}&subcate=${v.id}`}>
             {v.name}
-          </button>
+          </Link>
         </div>
       );
     });
