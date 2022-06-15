@@ -13,7 +13,6 @@ const SearchProduct = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [title, setTitle] = useState("Default");
-  
   const { categories } = useSelector(categoriesSelector);
   const loading = useSelector(selectLoading);
   const mainCate = searchParams.get("category");
@@ -32,10 +31,6 @@ const SearchProduct = () => {
       dispatch({ type: PRODUCT_ACTIONS.GET_NEW_PRODUCTS });
     }
   }, []);
-
-  useEffect(()=>{
-    setProductSorted(dataFilter)
-  },[dataFilter])
 
   //HANDLE DEFAULT SORT
   const handleDefaultSort = () => {
@@ -95,7 +90,7 @@ const SearchProduct = () => {
 
   //RENDER CARDS
   const handleRenderCard = (dataArr) => {
-    return productSorted?.map((product, index) => (
+    return dataFilter?.map((product, index) => (
       <ProductCard key={`product_${index}`} cardDirection="vertical" data={product} />
     ));
   };
