@@ -11,8 +11,11 @@ import {
   loginFail,
   loginRequest,
   loginSuccess,
+  signupRequest,
+  signupSuccess,
+  signupFail,
 } from "./usersSlice";
-import { signin } from "../../service/auth";
+import { signin, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
@@ -89,6 +92,18 @@ export function* login({ password, email }) {
   }
 }
 
+export function* signupUser({ email, password, user }) {
+  yield put(signupRequest());
+
+  const rs = yield call(signup, email, password, user);
+  console.log(rs);
+  if (rs && !rs.code) {
+    yield put(signupSuccess(rs));
+  } else {
+    yield put(signupFail(rs.code));
+  }
+}
+
 export default function* userSaga() {
   yield takeEvery("users/getUserRequest", actGetUser);
   yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
@@ -96,4 +111,5 @@ export default function* userSaga() {
   yield takeEvery("DELETE_USER", actDeleteUser);
   yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
   yield takeEvery(USER_ACTIONS.LOGIN_USER, login);
+  yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
 }

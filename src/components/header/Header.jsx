@@ -72,12 +72,6 @@ export default function Header() {
                     Sign in
                   </a>
                 </div>
-                <div className="nav-btn register-btn">
-                  <a href="/login">
-                    <i className="fa-solid fa-lock-open"></i>
-                    Sign up
-                  </a>
-                </div>
               </>
             )}
             {cart.data && <CartButton data={cart.data} />}

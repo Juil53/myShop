@@ -10,22 +10,23 @@ import { checkEmailFormat } from "../../../../utils";
 const SigninForm = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector(loginUser);
-  console.log(userLogin);
 
   const [isShowPassword, setIsShowPassword] = useState("password");
+  const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
-    if (userLogin.status === LOADING_STATUS.LOADING) {
+    if (userLogin.status === LOADING_STATUS.LOADING && isClick) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (
       userLogin.data &&
       Object.keys(userLogin.data).length !== 0 &&
-      userLogin.status === LOADING_STATUS.SUCCESS
+      userLogin.status === LOADING_STATUS.SUCCESS &&
+      isClick
     ) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       console.log(userLogin.data);
       window.location.href = window.location.origin;
-    } else if (userLogin.status === LOADING_STATUS.FAIL) {
+    } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signin-error-msg");
       errorMsg.textContent = userLogin.msg;
@@ -71,9 +72,12 @@ const SigninForm = () => {
   const handleInputChange = (inputField) => {
     const field = document.getElementById(inputField);
     field.removeAttribute("data-error");
+    const errorMsg = document.getElementById("signin-error-msg");
+    errorMsg.textContent = "";
   };
 
   const handleLogin = async () => {
+    setIsClick(true);
     const email = document.getElementById("signin-email-ip").value;
     const password = document.getElementById("signin-password-ip").value;
     const errorMsg = document.getElementById("signin-error-msg");
@@ -85,7 +89,7 @@ const SigninForm = () => {
       if (password.length < 6) {
         errorMsg.textContent = "Password is short";
       } else if (!checkEmailFormat(email)) {
-        errorMsg.textContent = "Email is wrong format";
+        errorMsg.textContent = "Invalid email";
       } else {
         dispatch({
           type: USER_ACTIONS.LOGIN_USER,
