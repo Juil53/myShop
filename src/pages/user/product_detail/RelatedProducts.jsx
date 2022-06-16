@@ -5,6 +5,7 @@ import ProductCard from "../../../components/product_card/ProductCard";
 
 const RelatedProducts = ({ product }) => {
   const productList = useSelector(selectProduct);
+  console.log(productList)
   const handleRelatedProducts = (product) => {
     const relatedProducts = productList.filter((item) =>
       item.categories.includes(product.categories[0])

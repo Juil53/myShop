@@ -3,17 +3,35 @@ import Quantity from "../../../components/quantity/Quantity";
 import Slider from "react-slick";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectProductInfo } from "../../../store/products/selector";
 import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
+import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 
 const ProductDetail = () => {
   const params = useParams();
+  console.log(params)
   const [number, setNumber] = useState(1);
   const productInfo = useSelector((state) => selectProductInfo(state, params.id));
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
+  const { name } = productInfo;
+
+  const array = [
+    {
+      name: "Home",
+      url: "/",
+    },
+    {
+      name: "Product",
+      url: "/product",
+    },
+    {
+      name: name,
+      url: "",
+    },
+  ];
 
   //NUMBER FORMATTER
   const formatter = new Intl.NumberFormat("vn-VN", {
@@ -91,8 +109,18 @@ const ProductDetail = () => {
     );
   }
 
+  // const handleAddCart = () => {
+  //   dispatch({
+  //     type: CART_ACTIONS.ADD_CART,
+  //     product: productInfo,
+  //   });
+  // };
+
   return (
     <React.Fragment>
+      <div className="breadcumb">
+        <Breadcrumb pages={array} />
+      </div>
       <div className="product-detail row">
         <div className="product-detail__img">
           <div className="main-img">{createMainSlider(productInfo.image)}</div>
@@ -158,8 +186,9 @@ const ProductDetail = () => {
           </div>
 
           <div className="product-detail__btn row">
-            <button className="button">Back</button>
-            <button className="button button-style">Add to cart</button>
+            <button className="button button-style">
+              Add to cart
+            </button>
           </div>
         </div>
       </div>
