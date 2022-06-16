@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const LeftImageSlider = (props) => {
   const { data } = props;
+  console.log(typeof data)
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
 

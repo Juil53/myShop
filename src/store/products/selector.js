@@ -5,16 +5,48 @@ export const productSelector = (state) => ({
   bestSellingProducts: state.products ? state.products.bestSellingProducts : [],
 });
 
-export const selectProduct = (state, mainCate, subCate) => {
+export const selectProduct = (state, mainCate, subCate, sortCate) => {
+  const { products = {} } = state || {};
+  const { allProducts = {} } = products;
+  const { data = [] } = allProducts;
+  const dataMainCate = data.filter((product) => product.categories.includes(mainCate));
+  const dataSubCate = data.filter((product) => product.categories.includes(subCate));
+  const handleSort = (data, sort) => {
+    const arr = [...data];
+    switch (sort) {
+      case "asc":
+        return arr.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount);
+      case "des":
+        return arr.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount).reverse();
+      case "az":
+        return arr.sort((a, b) => {
+          const x = a.name.toUpperCase();
+          const y = b.name.toUpperCase();
+          return x.localeCompare(y);
+        });
+      case "za":
+        return arr.sort((a, b) => {
+          const x = a.name.toUpperCase();
+          const y = b.name.toUpperCase();
+          return y.localeCompare(x);
+        });
+      case "default":
+        return arr;
+      default:
+        return arr;
+    }
+  };
+
+  if (!mainCate && !subCate && !sortCate) return data;
+  if ((!mainCate && !subCate) || sortCate) return handleSort(data, sortCate);
+  if ((mainCate && !subCate) || sortCate) return handleSort(dataMainCate, sortCate);
+  if ((!mainCate && subCate) || sortCate) return handleSort(dataSubCate, sortCate);
+};
+
+export const selectProductInfo = (state, id) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
   const { data = [] } = allProducts;
 
-  if (mainCate && !subCate) {
-    return data.filter((product) => product.categories.includes(mainCate));
-  }
-  if (mainCate && subCate) {
-    return data.filter((product) => product.categories.includes(subCate));
-  }
-  return data;
+  return data.find((product) => product.id == id);
 };

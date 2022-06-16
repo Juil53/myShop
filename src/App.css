@@ -1742,13 +1742,17 @@ ul > li {
     display: block;
     width: 70%; } }
 
+.row {
+  display: flex; }
+
 .product-detail {
   width: 80%;
   margin-left: 10%;
+  margin-top: 5rem;
   font-size: 1.4rem; }
 
 .product-detail__img {
-  padding: 1rem;
+  margin-right: 2rem;
   width: 40%; }
   .product-detail__img .img-container {
     width: 100%;
@@ -1757,22 +1761,63 @@ ul > li {
     padding: 1rem; }
 
 .product-detail__info {
-  width: calc(60% - 1rem);
-  margin-left: 1rem;
-  padding: 1rem; }
-  .product-detail__info .name {
-    font-size: 2rem; }
-  .product-detail__info .status {
-    padding: 1rem 0;
-    border-bottom: 1px solid #e6e6e6; }
-    .product-detail__info .status .left {
-      padding-right: 1rem; }
-    .product-detail__info .status .right {
-      padding-left: 1rem;
-      border-left: 1px solid #e6e6e6; }
-    .product-detail__info .status span {
-      font-weight: 600;
-      padding-right: 0.5rem; }
+  width: 60%; }
+
+.product-detail__brand,
+.product-detail__status {
+  display: flex;
+  margin-right: 1rem;
+  margin-top: 1rem; }
+  .product-detail__brand h4,
+  .product-detail__status h4 {
+    margin-right: 0.8rem; }
+
+.product-detail__price {
+  margin: 0.5rem 0; }
+  .product-detail__price .price__afterdiscount {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #2cced4;
+    padding-right: 1rem; }
+  .product-detail__price .price__beforediscount {
+    font-size: 1.8rem;
+    color: #898989;
+    text-decoration: line-through; }
+
+.product-detail__attributes {
+  margin: 1rem 0; }
+  .product-detail__attributes h4 {
+    font-weight: 700;
+    padding: 1rem 0; }
+    .product-detail__attributes h4 span {
+      font-weight: 400; }
+
+.product-detail__quantity {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0; }
+  .product-detail__quantity .left {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem; }
+    .product-detail__quantity .left h4 {
+      margin-right: 1rem; }
+
+.product-detail__tag {
+  margin: 1rem 0; }
+  .product-detail__tag h4 {
+    margin-right: 0.5rem; }
+  .product-detail__tag span {
+    padding-right: 0.5rem; }
+
+.product-detail__btn .button {
+  width: 16rem;
+  height: 4rem;
+  display: block;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  margin-right: 1rem;
+  margin-top: 1rem; }
 
 .productpage__container {
   display: grid;
@@ -1822,3 +1867,11 @@ ul > li {
         color: #2cced4; }
   .productpage__sort:hover .productpage__sort-list {
     display: block; }
+
+.product-detail__tabs {
+  width: 80%;
+  margin: 5rem auto; }
+
+.product-detail__related {
+  width: 80%;
+  margin: 5rem auto; }

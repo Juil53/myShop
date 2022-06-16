@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Loading from "../../../components/loading/Loading";
 import ProductCard from "../../../components/product_card/ProductCard";
 import { LOADING_STATUS, PRODUCT_ACTIONS } from "../../../constants";
@@ -17,8 +17,9 @@ const SearchProduct = () => {
   const loading = useSelector(selectLoading);
   const mainCate = searchParams.get("category");
   const subCate = searchParams.get("subcate");
-  const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate));
-  const [productSorted, setProductSorted] = useState([]);
+  const sortCate = searchParams.get("sort");
+  const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate, sortCate));
+
 
   const {
     allProducts: { data, status },
@@ -32,66 +33,12 @@ const SearchProduct = () => {
     }
   }, []);
 
-  //HANDLE DEFAULT SORT
-  const handleDefaultSort = () => {
-    setProductSorted(data);
-    setTitle("Default");
-  };
-
-  //HANDLE SORT PRICE ASC
-  const handleSortAsc = () => {
-    let arr = [];
-    const dataClone = [...productSorted];
-    arr = dataClone.sort((a, b) => {
-      return a.priceBeforeDiscount - b.priceBeforeDiscount;
-    });
-    setProductSorted(arr);
-    setTitle("Price Asc");
-  };
-
-  //HANDLE SORT PRICE DES
-  const handleSortDes = () => {
-    let arr = [];
-    const dataClone = [...productSorted];
-    arr = dataClone
-      .sort((a, b) => {
-        return a.priceBeforeDiscount - b.priceBeforeDiscount;
-      })
-      .reverse();
-    setProductSorted(arr);
-    setTitle("Price Des");
-  };
-
-  //HANDLE SORT BY NAME A->Z
-  const handleSortByNameAZ = () => {
-    let arr = [];
-    const dataClone = [...productSorted];
-    arr = dataClone.sort((a, b) => {
-      const x = a.name.toUpperCase();
-      const y = b.name.toUpperCase();
-      return x.localeCompare(y);
-    });
-    setProductSorted(arr);
-    setTitle("Name A -> Z");
-  };
-
-  //HANDLE SORT BY NAME Z->A
-  const handleSortByNameZA = () => {
-    let arr = [];
-    const dataClone = [...productSorted];
-    arr = dataClone.sort((a, b) => {
-      const x = a.name.toUpperCase();
-      const y = b.name.toUpperCase();
-      return y.localeCompare(x);
-    });
-    setProductSorted(arr);
-    setTitle("Name Z -> A");
-  };
-
   //RENDER CARDS
   const handleRenderCard = (dataArr) => {
     return dataFilter?.map((product, index) => (
-      <ProductCard key={`product_${index}`} cardDirection="vertical" data={product} />
+      <Link to={`${product.id}`} key={`product_${index}`}>
+        <ProductCard cardDirection="vertical" data={product} />
+      </Link>
     ));
   };
 
@@ -112,20 +59,26 @@ const SearchProduct = () => {
                 <KeyboardArrowDownIcon className="productpage__sort-icon" />
                 <li className="productpage__sort-list">
                   <ul>
-                    <li onClick={() => handleDefaultSort()}>
-                      <span>Default</span>
+                    <li>
+                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=default`}>
+                        Default
+                      </Link>
                     </li>
-                    <li onClick={() => handleSortAsc()}>
-                      <span>Price Asc</span>
+                    <li>
+                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}>
+                        Price Asc
+                      </Link>
                     </li>
-                    <li onClick={() => handleSortDes()}>
-                      <span>Price Des</span>
+                    <li>
+                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=des`}>
+                        Price Des
+                      </Link>
                     </li>
-                    <li onClick={() => handleSortByNameAZ()}>
-                      <span>A to Z</span>
+                    <li>
+                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=az`}>A to Z</Link>
                     </li>
-                    <li onClick={() => handleSortByNameZA()}>
-                      <span>Z to A</span>
+                    <li>
+                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=za`}>Z to A</Link>
                     </li>
                   </ul>
                 </li>
