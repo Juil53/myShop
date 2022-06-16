@@ -1,0 +1,23 @@
+.product-detail__related {
+  width: 80%;
+  margin: 5rem auto;
+}
+
+.product-related__title {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.product-related__divider {
+  width: 100%;
+  height: 1rem;
+  border-top: 1px solid $grayColor-1;
+  border-bottom: 1px solid $grayColor-1;
+}
+
+.product-related__cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}

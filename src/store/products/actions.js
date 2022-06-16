@@ -4,6 +4,7 @@ import { PRODUCT_ACTIONS } from "../../constants";
 import { removeAccents } from "../../utils";
 import { actions } from "./slice";
 import API from "../../service";
+import apiInstance from "../../utils/axios/axiosInstance";
 
 export function* fetchHotProducts() {
   yield put(actions.fetchHotProductsRequest());

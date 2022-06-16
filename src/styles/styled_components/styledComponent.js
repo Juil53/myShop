@@ -101,11 +101,10 @@ const CustomBox = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "700px",
-  height: "500px",
-  overflow: "scroll",
+  minWidth: "800px",
+  overflowY: "scroll",
   backgroundColor: theme.palette.background.paper,
-  border: "1px solid #000",
+  border: "1px solid lightgray",
   padding: "2rem",
 }));
 

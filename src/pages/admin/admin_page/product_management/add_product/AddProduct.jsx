@@ -17,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Field, Formik, Form } from "formik";
 import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
 import { useDispatch } from "react-redux";
-import { storage } from "../../../../../utils/firebase";
+import { storage } from "../../../../../service/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
   getCategoriesRequest,

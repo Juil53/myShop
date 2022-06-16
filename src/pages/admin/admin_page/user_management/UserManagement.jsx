@@ -52,7 +52,7 @@ function UserManagement() {
         <UserTable keyword={keyword} />
       </div>
 
-      <UserModal />
+      {/* <UserModal /> */}
     </>
   );
 }
