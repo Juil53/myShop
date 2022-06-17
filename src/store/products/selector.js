@@ -62,7 +62,6 @@ export const selectProductInfo = (state, id) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
   const { data = [] } = allProducts;
-
   const productSelected = data.find((product) => product.id == id);
   return productSelected;
 };
