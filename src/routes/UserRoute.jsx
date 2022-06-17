@@ -8,6 +8,7 @@ import Wrapper from "../pages/user/Wrapper";
 import SearchProduct from "../pages/user/search_products/SearchProduct";
 import CartPage from "../pages/user/cart_page/CartPage";
 import Payment from "../pages/user/payment/Payment";
+import UserPage from "../pages/user/user_page/UserPage";
 
 function UserRoutes() {
   return (
@@ -20,6 +21,7 @@ function UserRoutes() {
         <Route path="sign" element={<SigninSignup />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="payment" element={<Payment />} />
+        <Route path="user" element={<UserPage />} />
       </Route>
     </Routes>
   );

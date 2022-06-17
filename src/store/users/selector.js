@@ -27,3 +27,9 @@ export const selectUserData = (state) => {
   const { userData = [] } = user;
   return userData;
 };
+
+export const loginUser = (state) => {
+  const { user = {} } = state || {};
+  const { loginUser = {} } = user;
+  return loginUser;
+};

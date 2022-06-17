@@ -20,38 +20,45 @@ const firebase = initializeApp(firebaseConfig);
 const authInstance = getAuth(firebase);
 
 const adapter = ({ user = {}, _tokenResponse = {} }) => {
-  const { accessToken, displayName, email } = user;
+  const { accessToken, displayName, email, uid } = user;
   const { refreshToken } = _tokenResponse;
+
   return {
     accessToken,
     displayName,
     email,
     refreshToken,
+    uid,
   };
 };
 
 export const signin = async (email = "", password = "") => {
   try {
     const res = await signInWithEmailAndPassword(authInstance, email, password);
+
     if (!res.user) return null;
 
     return adapter(res);
   } catch (e) {
-    console.log(e, JSON.stringify(e));
-    return null;
+    console.log(JSON.parse(JSON.stringify(e)));
+
+    return JSON.parse(JSON.stringify(e));
   }
 };
 
-export const signup = async (email, password, info) => {
+export const signup = async (email = "", password = "", info = {}) => {
+  const auth = getAuth();
+
   try {
-    const { user } = await createUserWithEmailAndPassword(email, password);
-    if (!user) return null;
-    const rs = await user.updateProfile({
-      info,
-    });
-    return rs;
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+
+    if (!res.user) return null;
+
+    return adapter(res);
   } catch (e) {
-    return null;
+    console.log(JSON.parse(JSON.stringify(e)));
+
+    return JSON.parse(JSON.stringify(e));
   }
 };
 

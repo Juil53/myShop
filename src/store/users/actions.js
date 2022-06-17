@@ -1,8 +1,22 @@
 import { call, put, takeEvery } from "redux-saga/effects";
+
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
-  getUserFailed, getUserPaginationFailed, getUserPaginationSuccess, getUserSuccess, submitUserFailed, submitUserSuccess
+  getUserFailed,
+  getUserPaginationFailed,
+  getUserPaginationSuccess,
+  getUserSuccess,
+  submitUserFailed,
+  submitUserSuccess,
+  loginFail,
+  loginRequest,
+  loginSuccess,
+  signupRequest,
+  signupSuccess,
+  signupFail,
 } from "./usersSlice";
+import { signin, signup } from "../../service/auth";
+import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
 export function* actGetUser() {
@@ -19,7 +33,10 @@ export function* actGetUser() {
 export function* actGetUserPagination(action) {
   const { page, ROWS_PER_PAGE } = action.payload;
   try {
-    const result = yield call(apiInstance.get, `user?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+    const result = yield call(
+      apiInstance.get,
+      `user?_page=${page}&_limit=${ROWS_PER_PAGE}`
+    );
     yield put(getUserPaginationSuccess(result));
   } catch (err) {
     yield put(getUserPaginationFailed());
@@ -50,12 +67,40 @@ export function* actDeleteUser(action) {
 // UPDATE USER
 export function* actUpdateUserInfo(action) {
   try {
-    const result = yield call(apiInstance.put, `user/${action.payload.id}`,action.payload.state);
+    const result = yield call(
+      apiInstance.put,
+      `user/${action.payload.id}`,
+      action.payload.state
+    );
     yield put(submitUserSuccess(result));
-    yield put(actGetUserPagination())
+    yield put(actGetUserPagination());
   } catch (err) {
     console.log(err);
     yield put(submitUserFailed());
+  }
+}
+
+export function* login({ password, email }) {
+  yield put(loginRequest());
+
+  const rs = yield call(signin, email, password);
+
+  if (rs) {
+    yield put(loginSuccess(rs));
+  } else {
+    yield put(loginFail());
+  }
+}
+
+export function* signupUser({ email, password, user }) {
+  yield put(signupRequest());
+
+  const rs = yield call(signup, email, password, user);
+  console.log(rs);
+  if (rs && !rs.code) {
+    yield put(signupSuccess(rs));
+  } else {
+    yield put(signupFail(rs.code));
   }
 }
 
@@ -65,4 +110,6 @@ export default function* userSaga() {
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("DELETE_USER", actDeleteUser);
   yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
+  yield takeEvery(USER_ACTIONS.LOGIN_USER, login);
+  yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
 }
