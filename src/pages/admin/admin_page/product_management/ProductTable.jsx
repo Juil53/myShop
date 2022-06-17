@@ -1,10 +1,15 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
-  Box, IconButton, Paper,
-  Stack, Table,
-  TableBody, TableCell, TableContainer,
-  TableRow
+  Box,
+  IconButton,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
 } from "@mui/material";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,20 +17,17 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import {
   getAllProductRequest,
-  getProductPaginationRequest
+  getProductPaginationRequest,
 } from "../../../../store/admin_product/productSlice";
 import {
   selectAllProduct,
   selectLoading,
-  selectProductPagination
+  selectProductPagination,
 } from "../../../../store/admin_product/selector";
 import {
   CustomizedTableHead,
-  CustomPagination
+  CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
-
-
-
 
 export default function ProductTable() {
   const dispatch = useDispatch();
@@ -132,7 +134,7 @@ export default function ProductTable() {
               stickyHeader
               aria-label="sticky table"
               size="small"
-              sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+              sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
             >
               <CustomizedTableHead>
                 <TableRow>

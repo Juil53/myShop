@@ -1,31 +1,32 @@
-import React from "react";
-import Quantity from "../../../components/quantity/Quantity";
-import Slider from "react-slick";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { selectProductInfo } from "../../../store/products/selector";
-import ProductTabs from "./ProductTabs";
-import RelatedProducts from "./RelatedProducts";
+import Slider from "react-slick";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import {
   getQuantityAvailable,
   isAvailableOption,
   selectUnavailableOption,
 } from "../../../components/popup/child/product_info/helper";
+import Quantity from "../../../components/quantity/Quantity";
 import { CART_ACTIONS, POPUP } from "../../../constants";
 import { actions } from "../../../store/page/slice";
+import { selectProductInfo } from "../../../store/products/selector";
+import ProductTabs from "./ProductTabs";
+import RelatedProducts from "./RelatedProducts";
+import apiInstance from "../../../utils/axios/axiosInstance";
 
 const ProductDetail = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const params = useParams();
   const [number, setNumber] = useState(1);
   const productInfo = useSelector((state) => selectProductInfo(state, params.id));
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
   const { name } = productInfo;
-  console.log(productInfo)
-
+  console.log(params.id)
+  console.log(productInfo);
+  
   const array = [
     {
       name: "Home",
@@ -313,7 +314,9 @@ const ProductDetail = () => {
           </div>
 
           <div className="product-detail__btn row">
-            <button className="button button-style" onClick={handleAddCart}>Add to cart</button>
+            <button className="button button-style" onClick={handleAddCart}>
+              Add to cart
+            </button>
           </div>
         </div>
       </div>

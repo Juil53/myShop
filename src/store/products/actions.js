@@ -44,6 +44,15 @@ export function* fetchAllProducts() {
   }
 }
 
+export function* getProduct(action) {
+  try {
+    const result = yield call(apiInstance.get, `products/${action.payload}`);
+    yield put(actions.getProductSuccess(result));
+  } catch (err) {
+    yield put(actions.getProductFailed(err));
+  }
+}
+
 export function* fetchNewProducts() {
   yield put(actions.fetchNewProductsRequest());
 
@@ -96,9 +105,7 @@ export function* searchProduct({ name }) {
 
     const nameSearch = removeAccents(name.toLowerCase());
 
-    let data = result.filter((v) =>
-      removeAccents(v.name.toLowerCase()).includes(nameSearch)
-    );
+    let data = result.filter((v) => removeAccents(v.name.toLowerCase()).includes(nameSearch));
     console.log(data);
 
     yield put(actions.searchProductSuccess(data));
@@ -113,8 +120,6 @@ export default function* root() {
   yield takeEvery(PRODUCT_ACTIONS.GET_HOT_PRODUCTS, fetchHotProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_ALL_PRODUCTS, fetchAllProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_NEW_PRODUCTS, fetchNewProducts);
-  yield takeEvery(
-    PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS,
-    fetchBestSellProducts
-  );
+  yield takeEvery(PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS, fetchBestSellProducts);
+  yield takeEvery("product/getProductRequest", getProduct);
 }

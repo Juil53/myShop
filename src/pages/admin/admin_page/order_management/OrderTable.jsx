@@ -35,9 +35,6 @@ import {
   CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
 
-
-
-
 export default function OrderTable({ keyword }) {
   const dispatch = useDispatch();
   const listOrder = useSelector(selectOrderData);
@@ -46,7 +43,7 @@ export default function OrderTable({ keyword }) {
   const orderDetail = useSelector(selectOrderDetail);
   const orderDataPagination = useSelector(selectOrderPagination);
   const [page, setPage] = React.useState(1);
-  const ROWS_PER_PAGE = 10;
+  const ROWS_PER_PAGE = 20;
   const orderList = keyword
     ? listOrder?.filter((order) => order.id.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : orderDataPagination;
@@ -188,28 +185,27 @@ export default function OrderTable({ keyword }) {
       {loading ? (
         <Loading />
       ) : (
-        <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
+        <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0"}}>
           <TableContainer
             sx={{
-              maxHeight: "100vh",
+              maxHeight: "65vh",
             }}
           >
             <Table
               stickyHeader
-              aria-label="sticky table"
               size="small"
-              sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+              sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
             >
               <CustomizedTableHead>
                 <TableRow>
-                  <TableCell>Order ID</TableCell>
-                  <TableCell>User ID</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Delivery place</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell width="150px">Status</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell width="10%">Order ID</TableCell>
+                  <TableCell width="10%">User ID</TableCell>
+                  <TableCell width="20%">Email</TableCell>
+                  <TableCell width="20%">Delivery place</TableCell>
+                  <TableCell width="10%">Date</TableCell>
+                  <TableCell width="10%">Price</TableCell>
+                  <TableCell width="15%">Status</TableCell>
+                  <TableCell width="5%"></TableCell>
                 </TableRow>
               </CustomizedTableHead>
               <TableBody>{renderTableBody()}</TableBody>
