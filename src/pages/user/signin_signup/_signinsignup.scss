@@ -121,7 +121,7 @@
         margin-top: 1rem;
         justify-content: center;
 
-        a {
+        button {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -136,7 +136,7 @@
           transition: 0.3s all ease;
         }
 
-        a:hover {
+        button:hover {
           color: $whiteColor;
           background-color: $mainColor;
         }

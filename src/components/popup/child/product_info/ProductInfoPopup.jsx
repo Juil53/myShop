@@ -14,7 +14,6 @@ import {
 
 export default function ProductInfoPopup(props) {
   const { closePopup, data } = props;
-  console.log(data)
   const dispatch = useDispatch();
   const [number, setNumber] = useState(1);
 

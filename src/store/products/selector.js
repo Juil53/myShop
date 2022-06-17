@@ -9,16 +9,25 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
   const { data = [] } = allProducts;
-  const dataMainCate = data.filter((product) => product.categories.includes(mainCate));
-  const dataSubCate = data.filter((product) => product.categories.includes(subCate));
+  console.log(data);
+  const dataMainCate = data.filter((product) =>
+    product.categories.includes(mainCate)
+  );
+  const dataSubCate = data.filter((product) =>
+    product.categories.includes(subCate)
+  );
 
   const handleSort = (data, sort) => {
     const arr = [...data];
     switch (sort) {
       case "asc":
-        return arr.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount);
+        return arr.sort(
+          (a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount
+        );
       case "des":
-        return arr.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount).reverse();
+        return arr
+          .sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount)
+          .reverse();
       case "az":
         return arr.sort((a, b) => {
           const x = a.name.toUpperCase();

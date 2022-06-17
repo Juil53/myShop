@@ -98,19 +98,19 @@ const usersSlice = createSlice({
       state.keyword = action.payload;
     },
 
-    loginRequest: (state) => {
+    signinRequest: (state) => {
       state.loginUser.msg = "Loading";
       state.loginUser.status = LOADING_STATUS.LOADING;
     },
 
-    loginSuccess: (state, action) => {
+    signinSuccess: (state, action) => {
       state.loginUser.data = action.payload;
       localStorage.set("user", action.payload);
       state.loginUser.status = LOADING_STATUS.SUCCESS;
       state.loginUser.msg = "Success";
     },
 
-    loginFail: (state) => {
+    signinFail: (state) => {
       state.loginUser.data = null;
       state.loginUser.status = LOADING_STATUS.FAIL;
       state.loginUser.msg = "Wrong username or password";
@@ -161,9 +161,9 @@ export const {
   openModal,
   closeModal,
   getKeyword,
-  loginRequest,
-  loginSuccess,
-  loginFail,
+  signinRequest,
+  signinSuccess,
+  signinFail,
   getLoginUserInfo,
   signout,
   signupRequest,
