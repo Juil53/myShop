@@ -61,7 +61,6 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
 export const selectProductInfo = (state, id) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
-  console.log("allproduct",allProducts)
   const { data = [] } = allProducts;
 
   const productSelected = data.find((product) => product.id == id);
