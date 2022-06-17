@@ -33,10 +33,8 @@ const SearchBar = () => {
 
   const SearchBox = () => {
     return (
-      <div className="nav-btn search-box">
-        <button onClick={handleSearch}>
-          <i className="fa-solid fa-magnifying-glass" />
-        </button>
+      <div className="search-box">
+        <i className="fa-solid fa-magnifying-glass" onClick={handleSearch} />
         <input
           type="text"
           onChange={handleChangeInput}

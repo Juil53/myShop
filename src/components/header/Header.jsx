@@ -56,12 +56,8 @@ export default function Header() {
               <img src="/img/logomyShop.png" alt="" />
             </div>
           </div>
+          <SearchBar />
           <div className="header__top-nav row">
-            <div className="nav-btn nav-btn-phone">
-              <i className="fa-solid fa-phone"></i>
-              19009597
-            </div>
-            <SearchBar />
             {userLogin ? (
               <User data={userLogin} />
             ) : (
@@ -74,7 +70,6 @@ export default function Header() {
                 </div>
               </>
             )}
-            {cart.data && <CartButton data={cart.data} />}
           </div>
         </div>
         <div className="header__nav row">
