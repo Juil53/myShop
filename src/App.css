@@ -1752,7 +1752,7 @@ ul > li {
   font-size: 1.4rem; }
 
 .product-detail__img {
-  margin-right: 2rem;
+  margin-right: 10rem;
   width: 40%; }
   .product-detail__img .img-container {
     width: 100%;
@@ -1804,7 +1804,7 @@ ul > li {
       margin-right: 1rem; }
 
 .product-detail__tag {
-  margin: 1rem 0; }
+  margin: 2rem 0; }
   .product-detail__tag h4 {
     margin-right: 0.5rem; }
   .product-detail__tag span {

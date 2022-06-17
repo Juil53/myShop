@@ -55,13 +55,15 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
     return handleSort(dataSubCate, sortCate);
   }
 
-  return data
+  return data;
 };
 
 export const selectProductInfo = (state, id) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
+  console.log("allproduct",allProducts)
   const { data = [] } = allProducts;
 
-  return data.find((product) => product.id == id);
+  const productSelected = data.find((product) => product.id == id);
+  return productSelected;
 };

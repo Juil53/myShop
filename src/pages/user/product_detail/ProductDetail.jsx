@@ -11,7 +11,6 @@ import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 
 const ProductDetail = () => {
   const params = useParams();
-  console.log(params)
   const [number, setNumber] = useState(1);
   const productInfo = useSelector((state) => selectProductInfo(state, params.id));
   const [mainSlider, setMainSlider] = useState();
@@ -109,13 +108,6 @@ const ProductDetail = () => {
     );
   }
 
-  // const handleAddCart = () => {
-  //   dispatch({
-  //     type: CART_ACTIONS.ADD_CART,
-  //     product: productInfo,
-  //   });
-  // };
-
   return (
     <React.Fragment>
       <div className="breadcumb">
@@ -194,7 +186,7 @@ const ProductDetail = () => {
       </div>
 
       <div className="product-detail__tabs">
-        <ProductTabs />
+        <ProductTabs product={productInfo}/>
       </div>
 
       <div className="product-detail__related">

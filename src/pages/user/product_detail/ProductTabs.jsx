@@ -38,7 +38,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({product}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -55,14 +55,7 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Giày thể thao nam đẹp da màu nâu cao cấp, thanh lịch từ thương hiệu Zala® Chất liệu giày
-        bằng da bò mềm với chi tiết mũi giày cap-toe Mắt xỏ dây âm với dây cột nylon Lót trong bằng
-        da thoáng khí tự nhiên Đệm lót giày bằng da bọc thoải mái và hỗ trợ chân Đế ngoài băng cao
-        su hấp thụ sốc tốt và bám tốt trên mọi bề mặt Được thành lập vào năm 1978, thương hiệu Nine
-        West xuất phát từ địa chỉ ở thành phố New York. Trong 30 năm, Nine West đã phát triển và trở
-        thành người đứng đầu trong lĩnh vực thời trang nổi tiếng thế giới. Ngày nay, giầy - túi xách
-        - trang sức Nine West được yêu mến bởi phụ nữ trên toàn thế giới và được xem như một chuyên
-        gia tư vấn đáng tin cậy trong mọi lĩnh vực thời trang, bao gồm cả thời trang trẻ em.
+        {product.desc}
       </TabPanel>
       <TabPanel value={value} index={1}>
         Nội dung tùy chỉnh viết ở đây

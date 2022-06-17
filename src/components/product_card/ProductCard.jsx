@@ -8,17 +8,6 @@ export default function ProductCard(props) {
   const dispatch = useDispatch();
   const { cardDirection, data } = props;
 
-  function handleShowPopup() {
-    dispatch(
-      actions.activePopup({
-        type: POPUP.PRODUCT_INFO_POPUP,
-        data: {
-          ...data,
-        },
-      })
-    );
-  }
-
   return (
       <div className="w-full productcard">
         <div className={cardDirection}>
@@ -55,7 +44,7 @@ export default function ProductCard(props) {
             <div className="productcard__info-feature">
               <button className="detail-btn bg-white text-bold">More info</button>
               {cardDirection !== "row" && (
-                <button className="showpopup-btn" onClick={handleShowPopup}>
+                <button className="showpopup-btn">
                   <i className="fa-solid fa-eye"></i>
                 </button>
               )}
