@@ -2,6 +2,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
+import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import Loading from "../../../components/loading/Loading";
 import ProductCard from "../../../components/product_card/ProductCard";
 import { LOADING_STATUS, PRODUCT_ACTIONS } from "../../../constants";
@@ -15,12 +16,22 @@ const SearchProduct = () => {
   const [title, setTitle] = useState("Default");
   const { categories } = useSelector(categoriesSelector);
   const loading = useSelector(selectLoading);
-  const mainCate = searchParams.get("category");
-  const subCate = searchParams.get("subcate");
+  const mainCate = searchParams.get("category") || "";
+  const subCate = searchParams.get("subcate") || "";
   const sortCate = searchParams.get("sort");
   const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate, sortCate));
-
-
+  const array = [
+    {
+      id: "/home",
+      name: "Home",
+      url: "/",
+    },
+    {
+      id: "/product",
+      name: "Product",
+      url: "",
+    },
+  ];
   const {
     allProducts: { data, status },
     newProducts,
@@ -47,47 +58,52 @@ const SearchProduct = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="home-page__main row">
-          <MainLeft categories={categories.data} data={newProducts.data} />
-          <div className="home-page__main-right">
-            <h2>ALL PRODUCTS</h2>
-
-            <div className="productpage__sort-wrapper">
-              <span>Sort products:</span>
-              <ul className="productpage__sort">
-                <span className="productpage__sort-title">{title}</span>
-                <KeyboardArrowDownIcon className="productpage__sort-icon" />
-                <li className="productpage__sort-list">
-                  <ul>
-                    <li>
-                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=default`}>
-                        Default
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}>
-                        Price Asc
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=des`}>
-                        Price Des
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=az`}>A to Z</Link>
-                    </li>
-                    <li>
-                      <Link to={`?category=${mainCate}&subcate=${subCate}&sort=za`}>Z to A</Link>
-                    </li>
-                  </ul>
-                </li>
-                <span className="productpage__sort-icon"></span>
-              </ul>
-            </div>
-            <div className="productpage__container">{handleRenderCard()}</div>
+        <>
+          <div className="breadcumb">
+            <Breadcrumb pages={array} />
           </div>
-        </div>
+          <div className="home-page__main row">
+            <MainLeft categories={categories.data} data={newProducts.data} />
+            <div className="home-page__main-right">
+              <h2>ALL PRODUCTS</h2>
+
+              <div className="productpage__sort-wrapper">
+                <span>Sort products:</span>
+                <ul className="productpage__sort">
+                  <span className="productpage__sort-title">{title}</span>
+                  <KeyboardArrowDownIcon className="productpage__sort-icon" />
+                  <li className="productpage__sort-list">
+                    <ul>
+                      <li>
+                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=default`}>
+                          Default
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}>
+                          Price Asc
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=des`}>
+                          Price Des
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=az`}>A to Z</Link>
+                      </li>
+                      <li>
+                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=za`}>Z to A</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <span className="productpage__sort-icon"></span>
+                </ul>
+              </div>
+              <div className="productpage__container">{handleRenderCard()}</div>
+            </div>
+          </div>
+        </>
       )}
     </>
   );
