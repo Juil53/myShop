@@ -122,8 +122,26 @@ const usersSlice = createSlice({
 
     signout: (state) => {
       state.loginUser.data = null;
+      state.loginUser.msg = "";
       localStorage.remove("user");
       state.loginUser.status = LOADING_STATUS.IDLE;
+    },
+
+    signupRequest: (state) => {
+      state.loginUser.status = LOADING_STATUS.LOADING;
+    },
+
+    signupSuccess: (state, action) => {
+      state.loginUser.status = LOADING_STATUS.SUCCESS;
+      state.loginUser.data = action.payload;
+      localStorage.set("user", action.payload);
+      state.loginUser.msg = "Success";
+    },
+
+    signupFail: (state, action) => {
+      state.loginUser.status = LOADING_STATUS.FAIL;
+      if (action.payload === "auth/email-already-in-use")
+        state.loginUser.msg = "Email already in use";
     },
   },
 });
@@ -148,6 +166,9 @@ export const {
   loginFail,
   getLoginUserInfo,
   signout,
+  signupRequest,
+  signupSuccess,
+  signupFail,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

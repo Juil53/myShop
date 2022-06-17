@@ -11,19 +11,23 @@ const User = (props) => {
     window.location.reload();
   }
 
+  function handleUserButton() {
+    window.location.href = window.location.origin + "/user";
+  }
+
   return (
-    <div className="nav-btn user-btn">
+    <div className="nav-btn user-btn" onClick={handleUserButton}>
       <i className="fa-solid fa-user" />
       <span>User</span>
       <div className="user-dropdown">
         <div className="title">
           Hi, <span>{data.displayName}</span>
         </div>
-        <a href="#">Orders</a>
+        <a href="user/orders">Orders</a>
         <a href="#">Account information</a>
         <a href="#">Change password</a>
         <a href="#">Address manage</a>
-        <a onClick={handleSignout}>
+        <a href="home" onClick={handleSignout}>
           Sign out <i className="fa-solid fa-arrow-right-from-bracket"></i>
         </a>
       </div>

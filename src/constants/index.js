@@ -67,4 +67,5 @@ export const CART_ACTIONS = {
 export const USER_ACTIONS = {
   LOGIN_USER: "LOGIN_USER",
   GET_USER_INFO: "GET_USER_INFO",
+  SIGNUP_USER: "SIGNUP_USER",
 };
