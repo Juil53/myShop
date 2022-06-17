@@ -8,11 +8,11 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
 } from "@mui/material";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import {
   selectUserData,
@@ -31,6 +31,7 @@ import {
 } from "../../../../styles/styled_components/styledComponent";
 
 export function UserTable({ keyword }) {
+  const navigate = useNavigate()
   const ROWS_PER_PAGE = 10;
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
@@ -96,9 +97,7 @@ export function UserTable({ keyword }) {
             <IconButton
               size="small"
               color="secondary"
-              onClick={() => {
-                handleGetUserInfo(user);
-              }}
+              onClick={() => navigate(`/admin/users/edit/${user.id}`)}
             >
               <EditIcon fontSize="inherit" />
             </IconButton>

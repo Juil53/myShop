@@ -6,18 +6,22 @@ const usersSlice = createSlice({
   name: "users",
 
   initialState: {
-    userData: null,
-    userDataPagination: null,
-    userInfo: null,
-    error: null,
+    userData: [],
+    userDataPagination: [],
+    userInfo: {},
+    error: "",
     loading: false,
     open: false,
+<<<<<<< HEAD
     keyword: null,
     loginUser: {
       status: LOADING_STATUS.IDLE,
       data: localStorage.get("user"),
       msg: "",
     },
+=======
+    keyword: "",
+>>>>>>> dvhnghia
   },
 
   reducers: {

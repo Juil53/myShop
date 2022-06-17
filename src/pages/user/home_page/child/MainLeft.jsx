@@ -31,7 +31,7 @@ const MainLeft = (props) => {
     <div className="home-page__main-left">
       <CategoryCard categories={categories} />
       <div className="topic">
-        <div className="topic-title">Best selling</div>
+        <div className="topic-title">New Products</div>
         <div className="topic-content">{createProductCard(data)}</div>
         <div className="topic-btn">
           <a href="#">See more</a>
