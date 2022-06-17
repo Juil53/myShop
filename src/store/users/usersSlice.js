@@ -12,16 +12,12 @@ const usersSlice = createSlice({
     error: "",
     loading: false,
     open: false,
-<<<<<<< HEAD
     keyword: null,
     loginUser: {
       status: LOADING_STATUS.IDLE,
       data: localStorage.get("user"),
       msg: "",
     },
-=======
-    keyword: "",
->>>>>>> dvhnghia
   },
 
   reducers: {
