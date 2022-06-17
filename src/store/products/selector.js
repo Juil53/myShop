@@ -11,6 +11,7 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
   const { data = [] } = allProducts;
   const dataMainCate = data.filter((product) => product.categories.includes(mainCate));
   const dataSubCate = data.filter((product) => product.categories.includes(subCate));
+
   const handleSort = (data, sort) => {
     const arr = [...data];
     switch (sort) {
@@ -37,16 +38,32 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
     }
   };
 
-  if (!mainCate && !subCate && !sortCate) return data;
-  if ((!mainCate && !subCate) || sortCate) return handleSort(data, sortCate);
-  if ((mainCate && !subCate) || sortCate) return handleSort(dataMainCate, sortCate);
-  if ((!mainCate && subCate) || sortCate) return handleSort(dataSubCate, sortCate);
+  if (mainCate == "" && subCate == "") {
+    if (!sortCate) {
+      return data;
+    }
+    return handleSort(data, sortCate);
+  } else if (mainCate && subCate == "") {
+    if (!sortCate) {
+      return handleSort(dataMainCate);
+    }
+    return handleSort(dataMainCate, sortCate);
+  } else if (mainCate && subCate) {
+    if (!sortCate) {
+      return handleSort(dataSubCate);
+    }
+    return handleSort(dataSubCate, sortCate);
+  }
+
+  return data;
 };
 
 export const selectProductInfo = (state, id) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
+  console.log("allproduct",allProducts)
   const { data = [] } = allProducts;
 
-  return data.find((product) => product.id == id);
+  const productSelected = data.find((product) => product.id == id);
+  return productSelected;
 };
