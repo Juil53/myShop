@@ -1,4 +1,5 @@
 import ChangePassword from "./child/ChangePassword";
+import UserInformation from "./child/UserInformation";
 
 const UserPage = () => {
   return (
@@ -35,7 +36,7 @@ const UserPage = () => {
           </div>
         </div>
         <div className="user-page__content-right">
-          <ChangePassword />
+          <UserInformation />
         </div>
       </div>
     </div>

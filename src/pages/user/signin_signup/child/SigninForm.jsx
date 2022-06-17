@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import { loginUser } from "../../../../store/users/selector";
+import { signinWithGoogle } from "../../../../service/auth";
 
 import { checkEmailFormat } from "../../../../utils";
 
@@ -26,7 +27,7 @@ const SigninForm = () => {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       console.log(userLogin.data);
       window.location.href = window.location.origin;
-    } else if (userLogin.status === LOADING_STATUS.FAIL && isClick){
+    } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signin-error-msg");
       errorMsg.textContent = userLogin.msg;
@@ -92,12 +93,24 @@ const SigninForm = () => {
         errorMsg.textContent = "Invalid email";
       } else {
         dispatch({
-          type: USER_ACTIONS.LOGIN_USER,
+          type: USER_ACTIONS.SIGNIN_USER,
           email: email,
           password: password,
         });
       }
     }
+  };
+
+  const handleSigninWithGoogle = () => {
+    setIsClick(true);
+    dispatch({
+      type: USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE,
+    });
+  };
+
+  const handleSigninWithFacebook = () => {
+    setIsClick(true);
+    dispatch({ type: USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK });
   };
 
   return (
@@ -137,12 +150,12 @@ const SigninForm = () => {
       </button>
       <span className="social-text">Or sign in with</span>
       <div className="social-media row">
-        <a href="#">
+        <button onClick={handleSigninWithFacebook}>
           <i className="fa-brands fa-facebook"></i>
-        </a>
-        <a href="#">
+        </button>
+        <button onClick={handleSigninWithGoogle}>
           <i className="fa-brands fa-google"></i>
-        </a>
+        </button>
       </div>
     </div>
   );

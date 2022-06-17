@@ -8,14 +8,19 @@ import {
   getUserSuccess,
   submitUserFailed,
   submitUserSuccess,
-  loginFail,
-  loginRequest,
-  loginSuccess,
+  signinFail,
+  signinRequest,
+  signinSuccess,
   signupRequest,
   signupSuccess,
   signupFail,
 } from "./usersSlice";
-import { signin, signup } from "../../service/auth";
+import {
+  signinAuth,
+  signup,
+  signinWithGoogleAuth,
+  signinWithFacebookAuth,
+} from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
@@ -80,15 +85,32 @@ export function* actUpdateUserInfo(action) {
   }
 }
 
-export function* login({ password, email }) {
-  yield put(loginRequest());
+export function* signinWithEmailAndPassword({ password, email }) {
+  yield put(signinRequest());
 
-  const rs = yield call(signin, email, password);
+  const rs = yield call(signinAuth, email, password);
 
   if (rs) {
-    yield put(loginSuccess(rs));
+    yield put(signinSuccess(rs));
   } else {
-    yield put(loginFail());
+    yield put(signinFail());
+  }
+}
+
+export function* signinWithGoogle() {
+  const rs = yield call(signinWithGoogleAuth);
+
+  if (rs && !rs.code) {
+    yield put(signinSuccess(rs));
+  }
+}
+
+export function* signinWithFacebook() {
+  const rs = yield call(signinWithFacebookAuth);
+
+  console.log(rs);
+  if (rs && !rs.code) {
+    yield put(signinSuccess(rs));
   }
 }
 
@@ -110,6 +132,8 @@ export default function* userSaga() {
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("DELETE_USER", actDeleteUser);
   yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
-  yield takeEvery(USER_ACTIONS.LOGIN_USER, login);
+  yield takeEvery(USER_ACTIONS.SIGNIN_USER, signinWithEmailAndPassword);
   yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
+  yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
+  yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
 }

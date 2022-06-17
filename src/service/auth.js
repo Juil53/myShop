@@ -4,6 +4,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -19,6 +22,9 @@ const firebase = initializeApp(firebaseConfig);
 
 const authInstance = getAuth(firebase);
 
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+
 const adapter = ({ user = {}, _tokenResponse = {} }) => {
   const { accessToken, displayName, email, uid } = user;
   const { refreshToken } = _tokenResponse;
@@ -32,7 +38,7 @@ const adapter = ({ user = {}, _tokenResponse = {} }) => {
   };
 };
 
-export const signin = async (email = "", password = "") => {
+export const signinAuth = async (email = "", password = "") => {
   try {
     const res = await signInWithEmailAndPassword(authInstance, email, password);
 
@@ -63,3 +69,31 @@ export const signup = async (email = "", password = "", info = {}) => {
 };
 
 export const storage = getStorage(firebase);
+
+export const signinWithGoogleAuth = async () => {
+  try {
+    const rs = await signInWithPopup(authInstance, googleProvider);
+
+    if (!rs.user) return null;
+
+    return adapter(rs);
+  } catch (e) {
+    console.log(JSON.parse(JSON.stringify(e)));
+
+    return JSON.parse(JSON.stringify(e));
+  }
+};
+
+export const signinWithFacebookAuth = async () => {
+  try {
+    const rs = signInWithPopup(authInstance, facebookProvider);
+
+    if (!rs.user) return null;
+
+    return adapter(rs);
+  } catch (e) {
+    console.log(JSON.parse(JSON.stringify(e)));
+
+    return JSON.parse(JSON.stringify(e));
+  }
+};
