@@ -8,14 +8,23 @@ import { selectProductInfo } from "../../../store/products/selector";
 import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
+import {
+  getQuantityAvailable,
+  isAvailableOption,
+  selectUnavailableOption,
+} from "../../../components/popup/child/product_info/helper";
+import { CART_ACTIONS, POPUP } from "../../../constants";
+import { actions } from "../../../store/page/slice";
 
 const ProductDetail = () => {
+  const dispatch = useDispatch()
   const params = useParams();
   const [number, setNumber] = useState(1);
   const productInfo = useSelector((state) => selectProductInfo(state, params.id));
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
   const { name } = productInfo;
+  console.log(productInfo)
 
   const array = [
     {
@@ -36,6 +45,25 @@ const ProductDetail = () => {
   const formatter = new Intl.NumberFormat("vn-VN", {
     style: "currency",
     currency: "VND",
+  });
+
+  const [currentOption, setCurrentOption] = useState(() => {
+    const { configurableProducts = [] } = productInfo;
+    if (!configurableProducts.length) return {};
+    const { available, selected, ...current } = configurableProducts.filter((p) => p.selected)[0];
+
+    return current;
+  });
+
+  const [numberOfProduct, setNumberOfProduct] = useState(() => {
+    if (productInfo.configurableOptions) {
+      return getQuantityAvailable({
+        product: productInfo,
+        currentOption,
+      });
+    } else {
+      return productInfo.available;
+    }
   });
 
   const settings_mainSlider = {
@@ -108,6 +136,111 @@ const ProductDetail = () => {
     );
   }
 
+  function check(optionId, optionValue) {
+    if (currentOption[optionId] === optionValue) return "active";
+
+    const rs = isAvailableOption({
+      product: productInfo,
+      currentOption,
+      optionId,
+      optionValue,
+    });
+
+    return rs ? "" : "unavailable";
+  }
+
+  function changeOption(optionId, optionValue, isAvailable) {
+    if (isAvailable) {
+      const newOption = { ...currentOption };
+      const quantity = getQuantityAvailable({
+        product: productInfo,
+        currentOption,
+        optionId,
+        optionValue,
+      });
+
+      setNumberOfProduct(quantity);
+
+      newOption[optionId] = optionValue;
+      setCurrentOption(newOption);
+    } else {
+      const [newOption, newQty] = selectUnavailableOption({
+        product: productInfo,
+        optionId,
+        optionValue,
+      });
+      setCurrentOption(newOption);
+      setNumberOfProduct(newQty);
+    }
+  }
+
+  function createConfigurableOptions(configurableOptions) {
+    if (configurableOptions) {
+      if (configurableOptions.length > 0) {
+        return configurableOptions.map((option, index) => (
+          <div className="product-detail__options row" key={option.id}>
+            <h4>{option.name}: </h4>
+            <div className="options">{createOptionItem(option.id, option.values)}</div>
+          </div>
+        ));
+      }
+    }
+  }
+
+  function createOptionItem(id, values) {
+    return (
+      <>
+        {values.map((option, index) => (
+          <div
+            className={`option-item ${check(id, option)}`}
+            key={option + "configurableOptions"}
+            onClick={() => changeOption(id, option, !check(id, option))}
+          >
+            {option}
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  function handleAddCart() {
+    const {
+      configurableProducts = [],
+      configurableOptions = [],
+      attributes = [],
+      priceAfterDiscount,
+      ...others
+    } = productInfo;
+
+    const product = {
+      ...others,
+      cartItemID: new Date().getTime(),
+      priceAfterDiscount,
+      optionSelected: {},
+      quantity: number,
+      totalPrice: number * priceAfterDiscount,
+      available: numberOfProduct,
+    };
+
+    if (Object.keys(currentOption).length !== 0) {
+      product.optionSelected = { ...currentOption };
+    }
+
+    dispatch({
+      type: CART_ACTIONS.ADD_CART,
+      product: product,
+    });
+
+    dispatch(
+      actions.activePopup({
+        type: POPUP.ADD_CART_POPUP,
+        data: {
+          ...productInfo,
+        },
+      })
+    );
+  }
+
   return (
     <React.Fragment>
       <div className="breadcumb">
@@ -155,6 +288,8 @@ const ProductDetail = () => {
               ))}
           </div>
 
+          {createConfigurableOptions(productInfo.configurableOptions)}
+
           <div className="product-detail__quantity row">
             <div className="left">
               <h4>Quantity:</h4>
@@ -162,11 +297,11 @@ const ProductDetail = () => {
                 value={number}
                 changeValue={setNumber}
                 type="add"
-                available={productInfo.available}
+                available={numberOfProduct}
               />
             </div>
             <p className="right">
-              Product Available <span>{productInfo.available}</span>{" "}
+              Product Available <span>{numberOfProduct}</span>{" "}
             </p>
           </div>
 
@@ -178,15 +313,13 @@ const ProductDetail = () => {
           </div>
 
           <div className="product-detail__btn row">
-            <button className="button button-style">
-              Add to cart
-            </button>
+            <button className="button button-style" onClick={handleAddCart}>Add to cart</button>
           </div>
         </div>
       </div>
 
       <div className="product-detail__tabs">
-        <ProductTabs product={productInfo}/>
+        <ProductTabs product={productInfo} />
       </div>
 
       <div className="product-detail__related">

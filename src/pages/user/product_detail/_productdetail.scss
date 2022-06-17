@@ -65,6 +65,34 @@
   }
 }
 
+.product-detail__options {
+  margin: 1rem 0;
+  align-items: center;
+  .options {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-left: 2rem;
+    .option-item {
+      border: 1px solid $grayColor-1;
+      border-radius: 1.2rem;
+      padding: 0.5rem;
+      margin: 0 0.3rem;
+      min-width: 3rem;
+      text-align: center;
+      cursor: pointer;
+    }
+    .active {
+      border: 1px solid $blueColor;
+      color: $blueColor;
+    }
+    .unavailable {
+      color: $grayColor-1;
+    }
+  }
+  
+}
+
 .product-detail__quantity {
   display: flex;
   align-items: center;
