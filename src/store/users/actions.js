@@ -14,6 +14,9 @@ import {
   signupRequest,
   signupSuccess,
   signupFail,
+  signinAdminFail,
+  signinAdminSuccess,
+  signinAdminRequest,
 } from "./usersSlice";
 import {
   signinAuth,
@@ -90,10 +93,33 @@ export function* signinWithEmailAndPassword({ password, email }) {
 
   const rs = yield call(signinAuth, email, password);
 
-  if (rs) {
+  if (rs && !rs.code) {
     yield put(signinSuccess(rs));
   } else {
     yield put(signinFail());
+  }
+}
+
+export function* signinAdmin({ password, email }) {
+  yield put(signinAdminRequest());
+
+  const rs = yield call(signinAuth, email, password);
+
+  if (!rs.code) {
+    const users = yield call(apiInstance.get, "user");
+    const user = users.find((u) => u.id === rs.uid) || {};
+    rs.role = user.role;
+    rs.image = user.avatar;
+    rs.displayName = user.lastname;
+    const approveRoles = ["Admin", "Staff"];
+    if (!user || !approveRoles.includes(user.role)) {
+      yield put(signinAdminFail());
+    } else {
+      console.log(rs);
+      yield put(signinAdminSuccess(rs));
+    }
+  } else {
+    yield put(signinAdminFail());
   }
 }
 
@@ -136,4 +162,5 @@ export default function* userSaga() {
   yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
+  yield takeEvery(USER_ACTIONS.SIGNIN_ADMIN, signinAdmin);
 }

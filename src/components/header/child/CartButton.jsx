@@ -37,7 +37,6 @@ const CartButton = (props) => {
     <div className="nav-btn cart-btn">
       <a href="cart">
         <i className="fa-solid fa-cart-shopping"></i>
-        <span>Cart</span>
       </a>
       <span className="product-quantity">
         {data.productList && data.productList.length}
