@@ -86,7 +86,7 @@ export const signinWithGoogleAuth = async () => {
 
 export const signinWithFacebookAuth = async () => {
   try {
-    const rs = signInWithPopup(authInstance, facebookProvider);
+    const rs = await signInWithPopup(authInstance, facebookProvider);
 
     if (!rs.user) return null;
 

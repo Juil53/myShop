@@ -33,3 +33,8 @@ export const loginUser = (state) => {
   const { loginUser = {} } = user;
   return loginUser;
 };
+
+export const loginAdmin = (state) => {
+  const { loginAdmin = {} } = state?.user || {};
+  return loginAdmin;
+};

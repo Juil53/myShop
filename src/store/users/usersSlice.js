@@ -18,6 +18,11 @@ const usersSlice = createSlice({
       data: localStorage.get("user"),
       msg: "",
     },
+    loginAdmin: {
+      status: LOADING_STATUS.IDLE,
+      data: localStorage.get("admin"),
+      msg: "",
+    },
   },
 
   reducers: {
@@ -116,6 +121,22 @@ const usersSlice = createSlice({
       state.loginUser.msg = "Wrong username or password";
     },
 
+    signinAdminRequest: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.LOADING;
+    },
+
+    signinAdminSuccess: (state, action) => {
+      state.loginAdmin.status = LOADING_STATUS.SUCCESS;
+      state.loginAdmin.data = action.payload;
+      localStorage.set("admin", action.payload);
+      state.loginAdmin.msg = "";
+    },
+
+    signinAdminFail: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.FAIL;
+      state.loginAdmin.msg = "Wrong username or password";
+    },
+
     getLoginUserInfo: (state, action) => {
       state.data = action.payload;
     },
@@ -125,6 +146,13 @@ const usersSlice = createSlice({
       state.loginUser.msg = "";
       localStorage.remove("user");
       state.loginUser.status = LOADING_STATUS.IDLE;
+    },
+
+    signoutAdmin: (state) => {
+      state.loginAdmin.data = null;
+      state.loginAdmin.msg = "";
+      localStorage.remove("admin");
+      state.loginAdmin.status = LOADING_STATUS.IDLE;
     },
 
     signupRequest: (state) => {
@@ -166,9 +194,13 @@ export const {
   signinFail,
   getLoginUserInfo,
   signout,
+  signoutAdmin,
   signupRequest,
   signupSuccess,
   signupFail,
+  signinAdminFail,
+  signinAdminSuccess,
+  signinAdminRequest,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
