@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
+import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
-import { loginUser } from "../../../../store/users/selector";
-import { signinWithGoogle } from "../../../../service/auth";
 
 import { checkEmailFormat } from "../../../../utils";
 
 const SigninForm = () => {
   const dispatch = useDispatch();
-  const userLogin = useSelector(loginUser);
+  const userLogin = useSelector(clientSelector);
+  console.log(userLogin);
 
   const [isShowPassword, setIsShowPassword] = useState("password");
   const [isClick, setIsClick] = useState(false);
@@ -25,7 +25,6 @@ const SigninForm = () => {
       isClick
     ) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
-      console.log(userLogin.data);
       window.location.href = window.location.origin;
     } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));

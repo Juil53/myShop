@@ -99,7 +99,7 @@ const SigninForm = () => {
 
   return (
     <div className="login-form form">
-      <div className="input-field" id="signin-email">
+      <div className="input-field admin" id="signin-email">
         <i className="fa-solid fa-user"></i>
         <input
           placeholder="Your email"
@@ -108,7 +108,7 @@ const SigninForm = () => {
           onBlur={() => checkInputValue("signin-email", "signin-email-ip")}
         />
       </div>
-      <div className="input-field" id="signin-password">
+      <div className="input-field admin" id="signin-password">
         <i className="fa-solid fa-lock"></i>
         <input
           placeholder="Your password"
@@ -129,7 +129,7 @@ const SigninForm = () => {
         />
       </div>
       <span className="error-msg" id="signin-error-msg"></span>
-      <button className="button-style login-btn" onClick={handleLogin}>
+      <button className="button-style login-btn admin" onClick={handleLogin}>
         Sign in
       </button>
     </div>

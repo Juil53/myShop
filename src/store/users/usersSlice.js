@@ -103,24 +103,6 @@ const usersSlice = createSlice({
       state.keyword = action.payload;
     },
 
-    signinRequest: (state) => {
-      state.loginUser.msg = "Loading";
-      state.loginUser.status = LOADING_STATUS.LOADING;
-    },
-
-    signinSuccess: (state, action) => {
-      state.loginUser.data = action.payload;
-      localStorage.set("user", action.payload);
-      state.loginUser.status = LOADING_STATUS.SUCCESS;
-      state.loginUser.msg = "Success";
-    },
-
-    signinFail: (state) => {
-      state.loginUser.data = null;
-      state.loginUser.status = LOADING_STATUS.FAIL;
-      state.loginUser.msg = "Wrong username or password";
-    },
-
     signinAdminRequest: (state) => {
       state.loginAdmin.status = LOADING_STATUS.LOADING;
     },
@@ -141,35 +123,11 @@ const usersSlice = createSlice({
       state.data = action.payload;
     },
 
-    signout: (state) => {
-      state.loginUser.data = null;
-      state.loginUser.msg = "";
-      localStorage.remove("user");
-      state.loginUser.status = LOADING_STATUS.IDLE;
-    },
-
     signoutAdmin: (state) => {
       state.loginAdmin.data = null;
       state.loginAdmin.msg = "";
       localStorage.remove("admin");
       state.loginAdmin.status = LOADING_STATUS.IDLE;
-    },
-
-    signupRequest: (state) => {
-      state.loginUser.status = LOADING_STATUS.LOADING;
-    },
-
-    signupSuccess: (state, action) => {
-      state.loginUser.status = LOADING_STATUS.SUCCESS;
-      state.loginUser.data = action.payload;
-      localStorage.set("user", action.payload);
-      state.loginUser.msg = "Success";
-    },
-
-    signupFail: (state, action) => {
-      state.loginUser.status = LOADING_STATUS.FAIL;
-      if (action.payload === "auth/email-already-in-use")
-        state.loginUser.msg = "Email already in use";
     },
   },
 });
@@ -189,15 +147,8 @@ export const {
   openModal,
   closeModal,
   getKeyword,
-  signinRequest,
-  signinSuccess,
-  signinFail,
   getLoginUserInfo,
-  signout,
   signoutAdmin,
-  signupRequest,
-  signupSuccess,
-  signupFail,
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,

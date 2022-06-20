@@ -56,6 +56,24 @@ function MyDrawer(props) {
       href: "/admin/dashboard",
     },
     {
+      text: "Product",
+      icon: <FormatListBulletedIcon />,
+      href: "/admin/products",
+    },
+    {
+      text: "Orders",
+      icon: <LocalGroceryStoreIcon />,
+      href: "/admin/orders",
+    },
+  ];
+
+  const itemList_admin = [
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+      href: "/admin/dashboard",
+    },
+    {
       text: "User",
       icon: <AccountBoxIcon />,
       href: "/admin/users",
@@ -89,18 +107,31 @@ function MyDrawer(props) {
       <Divider />
       {/* List Page */}
       <List>
-        {itemList.map((item, index) => {
-          const { text, icon, href } = item;
-          return (
-            <CustomeNavlink to={href} key={index}>
-              <CustomizedListItemButton>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={text} />
-              </CustomizedListItemButton>
-              <Divider />
-            </CustomeNavlink>
-          );
-        })}
+        {user?.data?.role === "Admin"
+          ? itemList_admin.map((item, index) => {
+              const { text, icon, href } = item;
+              return (
+                <CustomeNavlink to={href} key={index}>
+                  <CustomizedListItemButton>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText primary={text} />
+                  </CustomizedListItemButton>
+                  <Divider />
+                </CustomeNavlink>
+              );
+            })
+          : itemList.map((item, index) => {
+              const { text, icon, href } = item;
+              return (
+                <CustomeNavlink to={href} key={index}>
+                  <CustomizedListItemButton>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText primary={text} />
+                  </CustomizedListItemButton>
+                  <Divider />
+                </CustomeNavlink>
+              );
+            })}
         {/* End List Page */}
       </List>
     </Box>

@@ -8,22 +8,11 @@ import {
   getUserSuccess,
   submitUserFailed,
   submitUserSuccess,
-  signinFail,
-  signinRequest,
-  signinSuccess,
-  signupRequest,
-  signupSuccess,
-  signupFail,
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
 } from "./usersSlice";
-import {
-  signinAuth,
-  signup,
-  signinWithGoogleAuth,
-  signinWithFacebookAuth,
-} from "../../service/auth";
+import { signinAuth, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
@@ -54,9 +43,17 @@ export function* actGetUserPagination(action) {
 // ADD USER
 export function* actAddUser(action) {
   const { values } = action.payload;
+  const { password, email } = values;
+
   try {
-    const result = yield call(apiInstance.post, "user", values);
-    yield put(submitUserSuccess(result));
+    const rs = yield call(signup, email, password);
+
+    if (rs && !rs.code) {
+      values.id = rs.id;
+      const result = yield call(apiInstance.post, "user", values);
+      console.log(result);
+      yield put(submitUserSuccess(result));
+    }
   } catch (err) {
     console.log(err);
     yield put(submitUserFailed());
@@ -88,18 +85,6 @@ export function* actUpdateUserInfo(action) {
   }
 }
 
-export function* signinWithEmailAndPassword({ password, email }) {
-  yield put(signinRequest());
-
-  const rs = yield call(signinAuth, email, password);
-
-  if (rs && !rs.code) {
-    yield put(signinSuccess(rs));
-  } else {
-    yield put(signinFail());
-  }
-}
-
 export function* signinAdmin({ password, email }) {
   yield put(signinAdminRequest());
 
@@ -107,48 +92,20 @@ export function* signinAdmin({ password, email }) {
 
   if (!rs.code) {
     const users = yield call(apiInstance.get, "user");
-    const user = users.find((u) => u.id === rs.uid) || {};
+    const user = users.find((u) => u.id === rs.id) || {};
+
     rs.role = user.role;
-    rs.image = user.avatar;
+    rs.image = user.avatar || "https://i.ibb.co/4pGF0yV/default-user.png";
     rs.displayName = user.lastname;
+
     const approveRoles = ["Admin", "Staff"];
-    if (!user || !approveRoles.includes(user.role)) {
+    if (Object.keys(user).length === 0 || !approveRoles.includes(user.role)) {
       yield put(signinAdminFail());
     } else {
-      console.log(rs);
       yield put(signinAdminSuccess(rs));
     }
   } else {
     yield put(signinAdminFail());
-  }
-}
-
-export function* signinWithGoogle() {
-  const rs = yield call(signinWithGoogleAuth);
-
-  if (rs && !rs.code) {
-    yield put(signinSuccess(rs));
-  }
-}
-
-export function* signinWithFacebook() {
-  const rs = yield call(signinWithFacebookAuth);
-
-  console.log(rs);
-  if (rs && !rs.code) {
-    yield put(signinSuccess(rs));
-  }
-}
-
-export function* signupUser({ email, password, user }) {
-  yield put(signupRequest());
-
-  const rs = yield call(signup, email, password, user);
-  console.log(rs);
-  if (rs && !rs.code) {
-    yield put(signupSuccess(rs));
-  } else {
-    yield put(signupFail(rs.code));
   }
 }
 
@@ -158,9 +115,5 @@ export default function* userSaga() {
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("DELETE_USER", actDeleteUser);
   yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER, signinWithEmailAndPassword);
-  yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
   yield takeEvery(USER_ACTIONS.SIGNIN_ADMIN, signinAdmin);
 }
