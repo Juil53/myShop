@@ -51,11 +51,6 @@ export function UserTable({ keyword }) {
     dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
   };
 
-  const handleGetUserInfo = (user) => {
-    dispatch(openModal());
-    dispatch(getUserInfo(user));
-  };
-
   React.useEffect(() => {
     dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
     dispatch(getUserRequest());

@@ -21,6 +21,7 @@ function ProductManagement() {
       <Typography variant="h4" fontWeight={700}>
         Product Management
       </Typography>
+      
       <Box className="product__search" sx={product__search}>
         <TextFieldCustom
           InputProps={{

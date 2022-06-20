@@ -47,9 +47,7 @@ const SearchProduct = () => {
   //RENDER CARDS
   const handleRenderCard = (dataArr) => {
     return dataFilter?.map((product, index) => (
-      <Link to={`${product.id}`} key={`product_${index}`}>
-        <ProductCard cardDirection="vertical" data={product} />
-      </Link>
+      <ProductCard cardDirection="vertical" data={product} key={`product_${index}`} />
     ));
   };
 

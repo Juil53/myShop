@@ -17,7 +17,7 @@ const call = async ({
       body: query ? JSON.stringify(query) : null,
     });
 
-    await delay(3000);
+    // await delay(3000);
 
     if (!res.ok) {
       const { message } = await res.json();
