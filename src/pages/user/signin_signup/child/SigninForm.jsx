@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import { loginUser } from "../../../../store/users/selector";
-import { signinWithGoogle } from "../../../../service/auth";
 
 import { checkEmailFormat } from "../../../../utils";
 
