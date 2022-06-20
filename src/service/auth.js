@@ -26,7 +26,7 @@ const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
 const adapter = ({ user = {}, _tokenResponse = {} }) => {
-  const { accessToken, displayName, email, uid } = user;
+  const { accessToken, displayName, email, uid, photoURL, phoneNumber } = user;
   const { refreshToken } = _tokenResponse;
 
   return {
@@ -35,6 +35,8 @@ const adapter = ({ user = {}, _tokenResponse = {} }) => {
     email,
     refreshToken,
     uid,
+    photoURL,
+    phoneNumber,
   };
 };
 
@@ -52,7 +54,7 @@ export const signinAuth = async (email = "", password = "") => {
   }
 };
 
-export const signup = async (email = "", password = "", info = {}) => {
+export const signup = async (email = "", password = "") => {
   const auth = getAuth();
 
   try {

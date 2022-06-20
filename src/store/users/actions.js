@@ -1,6 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import apiInstance from "../../utils/axios/axiosInstance";
+import API from "../../service";
 import {
   getUserFailed,
   getUserPaginationFailed,
@@ -54,9 +55,17 @@ export function* actGetUserPagination(action) {
 // ADD USER
 export function* actAddUser(action) {
   const { values } = action.payload;
+  const { password, email } = values;
+
   try {
-    const result = yield call(apiInstance.post, "user", values);
-    yield put(submitUserSuccess(result));
+    const rs = yield call(signup, email, password);
+
+    if (rs && !rs.code) {
+      console.log(rs);
+      values.id = rs.uid;
+      const result = yield call(apiInstance.post, "user", values);
+      yield put(submitUserSuccess(result));
+    }
   } catch (err) {
     console.log(err);
     yield put(submitUserFailed());
@@ -94,7 +103,16 @@ export function* signinWithEmailAndPassword({ password, email }) {
   const rs = yield call(signinAuth, email, password);
 
   if (rs && !rs.code) {
-    yield put(signinSuccess(rs));
+    const clients = yield call(API.get, { path: "clients" });
+    const client = clients.find((c) => c.id === rs.uid) || {};
+    rs.image = client.image;
+    rs.displayName = client.displayName;
+
+    if (Object.keys(client).length === 0) {
+      yield put(signinFail());
+    } else {
+      yield put(signinSuccess(rs));
+    }
   } else {
     yield put(signinFail());
   }
@@ -108,14 +126,15 @@ export function* signinAdmin({ password, email }) {
   if (!rs.code) {
     const users = yield call(apiInstance.get, "user");
     const user = users.find((u) => u.id === rs.uid) || {};
+
     rs.role = user.role;
     rs.image = user.avatar;
     rs.displayName = user.lastname;
+
     const approveRoles = ["Admin", "Staff"];
-    if (!user || !approveRoles.includes(user.role)) {
+    if (Object.keys(user).length === 0 || !approveRoles.includes(user.role)) {
       yield put(signinAdminFail());
     } else {
-      console.log(rs);
       yield put(signinAdminSuccess(rs));
     }
   } else {
@@ -127,6 +146,22 @@ export function* signinWithGoogle() {
   const rs = yield call(signinWithGoogleAuth);
 
   if (rs && !rs.code) {
+    const clients = yield call(API.get, { path: "clients" });
+    const client = clients.find((c) => c.id === rs.uid) || {};
+
+    //new client
+    if (Object.keys(client).length === 0) {
+      const newClient = {
+        id: rs.uid,
+        displayName: rs.displayName,
+        email: rs.email,
+        password: "",
+        image: rs.photoURL || "https://i.ibb.co/4pGF0yV/default-user.png",
+        phoneNumber: rs.phoneNumber || "",
+      };
+
+      yield call(API.post, { path: "clients", query: newClient });
+    }
     yield put(signinSuccess(rs));
   }
 }
@@ -136,6 +171,21 @@ export function* signinWithFacebook() {
 
   console.log(rs);
   if (rs && !rs.code) {
+    const clients = yield call(API.get, { path: "clients" });
+    const client = clients.find((c) => c.id === rs.uid) || {};
+
+    if (Object.keys(client).length === 0) {
+      const newClient = {
+        id: rs.uid,
+        displayName: rs.displayName,
+        email: rs.email,
+        password: "",
+        image: rs.photoURL || "https://i.ibb.co/4pGF0yV/default-user.png",
+        phoneNumber: rs.phoneNumber || "",
+      };
+
+      yield call(API.post, { path: "clients", query: newClient });
+    }
     yield put(signinSuccess(rs));
   }
 }
@@ -144,8 +194,12 @@ export function* signupUser({ email, password, user }) {
   yield put(signupRequest());
 
   const rs = yield call(signup, email, password, user);
-  console.log(rs);
+
   if (rs && !rs.code) {
+    user.id = rs.uid;
+    user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
+
+    yield call(API.post, { path: "clients", query: user });
     yield put(signupSuccess(rs));
   } else {
     yield put(signupFail(rs.code));
