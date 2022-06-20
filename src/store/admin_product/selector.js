@@ -20,16 +20,24 @@ export const selectAllProduct = (state) => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
   return products;
+  
 };
 
-export const selectProductPagination = (state) => {
+export const selectProductPagination = (state,filteredKeys) => {
   const { adminProduct = {} } = state || {};
   const { productsPagination = [] } = adminProduct;
-  return productsPagination;
+  // return productsPagination;
+  return handleFiltered(productsPagination, filteredKeys);
 };
 
 export const selectProductInfo = (state, id) => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
   return products.find((product) => product.id === id);
+};
+
+
+//Data trả về bị sai
+const handleFiltered = (data, filteredKeys) => {
+  return data.filter((product) => product.categories.includes(filteredKeys[0]));
 };
