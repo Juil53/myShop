@@ -2,34 +2,32 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
-import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
+import { loginAdmin } from "../../../../store/users/selector";
 
 import { checkEmailFormat } from "../../../../utils";
 
 const SigninForm = () => {
   const dispatch = useDispatch();
-  const userLogin = useSelector(clientSelector);
-  console.log(userLogin);
+  const adminLogin = useSelector(loginAdmin);
 
   const [isShowPassword, setIsShowPassword] = useState("password");
-  const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
-    if (userLogin.status === LOADING_STATUS.LOADING && isClick) {
+    if (adminLogin.status === LOADING_STATUS.LOADING) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (
-      userLogin.data &&
-      Object.keys(userLogin.data).length !== 0 &&
-      userLogin.status === LOADING_STATUS.SUCCESS &&
-      isClick
+      adminLogin.data &&
+      Object.keys(adminLogin.data).length !== 0 &&
+      adminLogin.status === LOADING_STATUS.SUCCESS
     ) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
-      window.location.href = window.location.origin;
-    } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
+      console.log(adminLogin.data);
+      window.location.reload();
+    } else if (adminLogin.status === LOADING_STATUS.FAIL) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signin-error-msg");
-      errorMsg.textContent = userLogin.msg;
+      errorMsg.textContent = adminLogin.msg;
     }
   });
 
@@ -77,7 +75,6 @@ const SigninForm = () => {
   };
 
   const handleLogin = async () => {
-    setIsClick(true);
     const email = document.getElementById("signin-email-ip").value;
     const password = document.getElementById("signin-password-ip").value;
     const errorMsg = document.getElementById("signin-error-msg");
@@ -92,7 +89,7 @@ const SigninForm = () => {
         errorMsg.textContent = "Invalid email";
       } else {
         dispatch({
-          type: USER_ACTIONS.SIGNIN_USER,
+          type: USER_ACTIONS.SIGNIN_ADMIN,
           email: email,
           password: password,
         });
@@ -100,21 +97,9 @@ const SigninForm = () => {
     }
   };
 
-  const handleSigninWithGoogle = () => {
-    setIsClick(true);
-    dispatch({
-      type: USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE,
-    });
-  };
-
-  const handleSigninWithFacebook = () => {
-    setIsClick(true);
-    dispatch({ type: USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK });
-  };
-
   return (
     <div className="login-form form">
-      <div className="input-field" id="signin-email">
+      <div className="input-field admin" id="signin-email">
         <i className="fa-solid fa-user"></i>
         <input
           placeholder="Your email"
@@ -123,7 +108,7 @@ const SigninForm = () => {
           onBlur={() => checkInputValue("signin-email", "signin-email-ip")}
         />
       </div>
-      <div className="input-field" id="signin-password">
+      <div className="input-field admin" id="signin-password">
         <i className="fa-solid fa-lock"></i>
         <input
           placeholder="Your password"
@@ -144,18 +129,9 @@ const SigninForm = () => {
         />
       </div>
       <span className="error-msg" id="signin-error-msg"></span>
-      <button className="button-style login-btn" onClick={handleLogin}>
+      <button className="button-style login-btn admin" onClick={handleLogin}>
         Sign in
       </button>
-      <span className="social-text">Or sign in with</span>
-      <div className="social-media row">
-        <button onClick={handleSigninWithFacebook}>
-          <i className="fa-brands fa-facebook"></i>
-        </button>
-        <button onClick={handleSigninWithGoogle}>
-          <i className="fa-brands fa-google"></i>
-        </button>
-      </div>
     </div>
   );
 };

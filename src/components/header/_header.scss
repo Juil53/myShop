@@ -727,10 +727,6 @@
           color: $grayColor;
         }
 
-        span {
-          display: none;
-        }
-
         .product-quantity {
           display: block;
         }
@@ -864,6 +860,23 @@
 
       .search-box {
         width: 35rem;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  .header {
+    font-size: 1.6rem;
+
+    //HEADER TOP (logo, top nav)
+    .header__top {
+      .header__top-logo {
+        width: 30%;
+      }
+
+      .search-box {
+        width: 60rem;
       }
     }
   }

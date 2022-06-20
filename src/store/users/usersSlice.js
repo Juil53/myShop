@@ -18,6 +18,11 @@ const usersSlice = createSlice({
       data: localStorage.get("user"),
       msg: "",
     },
+    loginAdmin: {
+      status: LOADING_STATUS.IDLE,
+      data: localStorage.get("admin"),
+      msg: "",
+    },
   },
 
   reducers: {
@@ -98,50 +103,31 @@ const usersSlice = createSlice({
       state.keyword = action.payload;
     },
 
-    loginRequest: (state) => {
-      state.loginUser.msg = "Loading";
-      state.loginUser.status = LOADING_STATUS.LOADING;
+    signinAdminRequest: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.LOADING;
     },
 
-    loginSuccess: (state, action) => {
-      state.loginUser.data = action.payload;
-      localStorage.set("user", action.payload);
-      state.loginUser.status = LOADING_STATUS.SUCCESS;
-      state.loginUser.msg = "Success";
+    signinAdminSuccess: (state, action) => {
+      state.loginAdmin.status = LOADING_STATUS.SUCCESS;
+      state.loginAdmin.data = action.payload;
+      localStorage.set("admin", action.payload);
+      state.loginAdmin.msg = "";
     },
 
-    loginFail: (state) => {
-      state.loginUser.data = null;
-      state.loginUser.status = LOADING_STATUS.FAIL;
-      state.loginUser.msg = "Wrong username or password";
+    signinAdminFail: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.FAIL;
+      state.loginAdmin.msg = "Wrong username or password";
     },
 
     getLoginUserInfo: (state, action) => {
       state.data = action.payload;
     },
 
-    signout: (state) => {
-      state.loginUser.data = null;
-      state.loginUser.msg = "";
-      localStorage.remove("user");
-      state.loginUser.status = LOADING_STATUS.IDLE;
-    },
-
-    signupRequest: (state) => {
-      state.loginUser.status = LOADING_STATUS.LOADING;
-    },
-
-    signupSuccess: (state, action) => {
-      state.loginUser.status = LOADING_STATUS.SUCCESS;
-      state.loginUser.data = action.payload;
-      localStorage.set("user", action.payload);
-      state.loginUser.msg = "Success";
-    },
-
-    signupFail: (state, action) => {
-      state.loginUser.status = LOADING_STATUS.FAIL;
-      if (action.payload === "auth/email-already-in-use")
-        state.loginUser.msg = "Email already in use";
+    signoutAdmin: (state) => {
+      state.loginAdmin.data = null;
+      state.loginAdmin.msg = "";
+      localStorage.remove("admin");
+      state.loginAdmin.status = LOADING_STATUS.IDLE;
     },
   },
 });
@@ -161,14 +147,11 @@ export const {
   openModal,
   closeModal,
   getKeyword,
-  loginRequest,
-  loginSuccess,
-  loginFail,
   getLoginUserInfo,
-  signout,
-  signupRequest,
-  signupSuccess,
-  signupFail,
+  signoutAdmin,
+  signinAdminFail,
+  signinAdminSuccess,
+  signinAdminRequest,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

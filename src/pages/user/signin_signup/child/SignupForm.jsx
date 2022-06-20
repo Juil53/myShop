@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { USER_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
+import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
-import { loginUser } from "../../../../store/users/selector";
 import { checkEmailFormat, checkPhoneFormat } from "../../../../utils";
 
 const SignupForm = () => {
   const [isShowPassword, setIsShowPassword] = useState("password");
   const dispatch = useDispatch();
-  const userLogin = useSelector(loginUser);
+  const userLogin = useSelector(clientSelector);
   const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const SignupForm = () => {
     ) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       console.log(userLogin.data);
-      window.location.href = window.location.origin;
+      //window.location.href = window.location.origin;
     } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signup-error-msg");
@@ -100,9 +100,12 @@ const SignupForm = () => {
         field[4].setAttribute("data-error", "Password not match");
       } else {
         const user = {
-          name,
+          displayName: name,
           phoneNumber,
+          password,
+          email,
         };
+        console.log(user);
         dispatch({
           type: USER_ACTIONS.SIGNUP_USER,
           password: password,
@@ -195,12 +198,12 @@ const SignupForm = () => {
       </button>
       <span className="social-text">Or sign up with</span>
       <div className="social-media row">
-        <a href="#">
+        <button>
           <i className="fa-brands fa-facebook"></i>
-        </a>
-        <a href="#">
+        </button>
+        <button>
           <i className="fa-brands fa-google"></i>
-        </a>
+        </button>
       </div>
     </div>
   );

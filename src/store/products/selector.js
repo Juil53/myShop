@@ -35,8 +35,13 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
   const { data = [] } = allProducts;
-  const dataMainCate = data.filter((product) => product.categories.includes(mainCate));
-  const dataSubCate = data.filter((product) => product.categories.includes(subCate));
+  console.log(data);
+  const dataMainCate = data.filter((product) =>
+    product.categories.includes(mainCate)
+  );
+  const dataSubCate = data.filter((product) =>
+    product.categories.includes(subCate)
+  );
 
   if (mainCate == "" && subCate == "") {
     if (!sortCate) {

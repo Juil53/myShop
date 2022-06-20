@@ -8,14 +8,11 @@ import {
   getUserSuccess,
   submitUserFailed,
   submitUserSuccess,
-  loginFail,
-  loginRequest,
-  loginSuccess,
-  signupRequest,
-  signupSuccess,
-  signupFail,
+  signinAdminFail,
+  signinAdminSuccess,
+  signinAdminRequest,
 } from "./usersSlice";
-import { signin, signup } from "../../service/auth";
+import { signinAuth, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
@@ -46,9 +43,17 @@ export function* actGetUserPagination(action) {
 // ADD USER
 export function* actAddUser(action) {
   const { values } = action.payload;
+  const { password, email } = values;
+
   try {
-    const result = yield call(apiInstance.post, "user", values);
-    yield put(submitUserSuccess(result));
+    const rs = yield call(signup, email, password);
+
+    if (rs && !rs.code) {
+      values.id = rs.id;
+      const result = yield call(apiInstance.post, "user", values);
+      console.log(result);
+      yield put(submitUserSuccess(result));
+    }
   } catch (err) {
     console.log(err);
     yield put(submitUserFailed());
@@ -80,27 +85,27 @@ export function* actUpdateUserInfo(action) {
   }
 }
 
-export function* login({ password, email }) {
-  yield put(loginRequest());
+export function* signinAdmin({ password, email }) {
+  yield put(signinAdminRequest());
 
-  const rs = yield call(signin, email, password);
+  const rs = yield call(signinAuth, email, password);
 
-  if (rs) {
-    yield put(loginSuccess(rs));
+  if (!rs.code) {
+    const users = yield call(apiInstance.get, "user");
+    const user = users.find((u) => u.id === rs.id) || {};
+
+    rs.role = user.role;
+    rs.image = user.avatar || "https://i.ibb.co/4pGF0yV/default-user.png";
+    rs.displayName = user.lastname;
+
+    const approveRoles = ["Admin", "Staff"];
+    if (Object.keys(user).length === 0 || !approveRoles.includes(user.role)) {
+      yield put(signinAdminFail());
+    } else {
+      yield put(signinAdminSuccess(rs));
+    }
   } else {
-    yield put(loginFail());
-  }
-}
-
-export function* signupUser({ email, password, user }) {
-  yield put(signupRequest());
-
-  const rs = yield call(signup, email, password, user);
-  console.log(rs);
-  if (rs && !rs.code) {
-    yield put(signupSuccess(rs));
-  } else {
-    yield put(signupFail(rs.code));
+    yield put(signinAdminFail());
   }
 }
 
@@ -110,6 +115,5 @@ export default function* userSaga() {
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("DELETE_USER", actDeleteUser);
   yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
-  yield takeEvery(USER_ACTIONS.LOGIN_USER, login);
-  yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
+  yield takeEvery(USER_ACTIONS.SIGNIN_ADMIN, signinAdmin);
 }

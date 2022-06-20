@@ -26,6 +26,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import MailIcon from "@mui/icons-material/Mail";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAdmin } from "../../../../store/users/selector";
+import { signoutAdmin } from "../../../../store/users/usersSlice";
 
 const drawerWidth = "25rem";
 
@@ -37,13 +40,34 @@ const header = {
 
 function MyDrawer(props) {
   const { window } = props;
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+  const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(true);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-  const handleClick = () => setOpen(!open)
+  const handleClick = () => setOpen(!open);
+  const user = useSelector(loginAdmin);
 
   const itemList = [
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+      href: "/admin/dashboard",
+    },
+    {
+      text: "Product",
+      icon: <FormatListBulletedIcon />,
+      href: "/admin/products",
+    },
+    {
+      text: "Orders",
+      icon: <LocalGroceryStoreIcon />,
+      href: "/admin/orders",
+    },
+  ];
+
+  const itemList_admin = [
     {
       text: "Dashboard",
       icon: <DashboardIcon />,
@@ -66,27 +90,48 @@ function MyDrawer(props) {
     },
   ];
 
+  const handleSignout = () => {
+    dispatch(signoutAdmin());
+  };
+
   const drawer = (
     <Box>
       {/* Drawer Header Txt*/}
       <Toolbar className="adminToolbar">
-        <img src="/img/logomyShop.png" alt="logo" style={{ width: "100%", height: "100%" }} />
+        <img
+          src="/img/logomyShop.png"
+          alt="logo"
+          style={{ width: "100%", height: "100%" }}
+        />
       </Toolbar>
       <Divider />
       {/* List Page */}
       <List>
-        {itemList.map((item, index) => {
-          const { text, icon, href } = item;
-          return (
-            <CustomeNavlink to={href} key={index}>
-              <CustomizedListItemButton>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={text} />
-              </CustomizedListItemButton>
-              <Divider />
-            </CustomeNavlink>
-          );
-        })}
+        {user?.data?.role === "Admin"
+          ? itemList_admin.map((item, index) => {
+              const { text, icon, href } = item;
+              return (
+                <CustomeNavlink to={href} key={index}>
+                  <CustomizedListItemButton>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText primary={text} />
+                  </CustomizedListItemButton>
+                  <Divider />
+                </CustomeNavlink>
+              );
+            })
+          : itemList.map((item, index) => {
+              const { text, icon, href } = item;
+              return (
+                <CustomeNavlink to={href} key={index}>
+                  <CustomizedListItemButton>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText primary={text} />
+                  </CustomizedListItemButton>
+                  <Divider />
+                </CustomeNavlink>
+              );
+            })}
         {/* End List Page */}
       </List>
     </Box>
@@ -96,7 +141,9 @@ function MyDrawer(props) {
     <Box>
       {/* Header */}
       <AppBar className="header" position="fixed" sx={header}>
-        <CustomizeToolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <CustomizeToolbar
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -108,17 +155,28 @@ function MyDrawer(props) {
           </IconButton>
           <Stack spacing={8} direction="row" alignItems="center">
             <Typography variant="h6" fontWeight={700}>
-              Hello! Tom
+              Hello {user?.data?.displayName} !
             </Typography>
             <Badge badgeContent={4} color="error">
               <MailIcon color="#fff" />
             </Badge>
-            <Avatar alt="Remy Sharp" src="/img/avatar2.jpg" />
+            <Avatar alt="Remy Sharp" src={user?.data?.image} />
+            <div
+              style={{ fontSize: 18, cursor: "pointer" }}
+              className="signout-btn"
+              onClick={handleSignout}
+            >
+              Sign out
+            </div>
           </Stack>
         </CustomizeToolbar>
       </AppBar>
 
-      <Box component="nav" sx={{ flexShrink: { sm: 0 } }} aria-label="mailbox folders">
+      <Box
+        component="nav"
+        sx={{ flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
         <CustomDrawer
           container={container}
           variant="temporary"

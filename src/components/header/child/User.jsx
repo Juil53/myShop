@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
 
-import { signout } from "../../../store/users/usersSlice";
+import { clientActions } from "../../../store/clients/slice";
 
 const User = (props) => {
   const { data = {} } = props;
   const dispatch = useDispatch();
 
   function handleSignout() {
-    dispatch(signout());
+    dispatch(clientActions.signout());
     window.location.reload();
   }
 

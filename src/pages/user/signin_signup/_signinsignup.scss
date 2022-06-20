@@ -26,6 +26,11 @@
         color: $mainColor;
         border-bottom: 2px solid $mainColor;
       }
+
+      .tab-btn.active.admin {
+        color: #133F63;
+        border-bottom: 2px solid #133F63;
+      }
     }
 
     .sign-tab-content {
@@ -95,6 +100,15 @@
         }
       }
 
+      .input-field.admin:hover,
+      .input-field.admin:focus-within {
+        border: 1px solid #133F63;
+
+        i {
+          color: #133F63;
+        }
+      }
+
       .error-msg {
         margin-top: 1.5rem;
         color: red;
@@ -111,6 +125,16 @@
         transition: all ease 0.3s;
       }
 
+      .login-btn.admin {
+        background-color: #133F63;
+      }
+
+      .login-btn.admin:hover {
+        background-color: $whiteColor;
+        color: #133F63;
+        border: 1px solid #133F63;
+      }
+
       .social-text {
         margin-top: 1rem;
         color: $grayColor-3;
@@ -121,7 +145,7 @@
         margin-top: 1rem;
         justify-content: center;
 
-        a {
+        button {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -136,7 +160,7 @@
           transition: 0.3s all ease;
         }
 
-        a:hover {
+        button:hover {
           color: $whiteColor;
           background-color: $mainColor;
         }
