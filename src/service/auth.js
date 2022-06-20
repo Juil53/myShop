@@ -34,8 +34,8 @@ const adapter = ({ user = {}, _tokenResponse = {} }) => {
     displayName,
     email,
     refreshToken,
-    uid,
-    photoURL,
+    id: uid,
+    image: photoURL,
     phoneNumber,
   };
 };

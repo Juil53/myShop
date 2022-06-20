@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   loginAdmin,
-  loginUser,
   selectUserKeyword,
 } from "../../../../store/users/selector";
 import { getKeyword } from "../../../../store/users/usersSlice";

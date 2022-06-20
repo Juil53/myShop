@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { USER_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
+import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
-import { loginUser } from "../../../../store/users/selector";
 import { checkEmailFormat, checkPhoneFormat } from "../../../../utils";
 
 const SignupForm = () => {
   const [isShowPassword, setIsShowPassword] = useState("password");
   const dispatch = useDispatch();
-  const userLogin = useSelector(loginUser);
+  const userLogin = useSelector(clientSelector);
   const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {

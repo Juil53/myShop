@@ -1,7 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import apiInstance from "../../utils/axios/axiosInstance";
-import API from "../../service";
 import {
   getUserFailed,
   getUserPaginationFailed,
@@ -9,22 +8,11 @@ import {
   getUserSuccess,
   submitUserFailed,
   submitUserSuccess,
-  signinFail,
-  signinRequest,
-  signinSuccess,
-  signupRequest,
-  signupSuccess,
-  signupFail,
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
 } from "./usersSlice";
-import {
-  signinAuth,
-  signup,
-  signinWithGoogleAuth,
-  signinWithFacebookAuth,
-} from "../../service/auth";
+import { signinAuth, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
@@ -61,9 +49,9 @@ export function* actAddUser(action) {
     const rs = yield call(signup, email, password);
 
     if (rs && !rs.code) {
-      console.log(rs);
-      values.id = rs.uid;
+      values.id = rs.id;
       const result = yield call(apiInstance.post, "user", values);
+      console.log(result);
       yield put(submitUserSuccess(result));
     }
   } catch (err) {
@@ -97,27 +85,6 @@ export function* actUpdateUserInfo(action) {
   }
 }
 
-export function* signinWithEmailAndPassword({ password, email }) {
-  yield put(signinRequest());
-
-  const rs = yield call(signinAuth, email, password);
-
-  if (rs && !rs.code) {
-    const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.uid) || {};
-    rs.image = client.image;
-    rs.displayName = client.displayName;
-
-    if (Object.keys(client).length === 0) {
-      yield put(signinFail());
-    } else {
-      yield put(signinSuccess(rs));
-    }
-  } else {
-    yield put(signinFail());
-  }
-}
-
 export function* signinAdmin({ password, email }) {
   yield put(signinAdminRequest());
 
@@ -125,10 +92,10 @@ export function* signinAdmin({ password, email }) {
 
   if (!rs.code) {
     const users = yield call(apiInstance.get, "user");
-    const user = users.find((u) => u.id === rs.uid) || {};
+    const user = users.find((u) => u.id === rs.id) || {};
 
     rs.role = user.role;
-    rs.image = user.avatar;
+    rs.image = user.avatar || "https://i.ibb.co/4pGF0yV/default-user.png";
     rs.displayName = user.lastname;
 
     const approveRoles = ["Admin", "Staff"];
@@ -142,79 +109,11 @@ export function* signinAdmin({ password, email }) {
   }
 }
 
-export function* signinWithGoogle() {
-  const rs = yield call(signinWithGoogleAuth);
-
-  if (rs && !rs.code) {
-    const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.uid) || {};
-
-    //new client
-    if (Object.keys(client).length === 0) {
-      const newClient = {
-        id: rs.uid,
-        displayName: rs.displayName,
-        email: rs.email,
-        password: "",
-        image: rs.photoURL || "https://i.ibb.co/4pGF0yV/default-user.png",
-        phoneNumber: rs.phoneNumber || "",
-      };
-
-      yield call(API.post, { path: "clients", query: newClient });
-    }
-    yield put(signinSuccess(rs));
-  }
-}
-
-export function* signinWithFacebook() {
-  const rs = yield call(signinWithFacebookAuth);
-
-  console.log(rs);
-  if (rs && !rs.code) {
-    const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.uid) || {};
-
-    if (Object.keys(client).length === 0) {
-      const newClient = {
-        id: rs.uid,
-        displayName: rs.displayName,
-        email: rs.email,
-        password: "",
-        image: rs.photoURL || "https://i.ibb.co/4pGF0yV/default-user.png",
-        phoneNumber: rs.phoneNumber || "",
-      };
-
-      yield call(API.post, { path: "clients", query: newClient });
-    }
-    yield put(signinSuccess(rs));
-  }
-}
-
-export function* signupUser({ email, password, user }) {
-  yield put(signupRequest());
-
-  const rs = yield call(signup, email, password, user);
-
-  if (rs && !rs.code) {
-    user.id = rs.uid;
-    user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
-
-    yield call(API.post, { path: "clients", query: user });
-    yield put(signupSuccess(rs));
-  } else {
-    yield put(signupFail(rs.code));
-  }
-}
-
 export default function* userSaga() {
   yield takeEvery("users/getUserRequest", actGetUser);
   yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("DELETE_USER", actDeleteUser);
   yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER, signinWithEmailAndPassword);
-  yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
   yield takeEvery(USER_ACTIONS.SIGNIN_ADMIN, signinAdmin);
 }
