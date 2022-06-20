@@ -23,6 +23,8 @@ const initialState = {
     status: LOADING_STATUS.IDLE,
     data: [],
   },
+  product: {},
+  loading: false,
 };
 
 const productSlice = createSlice({
@@ -93,6 +95,16 @@ const productSlice = createSlice({
 
     searchProductFail: (state) => {
       state.searchResult.status = LOADING_STATUS.FAIL;
+    },
+    getProductRequest: (state, action) => {
+      state.loading = true;
+    },
+    getProductSuccess: (state, action) => {
+      state.loading = false;
+      state.product = action.payload;
+    },
+    getProductFailed: (state, action) => {
+      state.loading = false;
     },
   },
 });

@@ -1,12 +1,11 @@
-import * as React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Grid, MenuItem, Paper, TextField } from "@mui/material";
+import { Box } from "@mui/system";
+import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { selectUserInfo } from "../../../../store/users/selector";
 import { getUserRequest, updateUserInfo } from "../../../../store/users/usersSlice";
-import { CustomBox } from "../../../../styles/styled_components/styledComponent";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box } from "@mui/system";
 
 //MODAL SELECT ROLE
 const roles = [
@@ -25,7 +24,7 @@ const UserEdit = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => selectUserInfo(state, parseInt(params.id)));
-  console.log(params)
+  console.log(params);
 
   React.useEffect(() => {
     dispatch(getUserRequest());
@@ -95,10 +94,11 @@ const UserEdit = () => {
           </Button>
           <h1 className="admin__title">Edit User</h1>
 
-          <Grid container spacing={2} sx={{marginTop:'1rem'}}>
+          <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
             <Grid item xs={6} sx={{ textAlign: "center" }}>
               <img
-                src={userInfo.avatar}
+                value={state.avatar}
+                src={state.avatar}
                 alt=""
                 style={{
                   width: "200px",
@@ -138,7 +138,9 @@ const UserEdit = () => {
                   value={state.email}
                   onChange={handleOnChange}
                 />
-                <TextField
+
+                {/* data thieu password,them vao sau */}
+                {/* <TextField
                   size="small"
                   variant="standard"
                   type="password"
@@ -147,7 +149,7 @@ const UserEdit = () => {
                   name="password"
                   value={state.password}
                   onChange={handleOnChange}
-                />
+                /> */}
                 <TextField
                   size="small"
                   variant="standard"
@@ -178,7 +180,7 @@ const UserEdit = () => {
             </Grid>
           </Grid>
 
-          <div className="admin__btn" style={{textAlign:'center',marginTop:'1rem'}}>
+          <div className="admin__btn" style={{ textAlign: "center", marginTop: "1rem" }}>
             <Button
               variant="contained"
               color="success"

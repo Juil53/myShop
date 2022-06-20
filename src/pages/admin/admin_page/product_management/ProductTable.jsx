@@ -1,10 +1,15 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
-  Box, IconButton, Paper,
-  Stack, Table,
-  TableBody, TableCell, TableContainer,
-  TableRow
+  Box,
+  IconButton,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
 } from "@mui/material";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,28 +17,28 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import {
   getAllProductRequest,
-  getProductPaginationRequest
+  getProductPaginationRequest,
 } from "../../../../store/admin_product/productSlice";
 import {
   selectAllProduct,
   selectLoading,
-  selectProductPagination
+  selectProductPagination,
 } from "../../../../store/admin_product/selector";
 import {
   CustomizedTableHead,
-  CustomPagination
+  CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
-
-
-
-export default function ProductTable() {
+export default function ProductTable({ filteredKeys }) {
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loading = useSelector(selectLoading);
-  const allProduct = useSelector(selectAllProduct);
-  const paginationProduct = useSelector(selectProductPagination);
   const [page, setPage] = React.useState(1);
+  const loading = useSelector(selectLoading);
+  const products = useSelector(selectAllProduct);
+  const paginationProduct = useSelector((state)=>selectProductPagination(state,filteredKeys))
+  console.log(paginationProduct)
+
 
   // GET ALL PRODUCT
   React.useEffect(() => {
@@ -60,7 +65,7 @@ export default function ProductTable() {
 
   // CHANGE PAGE
   const handleChangePage = (event, newPage) => setPage(newPage);
-  const count = allProduct ? Math.ceil(allProduct?.length / 10) : 0;
+  const count = products ? Math.ceil(products?.length / 10) : 0;
 
   // RENDER BODY
   const renderTableBody = () => {
@@ -73,7 +78,6 @@ export default function ProductTable() {
             "&:last-child td, &:last-child th": { border: 0 },
             cursor: "pointer",
           }}
-          // onClick={() => navigate(`/admin/products/edit/${product.id}`)}
         >
           <TableCell align="left">{product.id}</TableCell>
           <TableCell align="left">{product.name}</TableCell>
@@ -132,7 +136,7 @@ export default function ProductTable() {
               stickyHeader
               aria-label="sticky table"
               size="small"
-              sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+              sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
             >
               <CustomizedTableHead>
                 <TableRow>

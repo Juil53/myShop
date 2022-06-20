@@ -1,3 +1,4 @@
+import { ThemeContext } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
@@ -7,14 +8,17 @@ import {
   Grid,
   IconButton,
   InputLabel,
-  MenuItem, Modal, Select,
-  Stack, Typography
+  MenuItem,
+  Modal,
+  Select,
+  Stack,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, updateOrderDetail } from "../../../../../store/orders/orderSlice";
 import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
-import { CustomBox } from "../../../../../styles/styled_components/styledComponent";
+import { CustomBox, CustomSelect } from "../../../../../styles/styled_components/styledComponent";
 import { statusColors, statusStyle, title } from "./OrderModalStyle";
 import StatusIcons from "./StatusIcons";
 
@@ -41,11 +45,7 @@ const OrderModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (orderDetail !== null)
-      return (
-        dispatch(updateOrderDetail(order)),
-        dispatch(closeModal())
-      );
+    if (orderDetail !== null) return dispatch(updateOrderDetail(order)), dispatch(closeModal());
   };
 
   useEffect(() => {
@@ -85,15 +85,20 @@ const OrderModal = () => {
               <Stack direction="row">
                 <Typography sx={statusStyle(orderDetail)}></Typography>
 
-                <FormControl sx={{ width: "max-content" }}>
-                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                  <Select
+                <FormControl sx={{ mt: 1 }}>
+                  <InputLabel
+                    id="demo-simple-select-label"
+                    sx={{ "&.Mui-focused": { color: "secondary.dark" } }}
+                  >
+                    Status
+                  </InputLabel>
+                  <CustomSelect
                     name="status"
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     size="small"
+                    label="Status"
                     value={order.status}
-                    label={order.status}
                     onChange={handleChange}
                     sx={{
                       color: statusColors[order.status] ?? "#000",
@@ -127,7 +132,7 @@ const OrderModal = () => {
                     >
                       <StatusIcons status="Pending" />
                     </MenuItem>
-                  </Select>
+                  </CustomSelect>
                 </FormControl>
               </Stack>
 

@@ -91,8 +91,9 @@ const CustomPagination = styled(Pagination)(({ theme }) => ({
 }));
 
 const CustomSelect = styled(Select)(({ theme }) => ({
-  "& .MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root.Mui-focused": {
-    borderColor: theme.palette.secondary.dark,
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -118,5 +119,5 @@ export {
   TextFieldCustom,
   CustomPagination,
   CustomSelect,
-  CustomBox
+  CustomBox,
 };

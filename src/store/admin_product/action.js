@@ -45,21 +45,6 @@ export function* actAddProduct(action) {
 }
 
 // GET PRODUCT
-// export const actGetAllProduct = () => {
-//   return async (dispatch, getState) => {
-//     try {
-//       const { adminProduct = {} } = getState() || {};
-//       const { products = [] } = adminProduct;
-//       if (products.length === 0) {
-//         dispatch(getAllProductRequest());
-//         const result = await apiInstance.get("products");
-//         dispatch(getAllProductSuccess(result));
-//       }
-//     } catch (error) {
-//       dispatch(getAllProductFailed(error));
-//     }
-//   };
-// };
 export function* actGetAllProduct() {
   try {
     const result = yield call(apiInstance.get, "products");

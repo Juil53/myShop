@@ -1,13 +1,13 @@
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
-import Breadcrumb from "../../../components/breadcumb/BreadCumb";
-import Loading from "../../../components/loading/Loading";
-import ProductCard from "../../../components/product_card/ProductCard";
 import { LOADING_STATUS, PRODUCT_ACTIONS } from "../../../constants";
 import { categoriesSelector, selectLoading } from "../../../store/categories/selector";
 import { productSelector, selectProduct } from "../../../store/products/selector";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Breadcrumb from "../../../components/breadcumb/BreadCumb";
+import Loading from "../../../components/loading/Loading";
+import ProductCard from "../../../components/product_card/ProductCard";
 import MainLeft from "../home_page/child/MainLeft";
 
 const SearchProduct = () => {
@@ -47,9 +47,7 @@ const SearchProduct = () => {
   //RENDER CARDS
   const handleRenderCard = (dataArr) => {
     return dataFilter?.map((product, index) => (
-      <Link to={`${product.id}`} key={`product_${index}`}>
-        <ProductCard cardDirection="vertical" data={product} />
-      </Link>
+      <ProductCard cardDirection="vertical" data={product} key={`product_${index}`} />
     ));
   };
 

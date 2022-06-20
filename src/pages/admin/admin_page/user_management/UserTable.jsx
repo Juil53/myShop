@@ -32,7 +32,7 @@ import {
 
 export function UserTable({ keyword }) {
   const navigate = useNavigate()
-  const ROWS_PER_PAGE = 10;
+  const ROWS_PER_PAGE = 20;
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
   const rows = useSelector(selectUserData);
@@ -51,11 +51,6 @@ export function UserTable({ keyword }) {
     dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
   };
 
-  const handleGetUserInfo = (user) => {
-    dispatch(openModal());
-    dispatch(getUserInfo(user));
-  };
-
   React.useEffect(() => {
     dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
     dispatch(getUserRequest());
@@ -66,13 +61,13 @@ export function UserTable({ keyword }) {
     return (
       <CustomizedTableHead>
         <TableRow>
-          <TableCell align="center">User ID</TableCell>
-          <TableCell align="left">First Name</TableCell>
-          <TableCell align="left">Last Name</TableCell>
-          <TableCell align="left">Email</TableCell>
-          <TableCell align="center">Phone number</TableCell>
-          <TableCell align="center">Role</TableCell>
-          <TableCell align="center"></TableCell>
+          <TableCell width="10%" align="left">User ID</TableCell>
+          <TableCell width="10%" align="left">First Name</TableCell>
+          <TableCell width="10%" align="left">Last Name</TableCell>
+          <TableCell width="15%" align="left">Email</TableCell>
+          <TableCell width="15%" align="center">Phone number</TableCell>
+          <TableCell width="10%" align="center">Role</TableCell>
+          <TableCell width="10%" align="center"></TableCell>
         </TableRow>
       </CustomizedTableHead>
     );
@@ -87,7 +82,7 @@ export function UserTable({ keyword }) {
           hover={true}
           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
         >
-          <TableCell align="center">{user.id}</TableCell>
+          <TableCell align="left">{user.id}</TableCell>
           <TableCell align="left">{user.firstname}</TableCell>
           <TableCell align="left">{user.lastname}</TableCell>
           <TableCell align="left">{user.email}</TableCell>
@@ -121,15 +116,14 @@ export function UserTable({ keyword }) {
     <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
       <TableContainer
         sx={{
-          maxHeight: "100vh",
-          width: "100%",
+          maxHeight: "65vh",
         }}
       >
         <Table
           stickyHeader
           aria-label="sticky table"
           size="small"
-          sx={{ minWidth: "110%", backgroundColor: "#fff" }}
+          sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
         >
           {renderTableHead()}
           <TableBody>{renderTableBody()}</TableBody>
