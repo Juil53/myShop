@@ -16,22 +16,24 @@ const User = (props) => {
   }
 
   return (
-    <div className="nav-btn user-btn" onClick={handleUserButton}>
-      <i className="fa-solid fa-user" />
-      <span>User</span>
-      <div className="user-dropdown">
-        <div className="title">
-          Hi, <span>{data.displayName}</span>
+    <>
+      <div className="nav-btn user-btn" onClick={handleUserButton}>
+        <i className="fa-solid fa-user" />
+        <span>User</span>
+        <div className="user-dropdown">
+          <div className="title">
+            Hi, <span>{data.displayName}</span>
+          </div>
+          <a href="user/orders">Orders</a>
+          <a href="#">Account information</a>
+          <a href="#">Change password</a>
+          <a href="#">Address manage</a>
         </div>
-        <a href="user/orders">Orders</a>
-        <a href="#">Account information</a>
-        <a href="#">Change password</a>
-        <a href="#">Address manage</a>
-        <a href="home" onClick={handleSignout}>
-          Sign out <i className="fa-solid fa-arrow-right-from-bracket"></i>
-        </a>
       </div>
-    </div>
+      <div className="sign-out-btn" onClick={handleSignout}>
+        Sign out
+      </div>
+    </>
   );
 };
 

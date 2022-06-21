@@ -535,6 +535,15 @@
     }
   }
 
+  .sign-out-btn {
+    padding-right: 2rem;
+    cursor: pointer;
+  }
+
+  .sign-out-btn:hover {
+    color: $mainColor;
+  }
+
   //HEADER NAVIGATION (home, product...)
   .header__nav {
     padding: 0 2rem;
