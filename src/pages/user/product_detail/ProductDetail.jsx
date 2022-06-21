@@ -255,6 +255,7 @@ const ProductDetail = () => {
           <div className="breadcumb">
             <Breadcrumb pages={array} />
           </div>
+          
           <div className="product-detail row">
             <div className="product-detail__img">
               <div className="main-img">{createMainSlider(productInfo.image)}</div>
@@ -329,6 +330,7 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
+
           <div className="product-detail__tabs">
             <ProductTabs product={productInfo} />
           </div>

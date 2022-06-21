@@ -28,7 +28,7 @@ import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
   const navigate = useNavigate();
-  const ROWS_PER_PAGE = 20;
+  const ROWS_PER_PAGE = 10;
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
   const rows = useSelector(selectUserData);
@@ -45,16 +45,14 @@ export function UserTable({ keyword }) {
   const handleChangePage = (event, newPage) => setPage(newPage);
 
   const handleDelete = (userId) => {
-    setOpen(true)
-    console.log("delete")
-    // dispatch({ type: "DELETE_USER", payload: userId });
-    // dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
+    dispatch({ type: "DELETE_USER", payload: userId });
+    dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
   };
 
   React.useEffect(() => {
     dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
     dispatch(getUserRequest());
-  }, [page, userInfo]);
+  }, [page, userInfo ]);
 
   // RENDER TABLE HEAD
   const renderTableHead = () => {
@@ -151,7 +149,7 @@ export function UserTable({ keyword }) {
         shape="rounded"
         variant="outlined"
       />
-      <SimpleSnackbar openSnackbar={open}/>
+      <SimpleSnackbar openSnackbar={open} />
     </Box>
   );
 
