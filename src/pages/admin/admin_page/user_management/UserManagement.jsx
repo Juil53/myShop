@@ -10,10 +10,9 @@ import {
 } from "../../../../store/users/selector";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import UserModal from "./UserModal";
+import SimpleSnackbar from "../component/MuiSnackbar";
 import { UserTable } from "./UserTable";
 
-// import "../../../../scss/App.scss";
 
 function UserManagement() {
   const dispatch = useDispatch();
@@ -63,8 +62,6 @@ function UserManagement() {
           <div className="table">
             <UserTable keyword={keyword} />
           </div>
-
-          {/* <UserModal /> */}
         </>
       )}
     </>
