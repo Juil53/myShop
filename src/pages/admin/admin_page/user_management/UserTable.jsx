@@ -24,6 +24,7 @@ import {
   CustomizedTableHead,
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
+import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ export function UserTable({ keyword }) {
   const rowsPagination = useSelector(selectUserDataPagination);
   const userInfo = useSelector(selectUserInfo);
   const [page, setPage] = React.useState(1);
+  const [open, setOpen] = React.useState(false);
+
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : rowsPagination;
@@ -42,8 +45,10 @@ export function UserTable({ keyword }) {
   const handleChangePage = (event, newPage) => setPage(newPage);
 
   const handleDelete = (userId) => {
-    dispatch({ type: "DELETE_USER", payload: userId });
-    dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
+    setOpen(true)
+    console.log("delete")
+    // dispatch({ type: "DELETE_USER", payload: userId });
+    // dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
   };
 
   React.useEffect(() => {
@@ -146,6 +151,7 @@ export function UserTable({ keyword }) {
         shape="rounded"
         variant="outlined"
       />
+      <SimpleSnackbar openSnackbar={open}/>
     </Box>
   );
 
