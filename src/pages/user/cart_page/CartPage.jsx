@@ -6,6 +6,7 @@ import { selectCart } from "../../../store/cart/selectors";
 import { clone, utils } from "../../../utils";
 import { actions } from "../../../store/page/slice";
 import CartRow from "./child/CartRow";
+import CartRowPhone from "./child/CartRowPhone";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,20 @@ const CartPage = () => {
     }
   };
 
+  const createTableItemPhoneMode = (data) => {
+    if (data && data.length && data.length > 0) {
+      return data.map((v, i) => (
+        <CartRowPhone
+          key={"cart-row" + v.id + i}
+          data={v}
+          actionDelete={() => {
+            deleteItem(v);
+          }}
+        />
+      ));
+    }
+  };
+
   return (
     <div className="cart-page">
       <ul className="breadcums">
@@ -61,34 +76,64 @@ const CartPage = () => {
       {cart.data &&
       cart.data.productList &&
       cart.data.productList.length > 0 ? (
-        <div className="has-cart">
-          <table className="cart-table">
-            <thead className="cart-header">
-              <tr>
-                <th className="image">Image</th>
-                <th className="name">Name</th>
-                <th className="price">Price</th>
-                <th className="quantity">Quantity</th>
-                <th className="amount">Amount</th>
-                <th className="delete">Delete</th>
-              </tr>
-            </thead>
-            <tbody className="cart-data">
-              {cart.data ? createTableItem(cart.data.productList) : <></>}
-            </tbody>
-          </table>
-          <div className="total-money row">
-            Total money:
-            <span>
-              {cart.data ? utils.priceBreak(cart.data.totalAmount) : "0 "}₫
-            </span>
+        <>
+          <div className="has-cart">
+            <table className="cart-table">
+              <thead className="cart-header">
+                <tr>
+                  <th className="image">Image</th>
+                  <th className="name">Name</th>
+                  <th className="price">Price</th>
+                  <th className="quantity">Quantity</th>
+                  <th className="amount">Amount</th>
+                  <th className="delete">Delete</th>
+                </tr>
+              </thead>
+              <tbody className="cart-data">
+                {cart.data ? createTableItem(cart.data.productList) : <></>}
+              </tbody>
+            </table>
+            <div className="total-money row">
+              Total money:
+              <span>
+                {cart.data ? utils.priceBreak(cart.data.totalAmount) : "0 "}₫
+              </span>
+            </div>
+            <div className="payment-container row">
+              <a className="payment-btn button-style" href="/payment">
+                Payment
+              </a>
+            </div>
           </div>
-          <div className="payment-container row">
-            <a className="payment-btn button-style" href="/payment">
-              Payment
-            </a>
+          <div className="cart-phone-mode">
+            <table className="cart-table">
+              <thead className="cart-header">
+                <tr>
+                  <th className="image">Image</th>
+                  <th className="detail">Detail</th>
+                </tr>
+              </thead>
+              <tbody className="cart-data">
+                {cart.data ? (
+                  createTableItemPhoneMode(cart.data.productList)
+                ) : (
+                  <></>
+                )}
+              </tbody>
+            </table>
+            <div className="total-money row">
+              Total money:
+              <span>
+                {cart.data ? utils.priceBreak(cart.data.totalAmount) : "0 "}₫
+              </span>
+            </div>
+            <div className="payment-container row">
+              <a className="payment-btn button-style" href="/payment">
+                Payment
+              </a>
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <div className="no-cart">
           <img src="/img/empty_cart.png" alt="" />
