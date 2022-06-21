@@ -22,8 +22,7 @@ const SignupForm = () => {
       isClick
     ) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
-      console.log(userLogin.data);
-      //window.location.href = window.location.origin;
+      window.location.href = window.location.origin;
     } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signup-error-msg");

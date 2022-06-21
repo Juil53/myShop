@@ -40,20 +40,20 @@ const clientSlice = createSlice({
     },
 
     signupRequest: (state) => {
-      state.loginUser.status = LOADING_STATUS.LOADING;
+      state.status = LOADING_STATUS.LOADING;
     },
 
     signupSuccess: (state, action) => {
-      state.loginUser.status = LOADING_STATUS.SUCCESS;
-      state.loginUser.data = action.payload;
+      state.status = LOADING_STATUS.SUCCESS;
+      state.data = action.payload;
       localStorage.set("user", action.payload);
-      state.loginUser.msg = "Success";
+      state.msg = "Success";
     },
 
     signupFail: (state, action) => {
-      state.loginUser.status = LOADING_STATUS.FAIL;
+      state.status = LOADING_STATUS.FAIL;
       if (action.payload === "auth/email-already-in-use")
-        state.loginUser.msg = "Email already in use";
+        state.msg = "Email already in use";
     },
   },
 });
