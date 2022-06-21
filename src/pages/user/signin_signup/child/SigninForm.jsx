@@ -10,7 +10,6 @@ import { checkEmailFormat } from "../../../../utils";
 const SigninForm = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector(clientSelector);
-  console.log(userLogin);
 
   const [isShowPassword, setIsShowPassword] = useState("password");
   const [isClick, setIsClick] = useState(false);

@@ -51,6 +51,18 @@ export function* signinWithGoogle() {
       };
 
       yield call(API.post, { path: "clients", query: newClient });
+    } else {
+      if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
+        client.image = rs.image;
+      }
+      if (!client.phoneNumber && rs.phoneNumber) {
+        client.phoneNumber = rs.phoneNumber;
+      }
+      rs.displayName = client.displayName;
+      rs.image = client.image;
+      rs.phoneNumber = client.phoneNumber;
+      console.log(client);
+      yield call(API.put, { path: `clients/${client.id}`, query: client });
     }
     yield put(clientActions.signinSuccess(rs));
   }
@@ -88,9 +100,11 @@ export function* signupUser({ email, password, user }) {
   if (rs && !rs.code) {
     user.id = rs.id;
     user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
+    rs.image = user.image;
+    rs.displayName = user.displayName;
+    rs.phoneNumber = user.phoneNumber;
 
-    const jss = yield call(API.post, { path: "clients", query: user });
-    console.log(jss);
+    yield call(API.post, { path: "clients", query: user });
     yield put(clientActions.signupSuccess(rs));
   } else {
     yield put(clientActions.signupFail(rs.code));
