@@ -19,19 +19,14 @@ import {
   selectUserDataPagination,
   selectUserInfo,
 } from "../../../../store/users/selector";
-import {
-  getUserInfo,
-  getUserPaginationRequest,
-  getUserRequest,
-  openModal,
-} from "../../../../store/users/usersSlice";
+import { getUserPaginationRequest, getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
 export function UserTable({ keyword }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const ROWS_PER_PAGE = 20;
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
@@ -61,12 +56,24 @@ export function UserTable({ keyword }) {
     return (
       <CustomizedTableHead>
         <TableRow>
-          <TableCell width="10%" align="left">User ID</TableCell>
-          <TableCell width="10%" align="left">First Name</TableCell>
-          <TableCell width="10%" align="left">Last Name</TableCell>
-          <TableCell width="15%" align="left">Email</TableCell>
-          <TableCell width="15%" align="center">Phone number</TableCell>
-          <TableCell width="10%" align="center">Role</TableCell>
+          <TableCell width="10%" align="left">
+            User ID
+          </TableCell>
+          <TableCell width="10%" align="left">
+            First Name
+          </TableCell>
+          <TableCell width="10%" align="left">
+            Last Name
+          </TableCell>
+          <TableCell width="15%" align="left">
+            Email
+          </TableCell>
+          <TableCell width="15%" align="center">
+            Phone number
+          </TableCell>
+          <TableCell width="10%" align="center">
+            Role
+          </TableCell>
           <TableCell width="10%" align="center"></TableCell>
         </TableRow>
       </CustomizedTableHead>
@@ -100,7 +107,6 @@ export function UserTable({ keyword }) {
               size="small"
               color="error"
               onClick={() => {
-                window.alert("Are you sure?");
                 handleDelete(user.id);
               }}
             >

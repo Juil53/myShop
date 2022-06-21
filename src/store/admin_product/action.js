@@ -10,7 +10,7 @@ import {
   getProductPaginationFailed,
   getProductPaginationSuccess,
   submitProductFailed,
-  submitProductSuccess
+  submitProductSuccess,
 } from "./productSlice";
 
 //GET OPTIONS
