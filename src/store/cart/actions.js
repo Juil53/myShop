@@ -1,15 +1,74 @@
-import { put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 
 import localStorage from "../../service/localStorage";
 import { CART_ACTIONS } from "../../constants";
+import API from "../../service";
 import { actions } from "./slice";
+import { utils } from "../../utils";
+import { handleAddCart, handleUpdateCart } from "./help";
 
 export function* getCart() {
   yield put(actions.fetchCartRequest());
 
   try {
     const cart = localStorage.get("cart");
-    if (cart) {
+    const user = localStorage.get("user");
+    if (user) {
+      const kq = yield call(API.get, { path: `carts/cart${user.id}` });
+      if (kq) {
+        const newCart = {
+          totalAmount: 0,
+          productList: [],
+        };
+        if (!cart) {
+          console.log("co gio hang trong data & ko co cart tren local");
+          newCart.totalAmount = kq.totalAmount;
+          newCart.productList = [...kq.productList];
+
+          localStorage.set("cart", newCart);
+        } else {
+          console.log("co gio hang trong data & co cart tren local");
+          const productLocal = [...cart.productList];
+          const productData = [...kq.productList];
+          productData.forEach((v) => {
+            const sameProduct = productLocal.filter((p) => p.id === v.id);
+
+            if (sameProduct.length > 0) {
+              const sameOption = sameProduct.filter(
+                (p) =>
+                  JSON.stringify(p.optionSelected) ===
+                  JSON.stringify(v.optionSelected)
+              );
+
+              if (sameOption.length === 0) {
+                productLocal.push(v);
+              }
+            } else {
+              productLocal.push(v);
+            }
+          });
+          kq.productList = [...productLocal];
+          kq.totalAmount = utils.calTotal(cart);
+          newCart.productList = [...productLocal];
+          newCart.totalAmount = kq.totalAmount;
+
+          yield call(API.put, { path: `carts/${kq.id}`, query: kq });
+          localStorage.set("cart", newCart);
+        }
+        yield put(actions.fetchCartSuccess(newCart));
+      } else {
+        if (cart) {
+          console.log("chi co cart o local");
+          const newCart = {
+            id: `cart${user.id}`,
+            uid: user.id,
+            productList: cart.productList,
+            totalAmount: cart.totalAmount,
+          };
+          yield call(API.post, { path: "carts", query: newCart });
+        }
+      }
+    } else if (cart) {
       yield put(actions.fetchCartSuccess(cart));
     }
   } catch (err) {
@@ -27,7 +86,20 @@ export function* addCart({ product }) {
 }
 
 export function* updateCart({ product }) {
+  yield put(actions.updateCartRequest());
+
   try {
+    const user = localStorage.get("user");
+    const cart = localStorage.get("cart");
+    if (user) {
+      const rs = yield call(API.get, { path: `carts/cart${user.id}` });
+      const newCart = handleUpdateCart(cart, { product });
+      console.log(newCart);
+      rs.totalAmount = newCart.totalAmount;
+      rs.productList = newCart.productList;
+      console.log(rs);
+      yield call(API.put, { path: `carts/cart${user.id}`, query: rs });
+    }
     yield put(actions.updateCart({ product }));
   } catch (e) {
     console.log(e);
