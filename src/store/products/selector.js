@@ -2,6 +2,7 @@ export const productSelector = (state) => ({
   hotProducts: state.products ? state.products.hotProducts : [],
   allProducts: state.products ? state.products.allProducts : [],
   newProducts: state.products ? state.products.newProducts : [],
+  searchProducts: state.products ? state.products.searchProducts : [],
   bestSellingProducts: state.products ? state.products.bestSellingProducts : [],
 });
 
@@ -11,7 +12,9 @@ const handleSort = (data, sort) => {
     case "asc":
       return arr.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount);
     case "des":
-      return arr.sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount).reverse();
+      return arr
+        .sort((a, b) => a.priceBeforeDiscount - b.priceBeforeDiscount)
+        .reverse();
     case "az":
       return arr.sort((a, b) => {
         const x = a.name.toUpperCase();
@@ -64,8 +67,8 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
 };
 
 export const selectProductInfo = (state, id) => {
-  const { products = {}} = state;
-  const { product = {} } = products ;
+  const { products = {} } = state;
+  const { product = {} } = products;
   return product;
 };
 
