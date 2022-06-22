@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import * as React from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
@@ -29,26 +30,24 @@ import {
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
-export default function ProductTable({ filteredKeys }) {
-  
+export default function ProductTable({ filterOptions }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
+  const [rowsPerPage,setRowsPerPage] = useState(10)
   const loading = useSelector(selectLoading);
-  const products = useSelector(selectAllProduct);
-  const paginationProduct = useSelector((state)=>selectProductPagination(state,filteredKeys))
-  console.log(paginationProduct)
-
-
+  const products = useSelector((state) => selectAllProduct(state, filterOptions));
+  const paginationProduct = useSelector((state) => selectProductPagination(state, filterOptions));
+  console.log(products)
   // GET ALL PRODUCT
   React.useEffect(() => {
     dispatch(getAllProductRequest());
-  }, []);
+  }, [filterOptions]);
 
   // GET PRODUCT PAGINATION
   const ROWS_PER_PAGE = 10;
   React.useEffect(() => {
-    dispatch(getProductPaginationRequest({ page, ROWS_PER_PAGE }));
+    dispatch(getProductPaginationRequest({ page, rowsPerPage }));
   }, [page]);
 
   // HANDLE DELETE PRODUCT

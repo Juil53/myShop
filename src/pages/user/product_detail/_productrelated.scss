@@ -21,3 +21,10 @@
   gap: 2rem;
   margin-top: 3rem;
 }
+
+@media only screen and (max-width: 768px) {
+  .product-related__cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}

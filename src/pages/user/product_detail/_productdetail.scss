@@ -3,15 +3,13 @@
 }
 
 .product-detail {
-  width: 80%;
-  margin-left: 10%;
-  margin-top: 5rem;
+  width: 100%;
+  padding: 3rem;
   font-size: 1.4rem;
 }
 
 .product-detail__img {
-  margin-right: 10rem;
-  width: 40%;
+  width: 100%;
 
   .img-container {
     width: 100%;
@@ -126,5 +124,14 @@
     text-transform: uppercase;
     margin-right: 1rem;
     margin-top: 1rem;
+  }
+}
+
+@media only screen and (max-width: 768px){
+  .row {
+    display: block;
+  }
+  .product-detail__info{
+    width: 100%;
   }
 }

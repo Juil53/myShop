@@ -16,28 +16,40 @@ export const selectLoading = (state) => {
   return loading;
 };
 
-export const selectAllProduct = (state) => {
+export const selectAllProduct = (state, filterOptions) => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
+  let temp = [];
+  let newProducts = [];
+  if (filterOptions.length > 0) {
+    for (let i = 0; i < filterOptions.length; i++) {
+      temp = products.filter((product) => product.categories?.includes(filterOptions[i]));
+      newProducts.push(...temp)
+    }
+    return newProducts;
+  }
+
   return products;
-  
 };
 
-export const selectProductPagination = (state,filteredKeys) => {
+export const selectProductPagination = (state, filterOptions) => {
   const { adminProduct = {} } = state || {};
   const { productsPagination = [] } = adminProduct;
-  // return productsPagination;
-  return handleFiltered(productsPagination, filteredKeys);
+
+  let temp = [];
+  let newProducts = [];
+  if (filterOptions.length > 0) {
+    for (let i = 0; i < filterOptions.length; i++) {
+      temp = productsPagination.filter((product) => product.categories?.includes(filterOptions[i]));
+      newProducts.push(...temp)
+    }
+    return newProducts;
+  }
+  return productsPagination;
 };
 
 export const selectProductInfo = (state, id) => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
   return products.find((product) => product.id === id);
-};
-
-
-//Data trả về bị sai
-const handleFiltered = (data, filteredKeys) => {
-  return data.filter((product) => product.categories.includes(filteredKeys[0]));
 };

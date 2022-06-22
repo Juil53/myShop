@@ -22,10 +22,9 @@ function ProductManagement() {
   const categories = useSelector(selectCategories);
   const [selectedFilter, setSelectedFilter] = useState([]);
 
-  const filteredKeys = selectedFilter.map((selected, index) => {
+  const filterOptions = selectedFilter.map((selected, index) => {
     return Object.values(selected)[0];
   });
-  console.log(filteredKeys)
 
   useEffect(() => {
     dispatch(getCategoriesRequest());
@@ -87,7 +86,7 @@ function ProductManagement() {
       </Box>
 
       <Box>
-        <ProductTable filteredKeys={filteredKeys} />
+        <ProductTable filterOptions={filterOptions} />
       </Box>
     </>
   );

@@ -24,7 +24,6 @@ const UserEdit = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => selectUserInfo(state, parseInt(params.id)));
-  console.log(params);
 
   React.useEffect(() => {
     dispatch(getUserRequest());

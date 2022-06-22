@@ -19,20 +19,16 @@ import {
   selectUserDataPagination,
   selectUserInfo,
 } from "../../../../store/users/selector";
-import {
-  getUserInfo,
-  getUserPaginationRequest,
-  getUserRequest,
-  openModal,
-} from "../../../../store/users/usersSlice";
+import { getUserPaginationRequest, getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
+import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
-  const navigate = useNavigate()
-  const ROWS_PER_PAGE = 20;
+  const navigate = useNavigate();
+  const ROWS_PER_PAGE = 10;
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading);
   const rows = useSelector(selectUserData);
@@ -40,6 +36,8 @@ export function UserTable({ keyword }) {
   const rowsPagination = useSelector(selectUserDataPagination);
   const userInfo = useSelector(selectUserInfo);
   const [page, setPage] = React.useState(1);
+  const [open, setOpen] = React.useState(false);
+
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : rowsPagination;
@@ -54,19 +52,31 @@ export function UserTable({ keyword }) {
   React.useEffect(() => {
     dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
     dispatch(getUserRequest());
-  }, [page, userInfo]);
+  }, [page, userInfo ]);
 
   // RENDER TABLE HEAD
   const renderTableHead = () => {
     return (
       <CustomizedTableHead>
         <TableRow>
-          <TableCell width="10%" align="left">User ID</TableCell>
-          <TableCell width="10%" align="left">First Name</TableCell>
-          <TableCell width="10%" align="left">Last Name</TableCell>
-          <TableCell width="15%" align="left">Email</TableCell>
-          <TableCell width="15%" align="center">Phone number</TableCell>
-          <TableCell width="10%" align="center">Role</TableCell>
+          <TableCell width="10%" align="left">
+            User ID
+          </TableCell>
+          <TableCell width="10%" align="left">
+            First Name
+          </TableCell>
+          <TableCell width="10%" align="left">
+            Last Name
+          </TableCell>
+          <TableCell width="15%" align="left">
+            Email
+          </TableCell>
+          <TableCell width="15%" align="center">
+            Phone number
+          </TableCell>
+          <TableCell width="10%" align="center">
+            Role
+          </TableCell>
           <TableCell width="10%" align="center"></TableCell>
         </TableRow>
       </CustomizedTableHead>
@@ -100,7 +110,6 @@ export function UserTable({ keyword }) {
               size="small"
               color="error"
               onClick={() => {
-                window.alert("Are you sure?");
                 handleDelete(user.id);
               }}
             >
@@ -140,6 +149,7 @@ export function UserTable({ keyword }) {
         shape="rounded"
         variant="outlined"
       />
+      <SimpleSnackbar openSnackbar={open} />
     </Box>
   );
 

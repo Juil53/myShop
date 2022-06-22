@@ -30,10 +30,7 @@ export function* actGetUser() {
 export function* actGetUserPagination(action) {
   const { page, ROWS_PER_PAGE } = action.payload;
   try {
-    const result = yield call(
-      apiInstance.get,
-      `user?_page=${page}&_limit=${ROWS_PER_PAGE}`
-    );
+    const result = yield call(apiInstance.get, `user?_page=${page}&_limit=${ROWS_PER_PAGE}`);
     yield put(getUserPaginationSuccess(result));
   } catch (err) {
     yield put(getUserPaginationFailed());
@@ -51,8 +48,8 @@ export function* actAddUser(action) {
     if (rs && !rs.code) {
       values.id = rs.id;
       const result = yield call(apiInstance.post, "user", values);
-      console.log(result);
       yield put(submitUserSuccess(result));
+      actGetUserPagination({ page: 1, ROWS_PER_PAGE: 10 });
     }
   } catch (err) {
     console.log(err);
@@ -72,11 +69,7 @@ export function* actDeleteUser(action) {
 // UPDATE USER
 export function* actUpdateUserInfo(action) {
   try {
-    const result = yield call(
-      apiInstance.put,
-      `user/${action.payload.id}`,
-      action.payload.state
-    );
+    const result = yield call(apiInstance.put, `user/${action.payload.id}`, action.payload.state);
     yield put(submitUserSuccess(result));
     yield put(actGetUserPagination());
   } catch (err) {

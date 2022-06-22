@@ -90,6 +90,7 @@ const SearchProduct = () => {
                       <li>
                         <Link
                           to={`?category=${mainCate}&subcate=${subCate}&sort=default`}
+                          onClick={() => setTitle("Default")}
                         >
                           Default
                         </Link>
@@ -97,6 +98,7 @@ const SearchProduct = () => {
                       <li>
                         <Link
                           to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}
+                          onClick={() => setTitle("Price Asc")}
                         >
                           Price Asc
                         </Link>
@@ -104,6 +106,7 @@ const SearchProduct = () => {
                       <li>
                         <Link
                           to={`?category=${mainCate}&subcate=${subCate}&sort=des`}
+                          onClick={() => setTitle("Price Des")}
                         >
                           Price Des
                         </Link>
@@ -111,6 +114,7 @@ const SearchProduct = () => {
                       <li>
                         <Link
                           to={`?category=${mainCate}&subcate=${subCate}&sort=az`}
+                          onClick={() => setTitle("A -> Z")}
                         >
                           A to Z
                         </Link>
@@ -118,6 +122,7 @@ const SearchProduct = () => {
                       <li>
                         <Link
                           to={`?category=${mainCate}&subcate=${subCate}&sort=za`}
+                          onClick={() => setTitle("Z -> A")}
                         >
                           Z to A
                         </Link>
