@@ -18,6 +18,29 @@ const LeftImageSlider = (props) => {
     slidesToScroll: 1,
     focusOnSelect: true,
     centerMode: true,
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   function createSubSlider(data) {
