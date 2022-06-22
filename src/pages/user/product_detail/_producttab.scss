@@ -1,4 +1,11 @@
-.product-detail__tabs{
+.product-detail__tabs {
   width: 80%;
   margin: 5rem auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .product-detail__tabs {
+    width: 100%;
+    margin: 1rem auto;
+  }
 }

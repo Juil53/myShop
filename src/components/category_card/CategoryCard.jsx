@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link,useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
-export default function CategoryCard({ categories}) {
+export default function CategoryCard({ categories }) {
   const [active, setActive] = useState([]);
-  const [searchParams,setSearchParams] = useSearchParams()
-  const mainCateUrl = searchParams.get('category')
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mainCateUrl = searchParams.get("category");
 
   function handleActiveDropdown(cate) {
     const tmp = [...active];
@@ -29,7 +29,14 @@ export default function CategoryCard({ categories}) {
                     : "categorycard__category-name row"
                 }
               >
-                <Link to={`?category=${v.id}`}>{v.name}</Link>
+                <Link
+                  to={`?category=${v.id}`}
+                  onClick={() => {
+                    handleActiveDropdown(v.id);
+                  }}
+                >
+                  {v.name}
+                </Link>
 
                 <div
                   className="dropdown-btn"
@@ -40,6 +47,7 @@ export default function CategoryCard({ categories}) {
                   <i className="fa-solid fa-angle-right"></i>
                 </div>
               </div>
+
               {v.subCate && (
                 <div
                   className={
@@ -61,7 +69,12 @@ export default function CategoryCard({ categories}) {
       return (
         <div className="subcate" key={v.id}>
           <i className="fa-solid fa-star"></i>
-          <Link to={`?category=${mainCateUrl}&subcate=${v.id}`}>
+          <Link
+            to={`?category=${mainCateUrl}&subcate=${v.id}`}
+            onClick={() => {
+              handleActiveDropdown(v.id);
+            }}
+          >
             {v.name}
           </Link>
         </div>

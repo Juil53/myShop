@@ -22,7 +22,7 @@
       background-color: transparent;
       padding: 0.5rem 0;
       font-size: 1.6rem;
-      &:hover{
+      &:hover {
         color: $mainColor;
       }
     }
@@ -36,7 +36,6 @@
       padding: 0 0.5rem;
       font-size: 1.4rem;
     }
-
   }
 
   .active {
@@ -60,7 +59,6 @@
   }
 
   .categorycard__category-name:hover {
-
     a,
     i {
       color: $mainColor;
@@ -86,9 +84,14 @@
         margin-right: 0.5rem;
       }
     }
+    .active {
+      i,
+      a {
+        color: $mainColor;
+      }
+    }
 
     .subcate:hover {
-
       i,
       a {
         color: $mainColor;

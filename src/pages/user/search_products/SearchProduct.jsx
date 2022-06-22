@@ -73,25 +73,44 @@ const SearchProduct = () => {
                   <li className="productpage__sort-list">
                     <ul>
                       <li>
-                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=default`}>
+                        <Link
+                          to={`?category=${mainCate}&subcate=${subCate}&sort=default`}
+                          onClick={() => setTitle("Default")}
+                        >
                           Default
                         </Link>
                       </li>
                       <li>
-                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}>
+                        <Link
+                          to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}
+                          onClick={() => setTitle("Price Asc")}
+                        >
                           Price Asc
                         </Link>
                       </li>
                       <li>
-                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=des`}>
+                        <Link
+                          to={`?category=${mainCate}&subcate=${subCate}&sort=des`}
+                          onClick={() => setTitle("Price Des")}
+                        >
                           Price Des
                         </Link>
                       </li>
                       <li>
-                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=az`}>A to Z</Link>
+                        <Link
+                          to={`?category=${mainCate}&subcate=${subCate}&sort=az`}
+                          onClick={() => setTitle("A -> Z")}
+                        >
+                          A to Z
+                        </Link>
                       </li>
                       <li>
-                        <Link to={`?category=${mainCate}&subcate=${subCate}&sort=za`}>Z to A</Link>
+                        <Link
+                          to={`?category=${mainCate}&subcate=${subCate}&sort=za`}
+                          onClick={() => setTitle("Z -> A")}
+                        >
+                          Z to A
+                        </Link>
                       </li>
                     </ul>
                   </li>

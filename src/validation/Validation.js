@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const role = ["Client", "Admin"];
+const role = ["Staff", "Admin"];
 
 export const validation = Yup.object().shape({
   firstname: Yup.string()

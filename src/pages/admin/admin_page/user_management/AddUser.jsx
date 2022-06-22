@@ -4,14 +4,14 @@ import { useFormik } from "formik";
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { submitUserRequest } from "../../../../store/users/usersSlice";
+import { getUserPaginationRequest, submitUserRequest } from "../../../../store/users/usersSlice";
 import { validation } from "../../../../validation/Validation";
 
 // SELECT ROLE
 const roles = [
   {
-    value: "Client",
-    label: "Client",
+    value: "Staff",
+    label: "Staff",
   },
   {
     value: "Admin",
@@ -19,33 +19,34 @@ const roles = [
   },
 ];
 const container = {
-  width: '80%',
-  display: 'flex',
-  flexDirection: 'row',
-  margin: 'auto',
-  padding: '2rem',
-  bgcolor: 'background.paper',
+  width: "80%",
+  display: "flex",
+  flexDirection: "row",
+  margin: "auto",
+  padding: "2rem",
+  bgcolor: "background.paper",
   boxShadow: 3,
   borderRadius: 2,
-}
+};
 const userImage = {
-  width: '40%',
+  width: "40%",
   marginRight: 2,
   padding: 3,
   flexGrow: 1,
-  backgroundImage: 'url(https://source.unsplash.com/random)',
-  backgroundSize: '100%',
-  backgroundPosition: 'center center',
+  backgroundImage: "url(https://source.unsplash.com/random)",
+  backgroundSize: "100%",
+  backgroundPosition: "center center",
   borderRadius: 2,
   boxShadow: 3,
-}
+};
 const user__form = {
-  width: '50%',
-  padding: 3
-}
+  width: "50%",
+  padding: 3,
+};
 const admin__btn = {
-  marginTop: 2
-}
+  marginTop: 2,
+};
+const ROWS_PER_PAGE = 10;
 
 export default function AddUser(props) {
   const dispatch = useDispatch();
@@ -62,27 +63,25 @@ export default function AddUser(props) {
     },
     validationSchema: validation,
     onSubmit: (values) => {
-      dispatch(submitUserRequest({values}));
-      navigate("/admin/users")
+      dispatch(submitUserRequest({ values }));
+      navigate("/admin/users");
       props.close();
     },
   });
 
   return (
     <div>
-
       <Box sx={container}>
         <Box className="user__image" sx={userImage}></Box>
-        <Box
-          className="user__form"
-          sx={user__form}
-          component="form"
-          onSubmit={formik.handleSubmit}
-        >
+        <Box className="user__form" sx={user__form} component="form" onSubmit={formik.handleSubmit}>
           <Link to="/admin/users">
-            <Button startIcon={<ArrowBackIcon/>} color="secondary">Back to List User...</Button>
+            <Button startIcon={<ArrowBackIcon />} color="secondary">
+              Back...
+            </Button>
           </Link>
-          <Typography variant="h4" fontWeight={700}>Add User</Typography>
+          <Typography variant="h4" fontWeight={700}>
+            Add User
+          </Typography>
           <div className="admin__form">
             <TextField
               fullWidth
@@ -162,7 +161,6 @@ export default function AddUser(props) {
           </Box>
         </Box>
       </Box>
-
     </div>
   );
 }
