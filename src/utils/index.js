@@ -93,8 +93,13 @@ export const debounce = (fn, time) => {
 
 export const clone = (obj) => JSON.parse(JSON.stringify(obj));
 
+const calTotal = (cart) => {
+  return cart.productList.reduce((pre, cur) => pre + cur.totalPrice, 0);
+};
+
 export const utils = {
   priceBreak,
   discount,
   calAmount,
+  calTotal,
 };
