@@ -1,12 +1,18 @@
+import { Link } from "react-router-dom";
+
 const HeaderNav = (props) => {
   const { languages, currentPage, categories } = props;
 
-  const createSubCategory = (data) => {
+  const createSubCategory = (data, mainCateID) => {
     return data.map((v) => {
       return (
-        <a className="sub-category-btn" href="#" key={v.id}>
+        <Link
+          className="sub-category-btn"
+          to={`/product?category=${mainCateID}&subCate=${v.id}`}
+          key={v.id}
+        >
           {v.name}
-        </a>
+        </Link>
       );
     });
   };
@@ -16,12 +22,12 @@ const HeaderNav = (props) => {
       return data.map((v) => {
         return (
           <div className="mega__dropdown-content" key={v.id}>
-            <a href="#" className="category-btn">
+            <Link to={`/product?category=${v.id}`} className="category-btn">
               {v.name}
-            </a>
+            </Link>
             {v.subCate && (
               <div className="sub-category vertical">
-                {createSubCategory(v.subCate)}
+                {createSubCategory(v.subCate, v.id)}
               </div>
             )}
           </div>

@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function CategoryCard({ categories }) {
-  const [active, setActive] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const mainCateUrl = searchParams.get("category");
+export default function CategoryCard({ categories, currentCate = {} }) {
+  const { mainCate: mainCateUrl, subCate: subCateUrl } = currentCate;
+  const [active, setActive] = useState([mainCateUrl]);
+
+  if (!active.includes(mainCateUrl)) {
+    const newActive = [...active];
+    newActive.push(mainCateUrl);
+    setActive(newActive);
+  }
 
   function handleActiveDropdown(cate) {
     const tmp = [...active];
@@ -30,14 +35,13 @@ export default function CategoryCard({ categories }) {
                 }
               >
                 <Link
-                  to={`?category=${v.id}`}
+                  to={`/product?category=${v.id}`}
                   onClick={() => {
                     handleActiveDropdown(v.id);
                   }}
                 >
                   {v.name}
                 </Link>
-
                 <div
                   className="dropdown-btn"
                   onClick={() => {
@@ -51,10 +55,12 @@ export default function CategoryCard({ categories }) {
               {v.subCate && (
                 <div
                   className={
-                    active.includes(v.id) ? "subcate-dropdown subcate-active" : "subcate-dropdown"
+                    active.includes(v.id)
+                      ? "subcate-dropdown subcate-active"
+                      : "subcate-dropdown"
                   }
                 >
-                  {createSubCateDropdown(v.subCate)}
+                  {createSubCateDropdown(v.subCate, v.id)}
                 </div>
               )}
             </div>
@@ -64,13 +70,16 @@ export default function CategoryCard({ categories }) {
     }
   }
 
-  function createSubCateDropdown(data) {
+  function createSubCateDropdown(data, mainCateID) {
     return data.map((v) => {
       return (
-        <div className="subcate" key={v.id}>
+        <div
+          className={v.id === subCateUrl ? "subcate active" : "subcate"}
+          key={v.id}
+        >
           <i className="fa-solid fa-star"></i>
           <Link
-            to={`?category=${mainCateUrl}&subcate=${v.id}`}
+            to={`/product?category=${mainCateID}&subCate=${v.id}`}
             onClick={() => {
               handleActiveDropdown(v.id);
             }}
