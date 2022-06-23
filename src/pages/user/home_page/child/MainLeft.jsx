@@ -2,7 +2,7 @@ import CategoryCard from "../../../../components/category_card/CategoryCard";
 import ProductCard from "../../../../components/product_card/ProductCard";
 
 const MainLeft = (props) => {
-  const { categories, data } = props;
+  const { categories, data, currentCate } = props;
 
   const createProductCard = (data) => {
     if (data.length >= 0) {
@@ -29,7 +29,7 @@ const MainLeft = (props) => {
 
   return (
     <div className="home-page__main-left">
-      <CategoryCard categories={categories} />
+      <CategoryCard categories={categories} currentCate={currentCate} />
       <div className="topic">
         <div className="topic-title">New Products</div>
         <div className="topic-content">{createProductCard(data)}</div>

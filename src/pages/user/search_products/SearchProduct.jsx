@@ -23,7 +23,7 @@ const SearchProduct = () => {
   const { categories } = useSelector(categoriesSelector);
   const loading = useSelector(selectLoading);
   const mainCate = searchParams.get("category") || "";
-  const subCate = searchParams.get("subcate") || "";
+  const subCate = searchParams.get("subCate") || "";
   const sortCate = searchParams.get("sort");
   const dataFilter = useSelector((state) =>
     selectProduct(state, mainCate, subCate, sortCate)
@@ -76,7 +76,11 @@ const SearchProduct = () => {
             <Breadcrumb pages={array} />
           </div>
           <div className="home-page__main row">
-            <MainLeft categories={categories.data} data={newProducts.data} />
+            <MainLeft
+              categories={categories.data}
+              data={newProducts.data}
+              currentCate={{ mainCate, subCate }}
+            />
             <div className="home-page__main-right">
               <h2>ALL PRODUCTS</h2>
 

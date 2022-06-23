@@ -8,9 +8,11 @@ import { checkEmailFormat, checkPhoneFormat } from "../../../../utils";
 
 const SignupForm = () => {
   const [isShowPassword, setIsShowPassword] = useState("password");
-  const dispatch = useDispatch();
-  const userLogin = useSelector(clientSelector);
   const [isClick, setIsClick] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector(clientSelector);
 
   useEffect(() => {
     if (userLogin.status === LOADING_STATUS.LOADING && isClick) {
@@ -25,6 +27,7 @@ const SignupForm = () => {
       window.location.href = window.location.origin;
     } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+
       const errorMsg = document.getElementById("signup-error-msg");
       errorMsg.textContent = userLogin.msg;
     }
