@@ -35,12 +35,8 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
   const { data = [] } = allProducts;
-  const dataMainCate = data.filter((product) =>
-    product.categories.includes(mainCate)
-  );
-  const dataSubCate = data.filter((product) =>
-    product.categories.includes(subCate)
-  );
+  const dataMainCate = data.filter((product) => product.categories?.includes(mainCate));
+  const dataSubCate = data.filter((product) => product.categories?.includes(subCate));
 
   if (mainCate == "" && subCate == "") {
     if (!sortCate) {
@@ -63,8 +59,8 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
 };
 
 export const selectProductInfo = (state, id) => {
-  const { products = {}} = state;
-  const { product = {} } = products ;
+  const { products = {} } = state;
+  const { product = {} } = products;
   return product;
 };
 

@@ -14,8 +14,8 @@ const roles = [
     label: "Staff",
   },
   {
-    value: "Owner",
-    label: "Owner",
+    value: "Admin",
+    label: "Admin",
   },
 ];
 
@@ -23,7 +23,8 @@ const UserEdit = () => {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => selectUserInfo(state, parseInt(params.id)));
+  const userInfo = useSelector((state) => selectUserInfo(state, params.id));
+  console.log(userInfo)
 
   React.useEffect(() => {
     dispatch(getUserRequest());

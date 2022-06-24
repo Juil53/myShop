@@ -11,6 +11,7 @@ import {
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
+  getUserPaginationRequest
 } from "./usersSlice";
 import { signinAuth, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
@@ -49,7 +50,6 @@ export function* actAddUser(action) {
       values.id = rs.id;
       const result = yield call(apiInstance.post, "user", values);
       yield put(submitUserSuccess(result));
-      actGetUserPagination({ page: 1, ROWS_PER_PAGE: 10 });
     }
   } catch (err) {
     console.log(err);

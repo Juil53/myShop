@@ -15,7 +15,7 @@ const RelatedProducts = ({ product }) => {
   const handleRelatedProducts = () => {
     const { categories = [] } = product;
     const relatedProducts =
-      productList && productList?.filter((item) => item.categories.includes(categories[0]));
+      productList && productList?.filter((item) => item.categories?.includes(categories[0]));
 
     if (relatedProducts.length > 4) {
       return relatedProducts

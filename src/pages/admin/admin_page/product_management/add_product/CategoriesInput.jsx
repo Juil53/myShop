@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { Chip, FormControl, Grid, MenuItem, Stack } from "@mui/material";
 import { FieldArray, useFormikContext } from "formik";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actGetCategories } from "../../../../../store/admin_product/action";
 import { selectCategories } from "../../../../../store/admin_product/selector";
-import { Chip, FormControl, Grid, InputLabel, MenuItem, Select, Stack } from "@mui/material";
 import CategoriesCheckBox from "./CategoriesCheckbox";
 import SelectInput from "./SelectInput";
 
@@ -33,6 +32,7 @@ const CategoriesInput = () => {
   };
 
   const handleChangeCategories = (e) => {
+    e.preventDefault()
     const value = e.target.value;
     setFieldValue("categories", [value]);
     setMainCate(value);
@@ -70,7 +70,7 @@ const CategoriesInput = () => {
         <Grid item xs={3}>
           <FormControl fullWidth>
             <SelectInput
-              name=""
+              name="categories"
               size="small"
               labelId="demo-simple-select-label"
               id="demo-simple-select"

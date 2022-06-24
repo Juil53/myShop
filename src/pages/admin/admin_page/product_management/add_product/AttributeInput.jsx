@@ -9,6 +9,7 @@ import SelectInput from "./SelectInput";
 
 export default function AttributeInput() {
   const dispatch = useDispatch();
+  const options = useSelector(selectAttributes);
   const {
     values: { attributes },
   } = useFormikContext();
@@ -17,7 +18,6 @@ export default function AttributeInput() {
     dispatch(getOptionsRequest());
   }, []);
 
-  const options = useSelector(selectAttributes);
 
   const attributeDetail = (attributeName) => {
     if (attributeName) {

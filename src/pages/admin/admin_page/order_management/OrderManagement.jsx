@@ -7,6 +7,7 @@ import OrderModal from "./order_modal/OrderModal";
 import { selectOrderKeyword } from "../../../../store/orders/selector";
 import { useDispatch, useSelector } from "react-redux";
 import { getKeyword } from "../../../../store/orders/orderSlice";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 
 const product__search = {
   display: "flex",
@@ -20,10 +21,21 @@ function OrderManagement() {
   const dispatch = useDispatch();
   const keyword = useSelector(selectOrderKeyword);
   const handleChange = (event) => dispatch(getKeyword(event.target.value));
+  const pages = [
+    {
+      name: "Admin",
+      url: "/admin",
+    },
+    {
+      name: "Orders",
+      url: "/admin/orders",
+    },
+  ];
 
   return (
     <>
-      <Typography variant="h4" fontWeight={700}>
+      <Breadcrumb pages={pages} />
+      <Typography variant="h4" fontWeight={400}>
         Orders Management
       </Typography>
       <Box className="product__search" sx={product__search}>

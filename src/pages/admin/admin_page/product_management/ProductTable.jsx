@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import * as React from "react";
+import { memo } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -30,22 +31,22 @@ import {
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
-export default function ProductTable({ filterOptions }) {
+const ProductTable = ({ filterOptions }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [rowsPerPage,setRowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const loading = useSelector(selectLoading);
   const products = useSelector((state) => selectAllProduct(state, filterOptions));
   const paginationProduct = useSelector((state) => selectProductPagination(state, filterOptions));
-  console.log(products)
+  const ROWS_PER_PAGE = 10;
+
   // GET ALL PRODUCT
   React.useEffect(() => {
     dispatch(getAllProductRequest());
   }, [filterOptions]);
 
   // GET PRODUCT PAGINATION
-  const ROWS_PER_PAGE = 10;
   React.useEffect(() => {
     dispatch(getProductPaginationRequest({ page, rowsPerPage }));
   }, [page]);
@@ -125,7 +126,7 @@ export default function ProductTable({ filterOptions }) {
       {loading ? (
         <Loading />
       ) : (
-        <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
+        <Box component={Paper} elevation={3} p={2}>
           <TableContainer
             sx={{
               maxHeight: "65vh",
@@ -166,4 +167,6 @@ export default function ProductTable({ filterOptions }) {
       )}
     </>
   );
-}
+};
+
+export default memo(ProductTable);

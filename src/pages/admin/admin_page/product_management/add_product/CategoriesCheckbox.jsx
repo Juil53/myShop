@@ -15,6 +15,7 @@ const CategoriesCheckBox = ({ subCate }) => {
   }, [categoriesClone]);
 
   const handleChange = (e) => {
+    e.preventDefault()
     const value = e.target.value;
     console.log(value);
     let arr = [];

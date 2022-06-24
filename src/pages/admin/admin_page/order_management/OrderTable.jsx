@@ -185,7 +185,7 @@ export default function OrderTable({ keyword }) {
       {loading ? (
         <Loading />
       ) : (
-        <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0"}}>
+        <Box component={Paper} elevation={3} p={2}>
           <TableContainer
             sx={{
               maxHeight: "65vh",
