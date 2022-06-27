@@ -1,77 +1,82 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   IconButton,
   Paper,
-  Popover,
   Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
+  TableRow
 } from "@mui/material";
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import {
   selectLoading,
   selectUserData,
   selectUserDataPagination,
-  selectUserInfo,
+  selectUserInfo
 } from "../../../../store/users/selector";
 import { getUserPaginationRequest, getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
-  CustomPagination,
+  CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
 import AlertDialog from "../component/MuiAlert";
-import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
   const ROWS_PER_PAGE = 10;
+  const idUserRef = useRef();
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
   const rowsPagination = useSelector(selectUserDataPagination);
   const userInfo = useSelector(selectUserInfo);
-  const [page, setPage] = React.useState(1);
-  const [alert, setAlert] = React.useState(false);
-  const [confirm, setConfirm] = React.useState(false);
-  console.log(confirm)
+  const [page, setPage] = useState(1);
+  const handleChangePage = (event, newPage) => setPage(newPage);
+
+  const [dialog, setDialog] = useState({
+    message: "",
+    isLoading: false,
+  });
 
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : rowsPagination;
 
-  const handleChangePage = (event, newPage) => setPage(newPage);
-
-  const handleDelete = (userId) => {
-    // setAlert(true);
-    // dispatch({ type: "DELETE_USER", payload: userId });
-    // dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    });
   };
 
-  React.useEffect(() => {
+  //Lấy userId cần xoá, hiện dialog
+  const handleDelete = (userId) => {
+    handleDialog(`${userId}?`, true);
+    idUserRef.current = userId;
+  };
+
+  //Nhận choose từ child Component Alert
+  const onDialog = (choose) => {
+    if (choose) {
+      dispatch({ type: "DELETE_USER", payload: idUserRef.current });
+      dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
+      handleDialog(`${idUserRef.current}?`, false);
+    } else {
+      handleDialog(`${idUserRef.current}?`, false);
+    }
+  };
+
+  useEffect(() => {
     dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
     dispatch(getUserRequest());
   }, [page, userInfo]);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   // RENDER TABLE BODY
   const renderTableBody = () => {
@@ -186,8 +191,7 @@ export function UserTable({ keyword }) {
             shape="rounded"
             variant="outlined"
           />
-          {/* <SimpleSnackbar alert={alert} setAlert={setAlert} /> */}
-          <AlertDialog confirm={confirm} setConfirm={setConfirm} handleDelete={handleDelete}/>
+          <AlertDialog message={dialog.message} loading={dialog.isLoading} onDialog={onDialog} />
         </Box>
       )}
     </>
