@@ -50,42 +50,44 @@ function ProductManagement() {
       </Typography>
 
       <Grid container justifyContent="space-between" my={2}>
-        <Grid container xs={8} spacing={3}>
-          <Grid item>
-            <TextFieldCustom
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              label="Search by Name"
-              size="small"
-            />
-          </Grid>
+        <Grid item xs={8}>
+          <Grid container spacing={3}>
+            <Grid item>
+              <TextFieldCustom
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                label="Search by Name"
+                size="small"
+              />
+            </Grid>
 
-          <Grid item xs={4}>
-            <Autocomplete
-              size="small"
-              multiple
-              id="tags-outlined"
-              options={categories}
-              getOptionLabel={(option) => option.name}
-              value={selectedFilter}
-              onChange={(event, newValue) => {
-                setSelectedFilter(newValue);
-              }}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextFieldCustom
-                  {...params}
-                  label="Choose Filter Categories"
-                  placeholder="Categories"
-                />
-              )}
-            />
+            <Grid item xs={4}>
+              <Autocomplete
+                size="small"
+                multiple
+                id="tags-outlined"
+                options={categories}
+                getOptionLabel={(option) => option.name}
+                value={selectedFilter}
+                onChange={(event, newValue) => {
+                  setSelectedFilter(newValue);
+                }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                filterSelectedOptions
+                renderInput={(params) => (
+                  <TextFieldCustom
+                    {...params}
+                    label="Choose Filter Categories"
+                    placeholder="Categories"
+                  />
+                )}
+              />
+            </Grid>
           </Grid>
         </Grid>
 
