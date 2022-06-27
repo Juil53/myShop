@@ -98,7 +98,7 @@ const UserEdit = () => {
             <Grid item xs={6} sx={{ textAlign: "center" }}>
               <img
                 value={state.avatar}
-                src={state.avatar}
+                src={state.avatar ? state.avatar : "/img/default_avatar.png"}
                 alt=""
                 style={{
                   width: "200px",

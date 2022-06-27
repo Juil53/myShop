@@ -9,6 +9,7 @@ const CategoriesCheckBox = ({ subCate }) => {
   } = useFormikContext();
 
   const [categoriesClone, setCategoriesClone] = useState(categories);
+  // console.log("categoriesClone",categoriesClone)
 
   useEffect(() => {
     setFieldValue("categories", categoriesClone);
@@ -17,11 +18,10 @@ const CategoriesCheckBox = ({ subCate }) => {
   const handleChange = (e) => {
     e.preventDefault()
     const value = e.target.value;
-    console.log(value);
     let arr = [];
 
     if (e.target.checked) {
-      arr = [...categories, value];
+      arr = [value,...categories];
     } else {
       arr = categories.filter((item) => item !== value);
     }

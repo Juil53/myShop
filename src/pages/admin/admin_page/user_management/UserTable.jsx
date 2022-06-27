@@ -12,11 +12,10 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Typography,
 } from "@mui/material";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import {
   selectLoading,
@@ -29,10 +28,10 @@ import {
   CustomizedTableHead,
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
+import AlertDialog from "../component/MuiAlert";
 import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
-  const navigate = useNavigate();
   const ROWS_PER_PAGE = 10;
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
@@ -41,6 +40,9 @@ export function UserTable({ keyword }) {
   const rowsPagination = useSelector(selectUserDataPagination);
   const userInfo = useSelector(selectUserInfo);
   const [page, setPage] = React.useState(1);
+  const [alert, setAlert] = React.useState(false);
+  const [confirm, setConfirm] = React.useState(false);
+  console.log(confirm)
 
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
@@ -49,8 +51,9 @@ export function UserTable({ keyword }) {
   const handleChangePage = (event, newPage) => setPage(newPage);
 
   const handleDelete = (userId) => {
-    dispatch({ type: "DELETE_USER", payload: userId });
-    dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
+    // setAlert(true);
+    // dispatch({ type: "DELETE_USER", payload: userId });
+    // dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
   };
 
   React.useEffect(() => {
@@ -80,7 +83,24 @@ export function UserTable({ keyword }) {
           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
         >
           <TableCell align="left">
-            <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
+            <Stack spacing={1} direction="row">
+              <IconButton size="small" color="secondary">
+                <Link to={`/admin/users/edit/${user.id}`}>
+                  <EditIcon fontSize="inherit" />
+                </Link>
+              </IconButton>
+
+              <IconButton
+                size="small"
+                color="error"
+                onClick={() => {
+                  handleDelete(user.id);
+                }}
+              >
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </Stack>
+            {/* <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
               <MoreVertIcon />
             </IconButton>
             <Popover
@@ -94,27 +114,9 @@ export function UserTable({ keyword }) {
                 horizontal: "left",
               }}
             >
-              <Stack spacing={1}>
-                <IconButton
-                  size="small"
-                  color="secondary"
-                  onClick={() => navigate(`/admin/users/edit/${user.id}`)}
-                >
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  color="error"
-                  onClick={() => {
-                    handleDelete(user.id);
-                  }}
-                >
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </Stack>
-            </Popover>
+              
+            </Popover> */}
           </TableCell>
-
           <TableCell align="left">
             <img
               src={user.avatar ? user.avatar : "/img/default_avatar.png"}
@@ -152,7 +154,7 @@ export function UserTable({ keyword }) {
               stickyHeader
               aria-label="sticky table"
               size="small"
-              sx={{ minWidth: { xs: "130%", md: "150%" }, backgroundColor: "#fff" }}
+              sx={{ minWidth: { xs: "1400px", md: "150%" }, backgroundColor: "#fff" }}
             >
               <CustomizedTableHead>
                 <TableRow>
@@ -184,7 +186,8 @@ export function UserTable({ keyword }) {
             shape="rounded"
             variant="outlined"
           />
-          {/* <SimpleSnackbar openSnackbar={open} /> */}
+          {/* <SimpleSnackbar alert={alert} setAlert={setAlert} /> */}
+          <AlertDialog confirm={confirm} setConfirm={setConfirm} handleDelete={handleDelete}/>
         </Box>
       )}
     </>
