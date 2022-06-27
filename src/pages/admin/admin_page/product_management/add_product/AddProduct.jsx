@@ -24,6 +24,7 @@ import {
   getOptionsRequest,
   submitProductRequest,
 } from "../../../../../store/admin_product/productSlice";
+import OptionsInput from "./OptionsInput";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
@@ -35,13 +36,7 @@ export default function AddProduct() {
   }, []);
 
   return (
-    <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
-      <Link to="/admin/products">
-        <Button startIcon={<ArrowBackIcon />} color="secondary">
-          Back
-        </Button>
-      </Link>
-
+    <Box component={Paper} elevation={3} padding={5} width="100%" margin="auto">
       <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
         Add Product
       </Typography>
@@ -50,6 +45,7 @@ export default function AddProduct() {
         initialValues={{
           name: "",
           brand: "",
+          options: [],
           attributes: [],
           categories: [],
           desc: "",
@@ -82,15 +78,14 @@ export default function AddProduct() {
 
           console.log(editedValues);
 
-          dispatch(submitProductRequest({ editedValues }));
-          navigate("/admin/products");
+          dispatch(submitProductRequest(editedValues));
           resetForm();
         }}
       >
         <Form>
           <Grid container spacing={2}>
             {/* Name */}
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Field
                 as={TextFieldCustom}
                 name="name"
@@ -104,7 +99,7 @@ export default function AddProduct() {
             </Grid>
 
             {/* Brand */}
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               <Field
                 as={TextFieldCustom}
                 name="brand"
@@ -118,7 +113,7 @@ export default function AddProduct() {
             </Grid>
 
             {/* Status */}
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <Field
                 as={TextFieldCustom}
                 name="status"
@@ -132,14 +127,14 @@ export default function AddProduct() {
             </Grid>
 
             {/* Available */}
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <Field
                 as={TextFieldCustom}
                 name="available"
                 type="number"
                 InputLabelProps={{ shrink: true }}
                 variant="outlined"
-                label="Available"
+                label="Quantity"
                 size="small"
                 fullWidth
                 placeholder="100"
@@ -161,27 +156,28 @@ export default function AddProduct() {
               />
             </Grid>
 
-            {/* Image */}
-            <Grid item xs={6}>
-              <ImageInput />
-            </Grid>
-
             {/* Hot */}
-            <Grid item xs={3}>
-              <FormControlLabel
-                control={<Field as={Switch} name="isHot" color="secondary" />}
-                label="Hot"
-                labelPlacement="end"
-              />
+            <Grid item xs={5}>
+              <Stack direction="row" spacing={2}>
+                <FormControlLabel
+                  control={<Field as={Switch} name="isHot" color="secondary" />}
+                  label="Hot"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  control={<Field as={Switch} name="isNew" color="secondary" />}
+                  label="New"
+                  labelPlacement="end"
+                />
+              </Stack>
             </Grid>
 
             {/* New */}
-            <Grid item xs={3}>
-              <FormControlLabel
-                control={<Field as={Switch} name="isNew" color="secondary" />}
-                label="New"
-                labelPlacement="end"
-              />
+            <Grid item xs={2}></Grid>
+
+            {/* Image */}
+            <Grid item xs={12}>
+              <ImageInput />
             </Grid>
 
             {/* Description */}
@@ -205,6 +201,11 @@ export default function AddProduct() {
               <CategoriesInput />
             </Grid>
 
+            {/* Options */}
+            <Grid item xs={12}>
+              <OptionsInput />
+            </Grid>
+
             {/* Attribute */}
             <Grid item xs={12}>
               <AttributeInput />
@@ -214,9 +215,14 @@ export default function AddProduct() {
               <Button variant="contained" color="success" type="submit" size="small">
                 Submit
               </Button>
-              <Button variant="contained" color="secondary" type="submit" size="small">
+              <Button variant="contained" color="error" type="submit" size="small">
                 Reset
               </Button>
+              <Link to="/admin/products">
+                <Button size="small" variant="contained" color="secondary">
+                  Cancel
+                </Button>
+              </Link>
             </Stack>
           </Grid>
         </Form>

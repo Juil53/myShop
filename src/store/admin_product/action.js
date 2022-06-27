@@ -37,7 +37,7 @@ export function* actGetCategories() {
 export function* actAddProduct(action) {
   const { values } = action.payload;
   try {
-    const result = yield call(apiInstance.post, "products", values);
+    const result = yield call(apiInstance.post, "products", action.payload);
     yield put(submitProductSuccess(result));
   } catch (err) {
     yield put(submitProductFailed());

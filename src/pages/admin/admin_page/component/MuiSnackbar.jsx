@@ -1,21 +1,34 @@
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { Alert } from "@mui/material";
-import { useEffect } from "react";
 
-export default function SimpleSnackbar({ openSnackbar }) {
-  const [open, setOpen] = React.useState(false);
-
+export default function SimpleSnackbar({ alert, setAlert }) {
   const handleClose = (event, reason) => {
-    setOpen(false);
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlert(false);
   };
+
+  const action = (
+    <React.Fragment>
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div>
-      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Deleted Successful!
-        </Alert>
+      <Snackbar
+        open={alert}
+        autoHideDuration={3000}
+        onClose={handleClose}    
+        action={action}
+      >
+        <Alert severity="success">Delete Success!</Alert>
       </Snackbar>
     </div>
   );

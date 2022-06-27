@@ -11,6 +11,7 @@ import {
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
+  getUserPaginationRequest
 } from "./usersSlice";
 import { signinAuth, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
@@ -18,7 +19,7 @@ import { USER_ACTIONS } from "../../constants";
 //GET USER DATA
 export function* actGetUser() {
   try {
-    const result = yield call(apiInstance.get, "user");
+    const result = yield call(apiInstance.get, "users");
     yield put(getUserSuccess(result));
   } catch (err) {
     console.log(err);
@@ -30,7 +31,7 @@ export function* actGetUser() {
 export function* actGetUserPagination(action) {
   const { page, ROWS_PER_PAGE } = action.payload;
   try {
-    const result = yield call(apiInstance.get, `user?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+    const result = yield call(apiInstance.get, `users?_page=${page}&_limit=${ROWS_PER_PAGE}`);
     yield put(getUserPaginationSuccess(result));
   } catch (err) {
     yield put(getUserPaginationFailed());
@@ -47,9 +48,8 @@ export function* actAddUser(action) {
 
     if (rs && !rs.code) {
       values.id = rs.id;
-      const result = yield call(apiInstance.post, "user", values);
+      const result = yield call(apiInstance.post, "users", values);
       yield put(submitUserSuccess(result));
-      actGetUserPagination({ page: 1, ROWS_PER_PAGE: 10 });
     }
   } catch (err) {
     console.log(err);
@@ -60,7 +60,7 @@ export function* actAddUser(action) {
 // DELETE USER
 export function* actDeleteUser(action) {
   try {
-    yield call(apiInstance.delete, `user/${action.payload}`);
+    yield call(apiInstance.delete, `users/${action.payload}`);
   } catch (err) {
     console.log(err);
   }
@@ -69,7 +69,7 @@ export function* actDeleteUser(action) {
 // UPDATE USER
 export function* actUpdateUserInfo(action) {
   try {
-    const result = yield call(apiInstance.put, `user/${action.payload.id}`, action.payload.state);
+    const result = yield call(apiInstance.put, `users/${action.payload.id}`, action.payload.state);
     yield put(submitUserSuccess(result));
     yield put(actGetUserPagination());
   } catch (err) {
@@ -84,7 +84,7 @@ export function* signinAdmin({ password, email }) {
   const rs = yield call(signinAuth, email, password);
 
   if (!rs.code) {
-    const users = yield call(apiInstance.get, "user");
+    const users = yield call(apiInstance.get, "users");
     const user = users.find((u) => u.id === rs.id) || {};
 
     rs.role = user.role;

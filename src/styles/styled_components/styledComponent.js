@@ -28,13 +28,15 @@ const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
+  color:'#fff',
   transition: "all 200ms ease",
   "&:hover": {
     "&.MuiButtonBase-root": {
       color: theme.palette.secondary.dark,
       fontWeight: 900,
       borderLeft: "8px solid",
-      borderColor: theme.palette.secondary.dark,
+      backgroundColor:"#fff",
+      borderColor: '#fff',
     },
     "& .MuiTypography-root": {
       fontWeight: 900,
@@ -52,10 +54,9 @@ const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
 const CustomeNavlink = styled(NavLink)(({ theme }) => ({
   "&.active > div": {
     color: theme.palette.secondary.dark,
-    borderLeft: "8px solid",
-    borderColor: theme.palette.secondary.dark,
+    backgroundColor:'#fff',
     "& .MuiTypography-root": {
-      fontSize: "1.7rem",
+      fontSize: "1.8rem",
       fontWeight: 900,
     },
     "& .MuiListItemIcon-root": {

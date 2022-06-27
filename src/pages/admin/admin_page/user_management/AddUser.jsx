@@ -1,13 +1,16 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as React from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getUserPaginationRequest, submitUserRequest } from "../../../../store/users/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { selectLoading } from "../../../../store/users/selector";
+import { submitUserRequest } from "../../../../store/users/usersSlice";
 import { validation } from "../../../../validation/Validation";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 
 // SELECT ROLE
+
 const roles = [
   {
     value: "Staff",
@@ -19,7 +22,7 @@ const roles = [
   },
 ];
 const container = {
-  width: "80%",
+  width: "100%",
   display: "flex",
   flexDirection: "row",
   margin: "auto",
@@ -29,28 +32,40 @@ const container = {
   borderRadius: 2,
 };
 const userImage = {
-  width: "40%",
+  width: "25%",
   marginRight: 2,
   padding: 3,
   flexGrow: 1,
-  backgroundImage: "url(https://source.unsplash.com/random)",
-  backgroundSize: "100%",
+  backgroundImage: 'url("/img/default_avatar.png")',
+  backgroundSize: "cover",
   backgroundPosition: "center center",
+  backgroundRepeat: "no-repeat",
   borderRadius: 2,
   boxShadow: 3,
 };
 const user__form = {
-  width: "50%",
+  width: "75%",
   padding: 3,
 };
-const admin__btn = {
-  marginTop: 2,
-};
-const ROWS_PER_PAGE = 10;
 
 export default function AddUser(props) {
+  const pages = [
+    {
+      name: "Admin",
+      url: "/admin",
+    },
+    {
+      name: "Users",
+      url: "/admin/users",
+    },
+    {
+      name: "Add",
+      url: "/admin/add",
+    },
+  ];
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const loading = useSelector(selectLoading);
   const [role, setRole] = React.useState("");
   const formik = useFormik({
     initialValues: {
@@ -58,107 +73,223 @@ export default function AddUser(props) {
       lastname: "",
       password: "",
       email: "",
+      address: "",
+      gender: "",
+      education: "",
+      identify: "",
+      avatar: "",
       phonenumber: "",
       role: role,
     },
     validationSchema: validation,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm,setSubmitting }) => {
       dispatch(submitUserRequest({ values }));
-      navigate("/admin/users");
-      props.close();
+      alert("submit success");
+      setSubmitting(false);
+      resetForm();
     },
   });
 
   return (
     <div>
+      <Breadcrumb pages={pages} />
+      <Typography variant="h4" fontWeight={400} my={1}>
+        Add User
+      </Typography>
       <Box sx={container}>
         <Box className="user__image" sx={userImage}></Box>
         <Box className="user__form" sx={user__form} component="form" onSubmit={formik.handleSubmit}>
-          <Link to="/admin/users">
-            <Button startIcon={<ArrowBackIcon />} color="secondary">
-              Back...
-            </Button>
-          </Link>
-          <Typography variant="h4" fontWeight={700}>
-            Add User
-          </Typography>
           <div className="admin__form">
-            <TextField
-              fullWidth
-              variant="standard"
-              required
-              label="First Name"
-              name="firstname"
-              onChange={formik.handleChange}
-              value={formik.values.firstname}
-              helperText={formik.errors.firstname}
-              error={formik.errors.firstname}
-            />
-            <TextField
-              variant="standard"
-              required
-              label="Last Name"
-              name="lastname"
-              onChange={formik.handleChange}
-              value={formik.values.lastname}
-              helperText={formik.errors.lastname}
-              error={formik.errors.lastname}
-            />
-            <TextField
-              variant="standard"
-              required
-              label="Email Name"
-              name="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
-              helperText={formik.errors.email}
-              error={formik.errors.email}
-            />
-            <TextField
-              variant="standard"
-              type="password"
-              required
-              label="Password"
-              name="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              helperText={formik.errors.password}
-              error={formik.errors.password}
-            />
-            <TextField
-              variant="standard"
-              required
-              label="Phone number"
-              name="phonenumber"
-              onChange={formik.handleChange}
-              value={formik.values.phonenumber}
-              helperText={formik.errors.phonenumber}
-              error={formik.errors.phonenumber}
-            />
-            <TextField
-              variant="standard"
-              required
-              select
-              label="Select Role"
-              name="role"
-              value={formik.values.role}
-              onChange={formik.handleChange}
-              helperText={formik.errors.role}
-              error={formik.errors.role}
-            >
-              {roles.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  fullWidth
+                  variant="outlined"
+                  required
+                  label="First Name"
+                  name="firstname"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.firstname}
+                  helperText={formik.touched.firstname && formik.errors.firstname}
+                  error={formik.touched.firstname && formik.errors.firstname ? true : false}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  required
+                  label="Last Name"
+                  name="lastname"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastname}
+                  helperText={formik.touched.lastname && formik.errors.lastname}
+                  error={formik.touched.lastname && formik.errors.lastname ? true : false}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  required
+                  label="Email"
+                  name="email"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                  helperText={formik.touched.email && formik.errors.email}
+                  error={formik.touched.email && formik.errors.email ? true : false}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  label="Identify"
+                  name="identify"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.identify}
+                  helperText={formik.touched.identify && formik.errors.identify}
+                  error={formik.touched.identify && formik.errors.identify ? true : false}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  label="Address"
+                  name="address"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.address}
+                  helperText={formik.touched.address && formik.errors.address}
+                  error={formik.touched.address && formik.errors.address ? true : false}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  label="Gender"
+                  name="gender"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.gender}
+                  helperText={formik.touched.gender && formik.errors.gender}
+                  error={formik.touched.gender && formik.errors.gender ? true : false}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  type="password"
+                  required
+                  label="Password"
+                  name="password"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
+                  helperText={formik.touched.password && formik.errors.password}
+                  error={formik.touched.password && formik.errors.password ? true : false}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                {/* <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  type="password"
+                  required
+                  label="Password Confirmation"
+                  name="password"
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                  helperText={formik.errors.password}
+                  error={formik.errors.password}
+                /> */}
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  required
+                  select
+                  label="Select Role"
+                  name="role"
+                  value={formik.values.role}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={formik.touched.role && formik.errors.role}
+                  error={formik.touched.role && formik.errors.role ? true : false}
+                >
+                  {roles.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  color="secondary"
+                  variant="outlined"
+                  required
+                  label="Phone number"
+                  name="phonenumber"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.phonenumber}
+                  helperText={formik.touched.phonenumber && formik.errors.phonenumber}
+                  error={formik.touched.phonenumber && formik.errors.phonenumber ? true : false}
+                />
+              </Grid>
+            </Grid>
           </div>
 
-          <Box className="admin__btn" sx={admin__btn}>
-            <Button variant="contained" color="success" type="submit">
-              Submit
-            </Button>
-          </Box>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={6}>
+              <Stack direction="row" spacing={2}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+                <Link to="/admin/users">
+                  <Button variant="contained" color="secondary">
+                    Cancel
+                  </Button>
+                </Link>
+              </Stack>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </div>

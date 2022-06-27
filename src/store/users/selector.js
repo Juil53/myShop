@@ -32,3 +32,9 @@ export const loginAdmin = (state) => {
   const { loginAdmin = {} } = state?.user || {};
   return loginAdmin;
 };
+
+export const selectLoading = (state) => {
+  const { user } = state || {};
+  const { loading } = user;
+  return loading;
+};

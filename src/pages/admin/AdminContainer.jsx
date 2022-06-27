@@ -14,6 +14,8 @@ const content = {
   p: 3,
   mt: 8,
   width: "100%",
+  backgroundColor: "#f6f7f9",
+  height:'100vh'
 };
 
 export default function AdminContainer(props) {
@@ -24,7 +26,7 @@ export default function AdminContainer(props) {
         <Signin />
       ) : (
         <Box sx={{ display: "flex" }}>
-          <MyDrawer className="sidebar" />
+          <MyDrawer className="sidebar"/>
           <Box className="content" component="main" sx={content}>
             <Routes>{renderRouteAdmin()}</Routes>
           </Box>
