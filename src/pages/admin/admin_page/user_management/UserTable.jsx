@@ -9,7 +9,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow
+  TableRow,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,14 +19,15 @@ import {
   selectLoading,
   selectUserData,
   selectUserDataPagination,
-  selectUserInfo
+  selectUserInfo,
 } from "../../../../store/users/selector";
 import { getUserPaginationRequest, getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
-  CustomPagination
+  CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 import AlertDialog from "../component/MuiAlert";
+import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
   const ROWS_PER_PAGE = 10;
@@ -43,16 +44,18 @@ export function UserTable({ keyword }) {
   const [dialog, setDialog] = useState({
     message: "",
     isLoading: false,
+    notification: false,
   });
 
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : rowsPagination;
 
-  const handleDialog = (message, isLoading) => {
+  const handleDialog = (message, isLoading, notification, duration) => {
     setDialog({
       message,
       isLoading,
+      notification,
     });
   };
 
@@ -67,9 +70,9 @@ export function UserTable({ keyword }) {
     if (choose) {
       dispatch({ type: "DELETE_USER", payload: idUserRef.current });
       dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
-      handleDialog(`${idUserRef.current}?`, false);
+      handleDialog(`${idUserRef.current}?`, false, true);
     } else {
-      handleDialog(`${idUserRef.current}?`, false);
+      handleDialog(`${idUserRef.current}?`, false, false);
     }
   };
 
@@ -105,22 +108,6 @@ export function UserTable({ keyword }) {
                 <DeleteIcon fontSize="inherit" />
               </IconButton>
             </Stack>
-            {/* <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
-            <Popover
-              elevation={1}
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-            >
-              
-            </Popover> */}
           </TableCell>
           <TableCell align="left">
             <img
@@ -192,6 +179,11 @@ export function UserTable({ keyword }) {
             variant="outlined"
           />
           <AlertDialog message={dialog.message} loading={dialog.isLoading} onDialog={onDialog} />
+          <SimpleSnackbar
+            message={dialog.message}
+            notification={dialog.notification}
+            onDialog={onDialog}
+          />
         </Box>
       )}
     </>
