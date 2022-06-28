@@ -7,6 +7,7 @@ import {
   signup,
   signinWithGoogleAuth,
   signinWithFacebookAuth,
+  signoutAuth,
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
@@ -121,9 +122,15 @@ export function* signupUser({ email, password, user }) {
   }
 }
 
+export function* signout() {
+  yield call(signoutAuth);
+  yield put(clientActions.signout());
+}
+
 export default function* clientSaga() {
   yield takeEvery(USER_ACTIONS.SIGNIN_USER, signinWithEmailAndPassword);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
   yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
+  yield takeEvery(USER_ACTIONS.SIGNOUT_USER, signout);
 }

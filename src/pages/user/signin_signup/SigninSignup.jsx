@@ -1,10 +1,22 @@
 import { useState } from "react";
+import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 
 import SigninForm from "./child/SigninForm";
 import SignupForm from "./child/SignupForm";
 
 const SigninSignup = () => {
   const [currentTab, setCurrentTab] = useState("signin");
+
+  const array = [
+    {
+      name: "Home",
+      url: "/",
+    },
+    {
+      name: "Signin",
+      url: "/sign",
+    },
+  ];
 
   function handleChangeTab() {
     if (currentTab === "signin") {
@@ -24,13 +36,9 @@ const SigninSignup = () => {
 
   return (
     <div className="signin-signup-page">
-      <ul className="breadcums">
-        <li>
-          <a href="home">Home</a>
-          <span>/</span>
-        </li>
-        <li>Login</li>
-      </ul>
+      <div className="breadcums">
+        <Breadcrumb pages={array} />
+      </div>
       <div className="signin-signup-container">
         <div className="sign-tab-header row">
           <div

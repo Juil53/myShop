@@ -41,7 +41,7 @@ input::-webkit-inner-spin-button {
 }
 
 input:-webkit-autofill {
-  transition: background-color 5000s
+  transition: background-color 5000s !important;
 }
 
 input[type="number"] {
