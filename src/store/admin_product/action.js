@@ -1,6 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects";
+import { ROWS_PER_PAGE } from "../../constants";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
+  deleteProductFailed,
+  deleteProductResetStatus,
+  deleteProductSuccess,
   getAllProductFailed,
   getAllProductSuccess,
   getCategoriesFailed,
@@ -56,7 +60,7 @@ export function* actGetAllProduct() {
 
 // GET PRODUCT DATA PAGINATION
 export function* actProductPagination(action) {
-  const { page, ROWS_PER_PAGE } = action.payload;
+  const { page } = action.payload;
   try {
     const result = yield call(apiInstance.get, `products?_page=${page}&_limit=${ROWS_PER_PAGE}`);
     yield put(getProductPaginationSuccess(result));
@@ -67,9 +71,13 @@ export function* actProductPagination(action) {
 
 // DELETE PRODUCT
 export function* actDeleteProduct(action) {
+  console.log("action",action)
   try {
     yield call(apiInstance.delete, `products/${action.payload}`);
-  } catch (err) {}
+    yield put(deleteProductSuccess())
+  } catch (err) {
+    yield put(deleteProductFailed())
+  }
 }
 
 export default function* adminProductSaga() {
@@ -78,5 +86,5 @@ export default function* adminProductSaga() {
   yield takeEvery("product/submitProductRequest", actAddProduct);
   yield takeEvery("product/getOptionsRequest", actGetOptions);
   yield takeEvery("product/getCategoriesRequest", actGetCategories);
-  yield takeEvery("DELETE_PRODUCT", actDeleteProduct);
+  yield takeEvery("product/deleteProductRequest", actDeleteProduct);
 }

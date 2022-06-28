@@ -9,6 +9,7 @@ const usersSlice = createSlice({
     userData: [],
     userDataPagination: [],
     userInfo: {},
+    status: false,
     error: "",
     loading: false,
     open: false,
@@ -63,9 +64,7 @@ const usersSlice = createSlice({
 
       const userList = [...state.userData];
       if (action.payload.email) {
-        const index = userList.findIndex(
-          (user) => user.email === action.payload.email
-        );
+        const index = userList.findIndex((user) => user.email === action.payload.email);
         if (index !== -1) {
           //Edit
           userList[index] = action.payload;
@@ -87,8 +86,24 @@ const usersSlice = createSlice({
       state.userInfo = action.payload;
     },
 
-    updateUserInfo(state, action) {
-      state.userInfo = action.payload;
+    updateUserInfoRequest(state, action) {
+      state.loading = true;
+    },
+
+    deleteUserRequest(state) {
+      state.status = false;
+    },
+
+    deleteUserSuccess(state, action) {
+      state.status = true;
+    },
+
+    deleteUserFailed(state, action) {
+      state.status = false;
+    },
+
+    resetStatus(state) {
+      state.status = false;
     },
 
     openModal(state, action) {
@@ -143,7 +158,10 @@ export const {
   submitUserSuccess,
   submitUserFailed,
   getUserInfo,
-  updateUserInfo,
+  deleteUserRequest,
+  deleteUserSuccess,
+  deleteUserFailed,
+  updateUserInfoRequest,
   openModal,
   closeModal,
   getKeyword,
@@ -152,6 +170,7 @@ export const {
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
+  resetStatus
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

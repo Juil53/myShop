@@ -34,7 +34,13 @@ export const loginAdmin = (state) => {
 };
 
 export const selectLoading = (state) => {
-  const { user } = state || {};
+  const { user = {} } = state || {};
   const { loading } = user;
   return loading;
+};
+
+export const selectStatus = (state) => {
+  const { user = {} } = state || {};
+  const { status } = user || false;
+  return status;
 };

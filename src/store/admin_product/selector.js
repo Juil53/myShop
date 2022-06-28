@@ -24,7 +24,7 @@ export const selectAllProduct = (state, filterOptions) => {
   if (filterOptions.length > 0) {
     for (let i = 0; i < filterOptions.length; i++) {
       temp = products.filter((product) => product.categories?.includes(filterOptions[i]));
-      newProducts.push(...temp)
+      newProducts.push(...temp);
     }
     return newProducts;
   }
@@ -41,7 +41,7 @@ export const selectProductPagination = (state, filterOptions) => {
   if (filterOptions.length > 0) {
     for (let i = 0; i < filterOptions.length; i++) {
       temp = productsPagination.filter((product) => product.categories?.includes(filterOptions[i]));
-      newProducts.push(...temp)
+      newProducts.push(...temp);
     }
     return newProducts;
   }
@@ -52,4 +52,10 @@ export const selectProductInfo = (state, id) => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
   return products.find((product) => product.id === id);
+};
+
+export const selectStatus = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { status } = adminProduct;
+  return status;
 };

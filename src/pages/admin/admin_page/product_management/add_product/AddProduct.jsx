@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import {
   Box,
   Grid,
@@ -9,7 +9,6 @@ import {
   Switch,
   FormControlLabel,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ImageInput from "./ImageInput";
 import AttributeInput from "./AttributeInput";
 import CategoriesInput from "./CategoriesInput";
@@ -25,10 +24,12 @@ import {
   submitProductRequest,
 } from "../../../../../store/admin_product/productSlice";
 import OptionsInput from "./OptionsInput";
+import SimpleSnackbar from "../../component/SimpleSnackbar";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     dispatch(getOptionsRequest());
@@ -79,6 +80,7 @@ export default function AddProduct() {
           console.log(editedValues);
 
           dispatch(submitProductRequest(editedValues));
+          setShow(true);
           resetForm();
         }}
       >
@@ -220,13 +222,14 @@ export default function AddProduct() {
               </Button>
               <Link to="/admin/products">
                 <Button size="small" variant="contained" color="secondary">
-                  Cancel
+                  Back
                 </Button>
               </Link>
             </Stack>
           </Grid>
         </Form>
       </Formik>
+      <SimpleSnackbar show={show} setShow={setShow} type="add" />
     </Box>
   );
 }
