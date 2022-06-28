@@ -7,7 +7,7 @@ import { selectAttributes } from "../../../../../store/admin_product/selector";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SelectInput from "./SelectInput";
 
-export default function AttributeInput() {
+export default function OptionsInput() {
   const dispatch = useDispatch();
   const options = useSelector(selectAttributes);
   const {
@@ -45,7 +45,7 @@ export default function AttributeInput() {
                   type="button"
                   onClick={() => push({ name: "", value: "" })}
                 >
-                  Click to add Attributes
+                  Click to add Options
                 </Button>
               </Grid>
 

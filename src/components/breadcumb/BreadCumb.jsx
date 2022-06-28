@@ -3,7 +3,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { NavLink } from "react-router-dom";
 import { Link } from "@mui/material";
 
-export default function Breadcrumb({pages}) {
+export default function Breadcrumb({pages,color}) {
   const lastPage = pages.pop();
   const handleBreadCumb = (array) => {
     return array.map((item, index) => (
@@ -17,7 +17,7 @@ export default function Breadcrumb({pages}) {
     <div role="presentation">
       <Breadcrumbs aria-label="breadcrumb">
         {handleBreadCumb(pages)}
-        <Link as={NavLink} underline="hover" color="primary" to={lastPage.url}>
+        <Link as={NavLink} underline="hover" sx={{color:"#051e34",fontSize:'2rem',fontWeight:500}} to={lastPage.url}>
           {lastPage.name}
         </Link>
       </Breadcrumbs>

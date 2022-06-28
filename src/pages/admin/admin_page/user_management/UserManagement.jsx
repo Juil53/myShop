@@ -1,18 +1,22 @@
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, InputAdornment, Typography } from "@mui/material";
+import { Box, Button, InputAdornment, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  loginAdmin,
-  selectUserKeyword,
-} from "../../../../store/users/selector";
+import { loginAdmin, selectUserKeyword } from "../../../../store/users/selector";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import SimpleSnackbar from "../component/MuiSnackbar";
 import { UserTable } from "./UserTable";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 
+const user__search = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginTop: "2rem",
+  marginBottom: "2rem",
+};
 
 function UserManagement() {
   const dispatch = useDispatch();
@@ -21,19 +25,32 @@ function UserManagement() {
   const keyword = useSelector(selectUserKeyword);
   const handleChange = (event) => dispatch(getKeyword(event.target.value));
 
+  const pages = [
+    {
+      name: "Admin",
+      url: "/admin",
+    },
+    {
+      name: "Users",
+      url: "/admin/users",
+    },
+  ];
+
   const handleClearSeach = () => (
-    (document.querySelector(".search__input").value = null),
-    dispatch(getKeyword(null))
+    (document.querySelector(".search__input").value = null), dispatch(getKeyword(null))
   );
 
   return (
     <>
       {user?.data?.role === "Admin" && (
         <>
-          <Typography variant="h4" fontWeight={700}>
+          <Breadcrumb pages={pages} />
+
+          <Typography variant="h4" fontWeight={400}>
             User Management
           </Typography>
-          <div className="container usermanagement">
+
+          <Box className="user__search" sx={user__search}>
             <TextFieldCustom
               InputProps={{
                 startAdornment: (
@@ -51,19 +68,17 @@ function UserManagement() {
               <Button
                 variant="contained"
                 color="secondary"
-                size="small"
+                sx={{ width: "100px" }}
                 startIcon={<AddIcon />}
               >
                 Add
               </Button>
             </Link>
-          </div>
+          </Box>
 
-          <div className="table">
+          <Box>
             <UserTable keyword={keyword} />
-          </div>
-
-          
+          </Box>
         </>
       )}
     </>

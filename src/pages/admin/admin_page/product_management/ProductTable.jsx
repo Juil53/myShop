@@ -1,10 +1,12 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   IconButton,
   Paper,
   Stack,
+  Popover,
   Table,
   TableBody,
   TableCell,
@@ -12,6 +14,7 @@ import {
   TableRow,
 } from "@mui/material";
 import * as React from "react";
+import { memo } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -30,22 +33,22 @@ import {
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
-export default function ProductTable({ filterOptions }) {
+const ProductTable = ({ filterOptions }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [rowsPerPage,setRowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const loading = useSelector(selectLoading);
   const products = useSelector((state) => selectAllProduct(state, filterOptions));
   const paginationProduct = useSelector((state) => selectProductPagination(state, filterOptions));
-  console.log(products)
+  const ROWS_PER_PAGE = 10;
+
   // GET ALL PRODUCT
   React.useEffect(() => {
     dispatch(getAllProductRequest());
   }, [filterOptions]);
 
   // GET PRODUCT PAGINATION
-  const ROWS_PER_PAGE = 10;
   React.useEffect(() => {
     dispatch(getProductPaginationRequest({ page, rowsPerPage }));
   }, [page]);
@@ -66,6 +69,19 @@ export default function ProductTable({ filterOptions }) {
   const handleChangePage = (event, newPage) => setPage(newPage);
   const count = products ? Math.ceil(products?.length / 10) : 0;
 
+  // POPOVER
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   // RENDER BODY
   const renderTableBody = () => {
     return paginationProduct?.map((product, index) => {
@@ -78,23 +94,7 @@ export default function ProductTable({ filterOptions }) {
             cursor: "pointer",
           }}
         >
-          <TableCell align="left">{product.id}</TableCell>
-          <TableCell align="left">{product.name}</TableCell>
-          <TableCell align="center">
-            <img
-              src={product.image}
-              alt="product"
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                objectFit: "contain",
-              }}
-            />
-          </TableCell>
-          <TableCell align="center">{product.available}</TableCell>
-          <TableCell align="center">{formatter.format(product.priceBeforeDiscount)}</TableCell>
-          <TableCell align="center">
+          <TableCell align="left">
             <Stack direction="row">
               <IconButton
                 size="small"
@@ -114,7 +114,40 @@ export default function ProductTable({ filterOptions }) {
                 <EditIcon fontSize="inherit" />
               </IconButton>
             </Stack>
+
+            {/* <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Popover
+              elevation={1}
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+            >
+              
+            </Popover> */}
           </TableCell>
+          <TableCell align="left">{product.id}</TableCell>
+          <TableCell align="left">{product.name}</TableCell>
+          <TableCell align="center">
+            <img
+              src={product.image}
+              alt="product"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                objectFit: "contain",
+              }}
+            />
+          </TableCell>
+          <TableCell align="center">{product.available}</TableCell>
+          <TableCell align="center">{formatter.format(product.priceBeforeDiscount)}</TableCell>
         </TableRow>
       );
     });
@@ -125,7 +158,7 @@ export default function ProductTable({ filterOptions }) {
       {loading ? (
         <Loading />
       ) : (
-        <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
+        <Box component={Paper} elevation={3} p={2}>
           <TableContainer
             sx={{
               maxHeight: "65vh",
@@ -139,12 +172,12 @@ export default function ProductTable({ filterOptions }) {
             >
               <CustomizedTableHead>
                 <TableRow>
+                  <TableCell align="left"></TableCell>
                   <TableCell align="left">ID</TableCell>
                   <TableCell align="left">Product Name</TableCell>
                   <TableCell align="center">Image</TableCell>
                   <TableCell align="center">Available</TableCell>
                   <TableCell align="center">Price</TableCell>
-                  <TableCell align="center"></TableCell>
                 </TableRow>
               </CustomizedTableHead>
               <TableBody>{renderTableBody()}</TableBody>
@@ -166,4 +199,6 @@ export default function ProductTable({ filterOptions }) {
       )}
     </>
   );
-}
+};
+
+export default memo(ProductTable);

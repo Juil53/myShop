@@ -1,9 +1,12 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   IconButton,
   Paper,
+  Popover,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -12,9 +15,10 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import {
+  selectLoading,
   selectUserData,
   selectUserDataPagination,
   selectUserInfo,
@@ -24,19 +28,21 @@ import {
   CustomizedTableHead,
   CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
+import AlertDialog from "../component/MuiAlert";
 import SimpleSnackbar from "../component/MuiSnackbar";
 
 export function UserTable({ keyword }) {
-  const navigate = useNavigate();
   const ROWS_PER_PAGE = 10;
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.user.loading);
+  const loading = useSelector(selectLoading);
   const rows = useSelector(selectUserData);
   const count = rows ? Math.ceil(rows?.length / 10) : 0;
   const rowsPagination = useSelector(selectUserDataPagination);
   const userInfo = useSelector(selectUserInfo);
   const [page, setPage] = React.useState(1);
-  const [open, setOpen] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
+  const [confirm, setConfirm] = React.useState(false);
+  console.log(confirm)
 
   const paginationData = keyword
     ? rows?.filter((user) => user.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
@@ -45,43 +51,27 @@ export function UserTable({ keyword }) {
   const handleChangePage = (event, newPage) => setPage(newPage);
 
   const handleDelete = (userId) => {
-    dispatch({ type: "DELETE_USER", payload: userId });
-    dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
+    // setAlert(true);
+    // dispatch({ type: "DELETE_USER", payload: userId });
+    // dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
   };
 
   React.useEffect(() => {
-    dispatch(getUserPaginationRequest({ page, ROWS_PER_PAGE }));
+    dispatch(getUserPaginationRequest({ page, rowPerPage: ROWS_PER_PAGE }));
     dispatch(getUserRequest());
-  }, [page, userInfo ]);
+  }, [page, userInfo]);
 
-  // RENDER TABLE HEAD
-  const renderTableHead = () => {
-    return (
-      <CustomizedTableHead>
-        <TableRow>
-          <TableCell width="10%" align="left">
-            User ID
-          </TableCell>
-          <TableCell width="10%" align="left">
-            First Name
-          </TableCell>
-          <TableCell width="10%" align="left">
-            Last Name
-          </TableCell>
-          <TableCell width="15%" align="left">
-            Email
-          </TableCell>
-          <TableCell width="15%" align="center">
-            Phone number
-          </TableCell>
-          <TableCell width="10%" align="center">
-            Role
-          </TableCell>
-          <TableCell width="10%" align="center"></TableCell>
-        </TableRow>
-      </CustomizedTableHead>
-    );
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   // RENDER TABLE BODY
   const renderTableBody = () => {
@@ -92,66 +82,114 @@ export function UserTable({ keyword }) {
           hover={true}
           sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
         >
-          <TableCell align="left">{user.id}</TableCell>
-          <TableCell align="left">{user.firstname}</TableCell>
-          <TableCell align="left">{user.lastname}</TableCell>
-          <TableCell align="left">{user.email}</TableCell>
-          <TableCell align="center">{user.phonenumber}</TableCell>
-          <TableCell align="center">{user.role}</TableCell>
-          <TableCell align="center">
-            <IconButton
-              size="small"
-              color="secondary"
-              onClick={() => navigate(`/admin/users/edit/${user.id}`)}
-            >
-              <EditIcon fontSize="inherit" />
+          <TableCell align="left">
+            <Stack spacing={1} direction="row">
+              <IconButton size="small" color="secondary">
+                <Link to={`/admin/users/edit/${user.id}`}>
+                  <EditIcon fontSize="inherit" />
+                </Link>
+              </IconButton>
+
+              <IconButton
+                size="small"
+                color="error"
+                onClick={() => {
+                  handleDelete(user.id);
+                }}
+              >
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </Stack>
+            {/* <IconButton aria-describedby={id} variant="contained" onClick={handleClick}>
+              <MoreVertIcon />
             </IconButton>
-            <IconButton
-              size="small"
-              color="error"
-              onClick={() => {
-                handleDelete(user.id);
+            <Popover
+              elevation={1}
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
               }}
             >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
+              
+            </Popover> */}
           </TableCell>
+          <TableCell align="left">
+            <img
+              src={user.avatar ? user.avatar : "/img/default_avatar.png"}
+              alt=""
+              style={{ width: "30px", height: "30px", borderRadius: "50%" }}
+            />
+          </TableCell>
+          <TableCell align="left">{user.id ? user.id : "_"}</TableCell>
+          <TableCell align="left">{user.firstname ? user.firstname : "_"}</TableCell>
+          <TableCell align="left">{user.lastname ? user.lastname : "_"}</TableCell>
+          <TableCell align="left">{user.identify ? user.identify : "_"}</TableCell>
+          <TableCell align="left">{user.gender ? user.gender : "_"}</TableCell>
+          <TableCell align="left">{user.email ? user.email : "_"}</TableCell>
+          <TableCell align="left">{user.education ? user.education : "_"}</TableCell>
+          <TableCell align="left">{user.address ? user.address : "_"}</TableCell>
+          <TableCell align="left">{user.phonenumber ? user.phonenumber : "_"}</TableCell>
+          <TableCell align="left">{user.role ? user.role : "_"}</TableCell>
         </TableRow>
       );
     });
   };
 
-  const tablePc = (
-    <Box component={Paper} elevation={2} padding={2} sx={{ backgroundColor: "#E7EBF0" }}>
-      <TableContainer
-        sx={{
-          maxHeight: "65vh",
-        }}
-      >
-        <Table
-          stickyHeader
-          aria-label="sticky table"
-          size="small"
-          sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
-        >
-          {renderTableHead()}
-          <TableBody>{renderTableBody()}</TableBody>
-        </Table>
-      </TableContainer>
-      <CustomPagination
-        showFirstButton
-        showLastButton
-        page={page}
-        count={count}
-        onChange={handleChangePage}
-        sx={{ mt: 2 }}
-        size="small"
-        shape="rounded"
-        variant="outlined"
-      />
-      <SimpleSnackbar openSnackbar={open} />
-    </Box>
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Box component={Paper} elevation={3} p={2}>
+          <TableContainer
+            sx={{
+              maxHeight: "65vh",
+            }}
+          >
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              size="small"
+              sx={{ minWidth: { xs: "1400px", md: "150%" }, backgroundColor: "#fff" }}
+            >
+              <CustomizedTableHead>
+                <TableRow>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left">Avatar</TableCell>
+                  <TableCell align="left">User ID</TableCell>
+                  <TableCell align="left">First Name</TableCell>
+                  <TableCell align="left">Last Name</TableCell>
+                  <TableCell align="left">Identify</TableCell>
+                  <TableCell align="left">Gender</TableCell>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Education</TableCell>
+                  <TableCell align="left">Address</TableCell>
+                  <TableCell align="left">Phone number</TableCell>
+                  <TableCell align="left">Role</TableCell>
+                </TableRow>
+              </CustomizedTableHead>
+              <TableBody>{renderTableBody()}</TableBody>
+            </Table>
+          </TableContainer>
+          <CustomPagination
+            showFirstButton
+            showLastButton
+            page={page}
+            count={count}
+            onChange={handleChangePage}
+            sx={{ mt: 2 }}
+            size="small"
+            shape="rounded"
+            variant="outlined"
+          />
+          {/* <SimpleSnackbar alert={alert} setAlert={setAlert} /> */}
+          <AlertDialog confirm={confirm} setConfirm={setConfirm} handleDelete={handleDelete}/>
+        </Box>
+      )}
+    </>
   );
-
-  return <Box>{loading ? <Loading /> : tablePc}</Box>;
 }

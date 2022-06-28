@@ -9,7 +9,7 @@ const productSlice = createSlice({
     products: [],
     productsPagination: null,
     productInfo: null,
-    categories: []
+    categories: [],
   },
   reducers: {
     getOptionsRequest(state, action) {
@@ -46,7 +46,19 @@ const productSlice = createSlice({
 
     submitProductSuccess(state, action) {
       state.loading = false;
-      state.products = action.payload;
+      // state.products = action.payload;
+      const productList = [...state.products];
+      if (action.payload.id) {
+        const index = productList.findIndex((product) => product.id === action.payload.id);
+        if (index !== -1) {
+          //Edit
+          productList[index] = action.payload;
+        } else {
+          //Add
+          productList.push(action.payload);
+        }
+      }
+      state.products = productList;
     },
 
     submitProductFailed(state, action) {
@@ -104,7 +116,7 @@ export const {
   getProductPaginationRequest,
   getProductPaginationSuccess,
   getProductPaginationFailed,
-  getProductInfo
+  getProductInfo,
 } = productSlice.actions;
 
 export default productSlice.reducer;

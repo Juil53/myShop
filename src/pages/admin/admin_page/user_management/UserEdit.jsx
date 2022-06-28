@@ -14,8 +14,8 @@ const roles = [
     label: "Staff",
   },
   {
-    value: "Owner",
-    label: "Owner",
+    value: "Admin",
+    label: "Admin",
   },
 ];
 
@@ -23,7 +23,8 @@ const UserEdit = () => {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => selectUserInfo(state, parseInt(params.id)));
+  const userInfo = useSelector((state) => selectUserInfo(state, params.id));
+  console.log(userInfo)
 
   React.useEffect(() => {
     dispatch(getUserRequest());
@@ -97,7 +98,7 @@ const UserEdit = () => {
             <Grid item xs={6} sx={{ textAlign: "center" }}>
               <img
                 value={state.avatar}
-                src={state.avatar}
+                src={state.avatar ? state.avatar : "/img/default_avatar.png"}
                 alt=""
                 style={{
                   width: "200px",

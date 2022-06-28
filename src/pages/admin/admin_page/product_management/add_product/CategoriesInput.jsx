@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { Chip, FormControl, Grid, MenuItem, Stack } from "@mui/material";
 import { FieldArray, useFormikContext } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { actGetCategories } from "../../../../../store/admin_product/action";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { selectCategories } from "../../../../../store/admin_product/selector";
-import { Chip, FormControl, Grid, InputLabel, MenuItem, Select, Stack } from "@mui/material";
 import CategoriesCheckBox from "./CategoriesCheckbox";
 import SelectInput from "./SelectInput";
 
 const CategoriesInput = () => {
-  const dispatch = useDispatch();
   const [mainCate, setMainCate] = useState("");
   const categoriesData = useSelector(selectCategories);
+
   const {
     values: { categories },
     setFieldValue,
   } = useFormikContext();
+  console.log("categories", categories);
 
   useEffect(() => {
     if (categories.length !== 0) {
@@ -25,6 +25,13 @@ const CategoriesInput = () => {
     }
   }, [categories]);
 
+  const handleChangeCategories = (e) => {
+    e.preventDefault();
+    const { value } = e.target;
+    setFieldValue("categories", [value]);
+    setMainCate(value);
+  };
+
   const categoriesDetail = () => {
     if (mainCate) {
       const { subCate = [] } = categoriesData.find((category) => category.id === mainCate) || {};
@@ -32,24 +39,33 @@ const CategoriesInput = () => {
     }
   };
 
-  const handleChangeCategories = (e) => {
-    const value = e.target.value;
-    setFieldValue("categories", [value]);
-    setMainCate(value);
-  };
-
   const categoryChips = (categoriesRemove) => {
-    const category = categoriesData.find((category) => categories.includes(category.id));
-    const categoryList = category ? [...category.subCate, category] : [];
-    return categoryList
-      .filter((category) => categories.includes(category.id))
-      .map((category, index) => (
-        <Chip
-          key={`category_${index}`}
-          label={category.name}
-          onDelete={() => categoriesRemove(index)}
-        />
-      ));
+    // const category = categoriesData.find((category) => categories.includes(category.id));
+    // const categoryList = category ? [...category.subCate, category] : [];
+    // const categoryListFilter = categoryList.filter((category) => categories.includes(category.id));
+    // console.log("categoryList", categoryList);
+    // console.log("categoryListFilter", categoryListFilter);
+
+    // return categoryListFilter.map((category, index) => (
+    //   <Chip
+    //     key={`category_${index}`}
+    //     label={category.name}
+    //     onDelete={() => (categoriesRemove(index), setMainCate(""))}
+    //   />
+    // ));
+
+    // if (mainCate == "") {
+    //  console.log("categories = 0")
+    //  categories.length = 0
+    // }
+
+    return categories.map((category, index) => (
+      <Chip
+        key={`category_${index}`}
+        label={category}
+        onDelete={() => (categoriesRemove(index), setMainCate(""))}
+      />
+    ));
   };
 
   return (
@@ -70,7 +86,7 @@ const CategoriesInput = () => {
         <Grid item xs={3}>
           <FormControl fullWidth>
             <SelectInput
-              name=""
+              name="categories"
               size="small"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
