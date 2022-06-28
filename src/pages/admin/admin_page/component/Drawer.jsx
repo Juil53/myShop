@@ -163,7 +163,6 @@ function MyDrawer(props) {
             <Avatar alt="Remy Sharp" src={user?.data?.image} />
             <div
               style={{ fontSize: 18, cursor: "pointer" }}
-              className="signout-btn"
               onClick={handleSignout}
             >
               Sign out

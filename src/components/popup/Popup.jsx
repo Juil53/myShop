@@ -10,6 +10,7 @@ import ProductInfoPopup from "./child/product_info/ProductInfoPopup";
 import AddCartPopup from "./child/add_cart_popup/AddCartPopup";
 import SelectionPopup from "./child/selection_popup/SelectionPopup";
 import WaitingPopup from "./child/waiting_popup/WaitingPopup";
+import AddressPopup from "./child/add_address_popup/AddressPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -43,6 +44,8 @@ export default function Popup() {
       case POPUP.WAITING_POPUP:
         return <WaitingPopup />;
 
+      case POPUP.ADD_ADDRESS_POPUP:
+        return <AddressPopup closePopup={() => handleClosePopup(type)} />;
       default:
         return <></>;
     }

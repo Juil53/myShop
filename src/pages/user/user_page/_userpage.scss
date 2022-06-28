@@ -1,3 +1,5 @@
+@import "./child/address_management/address_management";
+
 .user-page-container {
   width: 90%;
   margin-left: 5%;
@@ -51,6 +53,7 @@
     }
 
     .user-page__content-right {
+      width: 70%;
       border-left: 1px solid $grayColor-1;
       padding-left: 2rem;
 
@@ -127,7 +130,7 @@
         .change-password-btn {
           margin-top: 2rem;
           padding: 1rem 0;
-          width: 80%;
+          width: 30%;
           text-transform: uppercase;
         }
       }
@@ -138,6 +141,13 @@
         }
 
         .user_infor {
+          margin-top: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+
           .user_pic {
             width: 8rem;
             height: 8rem;
@@ -169,16 +179,55 @@
           }
 
           .user_infor-field {
+            display: flex;
+            position: relative;
+            margin-top: 3rem;
+            align-items: center;
+            width: 40rem;
+
             label {
               font-size: 1.4rem;
+              flex: 2;
             }
 
             input {
-              margin-left: 2rem;
               border: 1px solid $grayColor-1;
               padding: 1rem;
-              width: 20rem;
+              flex: 4;
+              transition: all ease 0.3s;
             }
+          }
+
+          .user_infor-field:hover,
+          .user_infor-field:focus-within {
+            input {
+              border: 1px solid $mainColor;
+            }
+          }
+
+          .user_infor-field[data-error] {
+            input {
+              border: 1px solid red;
+            }
+          }
+
+          .user_infor-field::after {
+            position: absolute;
+            content: attr(data-error);
+            font-size: 1.1rem;
+            color: red;
+            top: 4rem;
+            left: 13rem;
+          }
+        }
+
+        .save_change-container {
+          margin-top: 4rem;
+          display: flex;
+          justify-content: center;
+
+          .save_change {
+            padding: 1rem;
           }
         }
       }

@@ -21,7 +21,7 @@ function UserRoutes() {
         <Route path="sign" element={<SigninSignup />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="payment" element={<Payment />} />
-        <Route path="user" element={<UserPage />} />
+        <Route path="user/*" element={<UserPage />} />
       </Route>
     </Routes>
   );

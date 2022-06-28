@@ -5,7 +5,7 @@ import { CART_ACTIONS } from "../../constants";
 import API from "../../service";
 import { actions } from "./slice";
 import { utils } from "../../utils";
-import { handleAddCart, handleUpdateCart } from "./help";
+import { handleUpdateCart } from "./help";
 
 export function* getCart() {
   yield put(actions.fetchCartRequest());
@@ -13,23 +13,24 @@ export function* getCart() {
   try {
     const cart = localStorage.get("cart");
     const user = localStorage.get("user");
+
     if (user) {
       const kq = yield call(API.get, { path: `carts/cart${user.id}` });
+
       if (kq) {
         const newCart = {
           totalAmount: 0,
           productList: [],
         };
         if (!cart) {
-          console.log("co gio hang trong data & ko co cart tren local");
           newCart.totalAmount = kq.totalAmount;
           newCart.productList = [...kq.productList];
 
           localStorage.set("cart", newCart);
         } else {
-          console.log("co gio hang trong data & co cart tren local");
           const productLocal = [...cart.productList];
           const productData = [...kq.productList];
+
           productData.forEach((v) => {
             const sameProduct = productLocal.filter((p) => p.id === v.id);
 
@@ -58,13 +59,13 @@ export function* getCart() {
         yield put(actions.fetchCartSuccess(newCart));
       } else {
         if (cart) {
-          console.log("chi co cart o local");
           const newCart = {
             id: `cart${user.id}`,
             uid: user.id,
             productList: cart.productList,
             totalAmount: cart.totalAmount,
           };
+
           yield call(API.post, { path: "carts", query: newCart });
         }
       }
@@ -91,13 +92,14 @@ export function* updateCart({ product }) {
   try {
     const user = localStorage.get("user");
     const cart = localStorage.get("cart");
+
     if (user) {
       const rs = yield call(API.get, { path: `carts/cart${user.id}` });
       const newCart = handleUpdateCart(cart, { product });
-      console.log(newCart);
+
       rs.totalAmount = newCart.totalAmount;
       rs.productList = newCart.productList;
-      console.log(rs);
+
       yield call(API.put, { path: `carts/cart${user.id}`, query: rs });
     }
     yield put(actions.updateCart({ product }));
