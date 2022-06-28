@@ -6,12 +6,14 @@ import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Box,
-  IconButton, Paper,
-  Stack, Table,
+  IconButton,
+  Paper,
+  Stack,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableRow
+  TableRow,
 } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,32 +22,31 @@ import {
   getOrderDetail,
   getOrderPaginationRequest,
   getOrderRequest,
-  openModal
+  openModal,
 } from "../../../../store/orders/orderSlice";
 import {
   selectLoading,
   selectOrderData,
   selectOrderDetail,
-  selectOrderPagination
+  selectOrderPagination,
 } from "../../../../store/orders/selector";
 import { selectUserData } from "../../../../store/users/selector";
 import { getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
-  CustomPagination
+  CustomPagination,
 } from "../../../../styles/styled_components/styledComponent";
 
-export default function OrderTable({ keyword }) {
+export default function OrderList({ keyword }) {
   const dispatch = useDispatch();
   const listOrder = useSelector(selectOrderData);
   const loading = useSelector(selectLoading);
-  const userList = useSelector(selectUserData);
   const orderDetail = useSelector(selectOrderDetail);
   const orderDataPagination = useSelector(selectOrderPagination);
   const [page, setPage] = React.useState(1);
-  const ROWS_PER_PAGE = 20;
+  const ROWS_PER_PAGE = 10;
   const orderList = keyword
-    ? listOrder?.filter((order) => order.id.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
+    ? listOrder?.filter((order) => order.email.toLowerCase().indexOf(keyword?.toLowerCase()) !== -1)
     : orderDataPagination;
 
   // HANDLE GET ORDER DETAIL
@@ -59,7 +60,7 @@ export default function OrderTable({ keyword }) {
     dispatch(getOrderPaginationRequest({ page, ROWS_PER_PAGE }));
     dispatch(getOrderRequest());
     dispatch(getUserRequest());
-  }, [page,orderDetail]);
+  }, [page, orderDetail]);
 
   // HANDLE DETELE ORDER
   const handleDeleteOrder = (orderId) => (
@@ -98,88 +99,6 @@ export default function OrderTable({ keyword }) {
     currency: "VND",
   });
 
-  //RENDER USER EMAIL
-  const renderEmail = (id) => {
-    const user = userList?.find((user) => user.id === id);
-    return user?.email;
-  };
-
-  //RENDER TABLE BODY
-  const renderTableBody = () => {
-    return orderList?.map((order, index) => {
-      return (
-        <TableRow
-          key={index}
-          hover={true}
-          sx={{
-            "&:last-child td, &:last-child th": { border: 0 },
-            cursor: "pointer",
-          }}
-        >
-          <TableCell align="left">{order.id}</TableCell>
-          <TableCell align="left">{order.userId}</TableCell>
-          <TableCell
-            align="left"
-            style={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "150px",
-            }}
-          >
-            {renderEmail(order.userId)}
-          </TableCell>
-          <TableCell
-            style={{
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "50px",
-            }}
-          >
-            <LocationOnIcon fontSize="small" color="secondary" sx={{ verticalAlign: "middle" }} />
-            {order.address.location}
-          </TableCell>
-          <TableCell align="left">{order.date}</TableCell>
-          <TableCell align="left">{formatter.format(order.totalAfterDiscount)}</TableCell>
-          <TableCell
-            align="left"
-            sx={{
-              color: statusColors[order.status] ?? "#000",
-              fontWeight: 700,
-            }}
-          >
-            {statusIcon(order.status)}
-            {order.status}
-          </TableCell>
-          <TableCell align="center">
-            <Stack direction="row">
-              <IconButton
-                color="secondary"
-                size="small"
-                onClick={() => {
-                  handleGetOrderDetail(order);
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                color="error"
-                size="small"
-                onClick={() => {
-                  handleDeleteOrder(order.id);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Stack>
-          </TableCell>
-        </TableRow>
-      );
-    });
-  };
-
   return (
     <>
       {loading ? (
@@ -199,7 +118,6 @@ export default function OrderTable({ keyword }) {
               <CustomizedTableHead>
                 <TableRow>
                   <TableCell width="10%">Order ID</TableCell>
-                  <TableCell width="10%">User ID</TableCell>
                   <TableCell width="20%">Email</TableCell>
                   <TableCell width="20%">Delivery place</TableCell>
                   <TableCell width="10%">Date</TableCell>
@@ -208,7 +126,85 @@ export default function OrderTable({ keyword }) {
                   <TableCell width="5%"></TableCell>
                 </TableRow>
               </CustomizedTableHead>
-              <TableBody>{renderTableBody()}</TableBody>
+              <TableBody>
+                {orderList?.map((order, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      hover={true}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        cursor: "pointer",
+                      }}
+                    >
+                      <TableCell align="left">{order.id}</TableCell>
+                      <TableCell
+                        align="left"
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "150px",
+                        }}
+                      >
+                        {order.email}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: 500,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "50px",
+                        }}
+                      >
+                        <LocationOnIcon
+                          fontSize="small"
+                          color="secondary"
+                          sx={{ verticalAlign: "middle" }}
+                        />
+                        {order.address.location}
+                      </TableCell>
+                      <TableCell align="left">{order.date}</TableCell>
+                      <TableCell align="left">
+                        {formatter.format(order.totalAfterDiscount)}
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                        sx={{
+                          color: statusColors[order.status] ?? "#000",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {statusIcon(order.status)}
+                        {order.status}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Stack direction="row">
+                          <IconButton
+                            color="secondary"
+                            size="small"
+                            onClick={() => {
+                              handleGetOrderDetail(order);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            color="error"
+                            size="small"
+                            onClick={() => {
+                              handleDeleteOrder(order.id);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
             </Table>
           </TableContainer>
 

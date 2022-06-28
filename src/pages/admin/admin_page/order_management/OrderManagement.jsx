@@ -1,13 +1,13 @@
 import React from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import OrderList from "./OrderList";
+import OrderModal from "./order_modal/OrderModal";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { Box, InputAdornment, Typography } from "@mui/material";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import SearchIcon from "@mui/icons-material/Search";
-import OrderTable from "./OrderTable";
-import OrderModal from "./order_modal/OrderModal";
 import { selectOrderKeyword } from "../../../../store/orders/selector";
 import { useDispatch, useSelector } from "react-redux";
 import { getKeyword } from "../../../../store/orders/orderSlice";
-import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 
 const product__search = {
   display: "flex",
@@ -47,17 +47,14 @@ function OrderManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search by OrderId..."
+          label="Search by Email"
+          placeholder="Type email to search"
           size="small"
           sx={{ minWidth: "10%" }}
           onChange={handleChange}
         />
       </Box>
-
-      {/* ORDER TABLE */}
-      <OrderTable keyword={keyword} />
-
-      {/* ORDER MODAL */}
+      <OrderList keyword={keyword} />
       <OrderModal />
     </>
   );

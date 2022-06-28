@@ -1,4 +1,3 @@
-import { ThemeContext } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
@@ -10,15 +9,15 @@ import {
   InputLabel,
   MenuItem,
   Modal,
-  Select,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, updateOrderDetail } from "../../../../../store/orders/orderSlice";
 import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
 import { CustomBox, CustomSelect } from "../../../../../styles/styled_components/styledComponent";
+import SimpleSnackbar from "../../component/SimpleSnackbar";
 import { statusColors, statusStyle, title } from "./OrderModalStyle";
 import StatusIcons from "./StatusIcons";
 
@@ -28,6 +27,7 @@ const OrderModal = () => {
   const orderDetail = useSelector(selectOrderDetail);
   const [order, setOrder] = useState({ status: "" });
   const handleClose = () => dispatch(closeModal());
+  const [show, setShow] = useState(false);
 
   // Format currency
   const formatter = new Intl.NumberFormat("vn-VN", {
@@ -45,7 +45,11 @@ const OrderModal = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (orderDetail !== null) return dispatch(updateOrderDetail(order)), dispatch(closeModal());
+    if (orderDetail !== null) {
+      dispatch(updateOrderDetail(order));
+      dispatch(closeModal());
+      setShow(true);
+    }
   };
 
   useEffect(() => {
@@ -219,6 +223,7 @@ const OrderModal = () => {
           )}
         </CustomBox>
       </Modal>
+      <SimpleSnackbar show={show} setShow={setShow} type="edit" />
     </div>
   );
 };
