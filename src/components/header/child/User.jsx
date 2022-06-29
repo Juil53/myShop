@@ -1,37 +1,40 @@
 import { useDispatch } from "react-redux";
-
-import { clientActions } from "../../../store/clients/slice";
+import { Link } from "react-router-dom";
+import { USER_ACTIONS } from "../../../constants";
 
 const User = (props) => {
   const { data = {} } = props;
   const dispatch = useDispatch();
 
   function handleSignout() {
-    dispatch(clientActions.signout());
+    dispatch({ type: USER_ACTIONS.SIGNOUT_USER });
     window.location.reload();
-  }
-
-  function handleUserButton() {
-    window.location.href = window.location.origin + "/user";
   }
 
   return (
     <>
-      <div className="nav-btn user-btn" onClick={handleUserButton}>
-        <i className="fa-solid fa-user" />
-        <span>User</span>
-        <div className="user-dropdown">
-          <div className="title">
-            Hi, <span>{data.displayName}</span>
+      <div className="nav-btn user-btn">
+        <div className="user">
+          <div className="image">
+            <img src={data.image} alt="" />
           </div>
-          <a href="user/orders">Orders</a>
-          <a href="#">Account information</a>
-          <a href="#">Change password</a>
-          <a href="#">Address manage</a>
+          <div className="name">
+            <span>Hi,</span>
+            <div>{data.displayName}</div>
+          </div>
+        </div>
+        <div className="user-dropdown">
+          <Link to="/user/information">Account information</Link>
+          <Link to="/user/orders">Orders</Link>
+          <Link to="/user/password">Change password</Link>
+          <Link to="/user/address">Address manage</Link>
+          <div className="signout" onClick={handleSignout}>
+            Sign out
+          </div>
         </div>
       </div>
-      <div className="sign-out-btn" onClick={handleSignout}>
-        Sign out
+      <div className="signout-btn">
+        <i className="fa-solid fa-arrow-right-from-bracket"></i>
       </div>
     </>
   );

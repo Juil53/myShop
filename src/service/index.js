@@ -2,13 +2,14 @@ import { constant as c } from "../constants";
 import { delay } from "../utils";
 
 const call = async ({
+  baseUrl = c.API_URL,
   path = "",
   method = "GET",
   headers = {},
   query = null,
 }) => {
   try {
-    let res = await fetch(`${c.API_URL}/${path}`, {
+    let res = await fetch(`${baseUrl}/${path}`, {
       method,
       headers: {
         "Content-Type": "application/json",
@@ -31,14 +32,14 @@ const call = async ({
   }
 };
 
-const get = ({ path = "", headers = {} }) =>
-  call({ path, headers, method: "GET" });
+const get = ({ baseUrl = c.API_URL, path = "", headers = {} }) =>
+  call({ baseUrl, path, headers, method: "GET" });
 
-const post = ({ path = "", headers = {}, query = {} }) =>
-  call({ path, headers, query, method: "POST" });
+const post = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
+  call({ baseUrl, path, headers, query, method: "POST" });
 
-const put = ({ path = "", headers = {}, query = {} }) =>
-  call({ path, headers, query, method: "PUT" });
+const put = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
+  call({ baseUrl, path, headers, query, method: "PUT" });
 
 export default {
   get,

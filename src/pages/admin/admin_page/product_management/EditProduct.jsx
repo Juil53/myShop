@@ -154,7 +154,12 @@ export default function EditProduct() {
                 <Grid item xs={3}>
                   <FormControlLabel
                     control={
-                      <Field as={Switch} name="isHot" color="secondary" checked={values.isHot} />
+                      <Field
+                        as={Switch}
+                        name="isHot"
+                        color="secondary"
+                        checked={values.isHot}
+                      />
                     }
                     label="Hot"
                     labelPlacement="end"
@@ -166,7 +171,12 @@ export default function EditProduct() {
                   <FormControlLabel
                     value="end"
                     control={
-                      <Field as={Switch} name="isNew" color="secondary" checked={values.isNew} />
+                      <Field
+                        as={Switch}
+                        name="isNew"
+                        color="secondary"
+                        checked={values.isNew}
+                      />
                     }
                     label="New"
                     labelPlacement="end"
@@ -207,10 +217,20 @@ export default function EditProduct() {
                   marginTop={2}
                   paddingLeft={2}
                 >
-                  <Button variant="contained" color="success" type="submit" size="small">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    type="submit"
+                    size="small"
+                  >
                     Submit
                   </Button>
-                  <Button variant="contained" color="error" type="submit" size="small">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    size="small"
+                  >
                     Reset
                   </Button>
                   <Link to="/admin/products">

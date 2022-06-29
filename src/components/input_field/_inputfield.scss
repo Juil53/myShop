@@ -1,0 +1,54 @@
+.input_field {
+  margin: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  min-width: 30rem;
+  background-color: $whiteColor;
+
+  label {
+    left: 1rem;
+    top: 1rem;
+    position: absolute;
+    box-sizing: border-box;
+    color: $grayColor;
+    z-index: 1;
+    font-size: 1em;
+    transition: all 200ms ease-in;
+  }
+
+  input {
+    border-radius: 4px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 0.94em 0.8em;
+    border: 1px $grayColor-3 solid;
+    height: 4.4rem;
+    background-color: $whiteColor;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+
+  input:focus,
+  input:hover {
+    border: 1px solid $mainColor;
+    box-shadow: 0 0 0 1px #66afe9;
+  }
+
+  input:focus~label,
+  input:not(:placeholder-shown)~label {
+    top: -1.2rem;
+    left: 0.8rem;
+    color: $mainColor;
+    font-size: 1.4rem;
+    background-color: $whiteColor;
+  }
+
+  input:not(:focus)~label {
+    color: $grayColor;
+  }
+}
+
+.input_field:-webkit-autofill {
+  transition: background-color 5000s
+}

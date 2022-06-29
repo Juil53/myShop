@@ -11,6 +11,9 @@ const SelectionPopup = (props) => {
       dispatch({ type: CART_ACTIONS.UPDATE_CART, product: product });
       closePopup();
     },
+    "sign in": () => {
+      window.location.href = window.location.origin + "/sign";
+    },
   };
 
   return (

@@ -21,6 +21,11 @@ const AddCartPopup = (props) => {
         closePopup();
       }
     }
+    if (cart.update === LOADING_STATUS.LOADING) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else if (cart.update === LOADING_STATUS.SUCCESS) {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    }
   });
 
   function deleteItem(product) {

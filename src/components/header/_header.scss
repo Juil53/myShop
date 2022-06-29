@@ -486,6 +486,36 @@
     position: relative;
     cursor: pointer;
 
+    .user {
+      display: flex;
+      align-items: center;
+
+      .image {
+        width: 5rem;
+        height: 5rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      .name {
+        margin-left: 0.5rem;
+        transition: all ease 0.3s;
+
+        div {
+          max-width: 10rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+
     .user-dropdown {
       line-height: normal;
       display: flex;
@@ -503,12 +533,6 @@
         0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
       transition: all 0.3s ease-in-out;
 
-      .title {
-        text-align: center;
-        color: $grayColor-3;
-        font-size: 1.6rem;
-      }
-
       a {
         padding: 1rem;
         color: $grayColor-3;
@@ -524,24 +548,54 @@
           color: $mainColor;
         }
       }
+
+      .signout {
+        padding: 1rem;
+        color: $grayColor-3;
+        cursor: pointer;
+      }
+
+      .signout:hover {
+        color: $mainColor;
+      }
+    }
+
+    .user-dropdown::before {
+      box-shadow: -1px -1px 2px 0 #e4e4e4;
+      content: "";
+      background-color: #fff;
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      top: -7px;
+      right: 50%;
+      transform: rotate(45deg);
     }
   }
 
-  .user-btn:hover {
-    .user-dropdown {
-      visibility: visible;
-      opacity: 1;
-      top: 3rem;
-    }
-  }
-
-  .sign-out-btn {
-    padding-right: 2rem;
+  .signout-btn {
+    display: none;
+    font-size: 2rem;
+    padding-right: 1rem;
     cursor: pointer;
   }
 
-  .sign-out-btn:hover {
+  .signout-btn:hover {
     color: $mainColor;
+  }
+
+  .user-btn:hover {
+    .user {
+      .name {
+        color: $mainColor;
+      }
+    }
+
+    .user-dropdown {
+      visibility: visible;
+      opacity: 1;
+      top: 6rem;
+    }
   }
 
   //HEADER NAVIGATION (home, product...)
@@ -820,6 +874,52 @@
         width: 25rem;
       }
     }
+
+    .user-btn {
+      position: relative;
+      cursor: pointer;
+
+      .user {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .image {
+          width: 3rem;
+          height: 3rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        .name {
+          margin-left: 0;
+          font-size: 1.2rem;
+
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .signout-btn {
+      display: block;
+      font-size: 1.8rem;
+      padding-right: 1rem;
+      cursor: pointer;
+    }
+
+    .user-btn:hover {
+      .user-dropdown {
+        visibility: hidden;
+        opacity: 0;
+        top: 10rem;
+      }
+    }
   }
 }
 
@@ -843,6 +943,52 @@
         width: 35rem;
       }
     }
+
+    .user-btn {
+      position: relative;
+      cursor: pointer;
+
+      .user {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .image {
+          width: 3rem;
+          height: 3rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        .name {
+          margin-left: 0;
+          font-size: 1.2rem;
+
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .signout-btn {
+      display: block;
+      font-size: 1.8rem;
+      padding-right: 1rem;
+      cursor: pointer;
+    }
+
+    .user-btn:hover {
+      .user-dropdown {
+        visibility: hidden;
+        opacity: 0;
+        top: 10rem;
+      }
+    }
   }
 }
 
@@ -857,9 +1003,8 @@
 
     //HEADER TOP (logo, top nav)
     .header__top {
-
       .header__top-logo {
-        width: 30%;
+        width: 25%;
 
         .img-container {
           width: 100%;
@@ -868,7 +1013,47 @@
       }
 
       .search-box {
-        width: 35rem;
+        width: 32rem;
+      }
+    }
+
+    .user-btn {
+      position: relative;
+      cursor: pointer;
+
+      .user {
+        display: flex;
+        align-items: center;
+
+        .image {
+          width: 3rem;
+          height: 3rem;
+
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        .name {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+
+    .signout-btn {
+      display: block;
+      font-size: 2rem;
+      padding-right: 1rem;
+      cursor: pointer;
+    }
+
+    .user-btn:hover {
+      .user-dropdown {
+        visibility: hidden;
+        opacity: 0;
+        top: 10rem;
       }
     }
   }
