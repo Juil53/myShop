@@ -15,46 +15,34 @@ import { Box, Paper, Typography } from "@mui/material";
 const Chart = () => {
   const data = [
     {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
+      name: "January",
+      Revenue: 1000,
+      Profit: 700,
     },
     {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
+      name: "Febuary",
+      Revenue: 1400,
+      Profit: 1000,
     },
     {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
+      name: "March",
+      Revenue: 1900,
+      Profit: 1700,
     },
     {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
+      name: "April",
+      Revenue: 2900,
+      Profit: 2500,
     },
     {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
+      name: "May",
+      Revenue: 1700,
+      Profit: 1400,
     },
     {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
+      name: "June",
+      Revenue: 1200,
+      Profit: 900,
     },
   ];
 
@@ -83,8 +71,8 @@ const Chart = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="pv" fill="#8884d8" />
-          <Bar dataKey="uv" fill="#82ca9d" />
+          <Bar dataKey="Revenue" fill="green" />
+          <Bar dataKey="Profit" fill="#133f63" />
         </BarChart>
       </ResponsiveContainer>
     </Box>
