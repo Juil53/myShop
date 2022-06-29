@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { loginAdmin, selectUserKeyword } from "../../../../store/users/selector";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import { UserTable } from "./UserTable";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
+import { UserList } from "./UserList";
 
 const user__search = {
   display: "flex",
@@ -77,7 +77,7 @@ function UserManagement() {
           </Box>
 
           <Box>
-            <UserTable keyword={keyword} />
+            <UserList keyword={keyword} />
           </Box>
         </>
       )}

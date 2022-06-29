@@ -1,11 +1,10 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Grid, MenuItem, Paper, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { Button, Grid, MenuItem, Paper, Stack, TextField, Typography, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectUserInfo } from "../../../../store/users/selector";
-import { getUserRequest, updateUserInfo } from "../../../../store/users/usersSlice";
+import { getUserRequest, updateUserInfoRequest } from "../../../../store/users/usersSlice";
+import SimpleSnackbar from "../component/SimpleSnackbar";
 
 //MODAL SELECT ROLE
 const roles = [
@@ -21,33 +20,41 @@ const roles = [
 
 const UserEdit = () => {
   const navigate = useNavigate();
-  const params = useParams();
   const dispatch = useDispatch();
+  const params = useParams();
   const userInfo = useSelector((state) => selectUserInfo(state, params.id));
-  console.log(userInfo)
+  const [show, setShow] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getUserRequest());
   }, []);
 
-  const [role, setRole] = React.useState("");
-  const [state, setState] = React.useState({
+  const [role, setRole] = useState("");
+  const [state, setState] = useState({
     firstname: "",
     lastname: "",
     password: "",
     email: "",
+    address: "",
     phonenumber: "",
+    gender: "",
+    education: "",
+    identify: "",
     role: "",
     avatar: "",
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (userInfo) {
       setState({
         firstname: userInfo.firstname,
         lastname: userInfo.lastname,
         password: userInfo.password,
         email: userInfo.email,
+        address: userInfo.address,
+        gender: userInfo.gender,
+        education: userInfo.education,
+        identify: userInfo.identify,
         phonenumber: userInfo.phonenumber,
         avatar: userInfo.avatar,
       });
@@ -58,8 +65,11 @@ const UserEdit = () => {
         lastname: "",
         password: "",
         email: "",
+        address: "",
+        gender: "",
+        education: "",
+        identify: "",
         phonenumber: "",
-        role: "",
         avatar: "",
       });
       setRole("");
@@ -78,20 +88,13 @@ const UserEdit = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (userInfo !== null)
-      return dispatch(updateUserInfo({ state, id: userInfo.id })), navigate("/admin/users");
+      return dispatch(updateUserInfoRequest({ state, id: userInfo.id })), setShow(true);
   };
 
   return (
     <div>
-      <Box component={Paper} sx={{ width: 700, margin: "0 auto" }} elevation={5}>
+      <Box component={Paper} sx={{ width: 700, margin: "0 auto" }} elevation={3}>
         <Box component="form" style={{ marginTop: 30, padding: 30 }}>
-          <Button
-            startIcon={<ArrowBackIcon />}
-            color="secondary"
-            onClick={() => navigate("/admin/users")}
-          >
-            Back
-          </Button>
           <h1 className="admin__title">Edit User</h1>
 
           <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
@@ -133,23 +136,48 @@ const UserEdit = () => {
                   size="small"
                   variant="standard"
                   required
-                  label="Email Name"
+                  label="Email"
                   name="email"
                   value={state.email}
                   onChange={handleOnChange}
                 />
-
-                {/* data thieu password,them vao sau */}
-                {/* <TextField
+                <TextField
                   size="small"
                   variant="standard"
-                  type="password"
                   required
-                  label="Password"
-                  name="password"
-                  value={state.password}
+                  label="Address"
+                  name="address"
+                  value={state.address}
                   onChange={handleOnChange}
-                /> */}
+                />
+
+                <TextField
+                  size="small"
+                  variant="standard"
+                  required
+                  label="Gender"
+                  name="gender"
+                  value={state.gender}
+                  onChange={handleOnChange}
+                />
+                <TextField
+                  size="small"
+                  variant="standard"
+                  required
+                  label="Education"
+                  name="education"
+                  value={state.education}
+                  onChange={handleOnChange}
+                />
+                <TextField
+                  size="small"
+                  variant="standard"
+                  required
+                  label="Identify"
+                  name="identify"
+                  value={state.identify}
+                  onChange={handleOnChange}
+                />
                 <TextField
                   size="small"
                   variant="standard"
@@ -159,6 +187,7 @@ const UserEdit = () => {
                   value={state.phonenumber}
                   onChange={handleOnChange}
                 />
+
                 <TextField
                   size="small"
                   variant="standard"
@@ -180,19 +209,32 @@ const UserEdit = () => {
             </Grid>
           </Grid>
 
-          <div className="admin__btn" style={{ textAlign: "center", marginTop: "1rem" }}>
-            <Button
-              variant="contained"
-              color="success"
-              size="small"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
-          </div>
+          <Box>
+            <Stack direction="row" spacing={1} justifyContent="center" mt={1}>
+              <Button
+                variant="contained"
+                color="success"
+                size="small"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+
+              <Button
+                variant="contained"
+                size="small"
+                color="secondary"
+                onClick={() => navigate("/admin/users")}
+              >
+                Back
+              </Button>
+            </Stack>
+          </Box>
         </Box>
       </Box>
+
+      <SimpleSnackbar show={show} setShow={setShow} type="edit"/>
     </div>
   );
 };

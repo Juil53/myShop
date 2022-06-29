@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -20,6 +20,7 @@ import {
 } from "../../../../store/admin_product/productSlice";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
+import SimpleSnackbar from "../component/SimpleSnackbar";
 import AttributeInput from "./add_product/AttributeInput";
 import CategoriesInput from "./add_product/CategoriesInput";
 import ImageInput from "./add_product/ImageInput";
@@ -28,6 +29,7 @@ export default function EditProduct() {
   const params = useParams();
   const dispatch = useDispatch();
   const info = useSelector((state) => selectProductInfo(state, params.id));
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     dispatch(getOptionsRequest());
@@ -37,12 +39,6 @@ export default function EditProduct() {
 
   return (
     <Box component={Paper} elevation={5} padding={5} width="100%" margin="auto">
-      <Link to="/admin/products">
-        <Button startIcon={<ArrowBackIcon />} color="secondary">
-          Back
-        </Button>
-      </Link>
-
       <Typography variant="h4" marginBottom={2} sx={{ fontWeight: 700 }}>
         Edit Product
       </Typography>
@@ -66,6 +62,7 @@ export default function EditProduct() {
           enableReinitialize
           onSubmit={async (values, { resetForm }) => {
             console.log(values);
+            setShow(true);
           }}
         >
           {({ values }) => (
@@ -236,12 +233,18 @@ export default function EditProduct() {
                   >
                     Reset
                   </Button>
+                  <Link to="/admin/products">
+                    <Button variant="contained" color="secondary">
+                      Back
+                    </Button>
+                  </Link>
                 </Stack>
               </Grid>
             </Form>
           )}
         </Formik>
       )}
+      <SimpleSnackbar show={show} setShow={setShow} type="edit"/>
     </Box>
   );
 }

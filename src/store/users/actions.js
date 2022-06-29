@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-
+import { ROWS_PER_PAGE } from "../../constants";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
   getUserFailed,
@@ -11,7 +11,8 @@ import {
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
-  getUserPaginationRequest
+  deleteUserSuccess,
+  deleteUserFailed,
 } from "./usersSlice";
 import { signinAuth, signup } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
@@ -29,7 +30,7 @@ export function* actGetUser() {
 
 // GET USER DATA PAGINATION
 export function* actGetUserPagination(action) {
-  const { page, ROWS_PER_PAGE } = action.payload;
+  const { page } = action.payload;
   try {
     const result = yield call(apiInstance.get, `users?_page=${page}&_limit=${ROWS_PER_PAGE}`);
     yield put(getUserPaginationSuccess(result));
@@ -61,8 +62,9 @@ export function* actAddUser(action) {
 export function* actDeleteUser(action) {
   try {
     yield call(apiInstance.delete, `users/${action.payload}`);
+    yield put(deleteUserSuccess());
   } catch (err) {
-    console.log(err);
+    yield put(deleteUserFailed(err));
   }
 }
 
@@ -71,7 +73,6 @@ export function* actUpdateUserInfo(action) {
   try {
     const result = yield call(apiInstance.put, `users/${action.payload.id}`, action.payload.state);
     yield put(submitUserSuccess(result));
-    yield put(actGetUserPagination());
   } catch (err) {
     console.log(err);
     yield put(submitUserFailed());
@@ -106,7 +107,7 @@ export default function* userSaga() {
   yield takeEvery("users/getUserRequest", actGetUser);
   yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
   yield takeEvery("users/submitUserRequest", actAddUser);
-  yield takeEvery("DELETE_USER", actDeleteUser);
-  yield takeEvery("users/updateUserInfo", actUpdateUserInfo);
+  yield takeEvery("users/deleteUserRequest", actDeleteUser);
+  yield takeEvery("users/updateUserInfoRequest", actUpdateUserInfo);
   yield takeEvery(USER_ACTIONS.SIGNIN_ADMIN, signinAdmin);
 }

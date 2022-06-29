@@ -1,13 +1,14 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box, Button, Grid, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import * as React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectLoading } from "../../../../store/users/selector";
 import { submitUserRequest } from "../../../../store/users/usersSlice";
 import { validation } from "../../../../validation/Validation";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
+import SimpleSnackbar from "../component/SimpleSnackbar";
 
 // SELECT ROLE
 
@@ -67,6 +68,8 @@ export default function AddUser(props) {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const [role, setRole] = React.useState("");
+  const [show, setShow] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       firstname: "",
@@ -82,9 +85,9 @@ export default function AddUser(props) {
       role: role,
     },
     validationSchema: validation,
-    onSubmit: (values, { resetForm,setSubmitting }) => {
+    onSubmit: (values, { resetForm, setSubmitting }) => {
       dispatch(submitUserRequest({ values }));
-      alert("submit success");
+      setShow(true);
       setSubmitting(false);
       resetForm();
     },
@@ -214,21 +217,6 @@ export default function AddUser(props) {
                   error={formik.touched.password && formik.errors.password ? true : false}
                 />
               </Grid>
-              <Grid item xs={6}>
-                {/* <TextField
-                  size="small"
-                  color="secondary"
-                  variant="outlined"
-                  type="password"
-                  required
-                  label="Password Confirmation"
-                  name="password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  helperText={formik.errors.password}
-                  error={formik.errors.password}
-                /> */}
-              </Grid>
             </Grid>
 
             <Grid container spacing={2}>
@@ -275,22 +263,20 @@ export default function AddUser(props) {
           <Grid container spacing={2} mt={1}>
             <Grid item xs={6}>
               <Stack direction="row" spacing={2}>
-                <Button
-                  variant="contained"
-                  color="success"
-                  type="submit"
-                >
+                <Button variant="contained" color="success" type="submit">
                   Submit
                 </Button>
                 <Link to="/admin/users">
                   <Button variant="contained" color="secondary">
-                    Cancel
+                    Back
                   </Button>
                 </Link>
               </Stack>
             </Grid>
           </Grid>
         </Box>
+
+        <SimpleSnackbar show={show} setShow={setShow} type="add"/>
       </Box>
     </div>
   );

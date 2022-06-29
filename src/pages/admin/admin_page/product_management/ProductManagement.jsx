@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import ProductTable from "./ProductTable";
 import { Autocomplete, Box, Button, Grid, InputAdornment, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import { selectCategories } from "../../../../store/admin_product/selector";
 import { getCategoriesRequest } from "../../../../store/admin_product/productSlice";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
+import ProductList from "./ProductList";
 
 const product__search = {
   display: "flex",
@@ -106,7 +106,7 @@ function ProductManagement() {
       </Grid>
 
       <Box>
-        <ProductTable filterOptions={filterOptions} />
+        <ProductList filterOptions={filterOptions} />
       </Box>
     </>
   );

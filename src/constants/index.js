@@ -74,3 +74,5 @@ export const USER_ACTIONS = {
   SIGNIN_ADMIN: "SIGNIN_ADMIN",
   SIGNOUT_USER: "SIGNOUT_USER",
 };
+
+export const ROWS_PER_PAGE = 10;

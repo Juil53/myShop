@@ -14,7 +14,6 @@ const CategoriesInput = () => {
     values: { categories },
     setFieldValue,
   } = useFormikContext();
-  console.log("categories", categories);
 
   useEffect(() => {
     if (categories.length !== 0) {

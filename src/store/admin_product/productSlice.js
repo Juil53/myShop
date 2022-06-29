@@ -9,6 +9,7 @@ const productSlice = createSlice({
     products: [],
     productsPagination: null,
     productInfo: null,
+    status:false,
     categories: [],
   },
   reducers: {
@@ -97,6 +98,22 @@ const productSlice = createSlice({
     getProductInfo(state, action) {
       state.productInfo = action.payload;
     },
+
+    deleteProductRequest(state){
+      state.status = false
+    },
+
+    deleteProductSuccess(state){
+      state.status = true
+    },
+
+    deleteProductFailed(state){
+      state.status = false
+    },
+
+    resetStatus(state){
+      state.status = false
+    }
   },
 });
 
@@ -117,6 +134,10 @@ export const {
   getProductPaginationSuccess,
   getProductPaginationFailed,
   getProductInfo,
+  deleteProductRequest,
+  deleteProductSuccess,
+  deleteProductFailed,
+  resetStatus
 } = productSlice.actions;
 
 export default productSlice.reducer;
