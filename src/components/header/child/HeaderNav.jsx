@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const HeaderNav = (props) => {
-  const { languages, currentPage, categories } = props;
+  const { currentPage, categories } = props;
 
   const createSubCategory = (data, mainCateID) => {
     return data.map((v) => {
@@ -58,10 +58,10 @@ const HeaderNav = (props) => {
               : "header__nav-btn home-btn"
           }
         >
-          <a href="/">
+          <Link to="/">
             <i className="fa-solid fa-house"></i>
-            {languages.header.nav.home[languages.current]}
-          </a>
+            Home
+          </Link>
         </div>
         <div
           className={
@@ -70,10 +70,10 @@ const HeaderNav = (props) => {
               : "product-btn header__nav-btn"
           }
         >
-          <a href="/product">
-            {languages.header.nav.product[languages.current]}
+          <Link to="/product">
+            Product
             <i className="fa-solid fa-chevron-down"></i>
-          </a>
+          </Link>
           {categories.data && categories.data.length !== 0 && (
             <div className="mega__dropdown row">
               {createMegaDropdown(categories.data)}
@@ -87,7 +87,7 @@ const HeaderNav = (props) => {
               : "header__nav-btn about-btn"
           }
         >
-          <a href="/about">{languages.header.nav.about[languages.current]}</a>
+          <Link to="/about">About</Link>
         </div>
         <div
           className={
@@ -96,7 +96,7 @@ const HeaderNav = (props) => {
               : "header__nav-btn news-btn"
           }
         >
-          <a href="/news">{languages.header.nav.news[languages.current]}</a>
+          <Link to="/news">News</Link>
         </div>
         <div
           className={
@@ -105,7 +105,7 @@ const HeaderNav = (props) => {
               : "header__nav-btn map-btn"
           }
         >
-          <a href="/map">{languages.header.nav.map[languages.current]}</a>
+          <Link to="/map">Map</Link>
         </div>
         <div
           className={
@@ -114,9 +114,7 @@ const HeaderNav = (props) => {
               : "header__nav-btn contact-btn"
           }
         >
-          <a href="/contact">
-            {languages.header.nav.contact[languages.current]}
-          </a>
+          <Link to="/contact">Contact</Link>
         </div>
       </div>
     </div>

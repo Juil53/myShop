@@ -41,8 +41,12 @@ const post = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
 const put = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
   call({ baseUrl, path, headers, query, method: "PUT" });
 
+const patch = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
+  call({ baseUrl, path, headers, query, method: "PATCH" });
+
 export default {
   get,
   post,
   put,
+  patch,
 };

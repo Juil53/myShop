@@ -37,6 +37,14 @@
       }
     }
 
+    .address_error-msg {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 1rem;
+      font-size: 1.4rem;
+      color: red;
+    }
+
     .function {
       margin-top: 2rem;
       margin-right: 1rem;

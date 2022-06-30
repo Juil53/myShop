@@ -1,13 +1,13 @@
 @import "./child/address_management/address_management";
 
-.user-page-container {
+.user_page-container {
   width: 90%;
   margin-left: 5%;
 
-  .user-page__content {
+  .user_page-content {
     margin-top: 2rem;
 
-    .user-page__content-left {
+    .user_page-content-left {
       width: 30%;
 
       .title {
@@ -52,7 +52,7 @@
       }
     }
 
-    .user-page__content-right {
+    .user_page-content-right {
       width: 70%;
       border-left: 1px solid $grayColor-1;
       padding-left: 2rem;
@@ -231,6 +231,20 @@
           }
         }
       }
+    }
+  }
+
+  .user_page-content.not_signin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 1.6rem;
+
+    .signin-btn {
+      margin-top: 2rem;
+      padding: 0.5rem 0;
+      width: 10rem;
     }
   }
 }

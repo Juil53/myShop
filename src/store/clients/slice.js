@@ -6,6 +6,9 @@ const initialState = {
   status: LOADING_STATUS.IDLE,
   msg: "",
   data: localStorage.get("user"),
+  token: localStorage.get("token"),
+  updateStatus: LOADING_STATUS.IDLE,
+  updateMsg: "",
 };
 
 const clientSlice = createSlice({
@@ -20,22 +23,31 @@ const clientSlice = createSlice({
     },
 
     signinSuccess: (state, action) => {
-      state.data = action.payload;
-      localStorage.set("user", action.payload);
+      state.data = action.payload.client;
+      state.token = action.payload.token;
+
+      localStorage.set("user", action.payload.client);
+      localStorage.set("token", action.payload.token);
+
       state.status = LOADING_STATUS.SUCCESS;
       state.msg = "Success";
     },
 
     signinFail: (state) => {
       state.data = null;
+      state.token = null;
       state.status = LOADING_STATUS.FAIL;
       state.msg = "Wrong username or password";
     },
 
     signout: (state) => {
       state.data = null;
+      state.token = null;
       state.msg = "";
+
       localStorage.remove("user");
+      localStorage.remove("token");
+
       state.status = LOADING_STATUS.IDLE;
     },
 
@@ -46,7 +58,8 @@ const clientSlice = createSlice({
     signupSuccess: (state, action) => {
       state.status = LOADING_STATUS.SUCCESS;
       state.data = action.payload;
-      localStorage.set("user", action.payload);
+      localStorage.set("user", action.payload.user);
+      localStorage.set("token", action.payload.token);
       state.msg = "Success";
     },
 
@@ -54,6 +67,28 @@ const clientSlice = createSlice({
       state.status = LOADING_STATUS.FAIL;
       if (action.payload === "auth/email-already-in-use")
         state.msg = "Email already in use";
+    },
+
+    getUserInfo: (state, action) => {
+      state.status = LOADING_STATUS.SUCCESS;
+      state.data = action.payload;
+    },
+
+    updateRequest: (state) => {
+      state.updateStatus = LOADING_STATUS.LOADING;
+    },
+
+    updateSuccess: (state, action) => {
+      state.updateStatus = LOADING_STATUS.SUCCESS;
+      state.data = action.payload;
+
+      localStorage.set("user", action.payload);
+    },
+
+    updateFail: (state) => {
+      state.updateStatus = LOADING_STATUS.FAIL;
+
+      state.updateMsg = "";
     },
   },
 });

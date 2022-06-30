@@ -45,7 +45,9 @@ export default function Popup() {
         return <WaitingPopup />;
 
       case POPUP.ADD_ADDRESS_POPUP:
-        return <AddressPopup closePopup={() => handleClosePopup(type)} />;
+        return (
+          <AddressPopup closePopup={() => handleClosePopup(type)} data={data} />
+        );
       default:
         return <></>;
     }

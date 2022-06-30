@@ -1,10 +1,22 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
+import { clientSelector } from "../../../../store/clients/selector";
+import { actions } from "../../../../store/page/slice";
+import { checkName, checkPhoneFormat } from "../../../../validation/validate";
 
 import InputField from "../../../input_field/InputField";
 import { getRegions, getDistricts, getWards } from "./api";
 
 const AddressPopup = (props) => {
-  const { closePopup } = props;
+  const { closePopup, data } = props;
+  const navigate = useNavigate();
+  const [click, setClick] = useState(false);
+
+  const dispatch = useDispatch();
+  const client = useSelector(clientSelector);
 
   const [isDefault, setDefault] = useState(false);
 
@@ -60,6 +72,16 @@ const AddressPopup = (props) => {
     setWards([]);
   };
 
+  const onChangeWard = async ({ target }) => {
+    const wardIndex = target.value;
+    const ward = wards[wardIndex];
+    const newAddress = { ...address };
+
+    newAddress.ward = { ...ward };
+
+    setAddress(newAddress);
+  };
+
   useEffect(() => {
     (async () => {
       const regions = await getRegions();
@@ -91,6 +113,77 @@ const AddressPopup = (props) => {
     })();
   }, [address?.district?.id]);
 
+  useEffect(() => {
+    if (client.updateStatus === LOADING_STATUS.LOADING && click) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else if (client.updateStatus === LOADING_STATUS.SUCCESS && click) {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+      navigate(`/user/address`);
+      closePopup();
+    } else if (client.updateStatus === LOADING_STATUS.FAIL && click) {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    }
+  });
+
+  const handleAddNewAddress = () => {
+    if (
+      name &&
+      add &&
+      phoneNumber &&
+      checkPhoneFormat(phoneNumber) &&
+      checkName(name) === "valid"
+    ) {
+      if (
+        Object.keys(address).length < 3 ||
+        !address.ward ||
+        !address.district
+      ) {
+        document.getElementById("address_error-msg").textContent =
+          "Please select address";
+      } else {
+        const newAddress = {
+          id: data.id + (data?.addressList?.length + 1 || 0 + 1),
+          name: name,
+          address: {
+            ...address,
+            detail: add,
+          },
+          phoneNumber: phoneNumber,
+        };
+
+        const newData = {};
+
+        if (!data.addressList || isDefault) {
+          newAddress.default = true;
+          newData.addressList = [];
+
+          for (let i = 0; i < data.addressList?.length; i++) {
+            if (data.addressList[i].default) {
+              const { default: d, ...others } = data.addressList[i];
+              const newObj = { ...others };
+
+              newData.addressList.push(newObj);
+            } else {
+              newData.addressList.push(data.addressList[i]);
+            }
+          }
+        } else {
+          newData.addressList = [...data.addressList];
+        }
+
+        newData.addressList.push(newAddress);
+
+        dispatch({
+          type: USER_ACTIONS.UPDATE_USER_INFO,
+          data: newData,
+          uid: data.id,
+        });
+      }
+    }
+
+    setClick(true);
+  };
+
   return (
     <div className="modal center">
       <div className="address_popup-container">
@@ -100,16 +193,21 @@ const AddressPopup = (props) => {
             title="Name"
             id="add_new_address-name"
             onChange={setName}
+            required
+            type="name"
           />
           <InputField
             title="Phone number"
             id="add_new_address-phone_number"
             onChange={setPhoneNumber}
+            required
+            type="phoneNumber"
           />
           <InputField
             title="Address"
             id="add_new_address-address"
             onChange={setAdd}
+            required
           />
           <div className="address_field row">
             <select onChange={onChangeRegion} name="Province" id="province">
@@ -137,7 +235,12 @@ const AddressPopup = (props) => {
                 </option>
               ))}
             </select>
-            <select name="Ward" id="ward" disabled={disableWard}>
+            <select
+              name="Ward"
+              id="ward"
+              disabled={disableWard}
+              onChange={onChangeWard}
+            >
               <option value="" hidden>
                 Select ward
               </option>
@@ -157,11 +260,17 @@ const AddressPopup = (props) => {
             />
             <label htmlFor="is-default">Set as default address</label>
           </div>
+          <div className="address_error-msg" id="address_error-msg"></div>
           <div className="function row">
             <button className="back-btn" onClick={closePopup}>
               Cancel
             </button>
-            <button className="button-style add-btn">Add</button>
+            <button
+              className="button-style add-btn"
+              onClick={handleAddNewAddress}
+            >
+              Add
+            </button>
           </div>
         </div>
       </div>
