@@ -1,6 +1,6 @@
 .input_field {
   margin: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   position: relative;
   min-width: 30rem;
   background-color: $whiteColor;
@@ -49,6 +49,36 @@
   }
 }
 
-.input_field:-webkit-autofill {
-  transition: background-color 5000s
+.input_field[data-error] {
+  input {
+    border: 1px solid red;
+  }
+
+  input:focus,
+  input:hover {
+    border: 1px solid red;
+    box-shadow: 0 0 0 1px red;
+  }
+
+  label {
+    color: red;
+  }
+
+  input:not(:focus)~label {
+    color: red;
+  }
+
+  input:focus~label,
+  input:not(:placeholder-shown)~label {
+    color: red;
+  }
+}
+
+.input_field::after {
+  position: absolute;
+  content: attr(data-error);
+  font-size: 1.1rem;
+  color: red;
+  top: 4.5rem;
+  left: 2rem;
 }

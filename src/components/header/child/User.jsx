@@ -1,14 +1,15 @@
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { USER_ACTIONS } from "../../../constants";
 
 const User = (props) => {
   const { data = {} } = props;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleSignout() {
     dispatch({ type: USER_ACTIONS.SIGNOUT_USER });
-    window.location.reload();
+    navigate("/home");
   }
 
   return (

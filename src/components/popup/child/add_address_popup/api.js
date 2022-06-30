@@ -24,7 +24,6 @@ export const getRegions = async () => {
 };
 
 export const getDistricts = async (regionId) => {
-  console.log(regionId);
   const path = `districts?region_id=${regionId}`;
   const rs = await getLocation(path);
 

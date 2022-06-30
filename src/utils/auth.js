@@ -8,7 +8,7 @@ export const getToken = () => {
   let user = localStorage.getItem("user");
   if (user) {
     user = JSON.parse(user);
-    token = user ? user.accessToken : "";
+    token = user ? localStorage.getItem("token") : "";
   }
   return token;
 };
@@ -31,6 +31,15 @@ export const getTokenRemainTime = () => {
   const current = new Date().getTime();
   const rs = d.exp * 1000 - current;
   return rs;
+};
+
+export const getUserId = () => {
+  const d = decodeToken();
+  if (d) {
+    return d.user_id;
+  } else {
+    return "";
+  }
 };
 
 export const isTokenValid = () => {

@@ -14,9 +14,15 @@
   }
 
   .address_list {
+    .no_address {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
     .address_item {
       padding: 2rem 1rem;
       font-size: 1.4rem;
+      border-bottom: 1px solid $grayColor-1;
 
       .address_content {
         margin-top: 1rem;

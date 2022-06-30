@@ -39,7 +39,7 @@ const AddCartPopup = (props) => {
           title: "Delete product",
           message: "Do you want to continue removing this item from your cart?",
           actionType: "delete cart",
-          product: newProduct,
+          detail: { product: newProduct },
         },
       })
     );
