@@ -5,7 +5,7 @@ import ChangePassword from "./child/ChangePassword";
 import UserInformation from "./child/UserInformation";
 import BreadCumb from "../../../components/breadcumb/BreadCumb";
 import AddressManagement from "./child/address_management/AddressManagement";
-import { clientSelector } from "../../../store/clients/selector";
+import { clientData } from "../../../store/clients/selector";
 import { useEffect } from "react";
 import { LOADING_STATUS, USER_ACTIONS } from "../../../constants";
 import Loading from "../../../components/loading/Loading";
@@ -13,7 +13,7 @@ import localStorage from "../../../service/localStorage";
 
 const UserPage = () => {
   const token = localStorage.get("token");
-  const client = useSelector(clientSelector);
+  const client = useSelector(clientData);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -34,18 +34,18 @@ const UserPage = () => {
     }
   });
 
-  const createContentRight = (client) => {
+  const createContentRight = (data) => {
     switch (pathname) {
       case "/user/orders":
         return <></>;
       case "/user/information":
-        return <UserInformation data={client} />;
+        return <UserInformation data={data} />;
       case "/user/password":
         return <ChangePassword />;
       case "/user/address":
-        return <AddressManagement data={client} />;
+        return <AddressManagement data={data} />;
       default:
-        return <UserInformation data={client} />;
+        return <UserInformation data={data} />;
     }
   };
 
@@ -60,11 +60,11 @@ const UserPage = () => {
             <div className="user_page-content-left">
               <div className="title row">
                 <div className="img">
-                  <img src={client.data?.image} alt="" />
+                  <img src={client?.info?.image} alt="" />
                 </div>
                 <div className="name">
                   Welcome back <br />
-                  <span className="bottom">{client.data?.displayName}</span>
+                  <span className="bottom">{client?.info?.displayName}</span>
                 </div>
               </div>
               <div
@@ -100,7 +100,7 @@ const UserPage = () => {
               </div>
             </div>
             <div className="user_page-content-right">
-              {createContentRight(client?.data)}
+              {createContentRight(client?.info)}
             </div>
           </div>
         ) : (

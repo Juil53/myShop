@@ -49,10 +49,9 @@ export const signinAuth = async (email = "", password = "") => {
 
     if (!res.user) return null;
 
+    console.log(res);
     return adapter(res);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };

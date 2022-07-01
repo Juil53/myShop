@@ -6,16 +6,18 @@ import API from "../../service";
 import { actions } from "./slice";
 import { utils } from "../../utils";
 import { handleUpdateCart } from "./help";
+import { getUserId } from "../../utils/auth";
 
 export function* getCart() {
   yield put(actions.fetchCartRequest());
 
   try {
     const cart = localStorage.get("cart");
-    const user = localStorage.get("user");
+    const token = localStorage.get("token");
 
-    if (user) {
-      const kq = yield call(API.get, { path: `carts/cart${user.id}` });
+    if (token) {
+      const uid = getUserId();
+      const kq = yield call(API.get, { path: `carts/cart${uid}` });
 
       if (kq) {
         const newCart = {
@@ -58,10 +60,11 @@ export function* getCart() {
         }
         yield put(actions.fetchCartSuccess(newCart));
       } else {
+        const uid = getUserId();
         if (cart) {
           const newCart = {
-            id: `cart${user.id}`,
-            uid: user.id,
+            id: `cart${uid}`,
+            uid: uid,
             productList: cart.productList,
             totalAmount: cart.totalAmount,
           };
@@ -90,17 +93,18 @@ export function* updateCart({ product }) {
   yield put(actions.updateCartRequest());
 
   try {
-    const user = localStorage.get("user");
+    const token = localStorage.get("token");
     const cart = localStorage.get("cart");
 
-    if (user) {
-      const rs = yield call(API.get, { path: `carts/cart${user.id}` });
+    if (token) {
+      const uid = getUserId();
+      const rs = yield call(API.get, { path: `carts/cart${uid}` });
       const newCart = handleUpdateCart(cart, { product });
 
       rs.totalAmount = newCart.totalAmount;
       rs.productList = newCart.productList;
 
-      yield call(API.put, { path: `carts/cart${user.id}`, query: rs });
+      yield call(API.put, { path: `carts/cart${uid}`, query: rs });
     }
     yield put(actions.updateCart({ product }));
   } catch (e) {

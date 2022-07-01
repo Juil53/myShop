@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import {
+  checkEmailFormat,
   checkMinLength,
   checkName,
   checkPhoneFormat,
@@ -61,6 +62,15 @@ const InputField = (props) => {
           }
           return;
         }
+
+        case "email": {
+          const kq = checkEmailFormat(val);
+
+          if (!kq) {
+            setError(id, "Invalid email. Enter right one.");
+          }
+          return;
+        }
       }
     }
   };
@@ -71,7 +81,6 @@ const InputField = (props) => {
         id={id + "-ip"}
         className="field-input"
         placeholder=" "
-        autoComplete="off"
         onChange={handleChangeValue}
         onBlur={checkValue}
         value={value}

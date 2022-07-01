@@ -22,11 +22,9 @@ export function* signinWithEmailAndPassword({ password, email }) {
     const clients = yield call(API.get, { path: "clients" });
     const client = clients.find((c) => c.id === rs.id) || {};
 
-    const { displayName, image } = client;
-
     const data = {
-      client: { displayName, image },
       token: rs.accessToken,
+      info: client,
     };
 
     if (Object.keys(client).length === 0) {
@@ -147,13 +145,10 @@ export function* signout() {
 export function* getUserInfo() {
   try {
     const userID = getUserId();
-
     if (userID) {
       const rs = yield call(API.get, { path: `clients/${userID}` });
-
       if (rs) {
-        const { password, ...others } = rs;
-        const data = { ...others };
+        const data = { ...rs };
 
         yield put(clientActions.getUserInfo(data));
       }

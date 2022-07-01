@@ -91,6 +91,10 @@ export const debounce = (fn, time) => {
   };
 };
 
+export const randomIntFromInterval = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 export const clone = (obj) => JSON.parse(JSON.stringify(obj));
 
 const calTotal = (cart) => {

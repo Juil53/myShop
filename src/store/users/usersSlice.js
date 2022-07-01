@@ -13,11 +13,6 @@ const usersSlice = createSlice({
     loading: false,
     open: false,
     keyword: null,
-    loginUser: {
-      status: LOADING_STATUS.IDLE,
-      data: localStorage.get("user"),
-      msg: "",
-    },
     loginAdmin: {
       status: LOADING_STATUS.IDLE,
       data: localStorage.get("admin"),

@@ -9,10 +9,11 @@ import { checkName, checkPhoneFormat } from "../../../../validation/validate";
 
 import InputField from "../../../input_field/InputField";
 import { getRegions, getDistricts, getWards } from "./api";
+import { randomIntFromInterval } from "../../../../utils";
 
 const AddressPopup = (props) => {
   const { closePopup, data, currentAddress } = props;
-  console.log(currentAddress);
+  //console.log(currentAddress);
 
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -143,8 +144,10 @@ const AddressPopup = (props) => {
         document.getElementById("address_error-msg").textContent =
           "Please select address";
       } else {
+        let addID = data.id + randomIntFromInterval(1, 10000);
+        //console.log();
         const newAddress = {
-          id: data.id + (data?.addressList?.length + 1 || 0 + 1),
+          id: addID,
           name: name,
           address: {
             ...address,
@@ -173,6 +176,14 @@ const AddressPopup = (props) => {
           newData.addressList = [...data.addressList];
         }
 
+        //Check ID
+        if (data.addressList) {
+          while (data.addressList.filter((v) => v.id === addID)?.length !== 0) {
+            console.log("hihi");
+            addID = data.id + randomIntFromInterval(1, 10000);
+          }
+          newAddress.id = addID;
+        }
         newData.addressList.push(newAddress);
 
         dispatch({

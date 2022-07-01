@@ -16,15 +16,15 @@ const AddressManagement = (props) => {
 
   //Delete address
   const handleDeleteAddress = (id) => {
-    const kq = data.address.filter((v) => v.id === id);
-    const newAddressList = clone(data.address);
+    const kq = data.addressList.filter((v) => v.id === id);
+    const newAddressList = clone(data.addressList);
 
     if (kq) {
-      const index = data.address.indexOf(kq[0]);
+      const index = data.addressList.indexOf(kq[0]);
       newAddressList.splice(index, 1);
 
       const newData = {
-        address: [...newAddressList],
+        addressList: [...newAddressList],
       };
 
       dispatch(
