@@ -11,8 +11,8 @@ export const checkPhoneFormat = (phone) => {
   return txt.test(phone);
 };
 
-export const checkPassword = (password) => {
-  if (password.length < 6) {
+export const checkMinLength = (value, length) => {
+  if (value.length < parseInt(length)) {
     return false;
   }
 

@@ -5,7 +5,7 @@ let decoded = null;
 
 export const getToken = () => {
   if (token) return token;
-  let user = localStorage.getItem("user");
+  let user = localStorage.getItem("token");
   if (user) {
     user = JSON.parse(user);
     token = user ? localStorage.getItem("token") : "";

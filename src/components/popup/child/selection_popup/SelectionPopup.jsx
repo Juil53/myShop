@@ -15,6 +15,7 @@ const SelectionPopup = (props) => {
     },
     "sign in": () => {
       navigate("/sign");
+      closePopup();
     },
     "delete address": (detail) => {
       dispatch({

@@ -8,6 +8,7 @@ import {
   signinWithGoogleAuth,
   signinWithFacebookAuth,
   signoutAuth,
+  updatePasswordAuth,
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 import { getUserId } from "../../utils/auth";
@@ -21,20 +22,18 @@ export function* signinWithEmailAndPassword({ password, email }) {
     const clients = yield call(API.get, { path: "clients" });
     const client = clients.find((c) => c.id === rs.id) || {};
 
-    const { displayName, image } = client;
-
     const data = {
-      client: { displayName, image },
       token: rs.accessToken,
+      info: client,
     };
 
     if (Object.keys(client).length === 0) {
-      yield put(clientActions.signinFail());
+      yield put(clientActions.signinFail("User not found"));
     } else {
       yield put(clientActions.signinSuccess(data));
     }
   } else {
-    yield put(clientActions.signinFail());
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
@@ -55,14 +54,9 @@ export function* signinWithGoogle() {
         id: rs.id,
         displayName: rs.displayName,
         email: rs.email,
-        password: "",
         image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
         phoneNumber: rs.phoneNumber || "",
       };
-
-      const { displayName, image } = newClient;
-
-      data.client = { displayName, image };
 
       yield call(API.post, { path: "clients", query: newClient });
     } else {
@@ -74,15 +68,13 @@ export function* signinWithGoogle() {
         client.phoneNumber = rs.phoneNumber;
       }
 
-      const { displayName, image } = client;
-
-      data.client = { displayName, image };
-
       yield call(API.put, { path: `clients/${client.id}`, query: client });
     }
 
     console.log(data);
     yield put(clientActions.signinSuccess(data));
+  } else {
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
@@ -99,7 +91,6 @@ export function* signinWithFacebook() {
         id: rs.id,
         displayName: rs.displayName,
         email: rs.email,
-        password: "",
         image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
         phoneNumber: rs.phoneNumber || "",
       };
@@ -124,17 +115,18 @@ export function* signinWithFacebook() {
 export function* signupUser({ email, password, user }) {
   yield put(clientActions.signupRequest());
 
-  const rs = yield call(signup, email, password, user);
+  const rs = yield call(signup, email, password);
 
   if (rs && !rs.code) {
     user.id = rs.id;
     user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
-    rs.image = user.image;
-    rs.displayName = user.displayName;
-    rs.phoneNumber = user.phoneNumber;
+
+    const data = {
+      token: rs.accessToken,
+    };
 
     yield call(API.post, { path: "clients", query: user });
-    yield put(clientActions.signupSuccess(rs));
+    yield put(clientActions.signupSuccess(data));
   } else {
     yield put(clientActions.signupFail(rs.code));
   }
@@ -148,13 +140,10 @@ export function* signout() {
 export function* getUserInfo() {
   try {
     const userID = getUserId();
-
     if (userID) {
       const rs = yield call(API.get, { path: `clients/${userID}` });
-
       if (rs) {
-        const { password, ...others } = rs;
-        const data = { ...others };
+        const data = { ...rs };
 
         yield put(clientActions.getUserInfo(data));
       }
@@ -172,10 +161,7 @@ export function* updateInfo({ data, uid }) {
       const rs = yield call(API.patch, { path: `clients/${uid}`, query: data });
 
       if (rs) {
-        const { password, ...others } = rs;
-
-        const data = { ...others };
-        yield put(clientActions.updateSuccess(data));
+        yield put(clientActions.updateSuccess(rs));
       }
     } catch (e) {
       console.log(e);
@@ -183,6 +169,23 @@ export function* updateInfo({ data, uid }) {
     }
   } else {
     yield put(clientActions.updateFail());
+  }
+}
+
+export function* updatePassword({ currentPass, newPass }) {
+  yield put(clientActions.updateRequest());
+
+  try {
+    const rs = yield call(updatePasswordAuth, currentPass, newPass);
+
+    if (rs && rs.code) {
+      yield put(clientActions.updateFail(rs.code));
+      console.log(rs.code);
+    } else {
+      yield put(clientActions.updateSuccess());
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -194,4 +197,5 @@ export default function* clientSaga() {
   yield takeEvery(USER_ACTIONS.SIGNOUT_USER, signout);
   yield takeEvery(USER_ACTIONS.UPDATE_USER_INFO, updateInfo);
   yield takeEvery(USER_ACTIONS.GET_USER_INFO, getUserInfo);
+  yield takeEvery(USER_ACTIONS.UPDATE_USER_PASSWORD, updatePassword);
 }

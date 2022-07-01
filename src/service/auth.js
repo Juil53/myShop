@@ -7,6 +7,9 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -46,10 +49,9 @@ export const signinAuth = async (email = "", password = "") => {
 
     if (!res.user) return null;
 
+    console.log(res);
     return adapter(res);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };
@@ -70,8 +72,6 @@ export const signup = async (email = "", password = "") => {
 
     return adapter(res);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };
@@ -83,7 +83,7 @@ export const signinWithGoogleAuth = async () => {
     const rs = await signInWithPopup(authInstance, googleProvider);
 
     if (!rs.user) return null;
-
+    console.log(rs);
     return adapter(rs);
   } catch (e) {
     console.log(JSON.parse(JSON.stringify(e)));
@@ -102,6 +102,23 @@ export const signinWithFacebookAuth = async () => {
   } catch (e) {
     console.log(JSON.parse(JSON.stringify(e)));
 
+    return JSON.parse(JSON.stringify(e));
+  }
+};
+
+export const reauthenticate = async (currentPass) => {
+  const user = authInstance.currentUser;
+  const cred = EmailAuthProvider.credential(user.email, currentPass);
+  const rs = await reauthenticateWithCredential(user, cred);
+  return rs;
+};
+
+export const updatePasswordAuth = async (currentPass, newPass) => {
+  try {
+    const user = authInstance.currentUser;
+    await reauthenticate(currentPass);
+    await updatePassword(user, newPass);
+  } catch (e) {
     return JSON.parse(JSON.stringify(e));
   }
 };

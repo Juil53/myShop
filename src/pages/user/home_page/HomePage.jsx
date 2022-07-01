@@ -29,7 +29,7 @@ export default function HomePage() {
   const { hotProducts, newProducts, bestSellingProducts } =
     useSelector(productSelector);
   const { categories } = useSelector(categoriesSelector);
-  const userLogin = localStorage.get("user");
+  //const userLogin = localStorage.get("user");
 
   const banner_settings = {
     infinite: true,
