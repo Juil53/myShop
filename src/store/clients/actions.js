@@ -58,10 +58,6 @@ export function* signinWithGoogle() {
         phoneNumber: rs.phoneNumber || "",
       };
 
-      const { displayName, image } = newClient;
-
-      data.client = { displayName, image };
-
       yield call(API.post, { path: "clients", query: newClient });
     } else {
       if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
@@ -72,15 +68,13 @@ export function* signinWithGoogle() {
         client.phoneNumber = rs.phoneNumber;
       }
 
-      const { displayName, image } = client;
-
-      data.client = { displayName, image };
-
       yield call(API.put, { path: `clients/${client.id}`, query: client });
     }
 
     console.log(data);
     yield put(clientActions.signinSuccess(data));
+  } else {
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
@@ -121,17 +115,18 @@ export function* signinWithFacebook() {
 export function* signupUser({ email, password, user }) {
   yield put(clientActions.signupRequest());
 
-  const rs = yield call(signup, email, password, user);
+  const rs = yield call(signup, email, password);
 
   if (rs && !rs.code) {
     user.id = rs.id;
     user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
-    rs.image = user.image;
-    rs.displayName = user.displayName;
-    rs.phoneNumber = user.phoneNumber;
+
+    const data = {
+      token: rs.accessToken,
+    };
 
     yield call(API.post, { path: "clients", query: user });
-    yield put(clientActions.signupSuccess(rs));
+    yield put(clientActions.signupSuccess(data));
   } else {
     yield put(clientActions.signupFail(rs.code));
   }

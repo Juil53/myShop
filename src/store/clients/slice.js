@@ -45,6 +45,10 @@ const clientSlice = createSlice({
           state.msg = "Connection error. Please try again";
           break;
 
+        case "auth/popup-closed-by-user":
+          state.msg = "";
+          break;
+
         default:
           state.msg = "Something went wrong. Please try again";
           break;

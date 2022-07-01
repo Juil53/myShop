@@ -72,8 +72,6 @@ export const signup = async (email = "", password = "") => {
 
     return adapter(res);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };
@@ -85,7 +83,7 @@ export const signinWithGoogleAuth = async () => {
     const rs = await signInWithPopup(authInstance, googleProvider);
 
     if (!rs.user) return null;
-
+    console.log(rs);
     return adapter(rs);
   } catch (e) {
     console.log(JSON.parse(JSON.stringify(e)));

@@ -45,7 +45,8 @@ const InputField = (props) => {
       }
     } else {
       switch (type) {
-        case "phoneNumber": {
+        case "phoneNumber":
+        case "phone": {
           const kq = checkPhoneFormat(val);
 
           if (!kq) {
