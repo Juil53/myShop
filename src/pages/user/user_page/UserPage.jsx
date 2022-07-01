@@ -60,11 +60,11 @@ const UserPage = () => {
             <div className="user_page-content-left">
               <div className="title row">
                 <div className="img">
-                  <img src="/img/default_product.jpg" alt="" />
+                  <img src={client.data?.image} alt="" />
                 </div>
                 <div className="name">
                   Welcome back <br />
-                  <span className="bottom">Lê Ngọc Minh</span>
+                  <span className="bottom">{client.data?.displayName}</span>
                 </div>
               </div>
               <div

@@ -8,6 +8,7 @@ import {
   signinWithGoogleAuth,
   signinWithFacebookAuth,
   signoutAuth,
+  updatePasswordAuth,
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 import { getUserId } from "../../utils/auth";
@@ -29,12 +30,12 @@ export function* signinWithEmailAndPassword({ password, email }) {
     };
 
     if (Object.keys(client).length === 0) {
-      yield put(clientActions.signinFail());
+      yield put(clientActions.signinFail("User not found"));
     } else {
       yield put(clientActions.signinSuccess(data));
     }
   } else {
-    yield put(clientActions.signinFail());
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
@@ -55,7 +56,6 @@ export function* signinWithGoogle() {
         id: rs.id,
         displayName: rs.displayName,
         email: rs.email,
-        password: "",
         image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
         phoneNumber: rs.phoneNumber || "",
       };
@@ -99,7 +99,6 @@ export function* signinWithFacebook() {
         id: rs.id,
         displayName: rs.displayName,
         email: rs.email,
-        password: "",
         image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
         phoneNumber: rs.phoneNumber || "",
       };
@@ -172,10 +171,7 @@ export function* updateInfo({ data, uid }) {
       const rs = yield call(API.patch, { path: `clients/${uid}`, query: data });
 
       if (rs) {
-        const { password, ...others } = rs;
-
-        const data = { ...others };
-        yield put(clientActions.updateSuccess(data));
+        yield put(clientActions.updateSuccess(rs));
       }
     } catch (e) {
       console.log(e);
@@ -183,6 +179,23 @@ export function* updateInfo({ data, uid }) {
     }
   } else {
     yield put(clientActions.updateFail());
+  }
+}
+
+export function* updatePassword({ currentPass, newPass }) {
+  yield put(clientActions.updateRequest());
+
+  try {
+    const rs = yield call(updatePasswordAuth, currentPass, newPass);
+
+    if (rs && rs.code) {
+      yield put(clientActions.updateFail(rs.code));
+      console.log(rs.code);
+    } else {
+      yield put(clientActions.updateSuccess());
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -194,4 +207,5 @@ export default function* clientSaga() {
   yield takeEvery(USER_ACTIONS.SIGNOUT_USER, signout);
   yield takeEvery(USER_ACTIONS.UPDATE_USER_INFO, updateInfo);
   yield takeEvery(USER_ACTIONS.GET_USER_INFO, getUserInfo);
+  yield takeEvery(USER_ACTIONS.UPDATE_USER_PASSWORD, updatePassword);
 }

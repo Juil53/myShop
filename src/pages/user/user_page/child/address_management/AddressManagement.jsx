@@ -46,7 +46,6 @@ const AddressManagement = (props) => {
   };
 
   const createAddressItem = (data) => {
-    console.log(data);
     if (data && data?.length) {
       return data.map((v) => (
         <div className="address_item" key={v.id}>

@@ -11,7 +11,9 @@ import InputField from "../../../input_field/InputField";
 import { getRegions, getDistricts, getWards } from "./api";
 
 const AddressPopup = (props) => {
-  const { closePopup, data } = props;
+  const { closePopup, data, currentAddress } = props;
+  console.log(currentAddress);
+
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
 
