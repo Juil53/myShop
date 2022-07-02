@@ -145,7 +145,6 @@ const AddressPopup = (props) => {
           "Please select address";
       } else {
         let addID = data.id + randomIntFromInterval(1, 10000);
-        //console.log();
         const newAddress = {
           id: addID,
           name: name,
@@ -179,7 +178,6 @@ const AddressPopup = (props) => {
         //Check ID
         if (data.addressList) {
           while (data.addressList.filter((v) => v.id === addID)?.length !== 0) {
-            console.log("hihi");
             addID = data.id + randomIntFromInterval(1, 10000);
           }
           newAddress.id = addID;

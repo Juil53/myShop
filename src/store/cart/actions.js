@@ -70,13 +70,13 @@ export function* getCart() {
           };
 
           yield call(API.post, { path: "carts", query: newCart });
+          yield put(actions.fetchCartSuccess(newCart));
         }
       }
     } else if (cart) {
       yield put(actions.fetchCartSuccess(cart));
     }
   } catch (err) {
-    console.log(err);
     yield put(actions.fetchCartFail());
   }
 }

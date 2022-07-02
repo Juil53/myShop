@@ -19,7 +19,6 @@ export const decodeToken = () => {
   try {
     decoded = decode(t);
   } catch (e) {
-    console.log(e);
     decoded = null;
   }
   return decoded;
