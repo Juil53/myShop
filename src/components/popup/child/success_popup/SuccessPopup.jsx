@@ -1,7 +1,7 @@
 const SuccessPopup = (props) => {
   const { data, closePopup } = props;
 
-  setTimeout(closePopup, 3000);
+  setTimeout(closePopup, 1000);
 
   return (
     <div className="modal center">

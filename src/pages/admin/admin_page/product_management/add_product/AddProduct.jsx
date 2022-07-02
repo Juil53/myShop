@@ -211,11 +211,27 @@ export default function AddProduct() {
               <AttributeInput />
             </Grid>
 
-            <Stack direction="row" alignItems="center" spacing={1} marginTop={2} paddingLeft={2}>
-              <Button variant="contained" color="success" type="submit" size="small">
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              marginTop={2}
+              paddingLeft={2}
+            >
+              <Button
+                variant="contained"
+                color="success"
+                type="submit"
+                size="small"
+              >
                 Submit
               </Button>
-              <Button variant="contained" color="error" type="submit" size="small">
+              <Button
+                variant="contained"
+                color="error"
+                type="submit"
+                size="small"
+              >
                 Reset
               </Button>
               <Link to="/admin/products">

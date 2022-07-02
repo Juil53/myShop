@@ -16,12 +16,12 @@ const CategoriesCheckBox = ({ subCate }) => {
   }, [categoriesClone]);
 
   const handleChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const value = e.target.value;
     let arr = [];
 
     if (e.target.checked) {
-      arr = [value,...categories];
+      arr = [value, ...categories];
     } else {
       arr = categories.filter((item) => item !== value);
     }

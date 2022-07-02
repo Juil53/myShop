@@ -77,6 +77,18 @@ const SignupForm = () => {
     }
   };
 
+  const handleSigninWithGoogle = () => {
+    setIsClick(true);
+    dispatch({
+      type: USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE,
+    });
+  };
+
+  const handleSigninWithFacebook = () => {
+    setIsClick(true);
+    dispatch({ type: USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK });
+  };
+
   return (
     <div className="signup-form form">
       <InputField
@@ -126,10 +138,10 @@ const SignupForm = () => {
       </button>
       <span className="social-text">Or sign up with</span>
       <div className="social-media row">
-        <button>
+        <button onClick={handleSigninWithFacebook}>
           <i className="fa-brands fa-facebook"></i>
         </button>
-        <button>
+        <button onClick={handleSigninWithGoogle}>
           <i className="fa-brands fa-google"></i>
         </button>
       </div>

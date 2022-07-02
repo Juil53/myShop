@@ -22,13 +22,18 @@ const ChangePassword = () => {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (client.updateStatus === LOADING_STATUS.SUCCESS && click) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+      dispatch({ type: USER_ACTIONS.SIGNOUT_USER });
       dispatch(
         actions.activePopup({
-          type: POPUP.MESSAGE_POPUP,
-          data: "Your password has been updated successfully",
+          type: POPUP.SELECTION_POPUP,
+          data: {
+            actionType: "sign in",
+            message:
+              "Your password has been changed. Do you want to sign in again?",
+            title: "Information",
+          },
         })
       );
-      setClick(false);
     } else if (client.updateStatus === LOADING_STATUS.FAIL && click) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
 

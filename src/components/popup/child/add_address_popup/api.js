@@ -11,7 +11,6 @@ const getLocation = async (path) => {
 
     return data;
   } catch (e) {
-    console.log(e);
     return [];
   }
 };

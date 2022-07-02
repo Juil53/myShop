@@ -23,21 +23,26 @@ export function* fetchCategories() {
     }
     yield put(actions.fetchCategoriesSuccess(result));
   } catch (e) {
-    console.log(e);
     yield put(actions.fetchCategoriesFail());
   }
 }
 
-export function* actGetSelectedCategory (action) {
-  yield put(actions.getSelectedCategory(action.payload))
+export function* actGetSelectedCategory(action) {
+  yield put(actions.getSelectedCategory(action.payload));
 }
 
-export function* actGetSelectedSubCategory (action) {
-  yield put(actions.getSelectedSubCategory(action.payload))
+export function* actGetSelectedSubCategory(action) {
+  yield put(actions.getSelectedSubCategory(action.payload));
 }
 
 export default function* root() {
   yield takeEvery(CATEGORY_ACTIONS.GET_ALL_CATEGORIES, fetchCategories);
-  yield takeEvery(CATEGORY_ACTIONS.GET_SELECTED_CATEGORY, actGetSelectedCategory);
-  yield takeEvery(CATEGORY_ACTIONS.GET_SELECTED_SUB_CATEGORY, actGetSelectedSubCategory);
+  yield takeEvery(
+    CATEGORY_ACTIONS.GET_SELECTED_CATEGORY,
+    actGetSelectedCategory
+  );
+  yield takeEvery(
+    CATEGORY_ACTIONS.GET_SELECTED_SUB_CATEGORY,
+    actGetSelectedSubCategory
+  );
 }

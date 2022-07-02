@@ -71,7 +71,6 @@ export function* signinWithGoogle() {
       yield call(API.put, { path: `clients/${client.id}`, query: client });
     }
 
-    console.log(data);
     yield put(clientActions.signinSuccess(data));
   } else {
     yield put(clientActions.signinFail(rs.code));
@@ -85,6 +84,10 @@ export function* signinWithFacebook() {
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
     const client = clients.find((c) => c.id === rs.id) || {};
+
+    const data = {
+      token: rs.accessToken,
+    };
 
     if (Object.keys(client).length === 0) {
       const newClient = {
@@ -100,15 +103,16 @@ export function* signinWithFacebook() {
       if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
         client.image = rs.image;
       }
+
       if (!client.phoneNumber && rs.phoneNumber) {
         client.phoneNumber = rs.phoneNumber;
       }
-      rs.displayName = client.displayName;
-      rs.image = client.image;
-      rs.phoneNumber = client.phoneNumber;
+
       yield call(API.put, { path: `clients/${client.id}`, query: client });
     }
-    yield put(clientActions.signinSuccess(rs));
+    yield put(clientActions.signinSuccess(data));
+  } else {
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
@@ -180,7 +184,6 @@ export function* updatePassword({ currentPass, newPass }) {
 
     if (rs && rs.code) {
       yield put(clientActions.updateFail(rs.code));
-      console.log(rs.code);
     } else {
       yield put(clientActions.updateSuccess());
     }
