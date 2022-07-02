@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import AlertDialog from "../component/AlertDialog";
 import SimpleSnackbar from "../component/SimpleSnackbar";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { IconButton } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteProductRequest, getProductPaginationRequest } from "../../../../store/admin_product/productSlice";
@@ -30,7 +30,7 @@ const ProductDelete = ({ product, page }) => {
   return (
     <>
       <IconButton size="small" color="error" onClick={() => setOpen(true)}>
-        <DeleteIcon fontSize="inherit" />
+        <DeleteOutlineOutlinedIcon fontSize="inherit" />
       </IconButton>
       <AlertDialog open={open} handleDelete={handleDelete} product={product} />
       <SimpleSnackbar show={show} setShow={setShow} type="delete"/>

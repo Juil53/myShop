@@ -34,10 +34,10 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin } from "../../../../store/users/selector";
 import { signoutAdmin } from "../../../../store/users/usersSlice";
-import { indigo } from "@mui/material/colors";
 
 const drawerWidth = "25rem";
 
@@ -136,6 +136,11 @@ function MyDrawer() {
       icon: <LocalGroceryStoreIcon />,
       href: "/admin/orders",
     },
+    {
+      text: "Customers",
+      icon: <EmojiPeopleIcon />,
+      href: "/admin/customers",
+    },
   ];
 
   const itemList_admin = [
@@ -145,12 +150,12 @@ function MyDrawer() {
       href: "/admin/dashboard",
     },
     {
-      text: "User",
+      text: "Users",
       icon: <AccountBoxIcon />,
       href: "/admin/users",
     },
     {
-      text: "Product",
+      text: "Products",
       icon: <FormatListBulletedIcon />,
       href: "/admin/products",
     },
@@ -158,6 +163,11 @@ function MyDrawer() {
       text: "Orders",
       icon: <LocalGroceryStoreIcon />,
       href: "/admin/orders",
+    },
+    {
+      text: "Customers",
+      icon: <EmojiPeopleIcon />,
+      href: "/admin/customers",
     },
   ];
 
@@ -208,13 +218,13 @@ function MyDrawer() {
                 <Popper id={id} open={popper} anchorEl={anchorEl} transition>
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={200}>
-                      <Stack sx={{ mt: 1, mr: 3, p: 1, textAlign: "left" }} as={Paper} elevation={2}>
+                      <Stack
+                        sx={{ mt: 1, mr: 3, p: 1, textAlign: "left" }}
+                        as={Paper}
+                        elevation={2}
+                      >
                         <Button color="secondary">{user?.data?.displayName}</Button>
-                        <Button
-                          color="secondary"
-                          onClick={handleSignout}
-                          endIcon={<LogoutIcon />}
-                        >
+                        <Button color="secondary" onClick={handleSignout} endIcon={<LogoutIcon />}>
                           Log out
                         </Button>
                       </Stack>

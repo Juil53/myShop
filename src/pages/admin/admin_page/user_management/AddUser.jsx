@@ -1,14 +1,13 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box, Button, Grid, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectLoading } from "../../../../store/users/selector";
 import { submitUserRequest } from "../../../../store/users/usersSlice";
 import { validation } from "../../../../validation/Validation";
-import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import SimpleSnackbar from "../component/SimpleSnackbar";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 
 // SELECT ROLE
 
@@ -33,16 +32,13 @@ const container = {
   borderRadius: 2,
 };
 const userImage = {
+  display:"flex",
+  flexDirection:'column',
+  justifyContent:'center',
+  alignItems:'center',
   width: "25%",
   marginRight: 2,
   padding: 3,
-  flexGrow: 1,
-  backgroundImage: 'url("/img/default_avatar.png")',
-  backgroundSize: "cover",
-  backgroundPosition: "center center",
-  backgroundRepeat: "no-repeat",
-  borderRadius: 2,
-  boxShadow: 3,
 };
 const user__form = {
   width: "75%",
@@ -67,7 +63,8 @@ export default function AddUser(props) {
 
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
-  const [role, setRole] = React.useState("");
+  const [role, setRole] = useState("");
+  const [file, setFile] = useState("");
   const [show, setShow] = useState(false);
 
   const formik = useFormik({
@@ -100,7 +97,16 @@ export default function AddUser(props) {
         Add User
       </Typography>
       <Box sx={container}>
-        <Box className="user__image" sx={userImage}></Box>
+        <Box className="user__image" sx={userImage}>
+          <img
+            src={file ? URL.createObjectURL(file) : "/img/default_avatar.png"}
+            alt="avatar"
+            width="100%"
+            height="250px"
+            style={{ borderRadius: "50%",marginBottom:'1rem' }}
+          />
+          <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+        </Box>
         <Box className="user__form" sx={user__form} component="form" onSubmit={formik.handleSubmit}>
           <div className="admin__form">
             <Grid container spacing={2}>
@@ -276,7 +282,7 @@ export default function AddUser(props) {
           </Grid>
         </Box>
 
-        <SimpleSnackbar show={show} setShow={setShow} type="add"/>
+        <SimpleSnackbar show={show} setShow={setShow} type="add" />
       </Box>
     </div>
   );

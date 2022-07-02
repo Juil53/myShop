@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
+import { customerInputs } from "../pages/admin/admin_page/customer_management/customerInput";
 
 const routeAdmin = [
   {
@@ -68,6 +69,30 @@ const routeAdmin = [
       import("../pages/admin/admin_page/order_management/OrderManagement")
     ),
   },
+  {
+    page: "CustomerManagement",
+    exact: true,
+    path: "/customers",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/customer_management/CustomerManagement")
+    ),
+  },
+  {
+    page: "CustomerProfile",
+    exact: true,
+    path: "/customers/:id",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/customer_management/Customer")
+    ),
+  },
+  {
+    page: "CustomerAdding",
+    exact: true,
+    path: "/customers/add",
+    element: lazy(() =>
+      import("../pages/admin/admin_page/customer_management/CustomerAdding")
+    ),
+  },
 ];
 
 const renderRouteAdmin = () => {
@@ -79,7 +104,7 @@ const renderRouteAdmin = () => {
         path={route.path}
         element={
           <Suspense fallback={<>...</>}>
-            <route.element />
+            <route.element inputs={customerInputs}/>
           </Suspense>
         }
       />

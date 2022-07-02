@@ -1,4 +1,4 @@
-import EditIcon from "@mui/icons-material/Edit";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import {
   Box,
   IconButton,
@@ -98,7 +98,7 @@ export function UserList({ keyword }) {
                           <UserDelete userId={user.id} user={user} page={page} />
                           <IconButton size="small" color="secondary">
                             <Link to={`/admin/users/edit/${user.id}`}>
-                              <EditIcon fontSize="inherit" />
+                              <EditOutlinedIcon fontSize="inherit" />
                             </Link>
                           </IconButton>
                         </Stack>

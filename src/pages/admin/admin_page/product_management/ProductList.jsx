@@ -1,4 +1,4 @@
-import EditIcon from "@mui/icons-material/Edit";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import {
   Box,
   IconButton,
@@ -8,7 +8,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
+  TableRow
 } from "@mui/material";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,16 +17,16 @@ import Loading from "../../../../components/loading/Loading";
 import {
   getAllProductRequest,
   getProductPaginationRequest,
-  resetStatus,
+  resetStatus
 } from "../../../../store/admin_product/productSlice";
 import {
   selectAllProduct,
   selectLoading,
-  selectProductPagination,
+  selectProductPagination
 } from "../../../../store/admin_product/selector";
 import {
   CustomizedTableHead,
-  CustomPagination,
+  CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
 import ProductDelete from "./ProductDelete";
 
@@ -106,7 +106,7 @@ const ProductList = ({ filterOptions }) => {
                             color="secondary"
                             onClick={() => navigate(`/admin/products/edit/${product.id}`)}
                           >
-                            <EditIcon fontSize="inherit" />
+                            <EditOutlinedIcon fontSize="inherit" />
                           </IconButton>
                         </Stack>
                       </TableCell>
@@ -120,7 +120,7 @@ const ProductList = ({ filterOptions }) => {
                             width: "40px",
                             height: "40px",
                             borderRadius: "50%",
-                            objectFit: "contain",
+                            objectFit: "cover",
                           }}
                         />
                       </TableCell>

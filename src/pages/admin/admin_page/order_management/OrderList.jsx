@@ -1,7 +1,7 @@
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DoneIcon from "@mui/icons-material/Done";
-import EditIcon from "@mui/icons-material/Edit";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
@@ -30,7 +30,6 @@ import {
   selectOrderDetail,
   selectOrderPagination,
 } from "../../../../store/orders/selector";
-import { selectUserData } from "../../../../store/users/selector";
 import { getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
@@ -188,7 +187,7 @@ export default function OrderList({ keyword }) {
                               handleGetOrderDetail(order);
                             }}
                           >
-                            <EditIcon />
+                            <EditOutlinedIcon />
                           </IconButton>
                           <IconButton
                             color="error"
@@ -197,7 +196,7 @@ export default function OrderList({ keyword }) {
                               handleDeleteOrder(order.id);
                             }}
                           >
-                            <DeleteIcon />
+                            <DeleteOutlineOutlinedIcon />
                           </IconButton>
                         </Stack>
                       </TableCell>

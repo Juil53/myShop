@@ -25,7 +25,7 @@ function Dashboard() {
             <Progress />
           </Grid>
           <Grid item xs={8}>
-            <Chart />
+            <Chart aspect={2 / 1} title="PROFIT & REVENUE"/>
           </Grid>
         </Grid>
       </Box>

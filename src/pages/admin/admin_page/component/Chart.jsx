@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { Box, Paper, Typography } from "@mui/material";
 
-const Chart = () => {
+const Chart = ({aspect,title}) => {
   const data = [
     {
       name: "January",
@@ -49,12 +49,12 @@ const Chart = () => {
   return (
     <Box component={Paper} elevation={8} padding={2}>
       <Typography
-        sx={{ fontSize: "2rem", fontWeight: "400", marginY: "1rem" }}
+        sx={{ fontSize: "2rem", fontWeight: "400", marginY: ".7rem" }}
         color="text.secondary"
       >
-        TOTAL REVENUE
+        {title}
       </Typography>
-      <ResponsiveContainer width="100%" aspect={2 / 1}>
+      <ResponsiveContainer width="100%" aspect={aspect}>
         <BarChart
           width={500}
           height={500}
