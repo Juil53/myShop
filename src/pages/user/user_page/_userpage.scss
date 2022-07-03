@@ -98,6 +98,7 @@
           width: 100%;
 
           .user_pic {
+            margin-bottom: 2rem;
             width: 8rem;
             height: 8rem;
             position: relative;
@@ -126,52 +127,10 @@
               color: $whiteColor;
             }
           }
-
-          .user_infor-field {
-            display: flex;
-            position: relative;
-            margin-top: 3rem;
-            align-items: center;
-            width: 40rem;
-
-            label {
-              font-size: 1.4rem;
-              flex: 2;
-            }
-
-            input {
-              border: 1px solid $grayColor-1;
-              padding: 1rem;
-              flex: 4;
-              transition: all ease 0.3s;
-            }
-          }
-
-          .user_infor-field:hover,
-          .user_infor-field:focus-within {
-            input {
-              border: 1px solid $mainColor;
-            }
-          }
-
-          .user_infor-field[data-error] {
-            input {
-              border: 1px solid red;
-            }
-          }
-
-          .user_infor-field::after {
-            position: absolute;
-            content: attr(data-error);
-            font-size: 1.1rem;
-            color: red;
-            top: 4rem;
-            left: 13rem;
-          }
         }
 
         .save_change-container {
-          margin-top: 4rem;
+          margin-top: 2rem;
           display: flex;
           justify-content: center;
 
