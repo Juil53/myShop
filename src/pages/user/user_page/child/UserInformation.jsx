@@ -1,82 +1,124 @@
-import { useState } from "react";
-import { checkPhoneFormat } from "../../../../utils";
+import { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import InputField from "../../../../components/input_field/InputField";
+import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
+import { actions } from "../../../../store/page/slice";
+import { uploadFile } from "../../../../utils/file";
 
 const UserInformation = (props) => {
-  const { data } = props;
-  console.log(data);
+  const { data, status } = props;
 
-  const [value, setValue] = useState({
-    displayName: data.displayName,
-    phoneNumber: data.phoneNumber || "",
-  });
+  const [displayName, setDisplayName] = useState(data?.displayName);
+  const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
 
-  const setError = (field, msg) => {
-    document.getElementById(field).setAttribute("data-error", msg);
+  const fileInput = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewFile, setPreviewFile] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const onOpenFileSelect = () => {
+    fileInput.current.click();
   };
 
-  const clearError = (field) => {
-    document.getElementById(field).removeAttribute("data-error");
-  };
-
-  const handleInputChange = (e) => {
-    const newValue = { ...value };
-    clearError(`field_${e.target.id}`);
-    newValue[e.target.id] = e.target.value;
-    setValue(newValue);
-  };
-
-  const checkInput = (e) => {
-    const newValue = { ...value };
-    if (!value[e.target.id]) {
-      newValue[e.target.id] = data[e.target.id];
-      return setValue(newValue);
-    } else if (
-      e.target.id === "phoneNumber" &&
-      !checkPhoneFormat(value.phoneNumber)
-    ) {
-      setError(
-        `field_${e.target.id}`,
-        "Invalid phone number. Enter a right one"
-      );
+  const handleFileSelect = (e) => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
     }
   };
+
+  const handleSubmit = async () => {
+    const error = document.getElementById("user_info-error_msg");
+    error.textContent = "";
+    if (displayName && phoneNumber) {
+      const newInfo = {};
+
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+
+      if (phoneNumber !== data.phoneNumber) {
+        newInfo.phoneNumber = phoneNumber;
+      }
+      if (displayName !== data.displayName) {
+        newInfo.displayName = displayName;
+      }
+
+      if (selectedFile) {
+        const imgLink = await uploadFile(selectedFile);
+        if (imgLink) {
+          newInfo.image = imgLink;
+        } else {
+          error.textContent = "Fail to upload image. Try again";
+        }
+      }
+
+      dispatch({
+        type: USER_ACTIONS.UPDATE_USER_INFO,
+        uid: data.id,
+        data: newInfo,
+      });
+    } else {
+      error.textContent = "Fill all information required";
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedFile) return;
+    let imageUrl = URL.createObjectURL(selectedFile);
+    setPreviewFile(imageUrl);
+    // remove obj URL img prevent memory leak
+    return () => URL.revokeObjectURL(imageUrl);
+  }, [selectedFile]);
+
+  useEffect(() => {
+    if (status !== LOADING_STATUS.UPDATING) {
+      //dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    }
+  });
 
   return (
     <div className="user_infor-container">
       <div className="title">Your information</div>
       <div className="user_infor">
         <div className="user_pic">
-          <img src={data.image} alt="" />
-          <button className="change_pic-btn">
+          <img src={previewFile ? previewFile : data.image} alt="" />
+          <button className="change_pic-btn" onClick={onOpenFileSelect}>
             <i className="fa-solid fa-pen"></i>
           </button>
         </div>
-        <div className="user_infor-field" id="field_displayName">
-          <label htmlFor="displayName">Name</label>
-          <input
-            type="text"
-            placeholder="Name"
-            value={value.displayName}
-            id="displayName"
-            onChange={handleInputChange}
-            onBlur={checkInput}
-          />
-        </div>
-        <div className="user_infor-field" id="field_phoneNumber">
-          <label htmlFor="phoneNumber">Phone number</label>
-          <input
-            type="text"
-            placeholder="Phone number"
-            value={value.phoneNumber}
-            id="phoneNumber"
-            onChange={handleInputChange}
-            onBlur={checkInput}
-          />
-        </div>
+        <InputField
+          type="name"
+          id="user-display_name"
+          title="Display name"
+          onChange={setDisplayName}
+          required
+          currentValue={displayName}
+        />
+        <InputField
+          type="phone"
+          id="user-phone_number"
+          title="Display name"
+          onChange={setPhoneNumber}
+          required
+          currentValue={phoneNumber}
+        />
       </div>
+      <div className="error_msg" id="user_info-error_msg"></div>
       <div className="save_change-container">
-        <button className="button-style save_change">Save change</button>
+        <button onClick={handleSubmit} className="button-style save_change">
+          Save change
+        </button>
       </div>
+      <input
+        ref={fileInput}
+        type="file"
+        name="image"
+        id="image"
+        accept=".png,.jpg,.jpeg"
+        onChange={handleFileSelect}
+        style={{ display: "none" }}
+      />
     </div>
   );
 };

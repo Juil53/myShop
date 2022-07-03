@@ -29,6 +29,7 @@ export const LOADING_STATUS = {
   LOADING: "LOADING",
   SUCCESS: "SUCCESS",
   FAIL: "FAIL",
+  UPDATING: "UPDATING",
 };
 
 export const PAGE_ACTIONS = {

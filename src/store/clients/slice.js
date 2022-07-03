@@ -89,20 +89,21 @@ const clientSlice = createSlice({
 
     updateRequest: (state) => {
       state.updateStatus = LOADING_STATUS.LOADING;
+      state.data.status = LOADING_STATUS.UPDATING;
     },
 
     updateSuccess: (state, action) => {
       state.updateStatus = LOADING_STATUS.SUCCESS;
+      state.data.status = LOADING_STATUS.SUCCESS;
 
       if (action.payload) {
         state.data.info = action.payload;
       }
-
-      //localStorage.set("user", action.payload);
     },
 
     updateFail: (state, action) => {
       state.updateStatus = LOADING_STATUS.FAIL;
+      state.data.status = LOADING_STATUS.SUCCESS;
 
       switch (action.payload) {
         case "auth/wrong-password":

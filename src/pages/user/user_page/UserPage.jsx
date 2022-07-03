@@ -39,13 +39,13 @@ const UserPage = () => {
       case "/user/orders":
         return <></>;
       case "/user/information":
-        return <UserInformation data={data} />;
+        return <UserInformation data={data?.info} status={data?.status} />;
       case "/user/password":
         return <ChangePassword />;
       case "/user/address":
-        return <AddressManagement data={data} />;
+        return <AddressManagement data={data?.info} />;
       default:
-        return <UserInformation data={data} />;
+        return <UserInformation data={data?.info} />;
     }
   };
 
@@ -55,7 +55,9 @@ const UserPage = () => {
         <BreadCumb pages={array} />
       </div>
       {token ? (
-        client.status === LOADING_STATUS.SUCCESS ? (
+        client.status === LOADING_STATUS.LOADING ? (
+          <Loading />
+        ) : (
           <div className="user_page-content row">
             <div className="user_page-content-left">
               <div className="title row">
@@ -100,11 +102,9 @@ const UserPage = () => {
               </div>
             </div>
             <div className="user_page-content-right">
-              {createContentRight(client?.info)}
+              {createContentRight(client)}
             </div>
           </div>
-        ) : (
-          <Loading />
         )
       ) : (
         <div className="user_page-content not_signin">
