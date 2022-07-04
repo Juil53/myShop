@@ -37,6 +37,8 @@
 
       .content-btn {
         padding: 1rem;
+        color: $grayColor-3;
+        cursor: pointer;
 
         a {
           color: $grayColor-3;
@@ -46,6 +48,8 @@
 
       .active,
       .content-btn:hover {
+        color: $mainColor;
+
         a {
           color: $mainColor;
         }

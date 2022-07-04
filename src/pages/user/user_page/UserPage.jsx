@@ -49,6 +49,10 @@ const UserPage = () => {
     }
   };
 
+  const handleSignout = () => {
+    dispatch({ type: USER_ACTIONS.SIGNOUT_USER });
+  };
+
   return (
     <div className="user_page-container">
       <div className="breadcums">
@@ -101,6 +105,9 @@ const UserPage = () => {
                   }
                 >
                   <Link to="/user/address">Address book</Link>
+                </div>
+                <div className="content-btn" onClick={handleSignout}>
+                  Sign out
                 </div>
               </div>
             </div>

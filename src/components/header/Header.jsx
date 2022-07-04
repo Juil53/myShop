@@ -105,7 +105,7 @@ export default function Header() {
               <Link to="/">Home</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <Link to="/">Product</Link>
+              <Link to="/product">Product</Link>
             </div>
             <div className="dropdown-menu-btn">
               <Link to="/">About</Link>
