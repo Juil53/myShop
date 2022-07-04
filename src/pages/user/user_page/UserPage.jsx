@@ -69,36 +69,39 @@ const UserPage = () => {
                   <span className="bottom">{client?.info?.displayName}</span>
                 </div>
               </div>
-              <div
-                className={
-                  "content-btn " +
-                  (pathname === "/user/information" ? "active" : "")
-                }
-              >
-                <Link to="/user/information">Account information</Link>
-              </div>
-              <div
-                className={
-                  "content-btn " + (pathname === "/user/orders" ? "active" : "")
-                }
-              >
-                <Link to="/user/orders">Orders</Link>
-              </div>
-              <div
-                className={
-                  "content-btn " +
-                  (pathname === "/user/password" ? "active" : "")
-                }
-              >
-                <Link to="/user/password">Change password</Link>
-              </div>
-              <div
-                className={
-                  "content-btn " +
-                  (pathname === "/user/address" ? "active" : "")
-                }
-              >
-                <Link to="/user/address">Address book</Link>
+              <div className="navigation">
+                <div
+                  className={
+                    "content-btn " +
+                    (pathname === "/user/information" ? "active" : "")
+                  }
+                >
+                  <Link to="/user/information">Account information</Link>
+                </div>
+                <div
+                  className={
+                    "content-btn " +
+                    (pathname === "/user/orders" ? "active" : "")
+                  }
+                >
+                  <Link to="/user/orders">Orders</Link>
+                </div>
+                <div
+                  className={
+                    "content-btn " +
+                    (pathname === "/user/password" ? "active" : "")
+                  }
+                >
+                  <Link to="/user/password">Change password</Link>
+                </div>
+                <div
+                  className={
+                    "content-btn " +
+                    (pathname === "/user/address" ? "active" : "")
+                  }
+                >
+                  <Link to="/user/address">Address book</Link>
+                </div>
               </div>
             </div>
             <div className="user_page-content-right">
