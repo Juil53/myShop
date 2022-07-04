@@ -1,12 +1,21 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { actions } from "../../../../../store/page/slice";
-import { POPUP } from "../../../../../constants";
+import { POPUP, LOADING_STATUS } from "../../../../../constants";
 import { clone } from "../../../../../utils";
 
-const AddressManagement = (props) => {
-  const { data } = props;
+const AddressBook = (props) => {
+  const { data, status } = props;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (status === LOADING_STATUS.UPDATING) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    }
+  });
 
   const handleAddNewAddress = () => {
     dispatch(
@@ -106,4 +115,4 @@ const AddressManagement = (props) => {
   );
 };
 
-export default AddressManagement;
+export default AddressBook;

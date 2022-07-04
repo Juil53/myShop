@@ -10,7 +10,7 @@ import ProductInfoPopup from "./child/product_info/ProductInfoPopup";
 import AddCartPopup from "./child/add_cart_popup/AddCartPopup";
 import SelectionPopup from "./child/selection_popup/SelectionPopup";
 import WaitingPopup from "./child/waiting_popup/WaitingPopup";
-import AddressPopup from "./child/add_address_popup/AddressPopup";
+import AddressPopup from "./child/address_popup/AddressPopup";
 import SuccessPopup from "./child/success_popup/SuccessPopup";
 
 export default function Popup() {

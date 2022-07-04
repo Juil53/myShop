@@ -4,7 +4,7 @@ import { useLocation, Link } from "react-router-dom";
 import ChangePassword from "./child/ChangePassword";
 import UserInformation from "./child/UserInformation";
 import BreadCumb from "../../../components/breadcumb/BreadCumb";
-import AddressManagement from "./child/address_management/AddressManagement";
+import AddressBook from "./child/address_book/AddressBook";
 import { clientData } from "../../../store/clients/selector";
 import { useEffect } from "react";
 import { LOADING_STATUS, USER_ACTIONS } from "../../../constants";
@@ -43,7 +43,7 @@ const UserPage = () => {
       case "/user/password":
         return <ChangePassword />;
       case "/user/address":
-        return <AddressManagement data={data?.info} />;
+        return <AddressBook data={data?.info} status={data?.status} />;
       default:
         return <UserInformation data={data?.info} />;
     }
@@ -98,7 +98,7 @@ const UserPage = () => {
                   (pathname === "/user/address" ? "active" : "")
                 }
               >
-                <Link to="/user/address">Address management</Link>
+                <Link to="/user/address">Address book</Link>
               </div>
             </div>
             <div className="user_page-content-right">

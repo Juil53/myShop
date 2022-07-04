@@ -28,7 +28,7 @@ const User = (props) => {
           <Link to="/user/information">Account information</Link>
           <Link to="/user/orders">Orders</Link>
           <Link to="/user/password">Change password</Link>
-          <Link to="/user/address">Address manage</Link>
+          <Link to="/user/address">Address book</Link>
           <div className="signout" onClick={handleSignout}>
             Sign out
           </div>

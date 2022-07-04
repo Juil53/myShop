@@ -259,6 +259,8 @@ const AddressPopup = (props) => {
                   newData.addressList.push(data.addressList[i]);
                 }
               }
+            } else {
+              newData.addressList = [...data.addressList];
             }
           } else {
             newData.addressList = [...data.addressList];
