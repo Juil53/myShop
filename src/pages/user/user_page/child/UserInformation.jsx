@@ -98,7 +98,7 @@ const UserInformation = (props) => {
         <InputField
           type="phone"
           id="user-phone_number"
-          title="Display name"
+          title="Phone number"
           onChange={setPhoneNumber}
           required
           currentValue={phoneNumber}

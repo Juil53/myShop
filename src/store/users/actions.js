@@ -32,7 +32,10 @@ export function* actGetUser() {
 export function* actGetUserPagination(action) {
   const { page } = action.payload;
   try {
-    const result = yield call(apiInstance.get, `users?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+    const result = yield call(
+      apiInstance.get,
+      `users?_page=${page}&_limit=${ROWS_PER_PAGE}`
+    );
     yield put(getUserPaginationSuccess(result));
   } catch (err) {
     yield put(getUserPaginationFailed());
@@ -71,7 +74,11 @@ export function* actDeleteUser(action) {
 // UPDATE USER
 export function* actUpdateUserInfo(action) {
   try {
-    const result = yield call(apiInstance.put, `users/${action.payload.id}`, action.payload.state);
+    const result = yield call(
+      apiInstance.put,
+      `users/${action.payload.id}`,
+      action.payload.state
+    );
     yield put(submitUserSuccess(result));
   } catch (err) {
     console.log(err);
@@ -88,18 +95,23 @@ export function* signinAdmin({ password, email }) {
     const users = yield call(apiInstance.get, "users");
     const user = users.find((u) => u.id === rs.id) || {};
 
-    rs.role = user.role;
-    rs.image = user.avatar || "https://i.ibb.co/4pGF0yV/default-user.png";
-    rs.displayName = user.lastname;
+    const data = {
+      token: rs.accessToken,
+      info: {
+        displayName: user.lastname,
+        image: user.avatar || "https://i.ibb.co/4pGF0yV/default-user.png",
+        ...user,
+      },
+    };
 
     const approveRoles = ["Admin", "Staff"];
     if (Object.keys(user).length === 0 || !approveRoles.includes(user.role)) {
-      yield put(signinAdminFail());
+      yield put(signinAdminFail("Access denied"));
     } else {
-      yield put(signinAdminSuccess(rs));
+      yield put(signinAdminSuccess(data));
     }
   } else {
-    yield put(signinAdminFail());
+    yield put(signinAdminFail(rs.code));
   }
 }
 
