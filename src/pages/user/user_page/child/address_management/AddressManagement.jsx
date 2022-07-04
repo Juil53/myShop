@@ -14,6 +14,15 @@ const AddressManagement = (props) => {
     );
   };
 
+  const handleEditAddress = (current) => {
+    dispatch(
+      actions.activePopup({
+        type: POPUP.ADD_ADDRESS_POPUP,
+        data: { ...data, currentAddress: current },
+      })
+    );
+  };
+
   //Delete address
   const handleDeleteAddress = (id) => {
     const kq = data.addressList.filter((v) => v.id === id);
@@ -73,7 +82,9 @@ const AddressManagement = (props) => {
                 Delete
               </button>
             )}
-            <button className="edit-btn">Edit</button>
+            <button className="edit-btn" onClick={() => handleEditAddress(v)}>
+              Edit
+            </button>
           </div>
         </div>
       ));

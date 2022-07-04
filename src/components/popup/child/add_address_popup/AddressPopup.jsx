@@ -12,8 +12,8 @@ import { getRegions, getDistricts, getWards } from "./api";
 import { randomIntFromInterval } from "../../../../utils";
 
 const AddressPopup = (props) => {
-  const { closePopup, data, currentAddress } = props;
-  //console.log(currentAddress);
+  const { closePopup, data } = props;
+  const { currentAddress } = data;
 
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -21,7 +21,7 @@ const AddressPopup = (props) => {
   const dispatch = useDispatch();
   const client = useSelector(clientSelector);
 
-  const [isDefault, setDefault] = useState(false);
+  const [isDefault, setDefault] = useState(currentAddress?.default || false);
 
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -32,9 +32,11 @@ const AddressPopup = (props) => {
   const [disableDistrict, setDisableDistrict] = useState(true);
   const [disableWard, setDisableWard] = useState(true);
 
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [add, setAdd] = useState("");
+  const [name, setName] = useState(currentAddress?.name || "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    currentAddress?.phoneNumber || ""
+  );
+  const [add, setAdd] = useState(currentAddress?.address?.detail || "");
 
   const handleSetDefault = () => {
     if (isDefault) {
@@ -117,6 +119,12 @@ const AddressPopup = (props) => {
   }, [address?.district?.id]);
 
   useEffect(() => {
+    if (currentAddress) {
+      setAddress(currentAddress.address);
+    }
+  }, []);
+
+  useEffect(() => {
     if (client.updateStatus === LOADING_STATUS.LOADING && click) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (client.updateStatus === LOADING_STATUS.SUCCESS && click) {
@@ -157,6 +165,7 @@ const AddressPopup = (props) => {
 
         const newData = {};
 
+        //set default address
         if (!data.addressList || isDefault) {
           newAddress.default = true;
           newData.addressList = [];
@@ -195,6 +204,86 @@ const AddressPopup = (props) => {
     setClick(true);
   };
 
+  const handleUpdateAddress = () => {
+    const error = document.getElementById("address_error-msg");
+    error.textContent = "";
+
+    if (
+      name &&
+      add &&
+      phoneNumber &&
+      checkPhoneFormat(phoneNumber) &&
+      checkName(name) === "valid"
+    ) {
+      if (
+        Object.keys(address).length < 3 ||
+        !address.ward ||
+        !address.district
+      ) {
+        error.textContent = "Please select address";
+      } else {
+        const newAddress = {
+          ...currentAddress,
+          name: name,
+          address: {
+            ...address,
+            detail: add,
+          },
+          phoneNumber: phoneNumber,
+        };
+
+        const newData = {};
+
+        const findAdd = data.addressList.filter(
+          (v) => v.id === currentAddress.id
+        );
+
+        if (findAdd?.length !== 0) {
+          if (isDefault) {
+            newAddress.default = true;
+
+            //clear default for others (only 1 default address)
+            if (data.addressList.length > 1) {
+              newData.addressList = [];
+
+              for (let i = 0; i < data.addressList?.length; i++) {
+                if (
+                  data.addressList[i].default &&
+                  data.addressList[i].id !== currentAddress.id
+                ) {
+                  const { default: d, ...others } = data.addressList[i];
+                  const newObj = { ...others };
+
+                  newData.addressList.push(newObj);
+                } else {
+                  newData.addressList.push(data.addressList[i]);
+                }
+              }
+            }
+          } else {
+            newData.addressList = [...data.addressList];
+          }
+
+          const index = newData.addressList.indexOf(findAdd[0]);
+
+          //update address
+          newData.addressList[index] = { ...newAddress };
+
+          //call update info saga
+          dispatch({
+            type: USER_ACTIONS.UPDATE_USER_INFO,
+            data: newData,
+            uid: data.id,
+          });
+        } else {
+          error.textContent =
+            "Something went wrong. Please press cancel and try again";
+        }
+      }
+      setClick(true);
+    }
+  };
+
   return (
     <div className="modal center">
       <div className="address_popup-container">
@@ -206,6 +295,7 @@ const AddressPopup = (props) => {
             onChange={setName}
             required
             type="name"
+            currentValue={name}
           />
           <InputField
             title="Phone number"
@@ -213,17 +303,21 @@ const AddressPopup = (props) => {
             onChange={setPhoneNumber}
             required
             type="phoneNumber"
+            currentValue={phoneNumber}
           />
           <InputField
             title="Address"
             id="add_new_address-address"
             onChange={setAdd}
             required
+            currentValue={add}
           />
           <div className="address_field row">
             <select onChange={onChangeRegion} name="Province" id="province">
               <option value="" hidden>
-                Select province
+                {currentAddress
+                  ? currentAddress?.address?.region?.name
+                  : "Select province"}
               </option>
               {regions.map((r, i) => (
                 <option key={r.id} value={i}>
@@ -238,7 +332,10 @@ const AddressPopup = (props) => {
               disabled={disableDistrict}
             >
               <option value="" hidden>
-                Select District
+                {currentAddress &&
+                currentAddress?.address?.district?.id === address?.district?.id
+                  ? currentAddress?.address?.district?.name
+                  : "Select district"}
               </option>
               {districts.map((d, i) => (
                 <option key={d.id} value={i}>
@@ -253,7 +350,10 @@ const AddressPopup = (props) => {
               onChange={onChangeWard}
             >
               <option value="" hidden>
-                Select ward
+                {currentAddress &&
+                currentAddress?.address?.ward?.id === address?.ward?.id
+                  ? currentAddress?.address?.ward?.name
+                  : "Select ward"}
               </option>
               {wards.map((w, i) => (
                 <option key={w.id} value={i}>
@@ -262,15 +362,17 @@ const AddressPopup = (props) => {
               ))}
             </select>
           </div>
-          <div className="is_default">
-            <input
-              type="checkbox"
-              id="is-default"
-              checked={isDefault}
-              onChange={handleSetDefault}
-            />
-            <label htmlFor="is-default">Set as default address</label>
-          </div>
+          {!currentAddress?.default && (
+            <div className="is_default">
+              <input
+                type="checkbox"
+                id="is-default"
+                checked={isDefault}
+                onChange={handleSetDefault}
+              />
+              <label htmlFor="is-default">Set as default address</label>
+            </div>
+          )}
           <div className="address_error-msg" id="address_error-msg"></div>
           <div className="function row">
             <button className="back-btn" onClick={closePopup}>
@@ -278,9 +380,11 @@ const AddressPopup = (props) => {
             </button>
             <button
               className="button-style add-btn"
-              onClick={handleAddNewAddress}
+              onClick={
+                !currentAddress ? handleAddNewAddress : handleUpdateAddress
+              }
             >
-              Add
+              {currentAddress ? "Update" : "Add"}
             </button>
           </div>
         </div>
