@@ -13,8 +13,9 @@ import {
   signinAdminRequest,
   deleteUserSuccess,
   deleteUserFailed,
+  signoutAdmin,
 } from "./usersSlice";
-import { signinAuth, signup } from "../../service/auth";
+import { signinAuth, signup, signoutAuth } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 
 //GET USER DATA
@@ -115,11 +116,17 @@ export function* signinAdmin({ password, email }) {
   }
 }
 
+export function* signout() {
+  yield call(signoutAuth);
+  yield put(signoutAdmin());
+}
+
 export default function* userSaga() {
   yield takeEvery("users/getUserRequest", actGetUser);
   yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("users/deleteUserRequest", actDeleteUser);
   yield takeEvery("users/updateUserInfoRequest", actUpdateUserInfo);
-  yield takeEvery(USER_ACTIONS.SIGNIN_ADMIN, signinAdmin);
+  yield takeEvery(USER_ACTIONS.ADMIN_SIGNIN, signinAdmin);
+  yield takeEvery(USER_ACTIONS.ADMIN_SIGNOUT, signout);
 }

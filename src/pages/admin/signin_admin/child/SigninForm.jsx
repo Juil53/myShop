@@ -42,7 +42,7 @@ const SigninForm = () => {
         errorMsg.textContent = "Invalid email";
       } else {
         dispatch({
-          type: USER_ACTIONS.SIGNIN_ADMIN,
+          type: USER_ACTIONS.ADMIN_SIGNIN,
           email: email,
           password: password,
         });
