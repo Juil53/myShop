@@ -28,7 +28,7 @@ const authInstance = getAuth(firebase);
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
-const adapter = ({ user = {}, _tokenResponse = {} }) => {
+const adapter = ({ user = {}, _tokenResponse = {}, providerId }) => {
   const { accessToken, displayName, email, uid, photoURL, phoneNumber } = user;
   const { refreshToken } = _tokenResponse;
 
@@ -40,6 +40,7 @@ const adapter = ({ user = {}, _tokenResponse = {} }) => {
     id: uid,
     image: photoURL,
     phoneNumber,
+    providerId,
   };
 };
 
@@ -49,6 +50,7 @@ export const signinAuth = async (email = "", password = "") => {
 
     if (!res.user) return null;
 
+    console.log(adapter(res));
     return adapter(res);
   } catch (e) {
     return JSON.parse(JSON.stringify(e));
@@ -83,6 +85,7 @@ export const signinWithGoogleAuth = async () => {
 
     if (!rs.user) return null;
 
+    console.log(adapter(rs));
     return adapter(rs);
   } catch (e) {
     return JSON.parse(JSON.stringify(e));

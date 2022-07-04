@@ -6,6 +6,7 @@ import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { checkMinLength } from "../../../../validation/validate";
 import { actions } from "../../../../store/page/slice";
 import { clientSelector } from "../../../../store/clients/selector";
+import localStorage from "../../../../service/localStorage";
 
 const ChangePassword = () => {
   const [currentPass, setCurrentPass] = useState();
@@ -14,6 +15,8 @@ const ChangePassword = () => {
 
   const client = useSelector(clientSelector);
   const [click, setClick] = useState(false);
+
+  const providerID = localStorage.get("providerID");
 
   const dispatch = useDispatch();
 
@@ -65,41 +68,47 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="change-password">
-      <div className="title">Change password</div>
-      <div className="form">
-        <InputField
-          type="password"
-          required
-          title="Current password"
-          id="user-current_pass"
-          onChange={setCurrentPass}
-        />
-        <InputField
-          type="password"
-          required
-          title="New password"
-          id="user-new_pass"
-          onChange={setNewPass}
-          min="6"
-        />
-        <InputField
-          type="password"
-          required
-          title="Retype password"
-          id="user-retype_pass"
-          onChange={setRetypePass}
-          min="6"
-        />
-        <div className="error_msg" id="user-error_msg"></div>
-        <button
-          className="change-password-btn button-style"
-          onClick={handleChangePassword}
-        >
-          Save
-        </button>
-      </div>
-    </div>
+    <>
+      {!providerID ? (
+        <div className="change-password">
+          <div className="title">Change password</div>
+          <div className="form">
+            <InputField
+              type="password"
+              required
+              title="Current password"
+              id="user-current_pass"
+              onChange={setCurrentPass}
+            />
+            <InputField
+              type="password"
+              required
+              title="New password"
+              id="user-new_pass"
+              onChange={setNewPass}
+              min="6"
+            />
+            <InputField
+              type="password"
+              required
+              title="Retype password"
+              id="user-retype_pass"
+              onChange={setRetypePass}
+              min="6"
+            />
+            <div className="error_msg" id="user-error_msg"></div>
+            <button
+              className="change-password-btn button-style"
+              onClick={handleChangePassword}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div>This type of account can not change password</div>
+      )}
+    </>
   );
 };
 

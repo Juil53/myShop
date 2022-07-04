@@ -25,8 +25,10 @@ const clientSlice = createSlice({
     },
 
     signinSuccess: (state, action) => {
-      state.token = action.payload.token;
       localStorage.set("token", action.payload.token);
+      console.log();
+      localStorage.set("providerID", action.payload?.providerID);
+
       state.status = LOADING_STATUS.SUCCESS;
       state.msg = "Success";
     },
@@ -61,6 +63,7 @@ const clientSlice = createSlice({
       state.msg = "";
 
       localStorage.remove("token");
+      localStorage.remove("providerID");
 
       state.status = LOADING_STATUS.IDLE;
     },
@@ -73,6 +76,7 @@ const clientSlice = createSlice({
       state.status = LOADING_STATUS.SUCCESS;
 
       localStorage.set("token", action.payload.token);
+      localStorage.set("providerID", action.payload?.providerID);
       state.msg = "Success";
     },
 

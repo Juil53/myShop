@@ -13,6 +13,8 @@ import localStorage from "../../../service/localStorage";
 
 const UserPage = () => {
   const token = localStorage.get("token");
+  const providerID = localStorage.get("providerID");
+
   const client = useSelector(clientData);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -90,14 +92,16 @@ const UserPage = () => {
                 >
                   <Link to="/user/orders">Orders</Link>
                 </div>
-                <div
-                  className={
-                    "content-btn " +
-                    (pathname === "/user/password" ? "active" : "")
-                  }
-                >
-                  <Link to="/user/password">Change password</Link>
-                </div>
+                {!providerID && (
+                  <div
+                    className={
+                      "content-btn " +
+                      (pathname === "/user/password" ? "active" : "")
+                    }
+                  >
+                    <Link to="/user/password">Change password</Link>
+                  </div>
+                )}
                 <div
                   className={
                     "content-btn " +

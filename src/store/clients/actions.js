@@ -20,17 +20,24 @@ export function* signinWithEmailAndPassword({ password, email }) {
 
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.id) || {};
 
-    const data = {
-      token: rs.accessToken,
-      info: client,
-    };
+    if (clients) {
+      const client = clients.find((c) => c.id === rs.id) || {};
 
-    if (Object.keys(client).length === 0) {
-      yield put(clientActions.signinFail("User not found"));
+      const data = {
+        token: rs.accessToken,
+        providerID: rs.providerId,
+      };
+
+      if (Object.keys(client).length === 0) {
+        yield put(clientActions.signinFail("User not found"));
+      } else {
+        yield put(clientActions.signinSuccess(data));
+      }
     } else {
-      yield put(clientActions.signinSuccess(data));
+      yield put(
+        clientActions.signinFail("Something went wrong. Please try again later")
+      );
     }
   } else {
     yield put(clientActions.signinFail(rs.code));
@@ -42,36 +49,43 @@ export function* signinWithGoogle() {
 
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.id) || {};
 
-    const data = {
-      token: rs.accessToken,
-    };
+    if (clients) {
+      const client = clients.find((c) => c.id === rs.id) || {};
 
-    //new client
-    if (Object.keys(client).length === 0) {
-      const newClient = {
-        id: rs.id,
-        displayName: rs.displayName,
-        email: rs.email,
-        image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
-        phoneNumber: rs.phoneNumber || "",
+      console.log(rs.providerId);
+      const data = {
+        token: rs.accessToken,
+        providerID: rs.providerId,
       };
 
-      yield call(API.post, { path: "clients", query: newClient });
+      //new client
+      if (Object.keys(client).length === 0) {
+        const newClient = {
+          id: rs.id,
+          displayName: rs.displayName,
+          email: rs.email,
+          image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
+          phoneNumber: rs.phoneNumber || "",
+        };
+
+        yield call(API.post, { path: "clients", query: newClient });
+      } else {
+        if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
+          client.image = rs.image;
+        }
+
+        if (!client.phoneNumber && rs.phoneNumber) {
+          client.phoneNumber = rs.phoneNumber;
+        }
+
+        yield call(API.put, { path: `clients/${client.id}`, query: client });
+      }
+
+      yield put(clientActions.signinSuccess(data));
     } else {
-      if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
-        client.image = rs.image;
-      }
-
-      if (!client.phoneNumber && rs.phoneNumber) {
-        client.phoneNumber = rs.phoneNumber;
-      }
-
-      yield call(API.put, { path: `clients/${client.id}`, query: client });
+      yield put(clientActions.signinFail());
     }
-
-    yield put(clientActions.signinSuccess(data));
   } else {
     yield put(clientActions.signinFail(rs.code));
   }
@@ -80,37 +94,42 @@ export function* signinWithGoogle() {
 export function* signinWithFacebook() {
   const rs = yield call(signinWithFacebookAuth);
 
-  console.log(rs);
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.id) || {};
+    if (clients) {
+      const client = clients.find((c) => c.id === rs.id) || {};
 
-    const data = {
-      token: rs.accessToken,
-    };
-
-    if (Object.keys(client).length === 0) {
-      const newClient = {
-        id: rs.id,
-        displayName: rs.displayName,
-        email: rs.email,
-        image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
-        phoneNumber: rs.phoneNumber || "",
+      const data = {
+        token: rs.accessToken,
+        providerID: rs.providerId,
       };
 
-      yield call(API.post, { path: "clients", query: newClient });
+      if (Object.keys(client).length === 0) {
+        const newClient = {
+          id: rs.id,
+          displayName: rs.displayName,
+          email: rs.email,
+          image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
+          phoneNumber: rs.phoneNumber || "",
+        };
+
+        yield call(API.post, { path: "clients", query: newClient });
+      } else {
+        if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
+          client.image = rs.image;
+        }
+
+        if (!client.phoneNumber && rs.phoneNumber) {
+          client.phoneNumber = rs.phoneNumber;
+        }
+
+        yield call(API.put, { path: `clients/${client.id}`, query: client });
+      }
+
+      yield put(clientActions.signinSuccess(data));
     } else {
-      if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
-        client.image = rs.image;
-      }
-
-      if (!client.phoneNumber && rs.phoneNumber) {
-        client.phoneNumber = rs.phoneNumber;
-      }
-
-      yield call(API.put, { path: `clients/${client.id}`, query: client });
+      yield put(clientActions.signinFail());
     }
-    yield put(clientActions.signinSuccess(data));
   } else {
     yield put(clientActions.signinFail(rs.code));
   }
@@ -127,6 +146,7 @@ export function* signupUser({ email, password, user }) {
 
     const data = {
       token: rs.accessToken,
+      providerID: rs.providerId,
     };
 
     yield call(API.post, { path: "clients", query: user });

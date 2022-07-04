@@ -10,10 +10,12 @@ import { checkName, checkPhoneFormat } from "../../../../validation/validate";
 import InputField from "../../../input_field/InputField";
 import { getRegions, getDistricts, getWards } from "./api";
 import { randomIntFromInterval } from "../../../../utils";
+import localStorage from "../../../../service/localStorage";
 
 const AddressPopup = (props) => {
   const { closePopup, data } = props;
   const { currentAddress } = data;
+  const token = localStorage.get("token");
 
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -133,6 +135,9 @@ const AddressPopup = (props) => {
       closePopup();
     } else if (client.updateStatus === LOADING_STATUS.FAIL && click) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    }
+    if (!token) {
+      closePopup();
     }
   });
 

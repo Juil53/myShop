@@ -1,8 +1,11 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { USER_ACTIONS } from "../../../constants";
+import localStorage from "../../../service/localStorage";
 
 const User = (props) => {
+  const providerID = localStorage.get("providerID");
+
   const { data = {} } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +30,7 @@ const User = (props) => {
         <div className="user-dropdown">
           <Link to="/user/information">Account information</Link>
           <Link to="/user/orders">Orders</Link>
-          <Link to="/user/password">Change password</Link>
+          {!providerID && <Link to="/user/password">Change password</Link>}
           <Link to="/user/address">Address book</Link>
           <div className="signout" onClick={handleSignout}>
             Sign out

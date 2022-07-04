@@ -1,11 +1,12 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CART_ACTIONS, USER_ACTIONS } from "../../../../constants";
+import { navigate } from "../../../../utils/routing";
 
 const SelectionPopup = (props) => {
   const { closePopup, data } = props;
   const { message, actionType, detail } = data || [];
-  const navigate = useNavigate();
+  const navigator = useNavigate();
   const dispatch = useDispatch();
 
   const confirmActions = {
@@ -14,7 +15,7 @@ const SelectionPopup = (props) => {
       closePopup();
     },
     "sign in": () => {
-      navigate("/sign");
+      navigate(dispatch, navigator, "/sign");
       closePopup();
     },
     "delete address": (detail) => {

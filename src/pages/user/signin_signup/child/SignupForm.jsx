@@ -63,10 +63,9 @@ const SignupForm = () => {
         const user = {
           displayName: name,
           phoneNumber,
-          password,
           email,
         };
-        console.log(user);
+
         dispatch({
           type: USER_ACTIONS.SIGNUP_USER,
           password: password,
