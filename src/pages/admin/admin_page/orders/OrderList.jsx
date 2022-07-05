@@ -37,30 +37,35 @@ import {
 } from "../../../../styles/styled_components/styledComponent";
 
 const style = {
-  TableHead: {
+  tableHead: {
     minWidth: { xs: "1400px", md: "110%" },
     backgroundColor: "#fff",
   },
-  TableRow: {
+  tableRow: {
     "&:last-child td, &:last-child th": { border: 0 },
     cursor: "pointer",
   },
-  TableContainer: {
+  tableContainer: {
     maxHeight: "65vh",
   },
-  TableCellEmail: {
+  tableCellEmail: {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
     maxWidth: "150px",
   },
-  TableCellLocation: {
+  tableCellLocation: {
     fontWeight: 500,
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
     maxWidth: "50px",
   },
+  statusColors: {
+    Successed: "#689f38",
+    Pending: "#0288d1",
+    Failed: "#c2185b",
+  }
 };
 
 export default function OrderList({ keyword }) {
@@ -98,13 +103,6 @@ export default function OrderList({ keyword }) {
   const handleChangePage = (event, newPage) => setPage(newPage);
   const count = listOrder ? Math.ceil(listOrder?.length / 10) : 0;
 
-  //STATUS COLOR
-  const statusColors = {
-    Successed: "#689f38",
-    Pending: "#0288d1",
-    Failed: "#c2185b",
-  };
-
   //STATUS ICON
   const statusIcon = (status) => {
     switch (status) {
@@ -131,8 +129,8 @@ export default function OrderList({ keyword }) {
         <Loading />
       ) : (
         <Box component={Paper} elevation={3} p={2}>
-          <TableContainer sx={style.TableContainer}>
-            <Table stickyHeader size="small" sx={style.TableHead}>
+          <TableContainer sx={style.tableContainer}>
+            <Table stickyHeader size="small" sx={style.tableHead}>
               <CustomizedTableHead>
                 <TableRow>
                   <TableCell width="10%">Order ID</TableCell>
@@ -147,12 +145,12 @@ export default function OrderList({ keyword }) {
               <TableBody>
                 {orderList?.map((order, index) => {
                   return (
-                    <TableRow key={index} hover={true} sx={style.TableRow}>
+                    <TableRow key={index} hover={true} sx={style.tableRow}>
                       <TableCell align="left">{order.id}</TableCell>
-                      <TableCell align="left" style={style.TableCellEmail}>
+                      <TableCell align="left" style={style.tableCellEmail}>
                         {order.email}
                       </TableCell>
-                      <TableCell style={style.TableCellLocation}>
+                      <TableCell style={style.tableCellLocation}>
                         <LocationOnIcon
                           fontSize="small"
                           color="secondary"
@@ -167,7 +165,7 @@ export default function OrderList({ keyword }) {
                       <TableCell
                         align="left"
                         sx={{
-                          color: statusColors[order.status] ?? "#000",
+                          color: style.statusColors[order.status] ?? "#000",
                           fontWeight: 700,
                         }}
                       >

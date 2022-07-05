@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CustomerList from "./CustomerList";
 
-const styleContainer = { display: "flex", justifyContent: "space-between", alignItems: "center" };
+const style = {
+  container: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+};
 
 const CustomerManagement = () => {
   const [data, setData] = useState([]);
@@ -31,16 +37,16 @@ const CustomerManagement = () => {
   };
 
   //Save import Data to JsonServer
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (file) {
-      fileReader.readAsText(file);
-      fileReader.onload = (event) => {
-        const csvOutput = event.target.result;
-        csvFileToArray(csvOutput);
-      };
-    }
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (file) {
+  //     fileReader.readAsText(file);
+  //     fileReader.onload = (event) => {
+  //       const csvOutput = event.target.result;
+  //       csvFileToArray(csvOutput);
+  //     };
+  //   }
+  // };
 
   useEffect(() => {
     if (file) {
@@ -54,7 +60,7 @@ const CustomerManagement = () => {
 
   return (
     <div>
-      <Box sx={styleContainer}>
+      <Box sx={style.container}>
         <Typography variant="h4" fontWeight={400}>
           Customers Management
         </Typography>

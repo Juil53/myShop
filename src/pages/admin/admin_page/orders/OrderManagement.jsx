@@ -8,12 +8,14 @@ import { TextFieldCustom } from "../../../../styles/styled_components/styledComp
 import OrderModal from "./modal/OrderModal";
 import OrderList from "./OrderList";
 
-const product__search = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginTop: "2rem",
-  marginBottom: "2rem",
+const style = {
+  productSearch: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "2rem",
+    marginBottom: "2rem",
+  },
 };
 
 function OrderManagement() {
@@ -37,7 +39,7 @@ function OrderManagement() {
       <Typography variant="h4" fontWeight={400}>
         Orders Management
       </Typography>
-      <Box className="product__search" sx={product__search}>
+      <Box className="product__search" sx={style.productSearch}>
         <TextFieldCustom
           InputProps={{
             startAdornment: (

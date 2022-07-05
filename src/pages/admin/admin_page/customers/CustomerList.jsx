@@ -6,24 +6,28 @@ import { useSelector, useDispatch } from "react-redux";
 import { getClientsRequest } from "../../../../store/clients/slice";
 import { selectClients } from "../../../../store/clients/selector";
 
-const cellStatus = {
-  width: "100%",
-  textAlign: "center",
-  "&.Silver": {
-    backgroundColor: "rgba(0, 128, 0, 0.2)",
-    color: "green",
-  },
-  "&.Gold": {
-    backgroundColor: "rgba(218, 165, 32, 0.2)",
-    color: "goldenrod",
-  },
-  "&.Diamond": {
-    backgroundColor: "#539ec633",
-    color: "blue",
+const style = {
+  table: { height: "80vh", width: "100%", margin: "2rem 0" },
+  btnView: { color: "darkblue", border: "1px dotted rgba(0, 0, 139, 0.596)", padding: 0 },
+  btnDelete: { color: "crimson", border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 },
+  image: { objectFit: "contain", width: "100%", height: "100%" },
+  cellStatus: {
+    width: "100%",
+    textAlign: "center",
+    "&.Silver": {
+      backgroundColor: "rgba(0, 128, 0, 0.2)",
+      color: "green",
+    },
+    "&.Gold": {
+      backgroundColor: "rgba(218, 165, 32, 0.2)",
+      color: "goldenrod",
+    },
+    "&.Diamond": {
+      backgroundColor: "#539ec633",
+      color: "blue",
+    },
   },
 };
-
-const styleTable = { height: "80vh", width: "100%", margin: "2rem 0" };
 
 export default function CustomerList({ data }) {
   const dispatch = useDispatch();
@@ -39,10 +43,7 @@ export default function CustomerList({ data }) {
       renderCell: (params) => {
         return (
           <div>
-            <img
-              src={params.row.image}
-              style={{ objectFit: "contain", width: "100%", height: "100%" }}
-            />
+            <img src={params.row.image} style={style.image} />
           </div>
         );
       },
@@ -57,7 +58,7 @@ export default function CustomerList({ data }) {
       width: 90,
       renderCell: (params) => {
         return (
-          <Typography className={`${params.row.rank}`} sx={cellStatus}>
+          <Typography className={`${params.row.rank}`} sx={style.cellStatus}>
             {params.row.rank}
           </Typography>
         );
@@ -74,19 +75,9 @@ export default function CustomerList({ data }) {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Link to="/admin/customers/1">
-              <Button
-                sx={{
-                  color: "darkblue",
-                  border: "1px dotted rgba(0, 0, 139, 0.596)",
-                  padding: 0,
-                }}
-              >
-                View
-              </Button>
+              <Button sx={style.btnView}>View</Button>
             </Link>
-            <Button color="error" sx={{ border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 }}>
-              Delete
-            </Button>
+            <Button sx={style.btnDelete}>Delete</Button>
           </Box>
         );
       },
@@ -118,7 +109,7 @@ export default function CustomerList({ data }) {
   }, []);
 
   return (
-    <Box component={Paper} elevation={2} style={styleTable}>
+    <Box component={Paper} elevation={2} style={style.table}>
       <DataGrid
         rows={rows}
         columns={columns.concat(columnActions)}

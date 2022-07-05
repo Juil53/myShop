@@ -3,17 +3,19 @@ import React from "react";
 import Chart from "../../../../components/admin/Chart";
 import List from "../../../../components/admin/List";
 
-const styleInformation = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
+const style = {
+  information: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 };
 
 const Customer = () => {
   return (
     <Box>
       <Grid container columnSpacing={1}>
-        <Grid component={Paper} elevation={8} item xs={5} sx={styleInformation}>
+        <Grid component={Paper} elevation={8} item xs={5} sx={style.information}>
           <Box>
             <Typography
               sx={{ fontSize: "2rem" }}
