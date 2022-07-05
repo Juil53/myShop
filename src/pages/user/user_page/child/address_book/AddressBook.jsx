@@ -4,10 +4,12 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../../store/page/slice";
 import { POPUP, LOADING_STATUS } from "../../../../../constants";
 import { clone } from "../../../../../utils";
+import Loading from "../../../../../components/loading/Loading";
 
 const AddressBook = (props) => {
   const { data, status } = props;
   const dispatch = useDispatch();
+  console.log(status);
 
   useEffect(() => {
     if (status === LOADING_STATUS.UPDATING) {
@@ -103,15 +105,23 @@ const AddressBook = (props) => {
   };
 
   return (
-    <div className="address_management-container">
-      <div className="title">Address management</div>
-      <div className="add_address">
-        <button className="button-style" onClick={handleAddNewAddress}>
-          Add address
-        </button>
-      </div>
-      <div className="address_list">{createAddressItem(data.addressList)}</div>
-    </div>
+    <>
+      {status === LOADING_STATUS.SUCCESS ? (
+        <div className="address_management-container">
+          <div className="title">Address management</div>
+          <div className="add_address">
+            <button className="button-style" onClick={handleAddNewAddress}>
+              Add address
+            </button>
+          </div>
+          <div className="address_list">
+            {createAddressItem(data.addressList)}
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 };
 

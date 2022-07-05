@@ -21,8 +21,10 @@ import { randomIntFromInterval } from "../../../../utils";
 import localStorage from "../../../../service/localStorage";
 
 const AddressPopup = (props) => {
-  const { closePopup, data } = props;
-  const { currentAddress } = data;
+  const {
+    closePopup,
+    data: { currentAddress, ...data },
+  } = props;
   const token = localStorage.get("token");
 
   const navigate = useNavigate();

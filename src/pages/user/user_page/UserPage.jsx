@@ -47,7 +47,7 @@ const UserPage = () => {
       case "/user/address":
         return <AddressBook data={data?.info} status={data?.status} />;
       default:
-        return <UserInformation data={data?.info} />;
+        return <UserInformation data={data?.info} status={data?.status} />;
     }
   };
 
