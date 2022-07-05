@@ -5,6 +5,7 @@ import {
   CATEGORY_ACTIONS,
   LOADING_STATUS,
   CART_ACTIONS,
+  USER_ACTIONS,
 } from "../../constants";
 import { categoriesSelector } from "../../store/categories/selector";
 import { selectCart } from "../../store/cart/selectors";
@@ -12,16 +13,20 @@ import { selectCart } from "../../store/cart/selectors";
 import HeaderNav from "./child/HeaderNav";
 import CartButton from "./child/CartButton";
 import SearchBar from "./child/SearchBar";
-import { utils } from "../../utils";
-import localStorage from "../../service/localStorage";
 import User from "./child/User";
+import { clientData } from "../../store/clients/selector";
+import localStorage from "../../service/localStorage";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Header() {
   const { languages } = useSelector((state) => state);
   const { categories } = useSelector(categoriesSelector);
   const cart = useSelector(selectCart);
   const dispatch = useDispatch();
-  const userLogin = localStorage.get("user");
+  const client = useSelector(clientData);
+  const token = localStorage.get("token");
+
+  const { pathname } = useLocation();
 
   const [currentPage, setCurrentPage] = useState("home");
 
@@ -32,15 +37,19 @@ export default function Header() {
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch({ type: CART_ACTIONS.GET_CART });
     }
+    if (token && client.status === LOADING_STATUS.IDLE) {
+      dispatch({ type: USER_ACTIONS.GET_USER_INFO });
+    }
   }, []);
 
   useEffect(() => {
-    const path = window.location.pathname;
-    const currentActiveTab = path.split("/")[1];
+    const currentActiveTab = pathname.split("/")[1];
     if (currentActiveTab !== "") {
       setCurrentPage(currentActiveTab);
+    } else {
+      setCurrentPage("home");
     }
-  }, []);
+  });
 
   function menuClick() {
     const menu_btn = document.querySelector(".phone-menu-btn");
@@ -58,15 +67,15 @@ export default function Header() {
           </div>
           <SearchBar />
           <div className="header__top-nav row">
-            {userLogin ? (
-              <User data={userLogin} />
+            {client?.status === LOADING_STATUS.SUCCESS && token ? (
+              <User data={client.info} />
             ) : (
               <>
                 <div className="nav-btn login-btn">
-                  <a href="/sign">
+                  <Link to="/sign">
                     <i className="fa-solid fa-user" />
                     Sign in
-                  </a>
+                  </Link>
                 </div>
               </>
             )}
@@ -93,33 +102,33 @@ export default function Header() {
           <div className="dropdown-menu">
             <div className="dropdown-menu-btn">
               <i className="fa-solid fa-house"></i>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <a href="/">Product</a>
+              <Link to="/product">Product</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <a href="/">About</a>
+              <Link to="/">About</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <a href="/">News</a>
+              <Link to="/">News</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <a href="/">Map</a>
+              <Link to="/">Map</Link>
             </div>
           </div>
         </div>
         <SearchBar />
         <div className="header-phone__right">
           <div className="nav-btn login-btn">
-            {userLogin ? (
-              <a href="/user">
+            {client?.status === LOADING_STATUS.SUCCESS ? (
+              <Link to="/user">
                 <i className="fa-solid fa-user" />
-              </a>
+              </Link>
             ) : (
-              <a href="/sign">
+              <Link to="/sign">
                 <i className="fa-solid fa-user" />
-              </a>
+              </Link>
             )}
           </div>
           <div className="nav-btn cart-btn">

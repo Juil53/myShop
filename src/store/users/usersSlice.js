@@ -14,14 +14,9 @@ const usersSlice = createSlice({
     loading: false,
     open: false,
     keyword: null,
-    loginUser: {
-      status: LOADING_STATUS.IDLE,
-      data: localStorage.get("user"),
-      msg: "",
-    },
     loginAdmin: {
       status: LOADING_STATUS.IDLE,
-      data: localStorage.get("admin"),
+      data: {},
       msg: "",
     },
   },
@@ -64,7 +59,9 @@ const usersSlice = createSlice({
 
       const userList = [...state.userData];
       if (action.payload.email) {
-        const index = userList.findIndex((user) => user.email === action.payload.email);
+        const index = userList.findIndex(
+          (user) => user.email === action.payload.email
+        );
         if (index !== -1) {
           //Edit
           userList[index] = action.payload;
@@ -124,14 +121,29 @@ const usersSlice = createSlice({
 
     signinAdminSuccess: (state, action) => {
       state.loginAdmin.status = LOADING_STATUS.SUCCESS;
-      state.loginAdmin.data = action.payload;
-      localStorage.set("admin", action.payload);
+      state.loginAdmin.data = action.payload.info;
+
+      localStorage.set("admin", action.payload.token);
       state.loginAdmin.msg = "";
     },
 
-    signinAdminFail: (state) => {
+    signinAdminFail: (state, action) => {
       state.loginAdmin.status = LOADING_STATUS.FAIL;
-      state.loginAdmin.msg = "Wrong username or password";
+
+      switch (action.payload) {
+        case "auth/invalid-email":
+        case "auth/wrong-password":
+          state.loginAdmin.msg = "Invalid email or password";
+          break;
+
+        case "auth/network-request-failed":
+          state.loginAdmin.msg = "Connection error. Please try again";
+          break;
+
+        default:
+          state.loginAdmin.msg = "Something went wrong. Please try again";
+          break;
+      }
     },
 
     getLoginUserInfo: (state, action) => {
@@ -170,7 +182,7 @@ export const {
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
-  resetStatus
+  resetStatus,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

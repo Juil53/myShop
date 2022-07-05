@@ -8,3 +8,9 @@ export const selectClients = (state) => {
   const { clients = [] } = client;
   return clients;
 };
+
+export const clientData = (state) => {
+  const { client = {} } = state || [];
+  const { data = {} } = client;
+  return data;
+};

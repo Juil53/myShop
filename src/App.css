@@ -698,9 +698,9 @@ ul > li {
   .productinfopopup {
     flex-direction: column;
     align-items: center;
-    max-width: 100%;
-    min-height: 100vh;
-    max-height: 100vh; }
+    max-width: 90%;
+    min-height: 90vh;
+    max-height: 90vh; }
     .productinfopopup .productinfopopup__left {
       padding: 1rem;
       width: 95%;
@@ -741,7 +741,7 @@ ul > li {
   .productinfopopup {
     flex-direction: column;
     align-items: center;
-    max-width: 100%;
+    max-width: 90%;
     min-height: 100vh;
     max-height: 100vh; }
     .productinfopopup .productinfopopup__left {
@@ -858,6 +858,12 @@ ul > li {
       .address_popup-container .form .is_default label {
         margin-left: 1rem;
         font-size: 1.4rem; }
+    .address_popup-container .form .address_error-msg {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 1rem;
+      font-size: 1.4rem;
+      color: red; }
     .address_popup-container .form .function {
       margin-top: 2rem;
       margin-right: 1rem;
@@ -867,6 +873,38 @@ ul > li {
         width: 15rem; }
       .address_popup-container .form .function .add-btn {
         margin-left: 1.5rem; }
+
+@media only screen and (max-width: 600px) {
+  .address_popup-container {
+    min-width: 90%; }
+    .address_popup-container .form {
+      margin-top: 2rem; }
+      .address_popup-container .form .address_field {
+        width: 100%;
+        flex-direction: column; } }
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .address_popup-container {
+    min-width: 90%; }
+    .address_popup-container .form {
+      margin-top: 2rem; }
+      .address_popup-container .form .address_field {
+        width: 100%;
+        flex-direction: column; }
+        .address_popup-container .form .address_field select {
+          width: 70%; } }
+
+.message_popup {
+  padding: 2rem;
+  max-width: 30rem;
+  min-width: 20rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  text-align: center; }
+  .message_popup .title {
+    font-size: 4rem;
+    color: #35c0c5;
+    text-align: center; }
 
 .popup__cancel-btn {
   position: absolute;
@@ -1663,34 +1701,36 @@ ul > li {
 
 .input_field {
   margin: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px #898989 solid;
   min-width: 30rem;
-  background-color: #fff; }
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  padding: 0 0.5rem; }
   .input_field label {
     left: 1rem;
-    top: 1rem;
+    top: 0.8rem;
     position: absolute;
     box-sizing: border-box;
     color: #cccccc;
     z-index: 1;
     font-size: 1em;
     transition: all 200ms ease-in; }
+  .input_field .showpass {
+    margin-left: 1rem;
+    color: #cccccc; }
   .input_field input {
-    border-radius: 4px;
     width: 100%;
     display: block;
     box-sizing: border-box;
-    padding: 0.94em 0.8em;
-    border: 1px #898989 solid;
-    height: 4.4rem;
+    padding: 0.94em 0.5em;
+    height: 4rem;
     background-color: #fff;
-    color: #333;
-    transition: all 0.3s ease; }
-  .input_field input:focus,
-  .input_field input:hover {
-    border: 1px solid #35c0c5;
-    box-shadow: 0 0 0 1px #66afe9; }
+    color: #333; }
   .input_field input:focus ~ label,
   .input_field input:not(:placeholder-shown) ~ label {
     top: -1.2rem;
@@ -1701,8 +1741,38 @@ ul > li {
   .input_field input:not(:focus) ~ label {
     color: #cccccc; }
 
-.input_field:-webkit-autofill {
-  transition: background-color 5000s; }
+.input_field:focus-within,
+.input_field:hover {
+  border: 1px solid #35c0c5;
+  box-shadow: 0 0 0 1px #66afe9; }
+  .input_field:focus-within .showpass,
+  .input_field:hover .showpass {
+    color: #35c0c5; }
+
+.input_field[data-error] {
+  border: 1px solid red; }
+  .input_field[data-error] label {
+    color: red; }
+  .input_field[data-error] .showpass {
+    color: red; }
+  .input_field[data-error] input:not(:focus) ~ label {
+    color: red; }
+  .input_field[data-error] input:focus ~ label,
+  .input_field[data-error] input:not(:placeholder-shown) ~ label {
+    color: red; }
+
+.input_field[data-error]:hover,
+.input_field[data-error]:focus-within {
+  border: 1px solid red;
+  box-shadow: 0 0 0 1px red; }
+
+.input_field::after {
+  position: absolute;
+  content: attr(data-error);
+  font-size: 1.1rem;
+  color: red;
+  top: 4.5rem;
+  left: 2rem; }
 
 .categorycard {
   font-size: 1.6rem; }
@@ -2170,51 +2240,21 @@ ul > li {
         display: flex;
         flex-direction: column;
         align-items: center; }
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field {
-        display: flex;
-        position: relative;
-        width: 60%;
-        height: 4rem;
-        margin: 1.5rem 0;
-        border-radius: 1.6rem;
-        border: 1px solid #cccccc;
-        align-items: center;
-        transition: all ease 0.3s;
+        .signin-signup-page .signin-signup-container .sign-tab-content .form .input_field {
+          margin-bottom: 2rem; }
+      .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field input:focus ~ label,
+      .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field input:not(:placeholder-shown) ~ label {
+        color: #133F63;
+        font-size: 1.4rem;
         background-color: #fff; }
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field i {
-          flex: 1;
-          text-align: center;
-          color: #cccccc;
-          transition: all ease 0.3s; }
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field input {
-          flex: 6;
-          width: 100%;
-          background-color: #fff; }
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field .showpass {
-          cursor: pointer; }
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field[data-error] {
-        border: 1px solid red; }
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field[data-error] i,
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field[data-error] input {
-          color: red; }
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field::after {
-        position: absolute;
-        content: attr(data-error);
-        font-size: 1.1rem;
-        color: red;
-        top: 4.2rem;
-        left: 2rem; }
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field:hover,
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field:focus-within {
-        border: 1px solid #35c0c5; }
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field:hover i,
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field:focus-within i {
-          color: #35c0c5; }
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field.admin:hover,
-      .signin-signup-page .signin-signup-container .sign-tab-content .input-field.admin:focus-within {
-        border: 1px solid #133F63; }
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field.admin:hover i,
-        .signin-signup-page .signin-signup-container .sign-tab-content .input-field.admin:focus-within i {
+      .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field input:not(:focus) ~ label {
+        color: #cccccc; }
+      .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field:focus-within,
+      .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field:hover {
+        border: 1px solid #133F63;
+        box-shadow: 0 0 0 1px #133c5e; }
+        .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field:focus-within .showpass,
+        .signin-signup-page .signin-signup-container .sign-tab-content .form.admin .input_field:hover .showpass {
           color: #133F63; }
       .signin-signup-page .signin-signup-container .sign-tab-content .error-msg {
         margin-top: 1.5rem;
@@ -2222,7 +2262,7 @@ ul > li {
         font-size: 1.2rem; }
       .signin-signup-page .signin-signup-container .sign-tab-content .login-btn,
       .signin-signup-page .signin-signup-container .sign-tab-content .signup-btn {
-        width: 45%;
+        width: 30%;
         padding: 1.2rem 0;
         margin-top: 1.5rem;
         pointer-events: all;
@@ -2268,7 +2308,7 @@ ul > li {
       width: 90%; }
     .signin-signup-page .signin-signup-container .sign-tab-content .login-btn,
     .signin-signup-page .signin-signup-container .sign-tab-content .signup-btn {
-      width: 70%; } }
+      width: 40%; } }
 
 @media only screen and (min-width: 601px) and (max-width: 767px) {
   .signin-signup-page .signin-signup-container {
@@ -2286,7 +2326,7 @@ ul > li {
   font-size: 1.4rem; }
 
 .product-detail__img {
-  width: 100%; }
+  width: 40%; }
   .product-detail__img .img-container {
     width: 100%;
     padding-top: 100%; }
@@ -2294,6 +2334,7 @@ ul > li {
     padding: 1rem; }
 
 .product-detail__info {
+  margin-left: 2rem;
   width: 60%; }
 
 .product-detail__brand,
@@ -2443,9 +2484,14 @@ ul > li {
   .address_management-container .add_address button {
     padding: 1rem; }
 
+.address_management-container .address_list .no_address {
+  padding: 2rem 1rem;
+  text-align: center; }
+
 .address_management-container .address_list .address_item {
   padding: 2rem 1rem;
-  font-size: 1.4rem; }
+  font-size: 1.4rem;
+  border-bottom: 1px solid #e6e6e6; }
   .address_management-container .address_list .address_item .address_content {
     margin-top: 1rem; }
     .address_management-container .address_list .address_item .address_content .default {
@@ -2465,110 +2511,81 @@ ul > li {
     .address_management-container .address_list .address_item .function .delete-btn {
       color: red; }
 
-.user-page-container {
+.user_page-container {
   width: 90%;
   margin-left: 5%; }
-  .user-page-container .user-page__content {
+  .user_page-container .user_page-content {
     margin-top: 2rem; }
-    .user-page-container .user-page__content .user-page__content-left {
+    .user_page-container .user_page-content .user_page-content-left {
       width: 30%; }
-      .user-page-container .user-page__content .user-page__content-left .title {
+      .user_page-container .user_page-content .user_page-content-left .title {
         align-items: center; }
-        .user-page-container .user-page__content .user-page__content-left .title .img {
+        .user_page-container .user_page-content .user_page-content-left .title .img {
           width: 5rem;
           height: 5rem; }
-          .user-page-container .user-page__content .user-page__content-left .title .img img {
+          .user_page-container .user_page-content .user_page-content-left .title .img img {
             width: 100%;
             height: 100%;
             border-radius: 50%; }
-        .user-page-container .user-page__content .user-page__content-left .title .name {
+        .user_page-container .user_page-content .user_page-content-left .title .name {
           margin-left: 0.5rem; }
-          .user-page-container .user-page__content .user-page__content-left .title .name span {
-            font-size: 2rem;
+          .user_page-container .user_page-content .user_page-content-left .title .name span {
+            font-size: 1.6rem;
             font-weight: 600; }
-      .user-page-container .user-page__content .user-page__content-left .content-btn {
-        padding: 1rem; }
-        .user-page-container .user-page__content .user-page__content-left .content-btn a {
+      .user_page-container .user_page-content .user_page-content-left .content-btn {
+        padding: 1rem;
+        color: #898989;
+        cursor: pointer; }
+        .user_page-container .user_page-content .user_page-content-left .content-btn a {
           color: #898989;
           display: block; }
-      .user-page-container .user-page__content .user-page__content-left .active a,
-      .user-page-container .user-page__content .user-page__content-left .content-btn:hover a {
+      .user_page-container .user_page-content .user_page-content-left .active,
+      .user_page-container .user_page-content .user_page-content-left .content-btn:hover {
         color: #35c0c5; }
-    .user-page-container .user-page__content .user-page__content-right {
+        .user_page-container .user_page-content .user_page-content-left .active a,
+        .user_page-container .user_page-content .user_page-content-left .content-btn:hover a {
+          color: #35c0c5; }
+    .user_page-container .user_page-content .user_page-content-right {
       width: 70%;
       border-left: 1px solid #e6e6e6;
       padding-left: 2rem; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .input-field {
-        display: flex;
-        position: relative;
-        width: 40rem;
-        height: 4rem;
-        margin: 1.5rem 0;
-        padding: 1rem;
-        border-radius: 1.6rem;
-        border: 1px solid #cccccc;
-        align-items: center;
-        transition: all ease 0.3s;
-        background-color: #fff; }
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field i {
-          flex: 1;
-          text-align: center;
-          color: #cccccc;
-          transition: all ease 0.3s;
-          font-size: 2rem; }
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field input {
-          flex: 6;
-          width: 100%;
-          background-color: #fff; }
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field .showpass {
-          cursor: pointer; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .input-field[data-error] {
-        border: 1px solid red; }
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field[data-error] i,
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field[data-error] input {
-          color: red; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .input-field::after {
-        position: absolute;
-        content: attr(data-error);
-        font-size: 1.1rem;
-        color: red;
-        top: 4.2rem;
-        left: 2rem; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .input-field:hover,
-      .user-page-container .user-page__content .user-page__content-right .change-password .input-field:focus-within {
-        border: 1px solid #35c0c5; }
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field:hover i,
-        .user-page-container .user-page__content .user-page__content-right .change-password .input-field:focus-within i {
-          color: #35c0c5; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .title {
-        font-size: 1.8rem; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .form {
+      .user_page-container .user_page-content .user_page-content-right .change-password .title {
+        font-weight: 600;
+        font-size: 2rem; }
+      .user_page-container .user_page-content .user_page-content-right .change-password .form {
+        margin-top: 2rem;
         display: flex;
         flex-direction: column;
         align-items: center; }
-      .user-page-container .user-page__content .user-page__content-right .change-password .change-password-btn {
+        .user_page-container .user_page-content .user_page-content-right .change-password .form .input_field {
+          margin-bottom: 2rem; }
+      .user_page-container .user_page-content .user_page-content-right .change-password .change-password-btn {
         margin-top: 2rem;
         padding: 1rem 0;
-        width: 30%;
+        width: 20%;
         text-transform: uppercase; }
-      .user-page-container .user-page__content .user-page__content-right .user_infor-container .title {
-        font-size: 1.8rem; }
-      .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor {
+      .user_page-container .user_page-content .user_page-content-right .change-password .error_msg {
+        color: red; }
+      .user_page-container .user_page-content .user_page-content-right .user_infor-container .title {
+        font-size: 2rem;
+        font-weight: 600; }
+      .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor {
         margin-top: 2rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 100%; }
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_pic {
+        .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic {
+          margin-bottom: 2rem;
           width: 8rem;
           height: 8rem;
           position: relative; }
-          .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_pic img {
+          .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic img {
             width: 100%;
             height: 100%;
             border-radius: 50%; }
-          .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_pic .change_pic-btn {
+          .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic .change_pic-btn {
             position: absolute;
             width: 2rem;
             height: 2rem;
@@ -2579,41 +2596,134 @@ ul > li {
             text-align: center;
             bottom: 0;
             transition: all ease 0.3s; }
-          .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_pic .change_pic-btn:hover {
+          .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic .change_pic-btn:hover {
             background-color: #35c0c5;
             color: #fff; }
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field {
-          display: flex;
-          position: relative;
-          margin-top: 3rem;
-          align-items: center;
-          width: 40rem; }
-          .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field label {
-            font-size: 1.4rem;
-            flex: 2; }
-          .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field input {
-            border: 1px solid #e6e6e6;
-            padding: 1rem;
-            flex: 4;
-            transition: all ease 0.3s; }
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field:hover input,
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field:focus-within input {
-          border: 1px solid #35c0c5; }
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field[data-error] input {
-          border: 1px solid red; }
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .user_infor .user_infor-field::after {
-          position: absolute;
-          content: attr(data-error);
-          font-size: 1.1rem;
-          color: red;
-          top: 4rem;
-          left: 13rem; }
-      .user-page-container .user-page__content .user-page__content-right .user_infor-container .save_change-container {
-        margin-top: 4rem;
+      .user_page-container .user_page-content .user_page-content-right .user_infor-container .save_change-container {
+        margin-top: 2rem;
         display: flex;
         justify-content: center; }
-        .user-page-container .user-page__content .user-page__content-right .user_infor-container .save_change-container .save_change {
+        .user_page-container .user_page-content .user_page-content-right .user_infor-container .save_change-container .save_change {
           padding: 1rem; }
+  .user_page-container .user_page-content.not_signin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 1.6rem; }
+    .user_page-container .user_page-content.not_signin .signin-btn {
+      margin-top: 2rem;
+      padding: 0.5rem 0;
+      width: 10rem; }
+
+@media only screen and (max-width: 600px) {
+  .user_page-container {
+    width: 90%;
+    margin-left: 5%; }
+    .user_page-container .user_page-content {
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 2rem; }
+      .user_page-container .user_page-content .user_page-content-left {
+        width: 100%; }
+        .user_page-container .user_page-content .user_page-content-left .title {
+          flex-direction: column;
+          align-items: center; }
+          .user_page-container .user_page-content .user_page-content-left .title .img {
+            width: 10rem;
+            height: 10rem; }
+          .user_page-container .user_page-content .user_page-content-left .title .name {
+            margin-left: 0rem; }
+            .user_page-container .user_page-content .user_page-content-left .title .name span {
+              font-size: 1.8rem; }
+        .user_page-container .user_page-content .user_page-content-left .navigation {
+          margin-top: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center; }
+        .user_page-container .user_page-content .user_page-content-left .content-btn {
+          padding: 0.5rem; }
+          .user_page-container .user_page-content .user_page-content-left .content-btn a {
+            color: #898989;
+            display: block; }
+        .user_page-container .user_page-content .user_page-content-left .active a,
+        .user_page-container .user_page-content .user_page-content-left .content-btn:hover a {
+          color: #35c0c5; }
+      .user_page-container .user_page-content .user_page-content-right {
+        margin-top: 1rem;
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #e6e6e6;
+        padding-left: 0; }
+        .user_page-container .user_page-content .user_page-content-right .change-password .title {
+          font-size: 2rem; }
+        .user_page-container .user_page-content .user_page-content-right .change-password .form {
+          margin-top: 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center; }
+          .user_page-container .user_page-content .user_page-content-right .change-password .form .input_field {
+            margin-bottom: 2rem; }
+        .user_page-container .user_page-content .user_page-content-right .change-password .change-password-btn {
+          margin-top: 2rem;
+          padding: 1rem 0;
+          width: 20%;
+          text-transform: uppercase; }
+        .user_page-container .user_page-content .user_page-content-right .change-password .error_msg {
+          color: red; }
+        .user_page-container .user_page-content .user_page-content-right .user_infor-container .title {
+          font-size: 2rem; }
+        .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor {
+          margin-top: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%; }
+          .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic {
+            margin-bottom: 2rem;
+            width: 8rem;
+            height: 8rem;
+            position: relative; }
+            .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic img {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%; }
+            .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic .change_pic-btn {
+              position: absolute;
+              width: 2rem;
+              height: 2rem;
+              background-color: #e6e6e6;
+              border-radius: 50%;
+              right: 8%;
+              font-size: 1rem;
+              text-align: center;
+              bottom: 0;
+              transition: all ease 0.3s; }
+            .user_page-container .user_page-content .user_page-content-right .user_infor-container .user_infor .user_pic .change_pic-btn:hover {
+              background-color: #35c0c5;
+              color: #fff; }
+        .user_page-container .user_page-content .user_page-content-right .user_infor-container .save_change-container {
+          margin-top: 2rem;
+          display: flex;
+          justify-content: center; }
+          .user_page-container .user_page-content .user_page-content-right .user_infor-container .save_change-container .save_change {
+            padding: 1rem; }
+    .user_page-container .user_page-content.not_signin {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 1.6rem; }
+      .user_page-container .user_page-content.not_signin .signin-btn {
+        margin-top: 2rem;
+        padding: 0.5rem 0;
+        width: 10rem; } }
+
+@media only screen and (min-width: 1200px) {
+  .user_page-container {
+    width: 80%;
+    margin-left: 10%; } }
 
 .product-detail__tabs {
   width: 80%;

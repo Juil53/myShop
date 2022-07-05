@@ -46,7 +46,6 @@ export const getAvailableOptions = (product) => {
 
     rs[JSON.stringify(key)] = p.available;
   });
-  console.log(rs);
   currentProduct.availableOptions = rs;
   return rs;
 };
@@ -91,7 +90,6 @@ export const selectUnavailableOption = ({
   for (let i in availableOptions) {
     const option = JSON.parse(i);
     if (option[optionId] === optionValue && availableOptions[i]) {
-      console.log(option);
       return [option, availableOptions[i]];
     }
   }

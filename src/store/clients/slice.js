@@ -3,12 +3,15 @@ import { LOADING_STATUS } from "../../constants";
 import localStorage from "../../service/localStorage";
 
 const initialState = {
-  status: LOADING_STATUS.IDLE,
-  msg: "",
-  data: localStorage.get("user"),
   clients: [],
   loading: false,
   error: null,
+  data: {
+    status: LOADING_STATUS.IDLE,
+    info: {},
+  },
+  updateStatus: LOADING_STATUS.IDLE,
+  updateMsg: "",
 };
 
 const clientSlice = createSlice({
@@ -23,22 +26,45 @@ const clientSlice = createSlice({
     },
 
     signinSuccess: (state, action) => {
-      state.data = action.payload;
-      localStorage.set("user", action.payload);
+      localStorage.set("token", action.payload.token);
+      localStorage.set("providerID", action.payload?.providerID);
+
       state.status = LOADING_STATUS.SUCCESS;
       state.msg = "Success";
     },
 
-    signinFail: (state) => {
-      state.data = null;
+    signinFail: (state, action) => {
+      state.data.info = {};
       state.status = LOADING_STATUS.FAIL;
-      state.msg = "Wrong username or password";
+
+      switch (action.payload) {
+        case "auth/invalid-email":
+        case "auth/wrong-password":
+          state.msg = "Invalid email or password";
+          break;
+
+        case "auth/network-request-failed":
+          state.msg = "Connection error. Please try again";
+          break;
+
+        case "auth/popup-closed-by-user":
+          state.msg = "";
+          break;
+
+        default:
+          state.msg = "Something went wrong. Please try again";
+          break;
+      }
     },
 
     signout: (state) => {
-      state.data = null;
+      state.data.status = LOADING_STATUS.IDLE;
+      state.data.info = {};
       state.msg = "";
-      localStorage.remove("user");
+
+      localStorage.remove("token");
+      localStorage.remove("providerID");
+
       state.status = LOADING_STATUS.IDLE;
     },
 
@@ -48,8 +74,9 @@ const clientSlice = createSlice({
 
     signupSuccess: (state, action) => {
       state.status = LOADING_STATUS.SUCCESS;
-      state.data = action.payload;
-      localStorage.set("user", action.payload);
+
+      localStorage.set("token", action.payload.token);
+      localStorage.set("providerID", action.payload?.providerID);
       state.msg = "Success";
     },
 
@@ -70,6 +97,44 @@ const clientSlice = createSlice({
     getClientsFailed(state, action) {
       (state.loading = false);
       (state.error = action.payload);
+    },
+
+    getUserInfo: (state, action) => {
+      state.data.status = LOADING_STATUS.SUCCESS;
+      state.data.info = action.payload;
+    },
+
+    updateRequest: (state) => {
+      state.updateStatus = LOADING_STATUS.LOADING;
+      state.data.status = LOADING_STATUS.UPDATING;
+    },
+
+    updateSuccess: (state, action) => {
+      state.updateStatus = LOADING_STATUS.SUCCESS;
+      state.data.status = LOADING_STATUS.SUCCESS;
+
+      if (action.payload) {
+        state.data.info = action.payload;
+      }
+    },
+
+    updateFail: (state, action) => {
+      state.updateStatus = LOADING_STATUS.FAIL;
+      state.data.status = LOADING_STATUS.SUCCESS;
+
+      switch (action.payload) {
+        case "auth/wrong-password":
+          state.updateMsg = "Wrong password. Please try again";
+          break;
+
+        case "auth/network-request-failed":
+          state.updateMsg = "Connection error. Please try again";
+          break;
+
+        default:
+          state.updateMsg = "Something went wrong. Please try again";
+          break;
+      }
     },
   },
 });

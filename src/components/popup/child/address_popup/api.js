@@ -11,7 +11,6 @@ const getLocation = async (path) => {
 
     return data;
   } catch (e) {
-    console.log(e);
     return [];
   }
 };
@@ -24,7 +23,6 @@ export const getRegions = async () => {
 };
 
 export const getDistricts = async (regionId) => {
-  console.log(regionId);
   const path = `districts?region_id=${regionId}`;
   const rs = await getLocation(path);
 

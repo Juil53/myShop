@@ -9,8 +9,10 @@ import {
   signinWithGoogleAuth,
   signinWithFacebookAuth,
   signoutAuth,
+  updatePasswordAuth,
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
+import { getUserId } from "../../utils/auth";
 
 export function* signinWithEmailAndPassword({ password, email }) {
   yield put(clientActions.signinRequest());
@@ -19,18 +21,27 @@ export function* signinWithEmailAndPassword({ password, email }) {
 
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.id) || {};
-    rs.image = client.image;
-    rs.displayName = client.displayName;
-    rs.phoneNumber = client.phoneNumber;
 
-    if (Object.keys(client).length === 0) {
-      yield put(clientActions.signinFail());
+    if (clients) {
+      const client = clients.find((c) => c.id === rs.id) || {};
+
+      const data = {
+        token: rs.accessToken,
+        providerID: rs.providerId,
+      };
+
+      if (Object.keys(client).length === 0) {
+        yield put(clientActions.signinFail("User not found"));
+      } else {
+        yield put(clientActions.signinSuccess(data));
+      }
     } else {
-      yield put(clientActions.signinSuccess(rs));
+      yield put(
+        clientActions.signinFail("Something went wrong. Please try again later")
+      );
     }
   } else {
-    yield put(clientActions.signinFail());
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
@@ -39,85 +50,107 @@ export function* signinWithGoogle() {
 
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.id) || {};
 
-    //new client
-    if (Object.keys(client).length === 0) {
-      const newClient = {
-        id: rs.id,
-        displayName: rs.displayName,
-        email: rs.email,
-        password: "",
-        image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
-        phoneNumber: rs.phoneNumber || "",
+    if (clients) {
+      const client = clients.find((c) => c.id === rs.id) || {};
+
+      const data = {
+        token: rs.accessToken,
+        providerID: rs.providerId,
       };
 
-      yield call(API.post, { path: "clients", query: newClient });
+      //new client
+      if (Object.keys(client).length === 0) {
+        const newClient = {
+          id: rs.id,
+          displayName: rs.displayName,
+          email: rs.email,
+          image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
+          phoneNumber: rs.phoneNumber || "",
+        };
+
+        yield call(API.post, { path: "clients", query: newClient });
+      } else {
+        if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
+          client.image = rs.image;
+        }
+
+        if (!client.phoneNumber && rs.phoneNumber) {
+          client.phoneNumber = rs.phoneNumber;
+        }
+
+        yield call(API.put, { path: `clients/${client.id}`, query: client });
+      }
+
+      yield put(clientActions.signinSuccess(data));
     } else {
-      if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
-        client.image = rs.image;
-      }
-      if (!client.phoneNumber && rs.phoneNumber) {
-        client.phoneNumber = rs.phoneNumber;
-      }
-      rs.displayName = client.displayName;
-      rs.image = client.image;
-      rs.phoneNumber = client.phoneNumber;
-      yield call(API.put, { path: `clients/${client.id}`, query: client });
+      yield put(clientActions.signinFail());
     }
-    yield put(clientActions.signinSuccess(rs));
+  } else {
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
 export function* signinWithFacebook() {
   const rs = yield call(signinWithFacebookAuth);
 
-  console.log(rs);
   if (rs && !rs.code) {
     const clients = yield call(API.get, { path: "clients" });
-    const client = clients.find((c) => c.id === rs.id) || {};
+    if (clients) {
+      const client = clients.find((c) => c.id === rs.id) || {};
 
-    if (Object.keys(client).length === 0) {
-      const newClient = {
-        id: rs.id,
-        displayName: rs.displayName,
-        email: rs.email,
-        password: "",
-        image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
-        phoneNumber: rs.phoneNumber || "",
+      const data = {
+        token: rs.accessToken,
+        providerID: rs.providerId,
       };
 
-      yield call(API.post, { path: "clients", query: newClient });
+      if (Object.keys(client).length === 0) {
+        const newClient = {
+          id: rs.id,
+          displayName: rs.displayName,
+          email: rs.email,
+          image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
+          phoneNumber: rs.phoneNumber || "",
+        };
+
+        yield call(API.post, { path: "clients", query: newClient });
+      } else {
+        if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
+          client.image = rs.image;
+        }
+
+        if (!client.phoneNumber && rs.phoneNumber) {
+          client.phoneNumber = rs.phoneNumber;
+        }
+
+        yield call(API.put, { path: `clients/${client.id}`, query: client });
+      }
+
+      yield put(clientActions.signinSuccess(data));
     } else {
-      if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
-        client.image = rs.image;
-      }
-      if (!client.phoneNumber && rs.phoneNumber) {
-        client.phoneNumber = rs.phoneNumber;
-      }
-      rs.displayName = client.displayName;
-      rs.image = client.image;
-      rs.phoneNumber = client.phoneNumber;
-      yield call(API.put, { path: `clients/${client.id}`, query: client });
+      yield put(clientActions.signinFail());
     }
-    yield put(clientActions.signinSuccess(rs));
+  } else {
+    yield put(clientActions.signinFail(rs.code));
   }
 }
 
 export function* signupUser({ email, password, user }) {
   yield put(clientActions.signupRequest());
 
-  const rs = yield call(signup, email, password, user);
+  const rs = yield call(signup, email, password);
 
   if (rs && !rs.code) {
     user.id = rs.id;
     user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
-    rs.image = user.image;
-    rs.displayName = user.displayName;
-    rs.phoneNumber = user.phoneNumber;
+
+    const data = {
+      token: rs.accessToken,
+      providerID: rs.providerId,
+    };
 
     yield call(API.post, { path: "clients", query: user });
-    yield put(clientActions.signupSuccess(rs));
+    yield put(clientActions.signupSuccess(data));
   } else {
     yield put(clientActions.signupFail(rs.code));
   }
@@ -135,6 +168,52 @@ export function* getClients() {
   } catch (err) {
     yield put(clientActions.getClientsFailed(err));
   }
+}
+
+export function* getUserInfo() {
+  try {
+    const userID = getUserId();
+    if (userID) {
+      const rs = yield call(API.get, { path: `clients/${userID}` });
+      if (rs) {
+        const data = { ...rs };
+
+        yield put(clientActions.getUserInfo(data));
+      }
+    }
+  } catch (e) {}
+}
+
+export function* updateInfo({ data, uid }) {
+  yield put(clientActions.updateRequest());
+
+  if (data && uid) {
+    try {
+      const rs = yield call(API.patch, { path: `clients/${uid}`, query: data });
+
+      if (rs) {
+        yield put(clientActions.updateSuccess(rs));
+      }
+    } catch (e) {
+      yield put(clientActions.updateFail());
+    }
+  } else {
+    yield put(clientActions.updateFail());
+  }
+}
+
+export function* updatePassword({ currentPass, newPass }) {
+  yield put(clientActions.updateRequest());
+
+  try {
+    const rs = yield call(updatePasswordAuth, currentPass, newPass);
+
+    if (rs && rs.code) {
+      yield put(clientActions.updateFail(rs.code));
+    } else {
+      yield put(clientActions.updateSuccess());
+    }
+  } catch (e) {}
 }
 
 export default function* clientSaga() {

@@ -9,15 +9,18 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB4Tqj5cjDgL17JANqsxlLwR3waPymPTxw",
-  authDomain: "my-shop-auth.firebaseapp.com",
-  projectId: "my-shop-auth",
-  storageBucket: "my-shop-auth.appspot.com",
-  messagingSenderId: "546364000877",
-  appId: "1:546364000877:web:7ebe014c50ab4663948d64",
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const firebase = initializeApp(firebaseConfig);
@@ -27,7 +30,7 @@ export const db = getFirestore(firebase);
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
-const adapter = ({ user = {}, _tokenResponse = {} }) => {
+const adapter = ({ user = {}, _tokenResponse = {}, providerId }) => {
   const { accessToken, displayName, email, uid, photoURL, phoneNumber } = user;
   const { refreshToken } = _tokenResponse;
 
@@ -39,6 +42,7 @@ const adapter = ({ user = {}, _tokenResponse = {} }) => {
     id: uid,
     image: photoURL,
     phoneNumber,
+    providerId,
   };
 };
 
@@ -50,16 +54,12 @@ export const signinAuth = async (email = "", password = "") => {
 
     return adapter(res);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };
 
 export const signoutAuth = async () => {
-  authInstance.signOut().then(() => {
-    console.log("Signed Out");
-  });
+  authInstance.signOut().then(() => {});
 };
 
 export const signup = async (email = "", password = "") => {
@@ -72,8 +72,6 @@ export const signup = async (email = "", password = "") => {
 
     return adapter(res);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };
@@ -88,8 +86,6 @@ export const signinWithGoogleAuth = async () => {
 
     return adapter(rs);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
-
     return JSON.parse(JSON.stringify(e));
   }
 };
@@ -102,8 +98,23 @@ export const signinWithFacebookAuth = async () => {
 
     return adapter(rs);
   } catch (e) {
-    console.log(JSON.parse(JSON.stringify(e)));
+    return JSON.parse(JSON.stringify(e));
+  }
+};
 
+export const reauthenticate = async (currentPass) => {
+  const user = authInstance.currentUser;
+  const cred = EmailAuthProvider.credential(user.email, currentPass);
+  const rs = await reauthenticateWithCredential(user, cred);
+  return rs;
+};
+
+export const updatePasswordAuth = async (currentPass, newPass) => {
+  try {
+    const user = authInstance.currentUser;
+    await reauthenticate(currentPass);
+    await updatePassword(user, newPass);
+  } catch (e) {
     return JSON.parse(JSON.stringify(e));
   }
 };

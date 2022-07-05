@@ -5,10 +5,10 @@ let decoded = null;
 
 export const getToken = () => {
   if (token) return token;
-  let user = localStorage.getItem("user");
+  let user = localStorage.getItem("token");
   if (user) {
     user = JSON.parse(user);
-    token = user ? user.accessToken : "";
+    token = user ? localStorage.getItem("token") : "";
   }
   return token;
 };
@@ -19,7 +19,6 @@ export const decodeToken = () => {
   try {
     decoded = decode(t);
   } catch (e) {
-    console.log(e);
     decoded = null;
   }
   return decoded;
@@ -31,6 +30,15 @@ export const getTokenRemainTime = () => {
   const current = new Date().getTime();
   const rs = d.exp * 1000 - current;
   return rs;
+};
+
+export const getUserId = () => {
+  const d = decodeToken();
+  if (d) {
+    return d.user_id;
+  } else {
+    return "";
+  }
 };
 
 export const isTokenValid = () => {

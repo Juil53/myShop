@@ -1,18 +1,30 @@
 import { useDispatch } from "react-redux";
-import { CART_ACTIONS } from "../../../../constants";
+import { useNavigate } from "react-router-dom";
+import { CART_ACTIONS, USER_ACTIONS } from "../../../../constants";
+import { navigate } from "../../../../utils/routing";
 
 const SelectionPopup = (props) => {
   const { closePopup, data } = props;
-  const { message, product, actionType } = data || [];
+  const { message, actionType, detail } = data || [];
+  const navigator = useNavigate();
   const dispatch = useDispatch();
 
   const confirmActions = {
-    "delete cart": (product) => {
-      dispatch({ type: CART_ACTIONS.UPDATE_CART, product: product });
+    "delete cart": (detail) => {
+      dispatch({ type: CART_ACTIONS.UPDATE_CART, product: detail.product });
       closePopup();
     },
     "sign in": () => {
-      window.location.href = window.location.origin + "/sign";
+      navigate(dispatch, navigator, "/sign");
+      closePopup();
+    },
+    "delete address": (detail) => {
+      dispatch({
+        type: USER_ACTIONS.UPDATE_USER_INFO,
+        data: detail.address,
+        uid: detail.uid,
+      });
+      closePopup();
     },
   };
 
@@ -29,7 +41,7 @@ const SelectionPopup = (props) => {
           </button>
           <button
             className="confirm-btn button-style"
-            onClick={() => confirmActions[actionType](product)}
+            onClick={() => confirmActions[actionType](detail)}
           >
             Confirm
           </button>
