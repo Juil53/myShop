@@ -25,7 +25,13 @@ export default function ProductCard(props) {
   return (
     <div className="w-full productcard">
       <div className={cardDirection}>
-        <div className={cardDirection === "row" ? "productcard__image-row" : "productcard__image"}>
+        <div
+          className={
+            cardDirection === "row"
+              ? "productcard__image-row"
+              : "productcard__image"
+          }
+        >
           <div className="img-container">
             <img src={data.image} alt="" />
           </div>
@@ -37,9 +43,15 @@ export default function ProductCard(props) {
           )}
         </div>
         {cardDirection !== "row" &&
-          utils.discount(data.priceBeforeDiscount, data.priceAfterDiscount) > 0 && (
+          utils.discount(data.priceBeforeDiscount, data.priceAfterDiscount) >
+            0 && (
             <div className="productcard__discount">
-              -{utils.discount(data.priceBeforeDiscount, data.priceAfterDiscount)}%
+              -
+              {utils.discount(
+                data.priceBeforeDiscount,
+                data.priceAfterDiscount
+              )}
+              %
             </div>
           )}
         <div
@@ -54,12 +66,20 @@ export default function ProductCard(props) {
             {data.priceAfterDiscount
               ? utils.priceBreak(data.priceAfterDiscount) + "₫"
               : "Update later"}
-            {data.priceAfterDiscount && data.priceAfterDiscount !== data.priceBeforeDiscount && (
-              <span className="price-compare">{utils.priceBreak(data.priceBeforeDiscount)}₫</span>
-            )}
+            {data.priceAfterDiscount &&
+              data.priceAfterDiscount !== data.priceBeforeDiscount && (
+                <span className="price-compare">
+                  {utils.priceBreak(data.priceBeforeDiscount)}₫
+                </span>
+              )}
           </div>
           <div className="productcard__info-feature">
-            <button className="detail-btn bg-white text-bold">More info</button>
+            <button
+              className="detail-btn bg-white text-bold"
+              onClick={() => navigate(`/product/${data.id}`)}
+            >
+              More info
+            </button>
             {cardDirection !== "row" && (
               <button className="showpopup-btn" onClick={handleShowPopup}>
                 <i className="fa-solid fa-eye"></i>

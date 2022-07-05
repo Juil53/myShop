@@ -14,7 +14,6 @@ export function* fetchBanners() {
     }
     yield put(actions.fetchBannersSuccess(result));
   } catch (e) {
-    console.log(e);
     yield put(actions.fetchBannersFail());
   }
 }

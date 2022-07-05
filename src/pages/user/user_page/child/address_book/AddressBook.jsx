@@ -1,16 +1,35 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { actions } from "../../../../../store/page/slice";
-import { POPUP } from "../../../../../constants";
+import { POPUP, LOADING_STATUS } from "../../../../../constants";
 import { clone } from "../../../../../utils";
+import Loading from "../../../../../components/loading/Loading";
 
-const AddressManagement = (props) => {
-  const { data } = props;
+const AddressBook = (props) => {
+  const { data, status } = props;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (status === LOADING_STATUS.UPDATING) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    }
+  });
 
   const handleAddNewAddress = () => {
     dispatch(
       actions.activePopup({ type: POPUP.ADD_ADDRESS_POPUP, data: data })
+    );
+  };
+
+  const handleEditAddress = (current) => {
+    dispatch(
+      actions.activePopup({
+        type: POPUP.ADD_ADDRESS_POPUP,
+        data: { ...data, currentAddress: current },
+      })
     );
   };
 
@@ -73,7 +92,9 @@ const AddressManagement = (props) => {
                 Delete
               </button>
             )}
-            <button className="edit-btn">Edit</button>
+            <button className="edit-btn" onClick={() => handleEditAddress(v)}>
+              Edit
+            </button>
           </div>
         </div>
       ));
@@ -83,16 +104,24 @@ const AddressManagement = (props) => {
   };
 
   return (
-    <div className="address_management-container">
-      <div className="title">Address management</div>
-      <div className="add_address">
-        <button className="button-style" onClick={handleAddNewAddress}>
-          Add address
-        </button>
-      </div>
-      <div className="address_list">{createAddressItem(data.addressList)}</div>
-    </div>
+    <>
+      {status === LOADING_STATUS.SUCCESS ? (
+        <div className="address_management-container">
+          <div className="title">Address management</div>
+          <div className="add_address">
+            <button className="button-style" onClick={handleAddNewAddress}>
+              Add address
+            </button>
+          </div>
+          <div className="address_list">
+            {createAddressItem(data.addressList)}
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 };
 
-export default AddressManagement;
+export default AddressBook;

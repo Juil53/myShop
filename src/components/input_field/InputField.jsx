@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { constant } from "../../constants";
 
 import {
   checkEmailFormat,
   checkMinLength,
   checkName,
   checkPhoneFormat,
-} from "../../validation/validate";
+} from "../../validation/validateInputField";
 
 const InputField = (props) => {
   const { id, title, currentValue, onChange, required, type, min } = props;
@@ -58,7 +59,7 @@ const InputField = (props) => {
         case "name": {
           const kq = checkName(val);
 
-          if (kq !== "valid") {
+          if (kq !== constant.validName) {
             setError(id, `Your name is very ${kq}. Try again`);
           }
           return;

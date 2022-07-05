@@ -18,14 +18,12 @@ export const uploadFile = async (file) => {
       request
     );
     if (!response.ok) {
-      console.log("Fail to upload image to Imgbb");
       return "";
     }
     const json = await response.json();
 
     return json.data.url;
   } catch (e) {
-    console.log(e);
     return "";
   }
 };

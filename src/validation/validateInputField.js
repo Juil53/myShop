@@ -1,3 +1,5 @@
+import { constant } from "../constants";
+
 export const checkEmailFormat = (email) => {
   const txt = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -21,9 +23,9 @@ export const checkMinLength = (value, length) => {
 
 export const checkName = (name) => {
   if (name.length < 6) {
-    return "short";
+    return constant.shortName;
   } else if (name.length > 50) {
-    return "long";
+    return constant.longName;
   }
-  return "valid";
+  return constant.validName;
 };

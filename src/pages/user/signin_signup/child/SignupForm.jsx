@@ -7,7 +7,7 @@ import { actions } from "../../../../store/page/slice";
 import {
   checkEmailFormat,
   checkPhoneFormat,
-} from "../../../../validation/validate";
+} from "../../../../validation/validateInputField";
 import InputField from "../../../../components/input_field/InputField";
 
 const SignupForm = () => {
@@ -63,10 +63,9 @@ const SignupForm = () => {
         const user = {
           displayName: name,
           phoneNumber,
-          password,
           email,
         };
-        console.log(user);
+
         dispatch({
           type: USER_ACTIONS.SIGNUP_USER,
           password: password,

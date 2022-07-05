@@ -1,4 +1,8 @@
 export const constant = {
+  //check name
+  validName: "valid",
+  longName: "long",
+  shortName: "short",
   //loading status
   IDLE: "IDLE",
   SUCCESS: "SUCCESS",
@@ -73,10 +77,11 @@ export const USER_ACTIONS = {
   SIGNUP_USER: "SIGNUP_USER",
   SIGNIN_USER_WITH_GOOGLE: "SIGNIN_USER_WITH_GOOGLE",
   SIGNIN_USER_WITH_FACEBOOK: "SIGNIN_USER_WITH_FACEBOOK",
-  SIGNIN_ADMIN: "SIGNIN_ADMIN",
+  ADMIN_SIGNIN: "ADMIN_SIGNIN",
   SIGNOUT_USER: "SIGNOUT_USER",
   UPDATE_USER_INFO: "UPDATE_USER_INFO",
   UPDATE_USER_PASSWORD: "UPDATE_USER_PASSWORD",
+  ADMIN_SIGNOUT: "ADMIN_SIGNOUT",
 };
 
 export const ROWS_PER_PAGE = 10;

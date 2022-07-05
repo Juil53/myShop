@@ -36,8 +36,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin } from "../../../../store/users/selector";
-import { signoutAdmin } from "../../../../store/users/usersSlice";
 import { indigo } from "@mui/material/colors";
+import { USER_ACTIONS } from "../../../../constants";
 
 const drawerWidth = "25rem";
 
@@ -62,23 +62,23 @@ const closedMixin = (theme) => ({
   },
 });
 
-const NewDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-    boxSizing: "border-box",
-    ...(open && {
-      zIndex: theme.zIndex.drawer + 1,
-      ...openedMixin(theme),
-      "& .MuiDrawer-paper": openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      "& .MuiDrawer-paper": closedMixin(theme),
-    }),
-  })
-);
+const NewDrawer = styled(Drawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    zIndex: theme.zIndex.drawer + 1,
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 const MyAppBar = styled(AppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -162,7 +162,7 @@ function MyDrawer() {
   ];
 
   const handleSignout = () => {
-    dispatch(signoutAdmin());
+    dispatch({ type: USER_ACTIONS.ADMIN_SIGNOUT });
   };
 
   const handleDrawerOpen = () => {
@@ -208,8 +208,14 @@ function MyDrawer() {
                 <Popper id={id} open={popper} anchorEl={anchorEl} transition>
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={200}>
-                      <Stack sx={{ mt: 1, mr: 3, p: 1, textAlign: "left" }} as={Paper} elevation={2}>
-                        <Button color="secondary">{user?.data?.displayName}</Button>
+                      <Stack
+                        sx={{ mt: 1, mr: 3, p: 1, textAlign: "left" }}
+                        as={Paper}
+                        elevation={2}
+                      >
+                        <Button color="secondary">
+                          {user?.data?.displayName}
+                        </Button>
                         <Button
                           color="secondary"
                           onClick={handleSignout}
@@ -232,10 +238,18 @@ function MyDrawer() {
         open={open}
         sx={{ "& .MuiDrawer-paper": { backgroundColor: "secondary.main" } }}
       >
-        <Grid container direction="column" sx={{ height: "100%" }} justifyContent="space-between">
+        <Grid
+          container
+          direction="column"
+          sx={{ height: "100%" }}
+          justifyContent="space-between"
+        >
           <Grid item>
             <Grid item>
-              <Toolbar className="adminToolbar" sx={{ paddingLeft: { xs: "16px" } }}>
+              <Toolbar
+                className="adminToolbar"
+                sx={{ paddingLeft: { xs: "16px" } }}
+              >
                 {open ? (
                   <img
                     src="/img/logomyShopwhite.png"
@@ -256,7 +270,9 @@ function MyDrawer() {
                       return (
                         <CustomeNavlink to={href} key={index}>
                           <CustomizedListItemButton>
-                            <ListItemIcon sx={{ color: "#fff" }}>{icon}</ListItemIcon>
+                            <ListItemIcon sx={{ color: "#fff" }}>
+                              {icon}
+                            </ListItemIcon>
                             <ListItemText primary={text} />
                           </CustomizedListItemButton>
                           <Divider />
@@ -268,7 +284,9 @@ function MyDrawer() {
                       return (
                         <CustomeNavlink to={href} key={index}>
                           <CustomizedListItemButton>
-                            <ListItemIcon sx={{ color: "#fff" }}>{icon}</ListItemIcon>
+                            <ListItemIcon sx={{ color: "#fff" }}>
+                              {icon}
+                            </ListItemIcon>
                             <ListItemText primary={text} />
                           </CustomizedListItemButton>
                           <Divider />
@@ -280,7 +298,9 @@ function MyDrawer() {
           </Grid>
 
           <Grid item>
-            <DrawerHeader sx={{ justifyContent: open ? "flex-end" : "flex-start" }}>
+            <DrawerHeader
+              sx={{ justifyContent: open ? "flex-end" : "flex-start" }}
+            >
               {!open ? (
                 <IconButton onClick={handleDrawerOpen}>
                   <ChevronRightIcon sx={{ color: "#fff" }} />
