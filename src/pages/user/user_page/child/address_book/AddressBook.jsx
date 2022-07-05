@@ -9,7 +9,6 @@ import Loading from "../../../../../components/loading/Loading";
 const AddressBook = (props) => {
   const { data, status } = props;
   const dispatch = useDispatch();
-  console.log(status);
 
   useEffect(() => {
     if (status === LOADING_STATUS.UPDATING) {

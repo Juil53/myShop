@@ -24,7 +24,6 @@ export function* fetchHotProducts() {
 
     yield put(actions.fetchHotProductsSuccess(data));
   } catch (err) {
-    console.log(err);
     yield put(actions.fetchHotProductsFail());
   }
 }
@@ -39,7 +38,6 @@ export function* fetchAllProducts() {
     }
     yield put(actions.fetchAllProductsSuccess(data));
   } catch (err) {
-    console.log(err);
     yield put(actions.fetchAllProductsFail());
   }
 }
@@ -71,7 +69,6 @@ export function* fetchNewProducts() {
     }
     yield put(actions.fetchNewProductsSuccess(data));
   } catch (err) {
-    console.log(err);
     yield put(actions.fetchNewProductsFail());
   }
 }
@@ -88,7 +85,6 @@ export function* fetchBestSellProducts() {
 
     yield put(actions.fetchBestSellingSuccess(data));
   } catch (err) {
-    console.log(err);
     yield put(actions.fetchBestSellingFail());
   }
 }
@@ -105,12 +101,13 @@ export function* searchProduct({ name }) {
 
     const nameSearch = removeAccents(name.toLowerCase());
 
-    let data = result.filter((v) => removeAccents(v.name.toLowerCase()).includes(nameSearch));
+    let data = result.filter((v) =>
+      removeAccents(v.name.toLowerCase()).includes(nameSearch)
+    );
     console.log(data);
 
     yield put(actions.searchProductSuccess(data));
   } catch (err) {
-    console.log(err);
     yield put(actions.searchProductFail());
   }
 }
@@ -120,6 +117,9 @@ export default function* root() {
   yield takeEvery(PRODUCT_ACTIONS.GET_HOT_PRODUCTS, fetchHotProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_ALL_PRODUCTS, fetchAllProducts);
   yield takeEvery(PRODUCT_ACTIONS.GET_NEW_PRODUCTS, fetchNewProducts);
-  yield takeEvery(PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS, fetchBestSellProducts);
+  yield takeEvery(
+    PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS,
+    fetchBestSellProducts
+  );
   yield takeEvery("product/getProductRequest", getProduct);
 }

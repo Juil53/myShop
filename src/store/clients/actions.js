@@ -53,7 +53,6 @@ export function* signinWithGoogle() {
     if (clients) {
       const client = clients.find((c) => c.id === rs.id) || {};
 
-      console.log(rs.providerId);
       const data = {
         token: rs.accessToken,
         providerID: rs.providerId,
@@ -172,9 +171,7 @@ export function* getUserInfo() {
         yield put(clientActions.getUserInfo(data));
       }
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export function* updateInfo({ data, uid }) {
@@ -188,7 +185,6 @@ export function* updateInfo({ data, uid }) {
         yield put(clientActions.updateSuccess(rs));
       }
     } catch (e) {
-      console.log(e);
       yield put(clientActions.updateFail());
     }
   } else {
@@ -207,9 +203,7 @@ export function* updatePassword({ currentPass, newPass }) {
     } else {
       yield put(clientActions.updateSuccess());
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export default function* clientSaga() {

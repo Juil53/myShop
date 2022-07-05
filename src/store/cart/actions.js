@@ -84,9 +84,7 @@ export function* getCart() {
 export function* addCart({ product }) {
   try {
     yield put(actions.fetchAddCart({ product }));
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 }
 
 export function* updateCart({ product }) {
@@ -107,9 +105,7 @@ export function* updateCart({ product }) {
       yield call(API.put, { path: `carts/cart${uid}`, query: rs });
     }
     yield put(actions.updateCart({ product }));
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export default function* root() {

@@ -26,7 +26,6 @@ const clientSlice = createSlice({
 
     signinSuccess: (state, action) => {
       localStorage.set("token", action.payload.token);
-      console.log();
       localStorage.set("providerID", action.payload?.providerID);
 
       state.status = LOADING_STATUS.SUCCESS;
