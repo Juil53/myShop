@@ -24,7 +24,7 @@ import {
   submitProductRequest,
 } from "../../../../../store/admin_product/productSlice";
 import OptionsInput from "./OptionsInput";
-import SimpleSnackbar from "../../component/SimpleSnackbar";
+import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
 
 export default function AddProduct() {
   const dispatch = useDispatch();

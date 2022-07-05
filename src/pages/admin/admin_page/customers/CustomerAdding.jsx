@@ -7,6 +7,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useEffect } from "react";
 
+const styleImg = { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" };
+
 const CustomerAdding = ({ inputs }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
@@ -84,7 +86,7 @@ const CustomerAdding = ({ inputs }) => {
           <img
             src={file ? URL.createObjectURL(file) : "/img/default_avatar.png"}
             alt="profile"
-            style={{ width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" }}
+            style={styleImg}
           />
         </Grid>
 

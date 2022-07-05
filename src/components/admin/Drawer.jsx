@@ -9,7 +9,6 @@ import {
   Divider,
   Avatar,
   Stack,
-  Typography,
   Badge,
   styled,
   Drawer,
@@ -23,7 +22,7 @@ import {
   CustomizedListItemButton,
   CustomizeToolbar,
   CustomeNavlink,
-} from "../../../../styles/styled_components/styledComponent";
+} from "../../styles/styled_components/styledComponent";
 import StoreIcon from "@mui/icons-material/Store";
 import MailIcon from "@mui/icons-material/Mail";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -36,8 +35,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAdmin } from "../../../../store/users/selector";
-import { signoutAdmin } from "../../../../store/users/usersSlice";
+import { loginAdmin } from "../../store/users/selector";
+import { signoutAdmin } from "../../store/users/usersSlice";
 
 const drawerWidth = "25rem";
 

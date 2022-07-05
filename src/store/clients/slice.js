@@ -6,6 +6,9 @@ const initialState = {
   status: LOADING_STATUS.IDLE,
   msg: "",
   data: localStorage.get("user"),
+  clients: [],
+  loading: false,
+  error: null,
 };
 
 const clientSlice = createSlice({
@@ -52,11 +55,30 @@ const clientSlice = createSlice({
 
     signupFail: (state, action) => {
       state.status = LOADING_STATUS.FAIL;
-      if (action.payload === "auth/email-already-in-use")
-        state.msg = "Email already in use";
+      if (action.payload === "auth/email-already-in-use") state.msg = "Email already in use";
+    },
+
+    getClientsRequest(state) {
+      state.loading = true;
+    },
+
+    getClientsSuccess(state, action) {
+      (state.loading = false);
+      (state.clients = action.payload);
+    },
+
+    getClientsFailed(state, action) {
+      (state.loading = false);
+      (state.error = action.payload);
     },
   },
 });
+
+export const {
+  getClientsRequest,
+  getClientsSuccess,
+  getClientsFailed
+} = clientSlice.actions
 
 export const clientActions = { ...clientSlice.actions };
 

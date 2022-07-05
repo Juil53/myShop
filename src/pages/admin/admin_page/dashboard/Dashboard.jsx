@@ -1,8 +1,7 @@
-import React from "react";
-import { Box, Grid, Paper } from "@mui/material";
-import Widget from "../component/Widget";
-import Progress from "../component/Progress";
-import Chart from "../component/Chart";
+import { Box, Grid } from "@mui/material";
+import Chart from "../../../../components/admin/Chart";
+import Progress from "../../../../components/admin/Progress";
+import Widget from "../../../../components/admin/Widget";
 
 function Dashboard() {
   return (
@@ -25,7 +24,7 @@ function Dashboard() {
             <Progress />
           </Grid>
           <Grid item xs={8}>
-            <Chart aspect={2 / 1} title="PROFIT & REVENUE"/>
+            <Chart aspect={2 / 1} title="PROFIT & REVENUE" />
           </Grid>
         </Grid>
       </Box>

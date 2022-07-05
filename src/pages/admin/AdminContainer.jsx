@@ -3,7 +3,7 @@ import { Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { Box } from "@mui/material";
-import MyDrawer from "./admin_page/component/Drawer";
+import MyDrawer from "../../components/admin/Drawer"
 
 import Signin from "./signin_admin/Signin";
 import { loginAdmin } from "../../store/users/selector";

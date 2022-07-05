@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { rows } from "../customer_management/transaction";
+import { rows } from "../../pages/admin/admin_page/customers/transaction";
 
 const status = {
   "&.Successed": {

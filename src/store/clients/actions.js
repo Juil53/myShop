@@ -1,6 +1,7 @@
 import { call, takeEvery, put } from "redux-saga/effects";
 
 import API from "../../service";
+import apiInstance from "../../utils/axios/axiosInstance";
 import { clientActions } from "./slice";
 import {
   signinAuth,
@@ -127,10 +128,20 @@ export function* signout() {
   yield put(clientActions.signout());
 }
 
+export function* getClients() {
+  try {
+    const result = yield call(apiInstance.get, "clients");
+    yield put(clientActions.getClientsSuccess(result));
+  } catch (err) {
+    yield put(clientActions.getClientsFailed(err));
+  }
+}
+
 export default function* clientSaga() {
   yield takeEvery(USER_ACTIONS.SIGNIN_USER, signinWithEmailAndPassword);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
   yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
   yield takeEvery(USER_ACTIONS.SIGNOUT_USER, signout);
+  yield takeEvery("clients/getClientsRequest", getClients);
 }

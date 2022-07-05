@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { selectLoading } from "../../../../store/users/selector";
 import { submitUserRequest } from "../../../../store/users/usersSlice";
 import { validation } from "../../../../validation/Validation";
-import SimpleSnackbar from "../component/SimpleSnackbar";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 
 // SELECT ROLE

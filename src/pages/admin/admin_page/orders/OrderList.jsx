@@ -1,7 +1,7 @@
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DoneIcon from "@mui/icons-material/Done";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ErrorIcon from "@mui/icons-material/Error";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
@@ -13,7 +13,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
+  TableRow
 } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,19 +22,46 @@ import {
   getOrderDetail,
   getOrderPaginationRequest,
   getOrderRequest,
-  openModal,
+  openModal
 } from "../../../../store/orders/orderSlice";
 import {
   selectLoading,
   selectOrderData,
   selectOrderDetail,
-  selectOrderPagination,
+  selectOrderPagination
 } from "../../../../store/orders/selector";
 import { getUserRequest } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
-  CustomPagination,
+  CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
+
+const style = {
+  TableHead: {
+    minWidth: { xs: "1400px", md: "110%" },
+    backgroundColor: "#fff",
+  },
+  TableRow: {
+    "&:last-child td, &:last-child th": { border: 0 },
+    cursor: "pointer",
+  },
+  TableContainer: {
+    maxHeight: "65vh",
+  },
+  TableCellEmail: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "150px",
+  },
+  TableCellLocation: {
+    fontWeight: 500,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "50px",
+  },
+};
 
 export default function OrderList({ keyword }) {
   const dispatch = useDispatch();
@@ -104,16 +131,8 @@ export default function OrderList({ keyword }) {
         <Loading />
       ) : (
         <Box component={Paper} elevation={3} p={2}>
-          <TableContainer
-            sx={{
-              maxHeight: "65vh",
-            }}
-          >
-            <Table
-              stickyHeader
-              size="small"
-              sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
-            >
+          <TableContainer sx={style.TableContainer}>
+            <Table stickyHeader size="small" sx={style.TableHead}>
               <CustomizedTableHead>
                 <TableRow>
                   <TableCell width="10%">Order ID</TableCell>
@@ -128,35 +147,12 @@ export default function OrderList({ keyword }) {
               <TableBody>
                 {orderList?.map((order, index) => {
                   return (
-                    <TableRow
-                      key={index}
-                      hover={true}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        cursor: "pointer",
-                      }}
-                    >
+                    <TableRow key={index} hover={true} sx={style.TableRow}>
                       <TableCell align="left">{order.id}</TableCell>
-                      <TableCell
-                        align="left"
-                        style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "150px",
-                        }}
-                      >
+                      <TableCell align="left" style={style.TableCellEmail}>
                         {order.email}
                       </TableCell>
-                      <TableCell
-                        style={{
-                          fontWeight: 500,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "50px",
-                        }}
-                      >
+                      <TableCell style={style.TableCellLocation}>
                         <LocationOnIcon
                           fontSize="small"
                           color="secondary"

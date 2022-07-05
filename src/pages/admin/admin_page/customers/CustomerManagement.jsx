@@ -1,7 +1,9 @@
-import React, { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import CustomerList from "./CustomerList";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import CustomerList from "./CustomerList";
+
+const styleContainer = { display: "flex", justifyContent: "space-between", alignItems: "center" };
 
 const CustomerManagement = () => {
   const [data, setData] = useState([]);
@@ -28,6 +30,7 @@ const CustomerManagement = () => {
     setData(array);
   };
 
+  //Save import Data to JsonServer
   const handleSubmit = (e) => {
     e.preventDefault();
     if (file) {
@@ -39,9 +42,19 @@ const CustomerManagement = () => {
     }
   };
 
+  useEffect(() => {
+    if (file) {
+      fileReader.readAsText(file);
+      fileReader.onload = (event) => {
+        const csvOutput = event.target.result;
+        csvFileToArray(csvOutput);
+      };
+    }
+  }, [file]);
+
   return (
     <div>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <Box sx={styleContainer}>
         <Typography variant="h4" fontWeight={400}>
           Customers Management
         </Typography>
@@ -66,7 +79,7 @@ const CustomerManagement = () => {
               </Button>
             </label>
           </form>
-          <Button variant="contained" color="success" onClick={handleSubmit}>
+          <Button variant="contained" color="success">
             Save
           </Button>
         </Stack>

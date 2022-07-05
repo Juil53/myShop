@@ -20,7 +20,7 @@ import {
 } from "../../../../store/admin_product/productSlice";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import SimpleSnackbar from "../component/SimpleSnackbar";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import AttributeInput from "./add_product/AttributeInput";
 import CategoriesInput from "./add_product/CategoriesInput";
 import ImageInput from "./add_product/ImageInput";

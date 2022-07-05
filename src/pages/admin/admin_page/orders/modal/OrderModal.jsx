@@ -14,10 +14,10 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
 import { closeModal, updateOrderDetail } from "../../../../../store/orders/orderSlice";
 import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
 import { CustomBox, CustomSelect } from "../../../../../styles/styled_components/styledComponent";
-import SimpleSnackbar from "../../component/SimpleSnackbar";
 import { statusColors, statusStyle, title } from "./OrderModalStyle";
 import StatusIcons from "./StatusIcons";
 

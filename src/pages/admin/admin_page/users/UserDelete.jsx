@@ -1,13 +1,14 @@
-import React, { useState,useEffect } from "react";
-import AlertDialog from "../component/AlertDialog";
-import SimpleSnackbar from "../component/SimpleSnackbar";
+import React, { useState } from "react";
+import AlertDialog from "../../../../components/admin/AlertDialog";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { IconButton } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteProductRequest, getProductPaginationRequest } from "../../../../store/admin_product/productSlice";
-import { selectStatus } from "../../../../store/admin_product/selector";
+import { deleteUserRequest, getUserPaginationRequest } from "../../../../store/users/usersSlice";
+import { selectStatus } from "../../../../store/users/selector";
+import { useEffect } from "react";
 
-const ProductDelete = ({ product, page }) => {
+const UserDelete = ({ userId, user, page }) => {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -21,8 +22,8 @@ const ProductDelete = ({ product, page }) => {
 
   const handleDelete = (choose) => {
     if (choose) {
-      dispatch(deleteProductRequest(product.id));
-      dispatch(getProductPaginationRequest({ page }));
+      dispatch(deleteUserRequest(userId));
+      dispatch(getUserPaginationRequest({ page }));
     }
     setOpen(false);
   };
@@ -32,10 +33,10 @@ const ProductDelete = ({ product, page }) => {
       <IconButton size="small" color="error" onClick={() => setOpen(true)}>
         <DeleteOutlineOutlinedIcon fontSize="inherit" />
       </IconButton>
-      <AlertDialog open={open} handleDelete={handleDelete} product={product} />
+      <AlertDialog open={open} handleDelete={handleDelete} user={user} />
       <SimpleSnackbar show={show} setShow={setShow} type="delete"/>
     </>
   );
 };
 
-export default ProductDelete;
+export default UserDelete;

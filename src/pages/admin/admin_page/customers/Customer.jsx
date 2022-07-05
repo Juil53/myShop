@@ -1,23 +1,19 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
-import Chart from "../component/Chart";
-import List from "../component/List";
+import Chart from "../../../../components/admin/Chart";
+import List from "../../../../components/admin/List";
+
+const styleInformation = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+};
 
 const Customer = () => {
   return (
     <Box>
       <Grid container columnSpacing={1}>
-        <Grid
-          component={Paper}
-          elevation={8}
-          item
-          xs={5}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <Grid component={Paper} elevation={8} item xs={5} sx={styleInformation}>
           <Box>
             <Typography
               sx={{ fontSize: "2rem" }}
@@ -41,11 +37,7 @@ const Customer = () => {
           </Box>
 
           <Box textAlign="left">
-          <Typography
-              component="h2"
-              sx={{ fontWeight: "700", fontSize: "2rem" }}
-              padding={1}
-            >
+            <Typography component="h2" sx={{ fontWeight: "700", fontSize: "2rem" }} padding={1}>
               Jon Snow
             </Typography>
             <Typography component="p" color="text.secondary" padding={1}>
@@ -68,7 +60,7 @@ const Customer = () => {
         </Grid>
 
         <Grid item xs={12} mt={1} component={Paper} elevation={8}>
-          <List/>
+          <List />
         </Grid>
       </Grid>
     </Box>

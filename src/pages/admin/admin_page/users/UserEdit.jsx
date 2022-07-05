@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectUserInfo } from "../../../../store/users/selector";
 import { getUserRequest, updateUserInfoRequest } from "../../../../store/users/usersSlice";
-import SimpleSnackbar from "../component/SimpleSnackbar";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 
 //MODAL SELECT ROLE
 const roles = [

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getClientsRequest } from "../../../../store/clients/slice";
+import { selectClients } from "../../../../store/clients/selector";
 
 const cellStatus = {
   width: "100%",
@@ -20,27 +23,34 @@ const cellStatus = {
   },
 };
 
+const styleTable = { height: "80vh", width: "100%", margin: "2rem 0" };
+
 export default function CustomerList({ data }) {
+  const dispatch = useDispatch();
+  const clients = useSelector(selectClients);
+  const [rows, setRows] = useState([]);
+
   const columns = [
-    { field: "id", headerName: "ID", width: 50 },
+    { field: "id", headerName: "ID", width: 100 },
     {
-      field: "avatar",
+      field: "image",
       headerName: "Avatar",
       width: 80,
       renderCell: (params) => {
         return (
           <div>
-            <img src={params.row.image} />
+            <img
+              src={params.row.image}
+              style={{ objectFit: "contain", width: "100%", height: "100%" }}
+            />
           </div>
         );
       },
     },
-    { field: "name", headerName: "Full Name", width: 180 },
-    { field: "gender", headerName: "Gender", width: 100 },
-    { field: "birthday", headerName: "Birthday", width: 100 },
-    { field: "email", headerName: "Email", width: 250 },
+    { field: "displayName", headerName: "Full Name", width: 180 },
+    { field: "email", headerName: "Email", width: 350 },
     { field: "phoneNumber", headerName: "Phone Number", width: 150 },
-    { field: "address", headerName: "Address", width: 200 },
+    { field: "address", headerName: "Address", width: 250 },
     {
       field: "rank",
       headerName: "Rank",
@@ -83,31 +93,6 @@ export default function CustomerList({ data }) {
     },
   ];
 
-  const [rows, setRows] = useState([
-    {
-      id: "1",
-      name: "Tabina Kondratenko",
-      gender: "Female",
-      email: "ebeamande@businessinsider.com",
-      phoneNumber: "+54 956 276 1898",
-      address: "67 Shasta Crossing",
-      birthday: "03/02/1979",
-      rank: "Silver",
-      image: "https://robohash.org/eaquequonulla.png?size=50x50&set=set1",
-    },
-    {
-      id: "2",
-      name: "Lanie Fennell",
-      gender: "Male",
-      email: "dblundeld@eepurl.com",
-      phoneNumber: "+977 171 391 1260",
-      address: "6701 Mcbride Pass",
-      birthday: "04/04/1967",
-      rank: "Gold",
-      image: "https://robohash.org/consecteturfugitofficiis.png?size=50x50&set=set1",
-    },
-  ]);
-
   const handleCheck = (rows, data) => {
     rows.map((row) => {
       let id = row.id.toString();
@@ -127,12 +112,13 @@ export default function CustomerList({ data }) {
     }
   }, [data]);
 
+  useEffect(() => {
+    dispatch(getClientsRequest());
+    setRows(clients);
+  }, []);
+
   return (
-    <Box
-      component={Paper}
-      elevation={2}
-      style={{ height: "80vh", width: "100%", margin: "2rem 0" }}
-    >
+    <Box component={Paper} elevation={2} style={styleTable}>
       <DataGrid
         rows={rows}
         columns={columns.concat(columnActions)}
