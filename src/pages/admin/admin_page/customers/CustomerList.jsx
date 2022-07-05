@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Paper, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getClientsRequest } from "../../../../store/clients/slice";
-import { selectClients } from "../../../../store/clients/selector";
+import { db } from "../../../../service/auth";
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
   btnView: { color: "darkblue", border: "1px dotted rgba(0, 0, 139, 0.596)", padding: 0 },
   btnDelete: { color: "crimson", border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 },
-  image: { objectFit: "contain", width: "100%", height: "100%" },
+  image: {
+    objectFit: "contain",
+    width: "100%",
+    height: "100%",
+  },
   cellStatus: {
     width: "100%",
     textAlign: "center",
@@ -30,20 +33,18 @@ const style = {
 };
 
 export default function CustomerList({ data }) {
-  const dispatch = useDispatch();
-  const clients = useSelector(selectClients);
   const [rows, setRows] = useState([]);
 
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     {
-      field: "image",
+      field: "img",
       headerName: "Avatar",
       width: 80,
       renderCell: (params) => {
         return (
           <div>
-            <img src={params.row.image} style={style.image} />
+            <img src={params.row.img} style={style.image} />
           </div>
         );
       },
@@ -71,42 +72,54 @@ export default function CustomerList({ data }) {
       field: "action",
       headerName: "Actions",
       width: 150,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
             <Link to="/admin/customers/1">
               <Button sx={style.btnView}>View</Button>
             </Link>
-            <Button sx={style.btnDelete}>Delete</Button>
+            <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
+              Delete
+            </Button>
           </Box>
         );
       },
     },
   ];
 
-  const handleCheck = (rows, data) => {
-    rows.map((row) => {
-      let id = row.id.toString();
-      let indexItem = data.findIndex((item) => item.id === id);
-      return data.splice(indexItem, 1);
-    });
-  };
-
-  const handleData = (newData) => {
-    setRows([...rows, ...newData]);
-  };
-
-  useEffect(() => {
-    if (data.length > 0) {
-      handleCheck(rows, data);
-      handleData(data);
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "customers", id));
+      setRows(rows.filter((item) => item.id !== id));
+    } catch (error) {
+      console.log(error);
     }
-  }, [data]);
+  };
 
   useEffect(() => {
-    dispatch(getClientsRequest());
-    setRows(clients);
+    const fetchData = async () => {
+      const list = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "customers"));
+        querySnapshot.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        setRows(list);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  // const handleCheck = (rows, data) => {
+  //   rows.map((row) => {
+  //     let id = row.id.toString();
+  //     let indexItem = data.findIndex((item) => item.id === id);
+  //     return data.splice(indexItem, 1);
+  //   });
+  // };
 
   return (
     <Box component={Paper} elevation={2} style={style.table}>
