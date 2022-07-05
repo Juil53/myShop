@@ -7,7 +7,7 @@ import { actions } from "../../../../store/page/slice";
 import {
   checkEmailFormat,
   checkPhoneFormat,
-} from "../../../../validation/validate";
+} from "../../../../validation/validateInputField";
 import InputField from "../../../../components/input_field/InputField";
 
 const SignupForm = () => {

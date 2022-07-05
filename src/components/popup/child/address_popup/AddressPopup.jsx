@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
+import {
+  constant,
+  LOADING_STATUS,
+  POPUP,
+  USER_ACTIONS,
+} from "../../../../constants";
 import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
-import { checkName, checkPhoneFormat } from "../../../../validation/validate";
+import {
+  checkName,
+  checkPhoneFormat,
+} from "../../../../validation/validateInputField";
 
 import InputField from "../../../input_field/InputField";
 import { getRegions, getDistricts, getWards } from "./api";
@@ -147,7 +155,7 @@ const AddressPopup = (props) => {
       add &&
       phoneNumber &&
       checkPhoneFormat(phoneNumber) &&
-      checkName(name) === "valid"
+      checkName(name) === constant.validName
     ) {
       if (
         Object.keys(address).length < 3 ||
@@ -218,7 +226,7 @@ const AddressPopup = (props) => {
       add &&
       phoneNumber &&
       checkPhoneFormat(phoneNumber) &&
-      checkName(name) === "valid"
+      checkName(name) === constant.validName
     ) {
       if (
         Object.keys(address).length < 3 ||

@@ -67,7 +67,7 @@ export default function Header() {
           </div>
           <SearchBar />
           <div className="header__top-nav row">
-            {client?.status === LOADING_STATUS.SUCCESS ? (
+            {client?.status === LOADING_STATUS.SUCCESS && token ? (
               <User data={client.info} />
             ) : (
               <>

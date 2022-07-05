@@ -1,4 +1,8 @@
 export const constant = {
+  //check name
+  validName: "valid",
+  longName: "long",
+  shortName: "short",
   //loading status
   IDLE: "IDLE",
   SUCCESS: "SUCCESS",

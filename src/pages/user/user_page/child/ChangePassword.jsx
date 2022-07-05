@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import InputField from "../../../../components/input_field/InputField";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
-import { checkMinLength } from "../../../../validation/validate";
+import { checkMinLength } from "../../../../validation/validateInputField";
 import { actions } from "../../../../store/page/slice";
 import { clientSelector } from "../../../../store/clients/selector";
 import localStorage from "../../../../service/localStorage";

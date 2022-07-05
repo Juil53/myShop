@@ -6,7 +6,7 @@ import { clientSelector } from "../../../../store/clients/selector";
 import InputField from "../../../../components/input_field/InputField";
 import { actions } from "../../../../store/page/slice";
 
-import { checkEmailFormat } from "../../../../validation/validate";
+import { checkEmailFormat } from "../../../../validation/validateInputField";
 
 const SigninForm = () => {
   const dispatch = useDispatch();
