@@ -1,4 +1,4 @@
-export const uploadFile = async (file) => {
+export const uploadImage = async (file) => {
   const API_KEY = process.env.REACT_APP_IMGBB_KEY;
   let formData = new FormData();
   formData.append("image", file);

@@ -222,5 +222,8 @@ export default function* clientSaga() {
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
   yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
   yield takeEvery(USER_ACTIONS.SIGNOUT_USER, signout);
+  yield takeEvery(USER_ACTIONS.GET_USER_INFO, getUserInfo);
+  yield takeEvery(USER_ACTIONS.UPDATE_USER_INFO, updateInfo);
+  yield takeEvery(USER_ACTIONS.UPDATE_USER_PASSWORD, updatePassword);
   yield takeEvery("clients/getClientsRequest", getClients);
 }

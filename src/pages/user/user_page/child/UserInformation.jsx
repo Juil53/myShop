@@ -5,7 +5,7 @@ import InputField from "../../../../components/input_field/InputField";
 import Loading from "../../../../components/loading/Loading";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
-import { uploadFile } from "../../../../utils/file";
+import { uploadImage } from "../../../../utils/file";
 
 const UserInformation = (props) => {
   const { data, status } = props;
@@ -45,7 +45,7 @@ const UserInformation = (props) => {
       }
 
       if (selectedFile) {
-        const imgLink = await uploadFile(selectedFile);
+        const imgLink = await uploadImage(selectedFile);
         if (imgLink) {
           newInfo.image = imgLink;
         } else {
@@ -72,10 +72,10 @@ const UserInformation = (props) => {
   }, [selectedFile]);
 
   useEffect(() => {
-    if (status === LOADING_STATUS.SUCCESS) {
-      setDisplayName(data.displayName);
-      setPhoneNumber(data.phoneNumber);
-    }
+    // if (status === LOADING_STATUS.SUCCESS) {
+    //   setDisplayName(data.displayName);
+    //   setPhoneNumber(data.phoneNumber);
+    // }
     if (status !== LOADING_STATUS.UPDATING) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
     }
