@@ -1,5 +1,4 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
-import React from "react";
 import Chart from "../../../../components/admin/Chart";
 import List from "../../../../components/admin/List";
 
@@ -8,6 +7,13 @@ const style = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  avatar: {
+    borderRadius: "50%",
+    marginBottom: "1rem",
+    width: "200px",
+    height: "200px",
+    padding: "1rem",
   },
 };
 
@@ -25,17 +31,7 @@ const Customer = () => {
             >
               Infomation
             </Typography>
-            <img
-              src="/img/default_avatar.png"
-              alt="avatar"
-              style={{
-                borderRadius: "50%",
-                marginBottom: "1rem",
-                width: "200px",
-                height: "200px",
-                padding: "1rem",
-              }}
-            />
+            <img src="/img/default_avatar.png" alt="avatar" style={style.avatar} />
           </Box>
 
           <Box textAlign="left">

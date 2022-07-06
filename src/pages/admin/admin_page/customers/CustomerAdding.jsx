@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { authInstance, db, storage } from "../../../../service/auth";
 
 const style = {
@@ -14,6 +15,7 @@ const CustomerAdding = ({ inputs }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
   const [per, setPer] = useState(null);
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     const { id, value } = e.target;
@@ -28,6 +30,8 @@ const CustomerAdding = ({ inputs }) => {
         ...data,
         timeStamp: serverTimestamp(),
       });
+      //navigate to previous page
+      navigate(-1);
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +43,6 @@ const CustomerAdding = ({ inputs }) => {
 
   useEffect(() => {
     const uploadFile = () => {
-      const name = new Date().getTime() + file.name;
       const storageRef = ref(storage, `customers/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
