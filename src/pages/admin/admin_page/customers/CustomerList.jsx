@@ -45,8 +45,6 @@ export default function CustomerList({ data }) {
   const [rows, setRows] = useState([]);
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  console.log(rows)
 
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
@@ -121,7 +119,7 @@ export default function CustomerList({ data }) {
   };
 
   const handleData = (importData) => {
-    setRows({ ...rows, ...importData });
+    setRows([...rows, ...importData]);
   };
 
   const CustomToolbar = () => {
@@ -176,8 +174,8 @@ export default function CustomerList({ data }) {
           <DataGrid
             rows={rows}
             columns={columns.concat(columnActions)}
-            pageSize={11}
-            rowsPerPageOptions={[11]}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {

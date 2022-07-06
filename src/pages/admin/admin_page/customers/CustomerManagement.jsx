@@ -1,6 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { authInstance, db } from "../../../../service/auth";
 import CustomerList from "./CustomerList";
 
 const style = {
@@ -36,17 +39,17 @@ const CustomerManagement = () => {
     setData(array);
   };
 
-  //Save import Data to JsonServer
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (file) {
-  //     fileReader.readAsText(file);
-  //     fileReader.onload = (event) => {
-  //       const csvOutput = event.target.result;
-  //       csvFileToArray(csvOutput);
-  //     };
-  //   }
-  // };
+  // Save import Data to JsonServer
+  const handleSaveImportData = (data) => {
+    // setData(data);
+    // data.forEach(async (item) => {
+    //   const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
+    //   await setDoc(doc(db, "customers", res.user.uid), {
+    //     ...item,
+    //     timeStamp: serverTimestamp(),
+    //   });
+    // });
+  };
 
   useEffect(() => {
     if (file) {
@@ -67,9 +70,7 @@ const CustomerManagement = () => {
 
         <Stack direction="row" spacing={1}>
           <Link to="/admin/customers/add">
-            <Button variant="contained">
-              Add New
-            </Button>
+            <Button variant="contained">Add New</Button>
           </Link>
           <form>
             <label htmlFor="import">
@@ -85,7 +86,7 @@ const CustomerManagement = () => {
               </Button>
             </label>
           </form>
-          <Button variant="contained" color="success">
+          <Button variant="contained" color="success" onClick={() => handleSaveImportData(data)}>
             Save
           </Button>
         </Stack>

@@ -16,6 +16,7 @@ const CustomerAdding = ({ inputs }) => {
   const [data, setData] = useState({});
   const [per, setPer] = useState(null);
   const navigate = useNavigate();
+  console.log(data)
 
   const handleInput = (e) => {
     const { id, value } = e.target;
@@ -25,7 +26,7 @@ const CustomerAdding = ({ inputs }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
+      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);      
       await setDoc(doc(db, "customers", res.user.uid), {
         ...data,
         timeStamp: serverTimestamp(),
@@ -120,7 +121,6 @@ const CustomerAdding = ({ inputs }) => {
                     onChange={handleChange}
                   />
                   <Button
-                    color="secondary"
                     aria-label="upload picture"
                     component="span"
                     variant="outlined"
@@ -146,7 +146,7 @@ const CustomerAdding = ({ inputs }) => {
                 variant="contained"
                 type="button"
                 size="small"
-                color="secondary"
+                color="warning"
                 onClick={() => navigate(-1)}
               >
                 Back
