@@ -1,4 +1,3 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Box,
   Button,
@@ -7,20 +6,20 @@ import {
   Paper,
   Stack,
   Switch,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import {
   getAllProductRequest,
   getCategoriesRequest,
-  getOptionsRequest,
+  getOptionsRequest
 } from "../../../../store/admin_product/productSlice";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import AttributeInput from "./add_product/AttributeInput";
 import CategoriesInput from "./add_product/CategoriesInput";
 import ImageInput from "./add_product/ImageInput";

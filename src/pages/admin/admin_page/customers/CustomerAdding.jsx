@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { Box, Grid, Typography, Paper, TextField, Button, Stack } from "@mui/material";
-import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { authInstance, db, storage } from "../../../../service/auth";
+import { Box, Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { useEffect } from "react";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useEffect, useState } from "react";
+import { authInstance, db, storage } from "../../../../service/auth";
 
 const style = {
   img: { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" },

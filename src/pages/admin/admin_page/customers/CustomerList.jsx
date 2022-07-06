@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Paper, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getClientsRequest } from "../../../../store/clients/slice";
 import { selectClients } from "../../../../store/clients/selector";
+import { getClientsRequest } from "../../../../store/clients/slice";
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },

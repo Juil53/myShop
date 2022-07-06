@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 
 const style = {
-  display: "flex",
-};
-
-const styleImg = {
-  display: "flex",
-  flexDirection: "column",
+  previewImg: {
+    display: "flex",
+  },
+  imgContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  img: {
+    margin: "5px 5px 5px 0",
+    borderRadius: "5px",
+    height: "100px",
+    width: "100px",
+  },
 };
 
 const PreviewImg = ({ files }) => {
@@ -55,18 +62,10 @@ const PreviewImg = ({ files }) => {
         </div>
       )}
 
-      <div id="previewImg" style={style}>
+      <div id="previewImg" style={style.previewImg}>
         {preview.map((src, index) => (
-          <div key={`previewImg_${index}`} style={styleImg}>
-            <img
-              src={src}
-              style={{
-                margin: "5px 5px 5px 0",
-                borderRadius: "5px",
-                height: "100px",
-                width: "100px",
-              }}
-            />
+          <div key={`previewImg_${index}`} style={style.imgContainer}>
+            <img src={src} style={style.img} />
             <span style={{ width: "100px" }}>{name}</span>
           </div>
         ))}

@@ -40,4 +40,10 @@ export const customerInputs = [
     type: "text",
     placeholder: "Viet Nam",
   },
+  {
+    id: "rank",
+    label: "Rank",
+    type: "text",
+    placeholder: "Silver",
+  },
 ];

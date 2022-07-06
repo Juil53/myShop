@@ -10,14 +10,6 @@ import { getCategoriesRequest } from "../../../../store/admin_product/productSli
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import ProductList from "./ProductList";
 
-const product__search = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginTop: "2rem",
-  marginBottom: "2rem",
-};
-
 function ProductManagement() {
   const pages = [
     {
@@ -29,7 +21,6 @@ function ProductManagement() {
       url: "/admin/products",
     },
   ];
-
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const [selectedFilter, setSelectedFilter] = useState([]);
