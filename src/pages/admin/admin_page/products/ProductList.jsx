@@ -102,7 +102,6 @@ const ProductList = ({ filterOptions }) => {
                           <ProductDelete product={product} page={page} />
                           <IconButton
                             size="small"
-                            color="secondary"
                             onClick={() => navigate(`/admin/products/edit/${product.id}`)}
                           >
                             <EditOutlinedIcon fontSize="inherit" />

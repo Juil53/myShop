@@ -162,12 +162,12 @@ export default function AddProduct() {
             <Grid item xs={5}>
               <Stack direction="row" spacing={2}>
                 <FormControlLabel
-                  control={<Field as={Switch} name="isHot" color="secondary" />}
+                  control={<Field as={Switch} name="isHot" color="primary" />}
                   label="Hot"
                   labelPlacement="end"
                 />
                 <FormControlLabel
-                  control={<Field as={Switch} name="isNew" color="secondary" />}
+                  control={<Field as={Switch} name="isNew" color="primary" />}
                   label="New"
                   labelPlacement="end"
                 />
@@ -237,7 +237,7 @@ export default function AddProduct() {
                 Reset
               </Button>
               <Link to="/admin/products">
-                <Button size="small" variant="contained" color="secondary">
+                <Button size="small" variant="contained" color="warning">
                   Back
                 </Button>
               </Link>

@@ -2,10 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING_STATUS } from "../../constants";
 import localStorage from "../../service/localStorage";
 
-const initialState = {
-  clients: [],
-  loading: false,
-  error: null,
+const initialState = {  
   data: {
     status: LOADING_STATUS.IDLE,
     info: {},
@@ -85,20 +82,6 @@ const clientSlice = createSlice({
       if (action.payload === "auth/email-already-in-use") state.msg = "Email already in use";
     },
 
-    getClientsRequest(state) {
-      state.loading = true;
-    },
-
-    getClientsSuccess(state, action) {
-      (state.loading = false);
-      (state.clients = action.payload);
-    },
-
-    getClientsFailed(state, action) {
-      (state.loading = false);
-      (state.error = action.payload);
-    },
-
     getUserInfo: (state, action) => {
       state.data.status = LOADING_STATUS.SUCCESS;
       state.data.info = action.payload;
@@ -138,12 +121,6 @@ const clientSlice = createSlice({
     },
   },
 });
-
-export const {
-  getClientsRequest,
-  getClientsSuccess,
-  getClientsFailed
-} = clientSlice.actions
 
 export const clientActions = { ...clientSlice.actions };
 

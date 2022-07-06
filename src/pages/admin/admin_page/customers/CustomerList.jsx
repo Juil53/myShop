@@ -1,8 +1,17 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "../../../../components/loading/Loading";
 import { db } from "../../../../service/auth";
 
 const style = {
@@ -34,6 +43,10 @@ const style = {
 
 export default function CustomerList({ data }) {
   const [rows, setRows] = useState([]);
+  const [arrIds, setArrIds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  console.log(rows)
 
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
@@ -60,7 +73,7 @@ export default function CustomerList({ data }) {
       renderCell: (params) => {
         return (
           <Typography className={`${params.row.rank}`} sx={style.cellStatus}>
-            {params.row.rank}
+            {params.row.rank?.toUpperCase()}
           </Typography>
         );
       },
@@ -75,7 +88,7 @@ export default function CustomerList({ data }) {
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
-            <Link to="/admin/customers/1">
+            <Link to={`/admin/customers/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
             <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
@@ -96,6 +109,47 @@ export default function CustomerList({ data }) {
     }
   };
 
+  const handleDeleteSelected = (ids) => {
+    try {
+      ids.forEach((id) => {
+        deleteDoc(doc(db, "customers", id));
+      });
+      setRows(rows.filter((row) => !arrIds.includes(row.id)));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleData = (importData) => {
+    setRows({ ...rows, ...importData });
+  };
+
+  const CustomToolbar = () => {
+    return (
+      <Grid container justifyContent="space-between" mb={1}>
+        <GridToolbarContainer>
+          <GridToolbarColumnsButton />
+          <GridToolbarFilterButton />
+          <GridToolbarDensitySelector />
+          <GridToolbarExport />
+        </GridToolbarContainer>
+        <IconButton
+          onClick={() => {
+            handleDeleteSelected(arrIds);
+          }}
+        >
+          <DeleteIcon color="error" />
+        </IconButton>
+      </Grid>
+    );
+  };
+
+  useEffect(() => {
+    if (data.length > 0) {
+      handleData(data);
+    }
+  }, [data]);
+
   useEffect(() => {
     const fetchData = async () => {
       const list = [];
@@ -105,31 +159,36 @@ export default function CustomerList({ data }) {
           list.push({ id: doc.id, ...doc.data() });
         });
         setRows(list);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
     };
-
     fetchData();
   }, []);
 
-  // const handleCheck = (rows, data) => {
-  //   rows.map((row) => {
-  //     let id = row.id.toString();
-  //     let indexItem = data.findIndex((item) => item.id === id);
-  //     return data.splice(indexItem, 1);
-  //   });
-  // };
-
   return (
-    <Box component={Paper} elevation={2} style={style.table}>
-      <DataGrid
-        rows={rows}
-        columns={columns.concat(columnActions)}
-        pageSize={11}
-        rowsPerPageOptions={[11]}
-        checkboxSelection
-      />
-    </Box>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Box component={Paper} elevation={2} style={style.table}>
+          <DataGrid
+            rows={rows}
+            columns={columns.concat(columnActions)}
+            pageSize={11}
+            rowsPerPageOptions={[11]}
+            checkboxSelection
+            disableSelectionOnClick
+            onSelectionModelChange={(ids) => {
+              setArrIds(ids);
+            }}
+            components={{
+              Toolbar: CustomToolbar,
+            }}
+          />
+        </Box>
+      )}
+    </>
   );
 }

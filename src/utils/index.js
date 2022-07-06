@@ -101,6 +101,12 @@ const calTotal = (cart) => {
   return cart.productList.reduce((pre, cur) => pre + cur.totalPrice, 0);
 };
 
+//NUMBER FORMATTER
+export const formatter = new Intl.NumberFormat("vn-VN", {
+  style: "currency",
+  currency: "VND",
+});
+
 export const utils = {
   priceBreak,
   discount,

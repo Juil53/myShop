@@ -41,7 +41,6 @@ export default function AttributeInput() {
               <Grid item xs={12}>
                 <Button
                   size="small"
-                  color="secondary"
                   type="button"
                   onClick={() => push({ name: "", value: "" })}
                 >
@@ -90,7 +89,7 @@ export default function AttributeInput() {
                         spacing={1}
                       >
                         <IconButton variant="outlined" onClick={() => remove(index)}>
-                          <DeleteIcon color="secondary" />
+                          <DeleteIcon color="error" />
                         </IconButton>
                       </Stack>
                     </Grid>

@@ -90,7 +90,7 @@ export function UserList({ keyword }) {
                       <TableCell align="left">
                         <Stack direction="row">
                           <UserDelete userId={user.id} user={user} page={page} />
-                          <IconButton size="small" color="secondary">
+                          <IconButton size="small" color="primary">
                             <Link to={`/admin/users/edit/${user.id}`}>
                               <EditOutlinedIcon fontSize="inherit" />
                             </Link>

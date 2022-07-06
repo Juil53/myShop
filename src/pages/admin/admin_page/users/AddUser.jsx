@@ -115,7 +115,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   fullWidth
                   variant="outlined"
                   required
@@ -131,7 +130,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   required
                   label="Last Name"
@@ -149,7 +147,6 @@ export default function AddUser(props) {
               <Grid item xs={8}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   required
                   label="Email"
@@ -164,7 +161,6 @@ export default function AddUser(props) {
               <Grid item xs={4}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   label="Identify"
                   name="identify"
@@ -181,7 +177,6 @@ export default function AddUser(props) {
               <Grid item xs={8}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   label="Address"
                   name="address"
@@ -195,7 +190,6 @@ export default function AddUser(props) {
               <Grid item xs={4}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   label="Gender"
                   name="gender"
@@ -212,7 +206,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   type="password"
                   required
@@ -230,8 +223,7 @@ export default function AddUser(props) {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
-                  size="small"
-                  color="secondary"
+                  size="small"                  
                   variant="outlined"
                   required
                   select
@@ -253,7 +245,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   required
                   label="Phone number"
@@ -275,7 +266,7 @@ export default function AddUser(props) {
                   Submit
                 </Button>
                 <Link to="/admin/users">
-                  <Button variant="contained" color="secondary">
+                  <Button variant="contained" color="warning">
                     Back
                   </Button>
                 </Link>

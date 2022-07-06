@@ -86,7 +86,6 @@ function ProductManagement() {
           <Link to="add">
             <Button
               variant="contained"
-              color="secondary"
               sx={{ width: "100%" }}
               startIcon={<AddIcon />}
             >

@@ -35,6 +35,7 @@ import {
   CustomizedTableHead,
   CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
+import { formatter } from "../../../../utils";
 
 const style = {
   tableHead: {
@@ -65,7 +66,7 @@ const style = {
     Successed: "#689f38",
     Pending: "#0288d1",
     Failed: "#c2185b",
-  }
+  },
 };
 
 export default function OrderList({ keyword }) {
@@ -117,12 +118,6 @@ export default function OrderList({ keyword }) {
     }
   };
 
-  //NUMBER FORMATTER
-  const formatter = new Intl.NumberFormat("vn-VN", {
-    style: "currency",
-    currency: "VND",
-  });
-
   return (
     <>
       {loading ? (
@@ -153,7 +148,6 @@ export default function OrderList({ keyword }) {
                       <TableCell style={style.tableCellLocation}>
                         <LocationOnIcon
                           fontSize="small"
-                          color="secondary"
                           sx={{ verticalAlign: "middle" }}
                         />
                         {order.address.location}
@@ -175,7 +169,6 @@ export default function OrderList({ keyword }) {
                       <TableCell align="center">
                         <Stack direction="row">
                           <IconButton
-                            color="secondary"
                             size="small"
                             onClick={() => {
                               handleGetOrderDetail(order);

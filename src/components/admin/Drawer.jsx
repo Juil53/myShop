@@ -197,9 +197,8 @@ function MyDrawer() {
                     width: "40px",
                     height: "40px",
                     borderRadius: "50%",
-                    bgcolor: "secondary.dark",
                     border: "2px solid",
-                    borderColor: "secondary.main",
+                    borderColor: "primary.main",
                     cursor: "pointer",
                     opacity: 0.8,
                     transition: "all 200ms",
@@ -211,7 +210,7 @@ function MyDrawer() {
                 />
 
                 <Badge badgeContent={4} color="error">
-                  <MailIcon color="secondary" />
+                  <MailIcon color="primary"/>
                 </Badge>
 
                 <Popper id={id} open={popper} anchorEl={anchorEl} transition>
@@ -222,11 +221,10 @@ function MyDrawer() {
                         as={Paper}
                         elevation={2}
                       >
-                        <Button color="secondary">
+                        <Button>
                           {user?.data?.displayName}
                         </Button>
                         <Button
-                          color="secondary"
                           onClick={handleSignout}
                           endIcon={<LogoutIcon />}
                         >
@@ -245,7 +243,7 @@ function MyDrawer() {
       <NewDrawer
         variant="permanent"
         open={open}
-        sx={{ "& .MuiDrawer-paper": { backgroundColor: "secondary.main" } }}
+        sx={{ "& .MuiDrawer-paper": { backgroundColor: "primary.main" } }}
       >
         <Grid
           container

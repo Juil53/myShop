@@ -228,7 +228,7 @@ const UserEdit = () => {
               <Button
                 variant="contained"
                 size="small"
-                color="secondary"
+                color="warning"
                 onClick={() => navigate("/admin/users")}
               >
                 Back

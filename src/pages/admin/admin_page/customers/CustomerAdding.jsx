@@ -32,8 +32,8 @@ const CustomerAdding = ({ inputs }) => {
       });
       //navigate to previous page
       navigate(-1);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -132,7 +132,7 @@ const CustomerAdding = ({ inputs }) => {
               </Grid>
             </Grid>
 
-            <Stack direction="row" spacing={1} sx={{ marginTop: "1rem" }}>
+            <Stack direction="row" spacing={1} sx={{ marginTop: "2rem" }}>
               <Button
                 disabled={per !== null && per < 100}
                 variant="contained"
@@ -142,7 +142,13 @@ const CustomerAdding = ({ inputs }) => {
               >
                 Submit
               </Button>
-              <Button variant="contained" type="button" size="small" color="secondary">
+              <Button
+                variant="contained"
+                type="button"
+                size="small"
+                color="secondary"
+                onClick={() => navigate(-1)}
+              >
                 Back
               </Button>
             </Stack>

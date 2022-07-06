@@ -67,7 +67,7 @@ const CustomerManagement = () => {
 
         <Stack direction="row" spacing={1}>
           <Link to="/admin/customers/add">
-            <Button variant="contained" color="secondary">
+            <Button variant="contained">
               Add New
             </Button>
           </Link>

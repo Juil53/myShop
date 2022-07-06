@@ -66,7 +66,6 @@ function UserManagement() {
             <Link to="add">
               <Button
                 variant="contained"
-                color="secondary"
                 sx={{ width: "100px" }}
                 startIcon={<AddIcon />}
               >
