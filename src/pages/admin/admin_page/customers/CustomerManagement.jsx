@@ -1,13 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
-  doc,
-  serverTimestamp,
-  setDoc,
-  writeBatch,
   addDoc,
   collection,
-  documentId,
+  doc, setDoc
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -48,7 +44,6 @@ const CustomerManagement = () => {
   };
 
   // Save import Data to JsonServer
-
   const handleSaveImportData = async (newData) => {
     for (let item of newData) {
       // Add import Data to Authen

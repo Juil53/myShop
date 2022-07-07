@@ -43,6 +43,8 @@ const style = {
 
 export default function CustomerList({ data }) {
   const [rows, setRows] = useState([]);
+  console.log(rows);
+
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -109,9 +111,10 @@ export default function CustomerList({ data }) {
 
   const handleDeleteSelected = (ids) => {
     try {
-      ids.forEach((id) => {
+      for (let id of ids) {
         deleteDoc(doc(db, "customers", id));
-      });
+      }
+
       setRows(rows.filter((row) => !arrIds.includes(row.id)));
     } catch (error) {
       console.log(error);
@@ -148,6 +151,7 @@ export default function CustomerList({ data }) {
     }
   }, [data]);
 
+  //call docs from collection
   useEffect(() => {
     const fetchData = async () => {
       const list = [];
