@@ -43,8 +43,6 @@ const style = {
 
 export default function CustomerList({ data }) {
   const [rows, setRows] = useState([]);
-  console.log(rows);
-
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -125,6 +123,7 @@ export default function CustomerList({ data }) {
     setRows([...rows, ...importData]);
   };
 
+  //add header density,filter,export,column
   const CustomToolbar = () => {
     return (
       <Grid container justifyContent="space-between" mb={1}>
@@ -145,6 +144,7 @@ export default function CustomerList({ data }) {
     );
   };
 
+  //reload page when import data
   useEffect(() => {
     if (data.length > 0) {
       handleData(data);
