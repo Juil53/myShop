@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc, writeBatch, addDoc, collection } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authInstance, db } from "../../../../service/auth";
@@ -40,15 +40,20 @@ const CustomerManagement = () => {
   };
 
   // Save import Data to JsonServer
-  const handleSaveImportData = (data) => {
-    // setData(data);
-    // data.forEach(async (item) => {
-    //   const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
-    //   await setDoc(doc(db, "customers", res.user.uid), {
-    //     ...item,
-    //     timeStamp: serverTimestamp(),
-    //   });
-    // });
+  const handleSaveImportData = async (newData) => {
+    const batch = writeBatch(db);
+
+    newData.forEach(async (item) => {
+      // Add import Data to Authen
+      const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password);
+      console.log(res.user.uid);
+      // Add import Data to collection
+
+      const customersRef = doc(db, "customers", res.user.uid);
+      batch.set(customersRef, item);
+      await batch.commit()
+    });
+    
   };
 
   useEffect(() => {

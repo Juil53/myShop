@@ -16,7 +16,6 @@ const CustomerAdding = ({ inputs }) => {
   const [data, setData] = useState({});
   const [per, setPer] = useState(null);
   const navigate = useNavigate();
-  console.log(data)
 
   const handleInput = (e) => {
     const { id, value } = e.target;
