@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getKeyword } from "../../../../store/orders/orderSlice";
 import { selectOrderKeyword } from "../../../../store/orders/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
+import OrderDataList from "./OrderDataList";
 
 const style = {
   productSearch: {
@@ -55,7 +56,8 @@ function OrderManagement() {
           onChange={handleChange}
         />
       </Box>
-      <OrderList keyword={keyword} />
+      {/* <OrderList keyword={keyword} /> */}
+      <OrderDataList/>
       <OrderModal />
     </>
   );

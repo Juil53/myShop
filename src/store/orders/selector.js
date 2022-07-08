@@ -33,3 +33,9 @@ export const selectOrderKeyword = (state) => {
   const { keyword = [] } = order;
   return keyword;
 };
+
+export const selectStatus = (state) => {
+  const { order = {} } = state || {};
+  const { status } = order;
+  return status;
+};

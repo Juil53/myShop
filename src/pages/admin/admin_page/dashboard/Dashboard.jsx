@@ -20,10 +20,10 @@ function Dashboard() {
           <Grid item xs={3}>
             <Widget type="profit" />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={12} lg={4}>
             <Progress />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} md={12} lg={8}>
             <Chart aspect={2 / 1} title="PROFIT & REVENUE" />
           </Grid>
         </Grid>

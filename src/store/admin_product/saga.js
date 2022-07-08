@@ -2,9 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import { ROWS_PER_PAGE } from "../../constants";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
-  deleteProductFailed,
-  deleteProductResetStatus,
-  deleteProductSuccess,
+  deleteProductFailed, deleteProductSuccess,
   getAllProductFailed,
   getAllProductSuccess,
   getCategoriesFailed,
@@ -14,7 +12,7 @@ import {
   getProductPaginationFailed,
   getProductPaginationSuccess,
   submitProductFailed,
-  submitProductSuccess,
+  submitProductSuccess
 } from "./productSlice";
 
 //GET OPTIONS

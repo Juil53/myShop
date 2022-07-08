@@ -38,7 +38,7 @@ const Progress = () => {
         </IconButton>
       </Box>
       <Box sx={{ position: "relative", display: "inline-flex" }}>
-        <CircularProgress variant="determinate" value={75} size={180} color="info" thickness={2} />
+        <CircularProgress variant="determinate" value={75} size={150} color="info" thickness={2} />
         <Box
           sx={{
             top: 0,
@@ -51,20 +51,20 @@ const Progress = () => {
             justifyContent: "center",
           }}
         >
-          <Typography variant="caption" component="div" color="info.main" sx={{ fontSize: "5rem" }}>
+          <Typography variant="caption" component="div" color="info.main" sx={{ fontSize: "4rem" }}>
             75%
           </Typography>
         </Box>
       </Box>
 
-      <Typography component="p" color="text.disabled" sx={{ fontSize: "2.5rem", marginTop: 2 }}>
+      <Typography component="p" color="text.disabled" sx={{ fontSize: "2rem", marginTop: 2 }}>
         Total sale made today
       </Typography>
 
       <Typography
         component="h3"
         color="text.primary"
-        sx={{ fontSize: "4rem", fontWeight: "500", marginTop: 2 }}
+        sx={{ fontSize: "2.5rem", fontWeight: "500", marginTop: 2 }}
       >
         500$
       </Typography>
@@ -72,20 +72,20 @@ const Progress = () => {
       <Typography
         component="p"
         color="text.disabled"
-        sx={{ fontSize: "2rem", textAlign: "center" }}
+        sx={{ fontSize: "2rem", textAlign: "center",margin:'2rem 0' }}
       >
         Previous transactions processing. Last payments may not be included.
       </Typography>
 
-      <Box sx={{ width: "100%", textAlign: "center", marginTop: 1 }}>
+      <Box sx={{ width: "100%", textAlign: "center", margin:"2rem 0" }}>
         <Grid container>
           <Grid item xs={4}>
             <Typography component="p" color="text.disabled" sx={{ fontSize: "2rem" }}>
               Target
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <KeyboardArrowDownOutlinedIcon sx={{ fontSize: "3rem" }} color="error" />
-              <Typography sx={{ fontSize: "2.5rem" }} color="error">
+              <KeyboardArrowDownOutlinedIcon sx={{ fontSize: "1.5rem" }} color="error" />
+              <Typography sx={{ fontSize: "1.5rem" }} color="error">
                 $12.5k
               </Typography>
             </Box>
@@ -95,8 +95,8 @@ const Progress = () => {
               Last Week
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <KeyboardArrowUpOutlinedIcon sx={{ fontSize: "3rem" }} color="success" />
-              <Typography sx={{ fontSize: "2.5rem" }} color="success.main">
+              <KeyboardArrowUpOutlinedIcon sx={{ fontSize: "1.5rem" }} color="success" />
+              <Typography sx={{ fontSize: "1.5rem" }} color="success.main">
                 $12.5k
               </Typography>
             </Box>
@@ -106,8 +106,8 @@ const Progress = () => {
               Last Month
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <KeyboardArrowUpOutlinedIcon sx={{ fontSize: "3rem" }} color="success" />
-              <Typography sx={{ fontSize: "2.5rem" }} color="success.main">
+              <KeyboardArrowUpOutlinedIcon sx={{ fontSize: "1.5rem" }} color="success" />
+              <Typography sx={{ fontSize: "1.5rem" }} color="success.main">
                 $12.5k
               </Typography>
             </Box>
