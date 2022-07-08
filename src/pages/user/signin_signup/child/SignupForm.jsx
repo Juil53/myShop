@@ -19,7 +19,6 @@ const SignupForm = () => {
   const [email, setEmail] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [password, setPassword] = useState();
-  const [retypePass, setRetypePass] = useState();
 
   const userLogin = useSelector(clientSelector);
 
@@ -48,17 +47,13 @@ const SignupForm = () => {
     const errorMsg = document.getElementById("signup-error-msg");
     errorMsg.textContent = "";
 
-    if (!name || !email || !phoneNumber || !password || !retypePass) {
+    if (!name || !email || !phoneNumber || !password) {
       errorMsg.textContent = "Please enter all information required";
     } else {
       if (!checkEmailFormat(email)) {
         errorMsg.textContent = "Invalid email. Please try again";
       } else if (!checkPhoneFormat(phoneNumber)) {
         errorMsg.textContent = "Invalid phone number. Please try again";
-      } else if (password.length < 6 || retypePass.length < 6) {
-        errorMsg.textContent = "Password is short";
-      } else if (password !== retypePass) {
-        errorMsg.textContent = "Password not match. Please try again";
       } else {
         const user = {
           displayName: name,
@@ -117,15 +112,7 @@ const SignupForm = () => {
         title="Password"
         onChange={setPassword}
         required
-        min="6"
-      />
-      <InputField
-        type="password"
-        id="signup-retype_password"
-        title="Retype password"
-        onChange={setRetypePass}
-        required
-        min="6"
+        needCheck
       />
       <span className="error-msg" id="signup-error-msg"></span>
       <button

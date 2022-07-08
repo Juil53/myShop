@@ -1,16 +1,16 @@
 import { constant } from "../constants";
 
 export const checkEmailFormat = (email) => {
-  const txt = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const rg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-  return txt.test(email);
+  return rg.test(email);
 };
 
 //(123) 456-7890 (123)456-7890 123-456-7890 123.456.7890 1234567890 +31636363634 075-63546725
 export const checkPhoneFormat = (phone) => {
-  const txt = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  const rg = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 
-  return txt.test(phone);
+  return rg.test(phone);
 };
 
 export const checkMinLength = (value, length) => {
@@ -28,4 +28,10 @@ export const checkName = (name) => {
     return constant.longName;
   }
   return constant.validName;
+};
+
+export const checkPassword = (pass) => {
+  const rg = /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+
+  return rg.test(pass);
 };

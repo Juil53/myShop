@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
+import Header from "../../components/user/header/Header";
+import Footer from "../../components/user/footer/Footer";
 import Popup from "../../components/popup/Popup";
 
 const Wrapper = (props) => {

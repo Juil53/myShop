@@ -1,5 +1,5 @@
-import CategoryCard from "../../../../components/category_card/CategoryCard";
-import ProductCard from "../../../../components/product_card/ProductCard";
+import CategoryCard from "../../../../components/user/category_card/CategoryCard";
+import ProductCard from "../../../../components/user/product_card/ProductCard";
 
 const MainLeft = (props) => {
   const { categories, data, currentCate } = props;

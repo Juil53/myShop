@@ -6,16 +6,16 @@ import {
   LOADING_STATUS,
   CART_ACTIONS,
   USER_ACTIONS,
-} from "../../constants";
-import { categoriesSelector } from "../../store/categories/selector";
-import { selectCart } from "../../store/cart/selectors";
+} from "../../../constants";
+import { categoriesSelector } from "../../../store/categories/selector";
+import { selectCart } from "../../../store/cart/selectors";
 
 import HeaderNav from "./child/HeaderNav";
 import CartButton from "./child/CartButton";
 import SearchBar from "./child/SearchBar";
 import User from "./child/User";
-import { clientData } from "../../store/clients/selector";
-import localStorage from "../../service/localStorage";
+import { clientData } from "../../../store/clients/selector";
+import localStorage from "../../../service/localStorage";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Header() {

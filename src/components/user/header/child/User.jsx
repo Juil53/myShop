@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { USER_ACTIONS } from "../../../constants";
-import localStorage from "../../../service/localStorage";
+import { USER_ACTIONS } from "../../../../constants";
+import localStorage from "../../../../service/localStorage";
 
 const User = (props) => {
   const providerID = localStorage.get("providerID");

@@ -7,12 +7,15 @@ import Loading from "../../../components/loading/Loading";
 import {
   getQuantityAvailable,
   isAvailableOption,
-  selectUnavailableOption
+  selectUnavailableOption,
 } from "../../../components/popup/child/product_info/helper";
-import Quantity from "../../../components/quantity/Quantity";
+import Quantity from "../../../components/user/quantity/Quantity";
 import { CART_ACTIONS, POPUP } from "../../../constants";
 import { actions } from "../../../store/page/slice";
-import { productLoading, selectProductInfo } from "../../../store/products/selector";
+import {
+  productLoading,
+  selectProductInfo,
+} from "../../../store/products/selector";
 import { actions as productActions } from "../../../store/products/slice";
 import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
@@ -23,11 +26,13 @@ const ProductDetail = () => {
   const [number, setNumber] = useState(1);
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
-  const productInfo = useSelector((state) => selectProductInfo(state, params.id));
+  const productInfo = useSelector((state) =>
+    selectProductInfo(state, params.id)
+  );
   const loading = useSelector(productLoading);
   const { name } = productInfo;
 
-  useEffect(() => {    
+  useEffect(() => {
     dispatch(productActions.getProductRequest(params.id));
   }, []);
 
@@ -55,7 +60,9 @@ const ProductDetail = () => {
   const [currentOption, setCurrentOption] = useState(() => {
     const { configurableProducts = [] } = productInfo;
     if (!configurableProducts.length) return {};
-    const { available, selected, ...current } = configurableProducts.filter((p) => p.selected)[0];
+    const { available, selected, ...current } = configurableProducts.filter(
+      (p) => p.selected
+    )[0];
 
     return current;
   });
@@ -185,7 +192,9 @@ const ProductDetail = () => {
         return configurableOptions.map((option, index) => (
           <div className="product-detail__options row" key={option.id}>
             <h4>{option.name}: </h4>
-            <div className="options">{createOptionItem(option.id, option.values)}</div>
+            <div className="options">
+              {createOptionItem(option.id, option.values)}
+            </div>
           </div>
         ));
       }
@@ -255,11 +264,15 @@ const ProductDetail = () => {
           <div className="breadcumb">
             <Breadcrumb pages={array} />
           </div>
-          
+
           <div className="product-detail row">
             <div className="product-detail__img">
-              <div className="main-img">{createMainSlider(productInfo.image)}</div>
-              <div className="sub-img">{createSubSlider(productInfo.image)}</div>
+              <div className="main-img">
+                {createMainSlider(productInfo.image)}
+              </div>
+              <div className="sub-img">
+                {createSubSlider(productInfo.image)}
+              </div>
             </div>
 
             <div className="product-detail__info">
@@ -280,10 +293,12 @@ const ProductDetail = () => {
 
               <div className="product-detail__price">
                 <span className="price__afterdiscount">
-                  {formatter.format(productInfo.priceAfterDiscount) || "Updating"}
+                  {formatter.format(productInfo.priceAfterDiscount) ||
+                    "Updating"}
                 </span>
                 <span className="price__beforediscount">
-                  {formatter.format(productInfo.priceBeforeDiscount) || "Updating"}
+                  {formatter.format(productInfo.priceBeforeDiscount) ||
+                    "Updating"}
                 </span>
               </div>
 
