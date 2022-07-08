@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { selectStatus } from "../../../../store/orders/selector";
-import { deleteOrderRequest, getOrderRequest, resetStatus } from "../../../../store/orders/orderSlice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import AlertDialog from "../../../../components/admin/AlertDialog";
-import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
+import { deleteOrderRequest, getOrderRequest, resetStatus } from "../../../../store/orders/orderSlice";
 
 const OrderDelete = ({ orderId, order ,style}) => {
   const [open, setOpen] = useState(false);
@@ -26,7 +24,7 @@ const OrderDelete = ({ orderId, order ,style}) => {
       <Button sx={style.btnDelete} onClick={() => setOpen(true)}>
         Delete
       </Button>
-      <AlertDialog open={open} handleDelete={handleDelete} order={order} />
+      <AlertDialog open={open} handleDelete={handleDelete} order={order || "Deleted All"} />
     </>
   );
 };

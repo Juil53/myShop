@@ -58,7 +58,6 @@ const OrderDataList = () => {
   const [show, setShow] = useState(false);
   const [arrIds, setArrIds] = useState([]);
 
-
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     { field: "email", headerName: "Email", width: 200 },
@@ -123,7 +122,7 @@ const OrderDataList = () => {
   const CustomToolbar = () => {
     return (
       <Grid container justifyContent="space-between" mb={1}>
-        <GridToolbarContainer>
+        <GridToolbarContainer sx={{marginLeft:'2rem'}}>
           <GridToolbarColumnsButton />
           <GridToolbarFilterButton />
           <GridToolbarDensitySelector />
@@ -131,7 +130,7 @@ const OrderDataList = () => {
         </GridToolbarContainer>
         <IconButton
           onClick={() => {
-            // handleDeleteSelected(arrIds);
+            handleDeleteSelected(arrIds);
           }}
         >
           <DeleteIcon color="error" />
@@ -140,7 +139,19 @@ const OrderDataList = () => {
     );
   };
 
-  // const handleDeleteSelected = (ids) => {};
+  const handleDeleteSelected = (ids) => {
+    try {
+      ids.forEach((id) => {
+        dispatch(deleteOrderRequest(id));
+      });
+      dispatch(getOrderRequest());
+      setTimeout(() => {
+        dispatch(resetStatus());
+      }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleGetOrderDetail = (order) => {
     dispatch(openModal());
@@ -164,7 +175,6 @@ const OrderDataList = () => {
       ) : (
         <Box component={Paper} elevation={2} style={style.table}>
           <DataGrid
-            textAlign="center"
             rows={orders || []}
             columns={columns.concat(columnActions)}
             density="compact"
