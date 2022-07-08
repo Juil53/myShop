@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 
-import ChangePassword from "./child/ChangePassword";
-import UserInformation from "./child/UserInformation";
+import ChangePassword from "./ChangePassword";
+import UserInformation from "./UserInformation";
 import BreadCumb from "../../../components/breadcumb/BreadCumb";
-import AddressBook from "./child/address_book/AddressBook";
+import AddressBook from "./address_book/AddressBook";
 import { clientData } from "../../../store/clients/selector";
 import { useEffect } from "react";
 import { LOADING_STATUS, USER_ACTIONS } from "../../../constants";
 import Loading from "../../../components/loading/Loading";
 import localStorage from "../../../service/localStorage";
+import Orders from "./orders/Orders";
 
 const UserPage = () => {
   const token = localStorage.get("token");
@@ -39,7 +40,7 @@ const UserPage = () => {
   const createContentRight = (data) => {
     switch (pathname) {
       case "/user/orders":
-        return <></>;
+        return <Orders />;
       case "/user/information":
         return <UserInformation data={data?.info} status={data?.status} />;
       case "/user/password":
