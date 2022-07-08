@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { actions } from "../../../../../store/page/slice";
-import { POPUP, LOADING_STATUS } from "../../../../../constants";
-import { clone } from "../../../../../utils";
-import Loading from "../../../../../components/loading/Loading";
+import { actions } from "../../../../store/page/slice";
+import { POPUP, LOADING_STATUS } from "../../../../constants";
+import { clone } from "../../../../utils";
+import Loading from "../../../../components/loading/Loading";
 
 const AddressBook = (props) => {
   const { data, status } = props;
