@@ -22,6 +22,7 @@ import Banner from "./child/Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
 import MainLeft from "./child/MainLeft";
 import localStorage from "../../../service/localStorage";
+import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 //import api from "../../../service/api";
 
 export default function HomePage() {
@@ -93,6 +94,7 @@ export default function HomePage() {
         <LoadingFail />
       ) : (
         <div className="home-page page" id="page">
+          <ScrollToTop />
           <div className="home-page__slider">
             <Slider {...banner_settings}>{createBanner(banners.data)}</Slider>
           </div>
