@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-import { debounce } from "../../../utils";
+import { debounce } from "../../../../utils";
 
 const SearchBar = () => {
   const [searchKey, setSearchKey] = useState("");

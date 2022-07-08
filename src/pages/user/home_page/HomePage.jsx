@@ -14,14 +14,15 @@ import { pageSelector } from "../../../store/page/selector";
 import { productSelector } from "../../../store/products/selector";
 import { categoriesSelector } from "../../../store/categories/selector";
 
-import ProductSection from "../../../components/product_section/ProductSection";
-import NextButton from "../../../components/product_section/child/NextButton";
-import PreButton from "../../../components/product_section/child/PreButton";
+import ProductSection from "../../../components/user/product_section/ProductSection";
+import NextButton from "../../../components/user/product_section/child/NextButton";
+import PreButton from "../../../components/user/product_section/child/PreButton";
 import Loading from "../../../components/loading/Loading";
 import Banner from "./child/Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
 import MainLeft from "./child/MainLeft";
 import localStorage from "../../../service/localStorage";
+//import api from "../../../service/api";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ export default function HomePage() {
     if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
       dispatch({ type: PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS });
     }
+    //api.get("user");
   }, []);
 
   function createBanner(data) {

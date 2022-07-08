@@ -1,10 +1,9 @@
 import { useDispatch } from "react-redux";
 
-import { utils } from "../../utils";
-import { POPUP } from "../../constants";
-import { actions } from "../../store/page/slice";
+import { utils } from "../../../utils";
+import { POPUP } from "../../../constants";
+import { actions } from "../../../store/page/slice";
 import { useNavigate } from "react-router-dom";
-import { actions as productActions } from "../../store/products/slice";
 
 export default function ProductCard(props) {
   const dispatch = useDispatch();

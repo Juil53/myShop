@@ -13,7 +13,7 @@ import {
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import Loading from "../../../components/loading/Loading";
-import ProductCard from "../../../components/product_card/ProductCard";
+import ProductCard from "../../../components/user/product_card/ProductCard";
 import MainLeft from "../home_page/child/MainLeft";
 
 const SearchProduct = () => {
