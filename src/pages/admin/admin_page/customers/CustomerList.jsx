@@ -47,7 +47,7 @@ export default function CustomerList({ data }) {
   const [loading, setLoading] = useState(true);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "id", headerName: "ID", width: 180 },
     {
       field: "img",
       headerName: "Avatar",
@@ -60,14 +60,14 @@ export default function CustomerList({ data }) {
         );
       },
     },
-    { field: "displayName", headerName: "Full Name", width: 180 },
+    { field: "displayName", headerName: "Full Name", width: 200 },
     { field: "email", headerName: "Email", width: 350 },
     { field: "phoneNumber", headerName: "Phone Number", width: 150 },
-    { field: "address", headerName: "Address", width: 250 },
+    { field: "address", headerName: "Address", width: 280 },
     {
       field: "rank",
       headerName: "Rank",
-      width: 90,
+      width: 110,
       renderCell: (params) => {
         return (
           <Typography className={`${params.row.rank}`} sx={style.cellStatus}>
@@ -178,8 +178,9 @@ export default function CustomerList({ data }) {
           <DataGrid
             rows={rows}
             columns={columns.concat(columnActions)}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
+            pageSize={20}
+            rowsPerPageOptions={[20]}
+            density="compact"
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {
