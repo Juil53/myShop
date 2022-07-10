@@ -1,7 +1,8 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
+  GridFooter,
+  GridFooterContainer,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
@@ -65,11 +66,12 @@ const OrderDataList = () => {
       field: "address",
       headerName: "Address",
       width: 300,
+      headerAlign: "center",
       renderCell: (params) => {
         return <Typography>{params.row.address.location}</Typography>;
       },
     },
-    { field: "date", headerName: "Date", width: 200 },
+    { field: "date", headerName: "Date", width: 200, align: "center", headerAlign: "center" },
     {
       field: "phone",
       headerName: "Phone Number",
@@ -81,7 +83,9 @@ const OrderDataList = () => {
     {
       field: "price",
       headerName: "Price",
-      width: 150,
+      width: 120,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return <Typography>{formatter.format(params.row.totalAfterDiscount)}</Typography>;
       },
@@ -105,6 +109,7 @@ const OrderDataList = () => {
       field: "action",
       headerName: "Actions",
       width: 150,
+      headerAlign: "center",
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
@@ -122,20 +127,31 @@ const OrderDataList = () => {
   const CustomToolbar = () => {
     return (
       <Grid container justifyContent="space-between" mb={1}>
-        <GridToolbarContainer sx={{marginLeft:'2rem'}}>
+        <GridToolbarContainer sx={{ marginLeft: "1rem" }}>
           <GridToolbarColumnsButton />
           <GridToolbarFilterButton />
           <GridToolbarDensitySelector />
           <GridToolbarExport />
         </GridToolbarContainer>
-        <IconButton
+      </Grid>
+    );
+  };
+
+  const CustomFooter = () => {
+    return (
+      <GridFooterContainer>
+        <Button
+          sx={{ display: arrIds.length > 0 ? "block" : "none", ...style.btnDelete }}
+          style={{ marginLeft: "2rem", padding: "5px" }}
           onClick={() => {
             handleDeleteSelected(arrIds);
           }}
         >
-          <DeleteIcon color="error" />
-        </IconButton>
-      </Grid>
+          Delete All Selected
+        </Button>
+
+        <GridFooter />
+      </GridFooterContainer>
     );
   };
 
@@ -148,6 +164,7 @@ const OrderDataList = () => {
       setTimeout(() => {
         dispatch(resetStatus());
       }, 2000);
+      setArrIds([]);
     } catch (err) {
       console.log(err);
     }
@@ -186,6 +203,7 @@ const OrderDataList = () => {
             }}
             components={{
               Toolbar: CustomToolbar,
+              Footer: CustomFooter,
             }}
           />
         </Box>
