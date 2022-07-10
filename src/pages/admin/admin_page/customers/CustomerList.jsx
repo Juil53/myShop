@@ -6,7 +6,7 @@ import {
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridToolbarFilterButton
+  GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import { deleteUser } from "firebase/auth";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
@@ -103,7 +103,7 @@ export default function CustomerList({ data }) {
   const CustomToolbar = () => {
     return (
       <Grid container justifyContent="space-between" mb={1}>
-        <GridToolbarContainer>
+        <GridToolbarContainer sx={{ marginLeft: "1rem" }}>
           <GridToolbarColumnsButton />
           <GridToolbarFilterButton />
           <GridToolbarDensitySelector />
@@ -202,6 +202,16 @@ export default function CustomerList({ data }) {
           />
         </Box>
       )}
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.539294211946!2d106.66230041512051!3d10.846525492274054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529baa7607279%3A0x50d512e271fd23c7!2zNDk3IFRo4buRbmcgTmjhuqV0LCBQaMaw4budbmcgMTYsIEfDsiBW4bqlcCwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1657274449598!5m2!1svi!2s"
+        allowFullScreen="true"
+        referrerPolicy="no-referrer-when-downgrade"
+        loading="lazy"
+        style={{
+          width: "900px",
+          height: "750px",
+        }}
+      ></iframe>
     </>
   );
 }
