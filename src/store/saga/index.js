@@ -4,9 +4,9 @@ import categoriesSaga from "../categories/actions";
 import pageSaga from "../page/actions";
 import productSaga from "../products/actions";
 import cartSaga from "../cart/actions";
-import userSaga from "../users/actions";
-import adminProductSaga from "../admin_product/action";
-import adminOrderSaga from "../orders/action";
+import userSaga from "../users/saga";
+import adminProductSaga from "../admin_product/saga";
+import adminOrderSaga from "../orders/saga";
 import clientSaga from "../clients/actions";
 
 export default function* rootSaga() {

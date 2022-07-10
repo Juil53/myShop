@@ -6,13 +6,14 @@ import {
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridToolbarFilterButton,
+  GridToolbarFilterButton
 } from "@mui/x-data-grid";
+import { deleteUser } from "firebase/auth";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
-import { db } from "../../../../service/auth";
+import { db, user } from "../../../../service/auth";
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
@@ -98,31 +99,6 @@ export default function CustomerList({ data }) {
     },
   ];
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "customers", id));
-      setRows(rows.filter((item) => item.id !== id));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDeleteSelected = (ids) => {
-    try {
-      for (let id of ids) {
-        deleteDoc(doc(db, "customers", id));
-      }
-
-      setRows(rows.filter((row) => !arrIds.includes(row.id)));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleData = (importData) => {
-    setRows([...rows, ...importData]);
-  };
-
   //add header density,filter,export,column
   const CustomToolbar = () => {
     return (
@@ -142,6 +118,40 @@ export default function CustomerList({ data }) {
         </IconButton>
       </Grid>
     );
+  };
+
+  const handleData = (importData) => {
+    setRows([...rows, ...importData]);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "customers", id));
+
+      deleteUser(user)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      setRows(rows.filter((item) => item.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteSelected = (ids) => {
+    try {
+      for (let id of ids) {
+        deleteDoc(doc(db, "customers", id));
+      }
+
+      setRows(rows.filter((row) => !arrIds.includes(row.id)));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //reload page when import data
@@ -178,9 +188,9 @@ export default function CustomerList({ data }) {
           <DataGrid
             rows={rows}
             columns={columns.concat(columnActions)}
-            pageSize={20}
-            rowsPerPageOptions={[20]}
             density="compact"
+            pageSize={10}
+            rowsPerPageOptions={[10]}
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {

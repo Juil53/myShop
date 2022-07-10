@@ -49,15 +49,13 @@ const Chart = ({aspect,title}) => {
   return (
     <Box component={Paper} elevation={8} padding={2}>
       <Typography
-        sx={{ fontSize: "2rem", fontWeight: "400", marginY: ".7rem" }}
+        sx={{ fontSize: "2rem", fontWeight: "400" }}
         color="text.secondary"
       >
         {title}
       </Typography>
       <ResponsiveContainer width="100%" aspect={aspect}>
         <BarChart
-          width={500}
-          height={500}
           data={data}
           margin={{
             top: 5,

@@ -42,11 +42,16 @@ const CustomerManagement = () => {
 
   // Save import Data to firebase cloudstore and auth (if dont have collection use addDoc,collection first)
   const handleSaveImportData = async (newData) => {
-    for (let item of newData) {
-      // Add import Data to Authen
-      const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password);
-      // Add import Data to collection with id doc from auth
-      await setDoc(doc(db, "customers", res.user.uid), { ...item, id: res.user.uid });
+    try {
+      for (let item of newData) {
+        // Add import Data to Authen
+        const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password);
+        // Add import Data to collection with id doc from auth
+        await setDoc(doc(db, "customers", res.user.uid), { ...item, id: res.user.uid });
+      }
+    } catch (error) {
+      alert(error);
+      console.log(error.message)
     }
   };
 

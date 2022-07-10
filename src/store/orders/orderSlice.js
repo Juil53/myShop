@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const orderSlice = createSlice({
   name: "order",
   initialState: {
-    orderData: null,
+    orderData: [],
     orderDataPagination: null,
     orderDetail: null,
     loading: false,
@@ -11,6 +11,7 @@ const orderSlice = createSlice({
     orderPagination: null,
     isOpen: false,
     keyword: null,
+    status: false,
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -87,6 +88,22 @@ const orderSlice = createSlice({
     getKeyword(state, action) {
       state.keyword = action.payload;
     },
+
+    deleteOrderRequest(state) {
+      state.status = false;
+    },
+
+    deleteOrderSuccess(state, action) {
+      state.status = true;
+    },
+
+    deleteOrderFailed(state, action) {
+      state.status = false;
+    },
+
+    resetStatus(state) {
+      state.status = false;
+    },
   },
 });
 
@@ -105,6 +122,10 @@ export const {
   submitOrderSuccess,
   submitOrderFailed,
   getKeyword,
+  deleteOrderRequest,
+  deleteOrderSuccess,
+  deleteOrderFailed,
+  resetStatus,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;
