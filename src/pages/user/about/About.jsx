@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import "./about.scss";
 
 const style = {
@@ -53,8 +54,21 @@ const About = () => {
     return () => clearInterval(interval);
   }, [isActive]);
 
+  const pages = [
+    {
+      name: "Home",
+      url: "/",
+    },
+    {
+      name: "About",
+      url: "/about",
+    },
+  ];
+
   return (
-    <Box sx={style.container}>
+    <Box sx={style.container} className="aboutWrapper">
+      <Breadcrumb pages={pages} color={"#35c0c5"}/>
+
       <Grid container spacing={2} justifyContent="center">
         <Grid item sx={{ display: { xs: "none", md: "block" } }} xs={0} md={4} alignSelf="center">
           <Typography sx={style.title} variant="h1">

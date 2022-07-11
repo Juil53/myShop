@@ -2889,7 +2889,7 @@ ul > li {
   transition: all 400ms ease-in-out; }
 
 .expand .active {
-  height: 300px; }
+  height: 250px; }
 
 .overlap {
   position: relative;
@@ -2910,23 +2910,29 @@ ul > li {
     z-index: 1; }
 
 @media screen and (min-width: 390px) {
+  .aboutWrapper {
+    padding: 0 1rem;
+    text-align: center; }
+    .aboutWrapper img {
+      width: 80%; }
   .overlap {
-    width: 100%;
+    width: 90%;
     height: 250px; }
-    .overlap .overlapImg {
-      width: 80%; } }
-
-@media screen and (min-width: 1023px) {
-  .overlap {
-    width: 100%;
-    height: 450px; }
     .overlap .overlapImg {
       width: 80%; } }
 
 @media screen and (min-width: 1024px) {
   .overlap {
     width: 80%;
-    height: 600px; }
+    height: 400px; }
+    .overlap .overlapImg {
+      object-fit: contain;
+      width: 90%; } }
+
+@media screen and (min-width: 1400px) {
+  .overlap {
+    width: 80%;
+    height: 650px; }
     .overlap .overlapImg {
       object-fit: contain;
       width: 90%; } }
@@ -2938,3 +2944,16 @@ ul > li {
     top: 8px; }
   100% {
     top: 0; } }
+
+.mapWrapper {
+  width: 80%;
+  margin: auto; }
+
+.title {
+  margin: 2rem 0;
+  font-weight: 400; }
+
+.map {
+  width: 100%;
+  height: 700px;
+  border: 0; }

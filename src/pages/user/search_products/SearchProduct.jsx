@@ -73,7 +73,7 @@ const SearchProduct = () => {
       ) : (
         <>
           <div className="breadcumb">
-            <Breadcrumb pages={array} />
+            <Breadcrumb pages={array} color={"#35c0c5"}/>
           </div>
           <div className="home-page__main row">
             <MainLeft
