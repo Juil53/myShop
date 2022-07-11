@@ -22,7 +22,7 @@ const SigninForm = () => {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (userLogin.status === LOADING_STATUS.SUCCESS && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
-      window.location.href = window.location.origin;
+      //window.location.href = window.location.origin;
     } else if (userLogin.status === LOADING_STATUS.FAIL && isClick) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signin-error-msg");
