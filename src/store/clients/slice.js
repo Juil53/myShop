@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING_STATUS } from "../../constants";
 import localStorage from "../../service/localStorage";
 
-const initialState = {  
+const initialState = {
   data: {
     status: LOADING_STATUS.IDLE,
     info: {},
@@ -48,6 +48,10 @@ const clientSlice = createSlice({
           state.msg = "";
           break;
 
+        case "User not found":
+          state.msg = "User not found";
+          break;
+
         default:
           state.msg = "Something went wrong. Please try again";
           break;
@@ -79,7 +83,8 @@ const clientSlice = createSlice({
 
     signupFail: (state, action) => {
       state.status = LOADING_STATUS.FAIL;
-      if (action.payload === "auth/email-already-in-use") state.msg = "Email already in use";
+      if (action.payload === "auth/email-already-in-use")
+        state.msg = "Email already in use";
     },
 
     getUserInfo: (state, action) => {

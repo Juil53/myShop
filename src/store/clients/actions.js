@@ -1,6 +1,7 @@
 import { call, takeEvery, put } from "redux-saga/effects";
 
 import API from "../../service";
+import APIv2 from "../../service/db";
 import { clientActions } from "./slice";
 import {
   signinAuth,
@@ -19,25 +20,17 @@ export function* signinWithEmailAndPassword({ password, email }) {
   const rs = yield call(signinAuth, email, password);
 
   if (rs && !rs.code) {
-    const clients = yield call(API.get, { path: "clients" });
+    const client = yield call(APIv2.get, "customers", rs.id);
 
-    if (clients) {
-      const client = clients.find((c) => c.id === rs.id) || {};
-
+    if (client) {
       const data = {
         token: rs.accessToken,
         providerID: rs.providerId,
       };
 
-      if (Object.keys(client).length === 0) {
-        yield put(clientActions.signinFail("User not found"));
-      } else {
-        yield put(clientActions.signinSuccess(data));
-      }
+      yield put(clientActions.signinSuccess(data));
     } else {
-      yield put(
-        clientActions.signinFail("Something went wrong. Please try again later")
-      );
+      yield put(clientActions.signinFail("User not found"));
     }
   } else {
     yield put(clientActions.signinFail(rs.code));
@@ -48,43 +41,25 @@ export function* signinWithGoogle() {
   const rs = yield call(signinWithGoogleAuth);
 
   if (rs && !rs.code) {
-    const clients = yield call(API.get, { path: "clients" });
+    const user = yield call(APIv2.get, "customers", rs.id);
 
-    if (clients) {
-      const client = clients.find((c) => c.id === rs.id) || {};
-
-      const data = {
-        token: rs.accessToken,
-        providerID: rs.providerId,
+    if (!user) {
+      const userData = {
+        displayName: rs.displayName,
+        email: rs.email,
+        image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
+        phoneNumber: rs.phoneNumber || "",
       };
 
-      //new client
-      if (Object.keys(client).length === 0) {
-        const newClient = {
-          id: rs.id,
-          displayName: rs.displayName,
-          email: rs.email,
-          image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
-          phoneNumber: rs.phoneNumber || "",
-        };
-
-        yield call(API.post, { path: "clients", query: newClient });
-      } else {
-        if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
-          client.image = rs.image;
-        }
-
-        if (!client.phoneNumber && rs.phoneNumber) {
-          client.phoneNumber = rs.phoneNumber;
-        }
-
-        yield call(API.put, { path: `clients/${client.id}`, query: client });
-      }
-
-      yield put(clientActions.signinSuccess(data));
-    } else {
-      yield put(clientActions.signinFail());
+      yield call(APIv2.set, "customers", rs.id, userData);
     }
+
+    yield put(
+      clientActions.signinSuccess({
+        token: rs.accessToken,
+        providerID: rs.providerId,
+      })
+    );
   } else {
     yield put(clientActions.signinFail(rs.code));
   }
@@ -94,41 +69,25 @@ export function* signinWithFacebook() {
   const rs = yield call(signinWithFacebookAuth);
 
   if (rs && !rs.code) {
-    const clients = yield call(API.get, { path: "clients" });
-    if (clients) {
-      const client = clients.find((c) => c.id === rs.id) || {};
+    const client = yield call(APIv2.get, "customers", rs.id);
 
-      const data = {
-        token: rs.accessToken,
-        providerID: rs.providerId,
+    if (!client) {
+      const userData = {
+        displayName: rs.displayName,
+        email: rs.email,
+        image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
+        phoneNumber: rs.phoneNumber || "",
       };
 
-      if (Object.keys(client).length === 0) {
-        const newClient = {
-          id: rs.id,
-          displayName: rs.displayName,
-          email: rs.email,
-          image: rs.image || "https://i.ibb.co/4pGF0yV/default-user.png",
-          phoneNumber: rs.phoneNumber || "",
-        };
-
-        yield call(API.post, { path: "clients", query: newClient });
-      } else {
-        if (client.image === "https://i.ibb.co/4pGF0yV/default-user.png") {
-          client.image = rs.image;
-        }
-
-        if (!client.phoneNumber && rs.phoneNumber) {
-          client.phoneNumber = rs.phoneNumber;
-        }
-
-        yield call(API.put, { path: `clients/${client.id}`, query: client });
-      }
-
-      yield put(clientActions.signinSuccess(data));
-    } else {
-      yield put(clientActions.signinFail());
+      yield call(APIv2.set, "customers", rs.id, userData);
     }
+
+    yield put(
+      clientActions.signinSuccess({
+        token: rs.accessToken,
+        providerID: rs.providerId,
+      })
+    );
   } else {
     yield put(clientActions.signinFail(rs.code));
   }
@@ -148,8 +107,13 @@ export function* signupUser({ email, password, user }) {
       providerID: rs.providerId,
     };
 
-    yield call(API.post, { path: "clients", query: user });
-    yield put(clientActions.signupSuccess(data));
+    const kq = yield call(APIv2.set, "customers", rs.id, user);
+
+    if (kq) {
+      yield put(clientActions.signupSuccess(data));
+    } else {
+      yield put(clientActions.signupFail());
+    }
   } else {
     yield put(clientActions.signupFail(rs.code));
   }
@@ -163,8 +127,9 @@ export function* signout() {
 export function* getUserInfo() {
   try {
     const userID = getUserId();
+
     if (userID) {
-      const rs = yield call(API.get, { path: `clients/${userID}` });
+      const rs = yield call(APIv2.get, "customers", userID);
       if (rs) {
         const data = { ...rs };
 

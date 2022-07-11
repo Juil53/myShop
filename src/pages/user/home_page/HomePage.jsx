@@ -23,7 +23,6 @@ import LoadingFail from "../../../components/loading_fail/LoadingFail";
 import MainLeft from "./child/MainLeft";
 import localStorage from "../../../service/localStorage";
 import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
-//import api from "../../../service/api";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -61,7 +60,6 @@ export default function HomePage() {
     if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
       dispatch({ type: PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS });
     }
-    //api.get("user");
   }, []);
 
   function createBanner(data) {
