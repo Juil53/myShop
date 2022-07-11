@@ -21,28 +21,32 @@ const roles = [
     label: "Admin",
   },
 ];
-const container = {
-  width: "100%",
-  display: "flex",
-  flexDirection: "row",
-  margin: "auto",
-  padding: "2rem",
-  bgcolor: "background.paper",
-  boxShadow: 3,
-  borderRadius: 2,
-};
-const userImage = {
-  display:"flex",
-  flexDirection:'column',
-  justifyContent:'center',
-  alignItems:'center',
-  width: "25%",
-  marginRight: 2,
-  padding: 3,
-};
-const user__form = {
-  width: "75%",
-  padding: 3,
+
+const style = {
+  container: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    margin: "auto",
+    padding: "2rem",
+    bgcolor: "background.paper",
+    boxShadow: 3,
+    borderRadius: 2,
+  },
+  imgContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "25%",
+    marginRight: 2,
+    padding: 3,
+  },
+  img: { borderRadius: "50%", marginBottom: "1rem", width: "100%", height: "250px" },
+  userForm: {
+    width: "75%",
+    padding: 3,
+  },
 };
 
 export default function AddUser(props) {
@@ -96,24 +100,21 @@ export default function AddUser(props) {
       <Typography variant="h4" fontWeight={400} my={1}>
         Add User
       </Typography>
-      <Box sx={container}>
-        <Box className="user__image" sx={userImage}>
+      <Box sx={style.container}>
+        <Box className="user__image" sx={style.imgContainer}>
           <img
             src={file ? URL.createObjectURL(file) : "/img/default_avatar.png"}
             alt="avatar"
-            width="100%"
-            height="250px"
-            style={{ borderRadius: "50%",marginBottom:'1rem' }}
+            style={style.img}
           />
           <input type="file" onChange={(e) => setFile(e.target.files[0])} />
         </Box>
-        <Box className="user__form" sx={user__form} component="form" onSubmit={formik.handleSubmit}>
+        <Box className="user__form" sx={style.userForm} component="form" onSubmit={formik.handleSubmit}>
           <div className="admin__form">
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   fullWidth
                   variant="outlined"
                   required
@@ -129,7 +130,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   required
                   label="Last Name"
@@ -147,7 +147,6 @@ export default function AddUser(props) {
               <Grid item xs={8}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   required
                   label="Email"
@@ -162,7 +161,6 @@ export default function AddUser(props) {
               <Grid item xs={4}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   label="Identify"
                   name="identify"
@@ -179,7 +177,6 @@ export default function AddUser(props) {
               <Grid item xs={8}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   label="Address"
                   name="address"
@@ -193,7 +190,6 @@ export default function AddUser(props) {
               <Grid item xs={4}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   label="Gender"
                   name="gender"
@@ -210,7 +206,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   type="password"
                   required
@@ -228,8 +223,7 @@ export default function AddUser(props) {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
-                  size="small"
-                  color="secondary"
+                  size="small"                  
                   variant="outlined"
                   required
                   select
@@ -251,7 +245,6 @@ export default function AddUser(props) {
               <Grid item xs={6}>
                 <TextField
                   size="small"
-                  color="secondary"
                   variant="outlined"
                   required
                   label="Phone number"
@@ -273,7 +266,7 @@ export default function AddUser(props) {
                   Submit
                 </Button>
                 <Link to="/admin/users">
-                  <Button variant="contained" color="secondary">
+                  <Button variant="contained" color="warning">
                     Back
                   </Button>
                 </Link>

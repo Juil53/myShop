@@ -21,7 +21,7 @@ export default function SimpleSnackbar({ type, show, setShow }) {
 
   return (
     <div>
-      <Snackbar open={show} autoHideDuration={3000} onClose={() => setShow(false)}>
+      <Snackbar open={show} autoHideDuration={2000} onClose={() => setShow(false)}>
         <Alert severity="success">
           <span style={{ fontWeight: 700 }}>{message}</span>
         </Alert>

@@ -1,4 +1,4 @@
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   Box,
   IconButton,
@@ -8,7 +8,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
+  TableRow
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,18 +18,25 @@ import {
   selectLoading,
   selectUserData,
   selectUserDataPagination,
-  selectUserInfo,
+  selectUserInfo
 } from "../../../../store/users/selector";
 import {
   getUserPaginationRequest,
   getUserRequest,
-  resetStatus,
+  resetStatus
 } from "../../../../store/users/usersSlice";
 import {
   CustomizedTableHead,
-  CustomPagination,
+  CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
 import UserDelete from "./UserDelete";
+
+const style = {
+  tableContainer: { maxHeight: "65vh" },
+  table: { minWidth: { xs: "1400px", md: "150%" }, backgroundColor: "#fff" },
+  tableRow: { "&:last-child td, &:last-child th": { border: 0 } },
+  img: { width: "30px", height: "30px", borderRadius: "50%" },
+};
 
 export function UserList({ keyword }) {
   const ROWS_PER_PAGE = 10;
@@ -58,17 +65,8 @@ export function UserList({ keyword }) {
         <Loading />
       ) : (
         <Box component={Paper} elevation={3} p={2}>
-          <TableContainer
-            sx={{
-              maxHeight: "65vh",
-            }}
-          >
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              size="small"
-              sx={{ minWidth: { xs: "1400px", md: "150%" }, backgroundColor: "#fff" }}
-            >
+          <TableContainer sx={style.tableContainer}>
+            <Table stickyHeader aria-label="sticky table" size="small" sx={style.table}>
               <CustomizedTableHead>
                 <TableRow>
                   <TableCell align="left"></TableCell>
@@ -88,15 +86,11 @@ export function UserList({ keyword }) {
               <TableBody>
                 {paginationData?.map((user, index) => {
                   return (
-                    <TableRow
-                      key={index}
-                      hover={true}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
+                    <TableRow key={index} hover={true} sx={style.tableRow}>
                       <TableCell align="left">
                         <Stack direction="row">
                           <UserDelete userId={user.id} user={user} page={page} />
-                          <IconButton size="small" color="secondary">
+                          <IconButton size="small" color="primary">
                             <Link to={`/admin/users/edit/${user.id}`}>
                               <EditOutlinedIcon fontSize="inherit" />
                             </Link>
@@ -107,7 +101,7 @@ export function UserList({ keyword }) {
                         <img
                           src={user.avatar ? user.avatar : "/img/default_avatar.png"}
                           alt=""
-                          style={{ width: "30px", height: "30px", borderRadius: "50%" }}
+                          style={style.img}
                         />
                       </TableCell>
                       <TableCell align="left">{user.id ? user.id : "_"}</TableCell>

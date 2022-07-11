@@ -16,7 +16,7 @@ const drawerWidth = "25rem";
 //Styled Component
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -32,7 +32,7 @@ const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
   transition: "all 200ms ease",
   "&:hover": {
     "&.MuiButtonBase-root": {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
       fontWeight: 900,
       borderLeft: "8px solid",
       backgroundColor:"#fff",
@@ -42,25 +42,25 @@ const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
       fontWeight: 900,
     },
     "& .MuiListItemIcon-root": {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
     },
   },
 }));
 
 const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.dark,
+  backgroundColor: theme.palette.primary.dark,
 }));
 
 const CustomeNavlink = styled(NavLink)(({ theme }) => ({
   "&.active > div": {
-    color: theme.palette.secondary.dark,
+    color: theme.palette.primary.main,
     backgroundColor:'#fff',
     "& .MuiTypography-root": {
       fontSize: "1.8rem",
       fontWeight: 900,
     },
     "& .MuiListItemIcon-root": {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
     },
   },
 }));
@@ -75,26 +75,26 @@ const CustomDrawer = styled(Drawer)(({ theme }) => ({
 
 const TextFieldCustom = styled(TextField)(({ theme }) => ({
   "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
-    color: theme.palette.secondary.dark,
+    color: theme.palette.primary.dark,
   },
   "& .MuiOutlinedInput-root": {
     "&.Mui-focused fieldset": {
-      borderColor: theme.palette.secondary.dark,
+      borderColor: theme.palette.primary.dark,
     },
   },
 }));
 
 const CustomPagination = styled(Pagination)(({ theme }) => ({
   "& .MuiButtonBase-root.MuiPaginationItem-root.Mui-selected": {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.primary.main,
     color: "#fff",
   },
 }));
 
 const CustomSelect = styled(Select)(({ theme }) => ({
   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.secondary.main,
-    color: theme.palette.secondary.main,
+    borderColor: theme.palette.primary.main,
+    color: theme.palette.primary.main,
   },
 }));
 

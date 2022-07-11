@@ -18,6 +18,15 @@ const roles = [
   },
 ];
 
+const style = {
+  img: {
+    width: "200px",
+    height: "200px",
+    border: "1px solid",
+    borderRadius: "50%",
+  },
+};
+
 const UserEdit = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -103,12 +112,7 @@ const UserEdit = () => {
                 value={state.avatar}
                 src={state.avatar ? state.avatar : "/img/default_avatar.png"}
                 alt=""
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  border: "1px solid",
-                  borderRadius: "50%",
-                }}
+                style={style.img}
               />
             </Grid>
             <Grid item xs={6}>
@@ -224,7 +228,7 @@ const UserEdit = () => {
               <Button
                 variant="contained"
                 size="small"
-                color="secondary"
+                color="warning"
                 onClick={() => navigate("/admin/users")}
               >
                 Back
@@ -234,7 +238,7 @@ const UserEdit = () => {
         </Box>
       </Box>
 
-      <SimpleSnackbar show={show} setShow={setShow} type="edit"/>
+      <SimpleSnackbar show={show} setShow={setShow} type="edit" />
     </div>
   );
 };

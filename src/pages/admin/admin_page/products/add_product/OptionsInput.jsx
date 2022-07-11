@@ -41,7 +41,6 @@ export default function OptionsInput() {
               <Grid item xs={12}>
                 <Button
                   size="small"
-                  color="secondary"
                   type="button"
                   onClick={() => push({ name: "", value: "" })}
                 >

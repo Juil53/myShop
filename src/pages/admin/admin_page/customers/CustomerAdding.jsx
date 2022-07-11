@@ -1,18 +1,21 @@
-import React, { useState } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { Box, Grid, Typography, Paper, TextField, Button, Stack } from "@mui/material";
-import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { authInstance, db, storage } from "../../../../service/auth";
+import { Box, Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { useEffect } from "react";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authInstance, db, storage } from "../../../../service/auth";
 
-const styleImg = { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" };
+const style = {
+  img: { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" },
+};
 
 const CustomerAdding = ({ inputs }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
   const [per, setPer] = useState(null);
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     const { id, value } = e.target;
@@ -22,13 +25,15 @@ const CustomerAdding = ({ inputs }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
+      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);      
       await setDoc(doc(db, "customers", res.user.uid), {
         ...data,
         timeStamp: serverTimestamp(),
       });
-    } catch (err) {
-      console.log(err);
+      //navigate to previous page
+      navigate(-1);
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -38,7 +43,6 @@ const CustomerAdding = ({ inputs }) => {
 
   useEffect(() => {
     const uploadFile = () => {
-      const name = new Date().getTime() + file.name;
       const storageRef = ref(storage, `customers/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -86,7 +90,7 @@ const CustomerAdding = ({ inputs }) => {
           <img
             src={file ? URL.createObjectURL(file) : "/img/default_avatar.png"}
             alt="profile"
-            style={styleImg}
+            style={style.img}
           />
         </Grid>
 
@@ -116,7 +120,6 @@ const CustomerAdding = ({ inputs }) => {
                     onChange={handleChange}
                   />
                   <Button
-                    color="secondary"
                     aria-label="upload picture"
                     component="span"
                     variant="outlined"
@@ -128,7 +131,7 @@ const CustomerAdding = ({ inputs }) => {
               </Grid>
             </Grid>
 
-            <Stack direction="row" spacing={1} sx={{ marginTop: "1rem" }}>
+            <Stack direction="row" spacing={1} sx={{ marginTop: "2rem" }}>
               <Button
                 disabled={per !== null && per < 100}
                 variant="contained"
@@ -138,7 +141,13 @@ const CustomerAdding = ({ inputs }) => {
               >
                 Submit
               </Button>
-              <Button variant="contained" type="button" size="small" color="secondary">
+              <Button
+                variant="contained"
+                type="button"
+                size="small"
+                color="warning"
+                onClick={() => navigate(-1)}
+              >
                 Back
               </Button>
             </Stack>

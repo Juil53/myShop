@@ -37,7 +37,6 @@ const CategoriesCheckBox = ({ subCate }) => {
             key={`subCate_${index}`}
             control={
               <Checkbox
-                color="secondary"
                 value={cate.id}
                 checked={categoriesClone.includes(cate.id)}
                 onChange={handleChange}

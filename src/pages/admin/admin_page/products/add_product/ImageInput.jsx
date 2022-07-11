@@ -33,7 +33,6 @@ export default function ImageInput() {
           <Button
             variant="outlined"
             size="small"
-            color="secondary"
             component="span"
             startIcon={<PhotoCamera />}
           >

@@ -1,4 +1,4 @@
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   Box,
   IconButton,
@@ -29,6 +29,21 @@ import {
   CustomPagination
 } from "../../../../styles/styled_components/styledComponent";
 import ProductDelete from "./ProductDelete";
+
+const style = {
+  tableContainer: { maxHeight: "65vh" },
+  table: { minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" },
+  tableRow: {
+    "&:last-child td, &:last-child th": { border: 0 },
+    cursor: "pointer",
+  },
+  img:{
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    objectFit: "cover",
+  }
+};
 
 const ProductList = ({ filterOptions }) => {
   const dispatch = useDispatch();
@@ -66,17 +81,8 @@ const ProductList = ({ filterOptions }) => {
         <Loading />
       ) : (
         <Box component={Paper} elevation={3} p={2}>
-          <TableContainer
-            sx={{
-              maxHeight: "65vh",
-            }}
-          >
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              size="small"
-              sx={{ minWidth: { xs: "1400px", md: "110%" }, backgroundColor: "#fff" }}
-            >
+          <TableContainer sx={style.tableContainer}>
+            <Table stickyHeader aria-label="sticky table" size="small" sx={style.table}>
               <CustomizedTableHead>
                 <TableRow>
                   <TableCell align="left"></TableCell>
@@ -90,20 +96,12 @@ const ProductList = ({ filterOptions }) => {
               <TableBody>
                 {paginationProduct?.map((product, index) => {
                   return (
-                    <TableRow
-                      key={`product_${index}`}
-                      hover={true}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        cursor: "pointer",
-                      }}
-                    >
+                    <TableRow key={`product_${index}`} hover={true} sx={style.tableRow}>
                       <TableCell align="left">
                         <Stack direction="row">
                           <ProductDelete product={product} page={page} />
                           <IconButton
                             size="small"
-                            color="secondary"
                             onClick={() => navigate(`/admin/products/edit/${product.id}`)}
                           >
                             <EditOutlinedIcon fontSize="inherit" />
@@ -116,12 +114,7 @@ const ProductList = ({ filterOptions }) => {
                         <img
                           src={product.image}
                           alt="product"
-                          style={{
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                          }}
+                          style={style.img}
                         />
                       </TableCell>
                       <TableCell align="center">{product.available}</TableCell>

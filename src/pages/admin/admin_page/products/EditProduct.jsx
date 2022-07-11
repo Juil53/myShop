@@ -1,4 +1,3 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Box,
   Button,
@@ -10,9 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import {
   getAllProductRequest,
   getCategoriesRequest,
@@ -20,7 +20,6 @@ import {
 } from "../../../../store/admin_product/productSlice";
 import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import AttributeInput from "./add_product/AttributeInput";
 import CategoriesInput from "./add_product/CategoriesInput";
 import ImageInput from "./add_product/ImageInput";
@@ -154,12 +153,7 @@ export default function EditProduct() {
                 <Grid item xs={3}>
                   <FormControlLabel
                     control={
-                      <Field
-                        as={Switch}
-                        name="isHot"
-                        color="secondary"
-                        checked={values.isHot}
-                      />
+                      <Field as={Switch} name="isHot" color="primary" checked={values.isHot} />
                     }
                     label="Hot"
                     labelPlacement="end"
@@ -171,12 +165,7 @@ export default function EditProduct() {
                   <FormControlLabel
                     value="end"
                     control={
-                      <Field
-                        as={Switch}
-                        name="isNew"
-                        color="secondary"
-                        checked={values.isNew}
-                      />
+                      <Field as={Switch} name="isNew" color="primary" checked={values.isNew} />
                     }
                     label="New"
                     labelPlacement="end"
@@ -217,24 +206,14 @@ export default function EditProduct() {
                   marginTop={2}
                   paddingLeft={2}
                 >
-                  <Button
-                    variant="contained"
-                    color="success"
-                    type="submit"
-                    size="small"
-                  >
+                  <Button variant="contained" color="success" type="submit" size="small">
                     Submit
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    size="small"
-                  >
+                  <Button variant="contained" color="error" type="submit" size="small">
                     Reset
                   </Button>
                   <Link to="/admin/products">
-                    <Button variant="contained" color="secondary">
+                    <Button variant="contained" color="warning">
                       Back
                     </Button>
                   </Link>
@@ -244,7 +223,7 @@ export default function EditProduct() {
           )}
         </Formik>
       )}
-      <SimpleSnackbar show={show} setShow={setShow} type="edit"/>
+      <SimpleSnackbar show={show} setShow={setShow} type="edit" />
     </Box>
   );
 }

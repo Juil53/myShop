@@ -79,7 +79,7 @@ const OrderModal = () => {
             </Grid>
             <Grid item>
               <IconButton onClick={handleClose}>
-                <CloseIcon color="secondary" />
+                <CloseIcon />
               </IconButton>
             </Grid>
           </Grid>
@@ -168,7 +168,6 @@ const OrderModal = () => {
                   <Typography>
                     <LocationOnIcon
                       fontSize="small"
-                      color="secondary"
                       sx={{ verticalAlign: "middle" }}
                     />
                     {orderDetail.address.location}
