@@ -4,7 +4,6 @@ import { PRODUCT_ACTIONS } from "../../constants";
 import { removeAccents } from "../../utils";
 import { actions } from "./slice";
 import APIv2 from "../../service/db";
-import apiInstance from "../../utils/axios/axiosInstance";
 
 export function* fetchHotProducts() {
   yield put(actions.fetchHotProductsRequest());
@@ -48,7 +47,8 @@ export function* fetchAllProducts() {
 
 export function* getProduct(action) {
   try {
-    const result = yield call(apiInstance.get, `products/${action.payload}`);
+    const result = yield call(APIv2.get, "products", action.payload);
+
     yield put(actions.getProductSuccess(result));
   } catch (err) {
     yield put(actions.getProductFailed(err));

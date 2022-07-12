@@ -2,6 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 
 import { actions } from "./slice";
 import API from "../../service";
+import APIv2 from "../../service/db";
 import { CATEGORY_ACTIONS } from "../../constants";
 
 // export const fetchCategories = createAsyncThunk(
@@ -17,11 +18,12 @@ export function* fetchCategories() {
   yield put(actions.fetchCategoriesRequest());
 
   try {
-    let result = yield call(API.get, { path: "categories" });
-    if (!result) {
-      throw { msg: "Get categories fail" };
+    const result = yield call(APIv2.getAll, "categories");
+    if (!result || result.length <= 0) {
+      yield put(actions.fetchCategoriesFail());
+    } else {
+      yield put(actions.fetchCategoriesSuccess(result));
     }
-    yield put(actions.fetchCategoriesSuccess(result));
   } catch (e) {
     yield put(actions.fetchCategoriesFail());
   }
