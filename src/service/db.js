@@ -15,8 +15,7 @@ const db = getFirestore(app);
 
 const update = async (collectionName = "", data = null, id = "") => {
   try {
-    const result = await updateDoc(doc(db, collectionName, id), data);
-    console.log(result);
+    await updateDoc(doc(db, collectionName, id), data);
     return true;
   } catch (e) {
     console.log(e);
@@ -46,9 +45,9 @@ const set = async (collectionName = "", id = "", data = null) => {
 const add = async (collectionName = "", data = null) => {
   console.log(data);
   try {
-    const result = await addDoc(collection(db, collectionName), data);
-    console.log(result);
-    return result;
+    await addDoc(collection(db, collectionName), data);
+
+    return true;
   } catch (e) {
     console.log(e);
     return null;
@@ -58,9 +57,7 @@ const add = async (collectionName = "", data = null) => {
 const getAll = async (collectionName) => {
   try {
     const result = await getDocs(collection(db, collectionName));
-    result.forEach((doc) => {
-      console.log(doc.data());
-    });
+
     return result;
   } catch (e) {
     console.log(e);

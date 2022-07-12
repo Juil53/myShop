@@ -3,6 +3,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import localStorage from "../../service/localStorage";
 import { CART_ACTIONS } from "../../constants";
 import API from "../../service";
+import APIv2 from "../../service/db";
 import { actions } from "./slice";
 import { utils } from "../../utils";
 import { handleUpdateCart } from "./help";
@@ -17,7 +18,8 @@ export function* getCart() {
 
     if (token) {
       const uid = getUserId();
-      const kq = yield call(API.get, { path: `carts/cart${uid}` });
+      //const kq = yield call(API.get, { path: `carts/cart${uid}` });
+      const kq = yield call(APIv2.get, "carts", `cart${uid}`);
 
       if (kq) {
         const newCart = {
@@ -55,21 +57,24 @@ export function* getCart() {
           newCart.productList = [...productLocal];
           newCart.totalAmount = kq.totalAmount;
 
-          yield call(API.put, { path: `carts/${kq.id}`, query: kq });
+          console.log(kq);
+          //yield call(API.put, { path: `carts/${kq.id}`, query: kq });
+          yield call(APIv2.update, "carts", kq, `cart${uid}`);
           localStorage.set("cart", newCart);
         }
         yield put(actions.fetchCartSuccess(newCart));
       } else {
         const uid = getUserId();
+
         if (cart) {
           const newCart = {
-            id: `cart${uid}`,
             uid: uid,
             productList: cart.productList,
             totalAmount: cart.totalAmount,
           };
 
-          yield call(API.post, { path: "carts", query: newCart });
+          //yield call(API.post, { path: "carts", query: newCart });
+          yield call(APIv2.set, "carts", `cart${uid}`, newCart);
           yield put(actions.fetchCartSuccess(newCart));
         }
       }
@@ -96,13 +101,15 @@ export function* updateCart({ product }) {
 
     if (token) {
       const uid = getUserId();
-      const rs = yield call(API.get, { path: `carts/cart${uid}` });
+      //const rs = yield call(API.get, { path: `carts/cart${uid}` });
+      const rs = yield call(APIv2.get, "carts", `cart${uid}`);
       const newCart = handleUpdateCart(cart, { product });
 
       rs.totalAmount = newCart.totalAmount;
       rs.productList = newCart.productList;
 
-      yield call(API.put, { path: `carts/cart${uid}`, query: rs });
+      //      yield call(API.put, { path: `carts/cart${uid}`, query: rs });
+      yield call(APIv2.update, "carts", rs, `cart${uid}`);
     }
     yield put(actions.updateCart({ product }));
   } catch (e) {}
