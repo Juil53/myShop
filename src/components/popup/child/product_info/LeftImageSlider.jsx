@@ -6,14 +6,14 @@ const LeftImageSlider = (props) => {
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
 
-  const settings_mainSlider = {
+  const settingsMainSlider = {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     fade: true,
   };
 
-  const settings_subSlider = {
+  const settingsSubSlider = {
     slidesToShow: 2,
     slidesToScroll: 1,
     focusOnSelect: true,
@@ -50,7 +50,7 @@ const LeftImageSlider = (props) => {
 
     return (
       <Slider
-        {...settings_subSlider}
+        {...settingsSubSlider}
         asNavFor={mainSlider}
         ref={(slider2) => setSubSlider(slider2)}
       >
@@ -73,7 +73,7 @@ const LeftImageSlider = (props) => {
     if (typeof data === "string") {
       return (
         <Slider
-          {...settings_mainSlider}
+          {...settingsMainSlider}
           asNavFor={subSlider}
           ref={(slider1) => setMainSlider(slider1)}
         >
@@ -85,7 +85,7 @@ const LeftImageSlider = (props) => {
     }
     return (
       <Slider
-        {...settings_mainSlider}
+        {...settingsMainSlider}
         asNavFor={subSlider}
         ref={(slider1) => setMainSlider(slider1)}
       >

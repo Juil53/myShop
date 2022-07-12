@@ -5,7 +5,7 @@ import { utils } from "../../../../utils";
 import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import { actions as cartActions } from "../../../../store/cart/slice";
-import LeftImageSlider from "./child/LeftImageSlider";
+import LeftImageSlider from "./LeftImageSlider";
 import Quantity from "../../../user/quantity/Quantity";
 import {
   isAvailableOption,

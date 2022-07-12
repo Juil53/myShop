@@ -51,7 +51,7 @@
 
     .productinfopopup__info-name {
       font-size: 2.2rem;
-      max-width: 90%;
+      max-width: 95%;
     }
 
     .productinfopopup__info-name:hover {
@@ -151,8 +151,11 @@
 
     .productinfopopup__info-quantity {
       padding-top: 1.6rem;
-      justify-content: space-between;
       align-items: center;
+
+      .quantity-container {
+        margin: 0 1rem;
+      }
 
       .number-product {
         color: $grayColor-3;
@@ -165,7 +168,7 @@
     }
 
     .function-container {
-      margin: 3rem auto 0;
+      margin: 2rem auto 1rem;
       justify-content: flex-end;
       column-gap: 1rem;
     }
@@ -328,10 +331,9 @@
   .productinfopopup {
     flex-direction: column;
     align-items: center;
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 100vh;
-    max-height: 100vh;
+    max-width: 90%;
+    min-height: 90vh;
+    max-height: 90vh;
 
     .productinfopopup__left {
       padding: 1rem;

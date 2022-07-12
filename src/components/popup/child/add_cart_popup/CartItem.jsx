@@ -1,9 +1,9 @@
 import { useState } from "react";
-
-import { clone, utils } from "../../../../../utils";
 import { useDispatch } from "react-redux";
-import Quantity from "../../../../user/quantity/Quantity";
-import { actions as cartActions } from "../../../../../store/cart/slice";
+
+import { clone, utils } from "../../../../utils";
+import Quantity from "../../../user/quantity/Quantity";
+import { actions as cartActions } from "../../../../store/cart/slice";
 
 const CartItem = (props) => {
   const { data, actionDelete } = props;
