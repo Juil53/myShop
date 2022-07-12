@@ -6,7 +6,7 @@ import { actions as cartActions } from "../../../../store/cart/slice";
 import { clone, utils } from "../../../../utils";
 import { selectCart } from "../../../../store/cart/selectors";
 import { actions } from "../../../../store/page/slice";
-import CartItem from "./child/CartItem";
+import CartItem from "./CartItem";
 
 const AddCartPopup = (props) => {
   const { closePopup, data } = props;
