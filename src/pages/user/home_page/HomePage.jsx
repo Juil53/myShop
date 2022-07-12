@@ -30,9 +30,8 @@ export default function HomePage() {
   const { hotProducts, newProducts, bestSellingProducts } =
     useSelector(productSelector);
   const { categories } = useSelector(categoriesSelector);
-  //const userLogin = localStorage.get("user");
 
-  const banner_settings = {
+  const bannerSetting = {
     infinite: true,
     speed: 800,
     slidesToShow: 1,
@@ -68,7 +67,7 @@ export default function HomePage() {
         return data.map((v) => (
           <div className="slide" key={v}>
             <div className="img-container">
-              <img src={v} alt="" />
+              <img src={v.image} alt="" />
             </div>
           </div>
         ));
@@ -94,7 +93,7 @@ export default function HomePage() {
         <div className="home-page page" id="page">
           <ScrollToTop />
           <div className="home-page__slider">
-            <Slider {...banner_settings}>{createBanner(banners.data)}</Slider>
+            <Slider {...bannerSetting}>{createBanner(banners.data)}</Slider>
           </div>
           <div className="home-page__main row">
             <MainLeft

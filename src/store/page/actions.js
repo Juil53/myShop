@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
-import API from "../../service";
+import APIv2 from "../../service/db";
 import { actions } from "./slice";
 import { PAGE_ACTIONS } from "../../constants";
 
@@ -8,9 +8,10 @@ export function* fetchBanners() {
   yield put(actions.fetchBannersRequest());
 
   try {
-    let result = yield call(API.get, { path: "banners" });
-    if (!result) {
-      throw { msg: "Fail to load banner" };
+    const result = yield call(APIv2.getAll, "banners");
+
+    if (!result || result.length <= 0) {
+      yield put(actions.fetchBannersFail());
     }
     yield put(actions.fetchBannersSuccess(result));
   } catch (e) {
