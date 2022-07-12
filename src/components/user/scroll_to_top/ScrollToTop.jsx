@@ -1,7 +1,6 @@
 const ScrollToTop = () => {
   const calcScrollValue = () => {
     const scrollProgress = document.getElementById("progress");
-    const scrollProgressValue = document.getElementById("progress-value");
 
     let position = document.documentElement.scrollTop;
     let calcHeight =
@@ -10,13 +9,15 @@ const ScrollToTop = () => {
 
     let scrollValue = Math.round((position * 100) / calcHeight);
 
-    if (position > 100) {
-      scrollProgress.style.display = "grid";
-    } else {
-      scrollProgress.style.display = "none";
-    }
+    if (scrollProgress) {
+      if (position > 100) {
+        scrollProgress.style.display = "grid";
+      } else {
+        scrollProgress.style.display = "none";
+      }
 
-    scrollProgress.style.background = `conic-gradient(#2cced4 ${scrollValue}%, #d7d7d7 ${scrollValue}%)`;
+      scrollProgress.style.background = `conic-gradient(#2cced4 ${scrollValue}%, #d7d7d7 ${scrollValue}%)`;
+    }
   };
 
   const handleScrollToTop = () => {

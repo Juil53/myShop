@@ -43,7 +43,6 @@ const set = async (collectionName = "", id = "", data = null) => {
 };
 
 const add = async (collectionName = "", data = null) => {
-  console.log(data);
   try {
     await addDoc(collection(db, collectionName), data);
 
@@ -57,10 +56,12 @@ const add = async (collectionName = "", data = null) => {
 const getAll = async (collectionName) => {
   try {
     const result = await getDocs(collection(db, collectionName));
-
-    return result;
+    const data = [];
+    result.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() });
+    });
+    return data;
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
@@ -74,7 +75,6 @@ const get = async (collectionName = "", id = "") => {
       return null;
     }
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
