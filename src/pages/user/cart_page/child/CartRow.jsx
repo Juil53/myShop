@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import Quantity from "../../../../components/quantity/Quantity";
+import Quantity from "../../../../components/user/quantity/Quantity";
 import { CART_ACTIONS } from "../../../../constants";
 import { clone, utils } from "../../../../utils";
 

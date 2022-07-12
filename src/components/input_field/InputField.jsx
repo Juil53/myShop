@@ -5,12 +5,20 @@ import {
   checkEmailFormat,
   checkMinLength,
   checkName,
+  checkPassword,
   checkPhoneFormat,
 } from "../../validation/validateInputField";
 
-const InputField = (props) => {
-  const { id, title, currentValue, onChange, required, type, min } = props;
-
+const InputField = ({
+  id,
+  title,
+  currentValue,
+  onChange,
+  required,
+  type,
+  min,
+  needCheck,
+}) => {
   const [isShowPassword, setIsShowPassword] = useState("password");
   const [value, setValue] = useState(currentValue || "");
 
@@ -70,6 +78,16 @@ const InputField = (props) => {
 
           if (!kq) {
             setError(id, "Invalid email. Enter right one.");
+          }
+          return;
+        }
+
+        case "password": {
+          if (needCheck && !checkPassword(val)) {
+            setError(
+              id,
+              "Password must have at least 8 characters, 1 lower case and 1 digit."
+            );
           }
           return;
         }

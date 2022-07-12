@@ -43,7 +43,7 @@ function UserManagement() {
     <>
       {user?.data?.role === "Admin" && (
         <>
-          <Breadcrumb pages={pages} />
+          <Breadcrumb pages={pages}/>
 
           <Typography variant="h4" fontWeight={400}>
             User Management

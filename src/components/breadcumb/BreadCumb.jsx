@@ -17,7 +17,7 @@ export default function Breadcrumb({pages,color}) {
     <div role="presentation">
       <Breadcrumbs aria-label="breadcrumb">
         {handleBreadCumb(pages)}
-        <Link as={NavLink} underline="hover" sx={{color:"#051e34",fontSize:'2rem',fontWeight:500}} to={lastPage.url}>
+        <Link as={NavLink} underline="hover" sx={{color:{color},fontSize:'2rem',fontWeight:500}} to={lastPage.url}>
           {lastPage.name}
         </Link>
       </Breadcrumbs>

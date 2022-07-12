@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import InputField from "../../../../components/input_field/InputField";
-import Loading from "../../../../components/loading/Loading";
-import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
-import { actions } from "../../../../store/page/slice";
-import { uploadImage } from "../../../../utils/file";
+import InputField from "../../../components/input_field/InputField";
+import Loading from "../../../components/loading/Loading";
+import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
+import { actions } from "../../../store/page/slice";
+import { uploadImage } from "../../../utils/file";
 
 const UserInformation = (props) => {
   const { data, status } = props;

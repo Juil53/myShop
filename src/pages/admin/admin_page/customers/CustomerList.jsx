@@ -48,7 +48,7 @@ export default function CustomerList({ data }) {
   const [loading, setLoading] = useState(true);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 180 },
+    { field: "id", headerName: "ID", width: 100 },
     {
       field: "img",
       headerName: "Avatar",
@@ -61,10 +61,10 @@ export default function CustomerList({ data }) {
         );
       },
     },
-    { field: "displayName", headerName: "Full Name", width: 200 },
-    { field: "email", headerName: "Email", width: 350 },
+    { field: "displayName", headerName: "Full Name", width: 280 },
+    { field: "email", headerName: "Email", width: 250 },
     { field: "phoneNumber", headerName: "Phone Number", width: 150 },
-    { field: "address", headerName: "Address", width: 280 },
+    { field: "address", headerName: "Address", width: 250 },
     {
       field: "rank",
       headerName: "Rank",
