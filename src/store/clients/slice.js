@@ -124,6 +124,35 @@ const clientSlice = createSlice({
           break;
       }
     },
+
+    updatePasswordRequest: (state) => {
+      state.updateStatus = LOADING_STATUS.LOADING;
+      state.data.status = LOADING_STATUS.UPDATING;
+    },
+
+    updatePasswordSuccess: (state) => {
+      state.updateStatus = LOADING_STATUS.SUCCESS;
+      state.data.status = LOADING_STATUS.SUCCESS;
+    },
+
+    updatePasswordFail: (state, action) => {
+      state.updateStatus = LOADING_STATUS.FAIL;
+      state.data.status = LOADING_STATUS.SUCCESS;
+
+      switch (action.payload) {
+        case "auth/wrong-password":
+          state.updateMsg = "Wrong password. Please try again";
+          break;
+
+        case "auth/network-request-failed":
+          state.updateMsg = "Connection error. Please try again";
+          break;
+
+        default:
+          state.updateMsg = "Something went wrong. Please try again";
+          break;
+      }
+    },
   },
 });
 

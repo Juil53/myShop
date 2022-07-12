@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../../../components/user/product_card/ProductCard";
-import { PRODUCT_ACTIONS } from "../../../constants";
+import { actions as productActions } from "../../../store/products/slice";
 import { selectProduct } from "../../../store/products/selector";
 
 const RelatedProducts = ({ product }) => {
@@ -9,7 +9,7 @@ const RelatedProducts = ({ product }) => {
   const productList = useSelector(selectProduct);
 
   useEffect(() => {
-    dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
+    dispatch(productActions.fetchAllProductsRequest());
   }, []);
 
   const handleRelatedProducts = () => {

@@ -5,6 +5,7 @@ import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { clientSelector } from "../../../../store/clients/selector";
 import InputField from "../../../../components/input_field/InputField";
 import { actions } from "../../../../store/page/slice";
+import { clientActions } from "../../../../store/clients/slice";
 
 import { checkEmailFormat } from "../../../../validation/validateInputField";
 
@@ -41,11 +42,9 @@ const SigninForm = () => {
       if (!checkEmailFormat(email)) {
         errorMsg.textContent = "Invalid email";
       } else {
-        dispatch({
-          type: USER_ACTIONS.SIGNIN_USER,
-          email: email,
-          password: password,
-        });
+        dispatch(
+          clientActions.signinRequest({ email: email, password: password })
+        );
       }
     }
   };

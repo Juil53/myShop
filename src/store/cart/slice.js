@@ -1,9 +1,7 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { clone } from "../../utils";
 import { LOADING_STATUS } from "../../constants";
 import { handleAddCart, handleUpdateCart } from "./help";
-import localStorage from "../../service/localStorage";
 
 const initialState = {
   status: LOADING_STATUS.IDLE,

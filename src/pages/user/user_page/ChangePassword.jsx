@@ -8,6 +8,7 @@ import {
   checkPassword,
 } from "../../../validation/validateInputField";
 import { actions } from "../../../store/page/slice";
+import { clientActions } from "../../../store/clients/slice";
 import { clientSelector } from "../../../store/clients/selector";
 import localStorage from "../../../service/localStorage";
 
@@ -61,11 +62,12 @@ const ChangePassword = () => {
         document.getElementById("user-error_msg").textContent =
           "Password not match. Try again";
       } else {
-        dispatch({
-          type: USER_ACTIONS.UPDATE_USER_PASSWORD,
-          currentPass: currentPass,
-          newPass: newPass,
-        });
+        dispatch(
+          clientActions.updatePasswordRequest({
+            currentPass: currentPass,
+            newPass: newPass,
+          })
+        );
       }
     }
   };

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { USER_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
 import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
+import { clientActions } from "../../../../store/clients/slice";
 import {
   checkEmailFormat,
   checkPhoneFormat,
@@ -61,12 +62,13 @@ const SignupForm = () => {
           email,
         };
 
-        dispatch({
-          type: USER_ACTIONS.SIGNUP_USER,
-          password: password,
-          email: email,
-          user: user,
-        });
+        dispatch(
+          clientActions.signupRequest({
+            password: password,
+            email: email,
+            user: user,
+          })
+        );
       }
     }
   };

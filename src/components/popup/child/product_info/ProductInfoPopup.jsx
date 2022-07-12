@@ -2,8 +2,9 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 import { utils } from "../../../../utils";
-import { CART_ACTIONS, POPUP } from "../../../../constants";
+import { POPUP } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
+import { actions as cartActions } from "../../../../store/cart/slice";
 import LeftImageSlider from "./child/LeftImageSlider";
 import Quantity from "../../../user/quantity/Quantity";
 import {
@@ -130,10 +131,7 @@ export default function ProductInfoPopup(props) {
       product.optionSelected = { ...currentOption };
     }
 
-    dispatch({
-      type: CART_ACTIONS.ADD_CART,
-      product: product,
-    });
+    dispatch(cartActions.fetchAddCart({ product: product }));
 
     dispatch(
       actions.activePopup({
