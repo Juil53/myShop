@@ -1,7 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import localStorage from "../../service/localStorage";
-import { CART_ACTIONS } from "../../constants";
 import APIv2 from "../../service/db";
 import { actions } from "./slice";
 import { utils } from "../../utils";
@@ -9,8 +8,6 @@ import { handleUpdateCart } from "./help";
 import { getUserId } from "../../utils/auth";
 
 export function* getCart() {
-  yield put(actions.fetchCartRequest());
-
   try {
     const cart = localStorage.get("cart");
     const token = localStorage.get("token");
@@ -87,8 +84,8 @@ export function* addCart({ product }) {
   } catch (err) {}
 }
 
-export function* updateCart({ product }) {
-  yield put(actions.updateCartRequest());
+export function* updateCart(action) {
+  const product = action.payload.product;
 
   try {
     const token = localStorage.get("token");
@@ -109,7 +106,7 @@ export function* updateCart({ product }) {
 }
 
 export default function* root() {
-  yield takeEvery(CART_ACTIONS.GET_CART, getCart);
-  yield takeEvery(CART_ACTIONS.ADD_CART, addCart);
-  yield takeEvery(CART_ACTIONS.UPDATE_CART, updateCart);
+  yield takeEvery("cart/fetchCartRequest", getCart);
+  yield takeEvery("cart/fetchAddCart", addCart);
+  yield takeEvery("cart/updateCartRequest", updateCart);
 }

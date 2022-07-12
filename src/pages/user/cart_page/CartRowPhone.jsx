@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import Quantity from "../../../../components/user/quantity/Quantity";
-import { CART_ACTIONS } from "../../../../constants";
-import { clone, utils } from "../../../../utils";
+import Quantity from "../../../components/user/quantity/Quantity";
+import { clone, utils } from "../../../utils";
+import { actions as cartActions } from "../../../store/cart/slice";
 
 const CartRowPhone = (props) => {
   const { data, actionDelete } = props;
@@ -15,10 +15,7 @@ const CartRowPhone = (props) => {
     newProduct.quantity = number;
 
     if (number !== 0) {
-      dispatch({
-        type: CART_ACTIONS.UPDATE_CART,
-        product: newProduct,
-      });
+      dispatch(cartActions.updateCartRequest({ product: newProduct }));
     } else {
       actionDelete();
     }

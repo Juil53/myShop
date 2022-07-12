@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
-import { LOADING_STATUS, PRODUCT_ACTIONS } from "../../../constants";
+import { LOADING_STATUS } from "../../../constants";
 import {
   categoriesSelector,
   selectLoading,
@@ -15,6 +15,7 @@ import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import Loading from "../../../components/loading/Loading";
 import ProductCard from "../../../components/user/product_card/ProductCard";
 import MainLeft from "../home_page/child/MainLeft";
+import { actions as productActions } from "../../../store/products/slice";
 
 const SearchProduct = () => {
   const dispatch = useDispatch();
@@ -50,8 +51,8 @@ const SearchProduct = () => {
       status === LOADING_STATUS.IDLE ||
       newProducts.status === LOADING_STATUS.IDLE
     ) {
-      dispatch({ type: PRODUCT_ACTIONS.GET_ALL_PRODUCTS });
-      dispatch({ type: PRODUCT_ACTIONS.GET_NEW_PRODUCTS });
+      dispatch(productActions.fetchAllProductsRequest());
+      dispatch(productActions.fetchNewProductsRequest());
     }
   }, []);
 
@@ -73,7 +74,7 @@ const SearchProduct = () => {
       ) : (
         <>
           <div className="breadcumb">
-            <Breadcrumb pages={array} color={"#35c0c5"}/>
+            <Breadcrumb pages={array} color={"#35c0c5"} />
           </div>
           <div className="home-page__main row">
             <MainLeft

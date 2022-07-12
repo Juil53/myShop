@@ -1,13 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
-import { PRODUCT_ACTIONS } from "../../constants";
 import { removeAccents } from "../../utils";
 import { actions } from "./slice";
 import APIv2 from "../../service/db";
 
 export function* fetchHotProducts() {
-  yield put(actions.fetchHotProductsRequest());
-
   try {
     const result = yield call(APIv2.getAll, "products");
 
@@ -30,8 +27,6 @@ export function* fetchHotProducts() {
 }
 
 export function* fetchAllProducts() {
-  yield put(actions.fetchAllProductsRequest());
-
   try {
     const data = yield call(APIv2.getAll, "products");
 
@@ -56,8 +51,6 @@ export function* getProduct(action) {
 }
 
 export function* fetchNewProducts() {
-  yield put(actions.fetchNewProductsRequest());
-
   try {
     const result = yield call(APIv2.getAll, "products");
 
@@ -80,8 +73,6 @@ export function* fetchNewProducts() {
 }
 
 export function* fetchBestSellProducts() {
-  yield put(actions.fetchBestSellingRequest());
-
   try {
     const result = yield call(APIv2.getAll, "products");
 
@@ -98,8 +89,6 @@ export function* fetchBestSellProducts() {
 }
 
 export function* searchProduct({ name }) {
-  yield put(actions.searchProductRequest());
-
   try {
     const result = yield call(APIv2.getAll, "products");
 
@@ -121,13 +110,10 @@ export function* searchProduct({ name }) {
 }
 
 export default function* root() {
-  yield takeEvery(PRODUCT_ACTIONS.SEARCH_PRODUCT, searchProduct);
-  yield takeEvery(PRODUCT_ACTIONS.GET_HOT_PRODUCTS, fetchHotProducts);
-  yield takeEvery(PRODUCT_ACTIONS.GET_ALL_PRODUCTS, fetchAllProducts);
-  yield takeEvery(PRODUCT_ACTIONS.GET_NEW_PRODUCTS, fetchNewProducts);
-  yield takeEvery(
-    PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS,
-    fetchBestSellProducts
-  );
+  yield takeEvery("product/searchProductRequest", searchProduct);
+  yield takeEvery("product/fetchHotProductsRequest", fetchHotProducts);
+  yield takeEvery("product/fetchAllProductsRequest", fetchAllProducts);
+  yield takeEvery("product/fetchNewProductsRequest", fetchNewProducts);
+  yield takeEvery("product/fetchBestSellingRequest", fetchBestSellProducts);
   yield takeEvery("product/getProductRequest", getProduct);
 }

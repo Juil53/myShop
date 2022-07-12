@@ -5,6 +5,7 @@ import InputField from "../../../components/input_field/InputField";
 import Loading from "../../../components/loading/Loading";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
 import { actions } from "../../../store/page/slice";
+import { clientActions } from "../../../store/clients/slice";
 import { uploadImage } from "../../../utils/file";
 
 const UserInformation = (props) => {
@@ -54,11 +55,7 @@ const UserInformation = (props) => {
         }
       }
 
-      dispatch({
-        type: USER_ACTIONS.UPDATE_USER_INFO,
-        uid: data.id,
-        data: newInfo,
-      });
+      dispatch(clientActions.updateRequest({ uid: data.id, data: newInfo }));
     } else {
       error.textContent = "Fill all information required";
     }

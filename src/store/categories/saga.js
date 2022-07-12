@@ -1,7 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import { actions } from "./slice";
-import API from "../../service";
 import APIv2 from "../../service/db";
 import { CATEGORY_ACTIONS } from "../../constants";
 
@@ -15,8 +14,6 @@ import { CATEGORY_ACTIONS } from "../../constants";
 // );
 
 export function* fetchCategories() {
-  yield put(actions.fetchCategoriesRequest());
-
   try {
     const result = yield call(APIv2.getAll, "categories");
     if (!result || result.length <= 0) {
@@ -38,7 +35,7 @@ export function* actGetSelectedSubCategory(action) {
 }
 
 export default function* root() {
-  yield takeEvery(CATEGORY_ACTIONS.GET_ALL_CATEGORIES, fetchCategories);
+  yield takeEvery("categories/fetchCategoriesRequest", fetchCategories);
   yield takeEvery(
     CATEGORY_ACTIONS.GET_SELECTED_CATEGORY,
     actGetSelectedCategory

@@ -19,6 +19,7 @@ import InputField from "../../../input_field/InputField";
 import { getRegions, getDistricts, getWards } from "./api";
 import { randomIntFromInterval } from "../../../../utils";
 import localStorage from "../../../../service/localStorage";
+import { clientActions } from "../../../../store/clients/slice";
 
 const AddressPopup = (props) => {
   const {
@@ -208,11 +209,7 @@ const AddressPopup = (props) => {
         }
         newData.addressList.push(newAddress);
 
-        dispatch({
-          type: USER_ACTIONS.UPDATE_USER_INFO,
-          data: newData,
-          uid: data.id,
-        });
+        dispatch(clientActions.updateRequest({ data: newData, uid: data.id }));
       }
     }
 
@@ -287,11 +284,9 @@ const AddressPopup = (props) => {
           newData.addressList[index] = { ...newAddress };
 
           //call update info saga
-          dispatch({
-            type: USER_ACTIONS.UPDATE_USER_INFO,
-            data: newData,
-            uid: data.id,
-          });
+          dispatch(
+            clientActions.updateRequest({ data: newData, uid: data.id })
+          );
         } else {
           error.textContent =
             "Something went wrong. Please press cancel and try again";

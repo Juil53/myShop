@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CART_ACTIONS, LOADING_STATUS, POPUP } from "../../../../constants";
+import { LOADING_STATUS, POPUP } from "../../../../constants";
+import { actions as cartActions } from "../../../../store/cart/slice";
 
 import { clone, utils } from "../../../../utils";
 import { selectCart } from "../../../../store/cart/selectors";
@@ -15,7 +16,7 @@ const AddCartPopup = (props) => {
 
   useEffect(() => {
     if (cart.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: CART_ACTIONS.GET_CART });
+      dispatch(cartActions.fetchCartRequest());
     } else {
       if (productList.length === 0) {
         closePopup();

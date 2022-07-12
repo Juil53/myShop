@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  CATEGORY_ACTIONS,
-  LOADING_STATUS,
-  CART_ACTIONS,
-  USER_ACTIONS,
-} from "../../../constants";
+import { LOADING_STATUS, USER_ACTIONS } from "../../../constants";
 import { categoriesSelector } from "../../../store/categories/selector";
 import { selectCart } from "../../../store/cart/selectors";
+import { actions as categoryActions } from "../../../store/categories/slice";
+import { actions as cartActions } from "../../../store/cart/slice";
 
 import HeaderNav from "./child/HeaderNav";
 import CartButton from "./child/CartButton";
@@ -32,10 +29,10 @@ export default function Header() {
 
   useEffect(() => {
     if (categories.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: CATEGORY_ACTIONS.GET_ALL_CATEGORIES });
+      dispatch(categoryActions.fetchCategoriesRequest());
     }
     if (cart.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: CART_ACTIONS.GET_CART });
+      dispatch(cartActions.fetchCartRequest());
     }
     if (token && client.status === LOADING_STATUS.IDLE) {
       dispatch({ type: USER_ACTIONS.GET_USER_INFO });

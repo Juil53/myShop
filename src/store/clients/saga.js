@@ -13,9 +13,8 @@ import {
 import { USER_ACTIONS } from "../../constants";
 import { getUserId } from "../../utils/auth";
 
-export function* signinWithEmailAndPassword({ password, email }) {
-  yield put(clientActions.signinRequest());
-
+export function* signinWithEmailAndPassword({ payload }) {
+  const { email, password } = payload;
   const rs = yield call(signinAuth, email, password);
 
   if (rs && !rs.code) {
@@ -92,9 +91,8 @@ export function* signinWithFacebook() {
   }
 }
 
-export function* signupUser({ email, password, user }) {
-  yield put(clientActions.signupRequest());
-
+export function* signupUser({ payload }) {
+  const { email, password, user } = payload;
   const rs = yield call(signup, email, password);
 
   if (rs && !rs.code) {
@@ -138,9 +136,8 @@ export function* getUserInfo() {
   } catch (e) {}
 }
 
-export function* updateInfo({ data, uid }) {
-  yield put(clientActions.updateRequest());
-
+export function* updateInfo({ payload }) {
+  const { data, uid } = payload || {};
   if (data && uid) {
     try {
       const rs = yield call(APIv2.update, "customers", data, uid);
@@ -157,27 +154,29 @@ export function* updateInfo({ data, uid }) {
   }
 }
 
-export function* updatePassword({ currentPass, newPass }) {
-  yield put(clientActions.updateRequest());
+export function* updatePassword({ payload }) {
+  const { currentPass, newPass } = payload || {};
 
   try {
     const rs = yield call(updatePasswordAuth, currentPass, newPass);
 
     if (rs && rs.code) {
-      yield put(clientActions.updateFail(rs.code));
+      yield put(clientActions.updatePasswordFail(rs.code));
     } else {
-      yield put(clientActions.updateSuccess());
+      yield put(clientActions.updatePasswordSuccess());
     }
-  } catch (e) {}
+  } catch (e) {
+    yield put(clientActions.updatePasswordFail());
+  }
 }
 
 export default function* clientSaga() {
-  yield takeEvery(USER_ACTIONS.SIGNIN_USER, signinWithEmailAndPassword);
+  yield takeEvery("clients/signinRequest", signinWithEmailAndPassword);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_GOOGLE, signinWithGoogle);
-  yield takeEvery(USER_ACTIONS.SIGNUP_USER, signupUser);
+  yield takeEvery("clients/signupRequest", signupUser);
   yield takeEvery(USER_ACTIONS.SIGNOUT_USER, signout);
   yield takeEvery(USER_ACTIONS.GET_USER_INFO, getUserInfo);
-  yield takeEvery(USER_ACTIONS.UPDATE_USER_INFO, updateInfo);
-  yield takeEvery(USER_ACTIONS.UPDATE_USER_PASSWORD, updatePassword);
+  yield takeEvery("clients/updateRequest", updateInfo);
+  yield takeEvery("clients/updatePasswordRequest", updatePassword);
 }

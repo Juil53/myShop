@@ -10,7 +10,7 @@ import {
   selectUnavailableOption,
 } from "../../../components/popup/child/product_info/helper";
 import Quantity from "../../../components/user/quantity/Quantity";
-import { CART_ACTIONS, POPUP } from "../../../constants";
+import { POPUP } from "../../../constants";
 import { actions } from "../../../store/page/slice";
 import {
   productLoading,
@@ -19,6 +19,7 @@ import {
 import { actions as productActions } from "../../../store/products/slice";
 import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
+import { actions as cartActions } from "../../../store/cart/slice";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -240,10 +241,7 @@ const ProductDetail = () => {
       product.optionSelected = { ...currentOption };
     }
 
-    dispatch({
-      type: CART_ACTIONS.ADD_CART,
-      product: product,
-    });
+    dispatch(cartActions.fetchAddCart({ product: product }));
 
     dispatch(
       actions.activePopup({

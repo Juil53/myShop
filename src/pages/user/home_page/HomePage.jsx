@@ -2,17 +2,14 @@ import React, { useEffect } from "react";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  CATEGORY_ACTIONS,
-  LOADING_STATUS,
-  PAGE_ACTIONS,
-  PRODUCT_ACTIONS,
-  USER_ACTIONS,
-} from "../../../constants";
+import { LOADING_STATUS } from "../../../constants";
 
 import { pageSelector } from "../../../store/page/selector";
 import { productSelector } from "../../../store/products/selector";
 import { categoriesSelector } from "../../../store/categories/selector";
+import { actions as productActions } from "../../../store/products/slice";
+import { actions as categoryActions } from "../../../store/categories/slice";
+import { actions as pageActions } from "../../../store/page/slice";
 
 import ProductSection from "../../../components/user/product_section/ProductSection";
 import NextButton from "../../../components/user/product_section/child/NextButton";
@@ -45,19 +42,19 @@ export default function HomePage() {
 
   useEffect(() => {
     if (banners.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: PAGE_ACTIONS.GET_BANNERS });
+      dispatch(pageActions.fetchBannersRequest());
     }
     if (hotProducts.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: PRODUCT_ACTIONS.GET_HOT_PRODUCTS });
+      dispatch(productActions.fetchHotProductsRequest());
     }
     if (newProducts.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: PRODUCT_ACTIONS.GET_NEW_PRODUCTS });
+      dispatch(productActions.fetchNewProductsRequest());
     }
     if (categories.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: CATEGORY_ACTIONS.GET_ALL_CATEGORIES });
+      dispatch(categoryActions.fetchCategoriesRequest());
     }
     if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
-      dispatch({ type: PRODUCT_ACTIONS.GET_BEST_SELLING_PRODUCTS });
+      dispatch(productActions.fetchBestSellingRequest());
     }
   }, []);
 

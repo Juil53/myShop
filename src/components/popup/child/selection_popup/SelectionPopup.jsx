@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CART_ACTIONS, USER_ACTIONS } from "../../../../constants";
+import { USER_ACTIONS } from "../../../../constants";
 import { navigate } from "../../../../utils/routing";
+import { actions as cartActions } from "../../../../store/cart/slice";
+import { clientActions } from "../../../../store/clients/slice";
 
 const SelectionPopup = (props) => {
   const { closePopup, data } = props;
@@ -11,7 +13,7 @@ const SelectionPopup = (props) => {
 
   const confirmActions = {
     "delete cart": (detail) => {
-      dispatch({ type: CART_ACTIONS.UPDATE_CART, product: detail.product });
+      dispatch(cartActions.updateCartRequest({ product: detail.product }));
       closePopup();
     },
     "sign in": () => {
@@ -19,11 +21,10 @@ const SelectionPopup = (props) => {
       closePopup();
     },
     "delete address": (detail) => {
-      dispatch({
-        type: USER_ACTIONS.UPDATE_USER_INFO,
-        data: detail.address,
-        uid: detail.uid,
-      });
+      dispatch(
+        clientActions.updateRequest({ data: detail.address, uid: detail.uid })
+      );
+
       closePopup();
     },
   };
