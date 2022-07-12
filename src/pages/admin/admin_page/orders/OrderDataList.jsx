@@ -36,7 +36,7 @@ const style = {
   cellStatus: {
     width: "100%",
     textAlign: "center",
-    "&.Successed": {
+    "&.Successful": {
       backgroundColor: "rgba(0, 128, 0, 0.2)",
       color: "green",
     },
