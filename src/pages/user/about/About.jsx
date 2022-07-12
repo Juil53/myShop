@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-import { Box } from '@mui/material';
-import React from 'react';
-
-
-const style ={
-  container :{
-    height:'60vh'
-  }
-}
-
-const About = () => {
-  return (
-    <Box sx={style.container}>
-      About
-    </Box>
-  )
-=======
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
@@ -255,7 +237,6 @@ const About = () => {
       </Grid>
     </Box>
   );
->>>>>>> 8040eb8b4487dbbc436a6102ca87f507661f33f2
 };
 
 export default About;

@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-const Map = () => {
-  return (
-    <div>
-      Map
-    </div>
-  )
-=======
 import { Box, Typography } from "@mui/material";
 import BreadCumb from "../../../components/breadcumb/BreadCumb";
 import React from "react";
@@ -39,7 +29,6 @@ const Map = () => {
       ></iframe>
     </Box>
   );
->>>>>>> 8040eb8b4487dbbc436a6102ca87f507661f33f2
 };
 
 export default Map;

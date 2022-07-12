@@ -23,13 +23,8 @@ function UserRoutes() {
         <Route path="sign" element={<SigninSignup />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="payment" element={<Payment />} />
-<<<<<<< HEAD
-        <Route path="about" element={<About />} />
-        <Route path="map" element={<Map />} />
-=======
         <Route path="map" element={<Map />} />
         <Route path="about" element={<About />} />
->>>>>>> 8040eb8b4487dbbc436a6102ca87f507661f33f2
         <Route path="user/*" element={<UserPage />} />
       </Route>
     </Routes>
