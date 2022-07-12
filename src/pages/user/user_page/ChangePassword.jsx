@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import InputField from "../../../components/input_field/InputField";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
-import { checkMinLength } from "../../../validation/validateInputField";
+import {
+  checkMinLength,
+  checkPassword,
+} from "../../../validation/validateInputField";
 import { actions } from "../../../store/page/slice";
 import { clientSelector } from "../../../store/clients/selector";
 import localStorage from "../../../service/localStorage";
@@ -51,8 +54,8 @@ const ChangePassword = () => {
       currentPass &&
       newPass &&
       retypePass &&
-      checkMinLength(newPass, 6) &&
-      checkMinLength(retypePass, 6)
+      checkPassword(newPass) &&
+      checkPassword(retypePass)
     ) {
       if (retypePass !== newPass) {
         document.getElementById("user-error_msg").textContent =
@@ -86,7 +89,7 @@ const ChangePassword = () => {
               title="New password"
               id="user-new_pass"
               onChange={setNewPass}
-              min="6"
+              needCheck
             />
             <InputField
               type="password"
@@ -94,7 +97,7 @@ const ChangePassword = () => {
               title="Retype password"
               id="user-retype_pass"
               onChange={setRetypePass}
-              min="6"
+              needCheck
             />
             <div className="error_msg" id="user-error_msg"></div>
             <button

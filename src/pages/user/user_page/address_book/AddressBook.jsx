@@ -104,23 +104,15 @@ const AddressBook = (props) => {
   };
 
   return (
-    <>
-      {status === LOADING_STATUS.SUCCESS ? (
-        <div className="address_management-container">
-          <div className="title">Address management</div>
-          <div className="add_address">
-            <button className="button-style" onClick={handleAddNewAddress}>
-              Add address
-            </button>
-          </div>
-          <div className="address_list">
-            {createAddressItem(data.addressList)}
-          </div>
-        </div>
-      ) : (
-        <Loading />
-      )}
-    </>
+    <div className="address_management-container">
+      <div className="title">Address management</div>
+      <div className="add_address">
+        <button className="button-style" onClick={handleAddNewAddress}>
+          Add address
+        </button>
+      </div>
+      <div className="address_list">{createAddressItem(data.addressList)}</div>
+    </div>
   );
 };
 

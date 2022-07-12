@@ -62,65 +62,65 @@ const UserPage = () => {
         <BreadCumb pages={array} />
       </div>
       {token ? (
-        client.status === LOADING_STATUS.LOADING ? (
-          <Loading />
-        ) : (
-          <div className="user_page-content row">
-            <div className="user_page-content-left">
-              <div className="title row">
-                <div className="img">
-                  <img src={client?.info?.image} alt="" />
-                </div>
-                <div className="name">
-                  Welcome back <br />
-                  <span className="bottom">{client?.info?.displayName}</span>
-                </div>
+        <div className="user_page-content row">
+          <div className="user_page-content-left">
+            <div className="title row">
+              <div className="img">
+                <img src={client?.info?.image} alt="" />
               </div>
-              <div className="navigation">
-                <div
-                  className={
-                    "content-btn " +
-                    (pathname === "/user/information" ? "active" : "")
-                  }
-                >
-                  <Link to="/user/information">Account information</Link>
-                </div>
-                <div
-                  className={
-                    "content-btn " +
-                    (pathname === "/user/orders" ? "active" : "")
-                  }
-                >
-                  <Link to="/user/orders">Orders</Link>
-                </div>
-                {!providerID && (
-                  <div
-                    className={
-                      "content-btn " +
-                      (pathname === "/user/password" ? "active" : "")
-                    }
-                  >
-                    <Link to="/user/password">Change password</Link>
-                  </div>
-                )}
-                <div
-                  className={
-                    "content-btn " +
-                    (pathname === "/user/address" ? "active" : "")
-                  }
-                >
-                  <Link to="/user/address">Address book</Link>
-                </div>
-                <div className="content-btn" onClick={handleSignout}>
-                  Sign out
-                </div>
+              <div className="name">
+                Welcome back <br />
+                <span className="bottom">{client?.info?.displayName}</span>
               </div>
             </div>
-            <div className="user_page-content-right">
-              {createContentRight(client)}
+            <div className="navigation">
+              <div
+                className={
+                  "content-btn " +
+                  (pathname === "/user/information" ? "active" : "")
+                }
+              >
+                <Link to="/user/information">Account information</Link>
+              </div>
+              <div
+                className={
+                  "content-btn " + (pathname === "/user/orders" ? "active" : "")
+                }
+              >
+                <Link to="/user/orders">Orders</Link>
+              </div>
+              {!providerID && (
+                <div
+                  className={
+                    "content-btn " +
+                    (pathname === "/user/password" ? "active" : "")
+                  }
+                >
+                  <Link to="/user/password">Change password</Link>
+                </div>
+              )}
+              <div
+                className={
+                  "content-btn " +
+                  (pathname === "/user/address" ? "active" : "")
+                }
+              >
+                <Link to="/user/address">Address book</Link>
+              </div>
+              <div className="content-btn" onClick={handleSignout}>
+                Sign out
+              </div>
             </div>
           </div>
-        )
+          <div className="user_page-content-right">
+            {client.status === LOADING_STATUS.LOADING ||
+            client.status === LOADING_STATUS.IDLE ? (
+              <Loading />
+            ) : (
+              createContentRight(client)
+            )}
+          </div>
+        </div>
       ) : (
         <div className="user_page-content not_signin">
           You are not signed in

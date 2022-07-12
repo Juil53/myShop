@@ -1,6 +1,5 @@
 import { call, takeEvery, put } from "redux-saga/effects";
 
-import API from "../../service";
 import APIv2 from "../../service/db";
 import { clientActions } from "./slice";
 import {
@@ -144,10 +143,11 @@ export function* updateInfo({ data, uid }) {
 
   if (data && uid) {
     try {
-      const rs = yield call(API.patch, { path: `clients/${uid}`, query: data });
+      const rs = yield call(APIv2.update, "customers", data, uid);
 
       if (rs) {
-        yield put(clientActions.updateSuccess(rs));
+        const newData = yield call(APIv2.get, "customers", uid);
+        yield put(clientActions.updateSuccess(newData));
       }
     } catch (e) {
       yield put(clientActions.updateFail());
