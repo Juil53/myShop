@@ -1,4 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
+
 import { ROWS_PER_PAGE } from "../../constants";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
@@ -17,6 +18,7 @@ import {
 } from "./usersSlice";
 import { signinAuth, signup, signoutAuth } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
+import APIv2 from "../../service/db";
 
 //GET USER DATA
 export function* actGetUser() {
@@ -52,8 +54,8 @@ export function* actAddUser(action) {
     const rs = yield call(signup, email, password);
 
     if (rs && !rs.code) {
-      values.id = rs.id;
-      const result = yield call(apiInstance.post, "users", values);
+      //const result = yield call(apiInstance.post, "users", values);
+      const result = yield call(APIv2.set("users", rs.id, values));
       yield put(submitUserSuccess(result));
     }
   } catch (err) {
@@ -93,8 +95,7 @@ export function* signinAdmin({ password, email }) {
   const rs = yield call(signinAuth, email, password);
 
   if (!rs.code) {
-    const users = yield call(apiInstance.get, "users");
-    const user = users.find((u) => u.id === rs.id) || {};
+    const user = yield call(APIv2.get, "users", rs.id);
 
     const data = {
       token: rs.accessToken,
