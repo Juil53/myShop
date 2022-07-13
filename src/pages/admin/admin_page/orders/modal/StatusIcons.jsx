@@ -5,11 +5,11 @@ import ErrorIcon from "@mui/icons-material/Error";
 //STATUS ICON
 const StatusIcons = ({ status }) => {
   switch (status) {
-    case "Successed":
+    case "Successful":
       return (
         <>
           <DoneIcon fontSize="small" sx={{ verticalAlign: "middle", marginRight: 1 }} />
-          <span>Success</span>
+          <span>Successful</span>
         </>
       );
 

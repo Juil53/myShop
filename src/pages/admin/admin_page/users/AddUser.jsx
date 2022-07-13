@@ -1,13 +1,17 @@
 import { Box, Button, Grid, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectLoading } from "../../../../store/users/selector";
-import { submitUserRequest } from "../../../../store/users/usersSlice";
-import { validation } from "../../../../validation/Validation";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
+import { authInstance, db, storage } from "../../../../service/auth";
+import { selectLoading } from "../../../../store/users/selector";
+import { validation } from "../../../../validation/Validation";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 // SELECT ROLE
 
@@ -42,7 +46,7 @@ const style = {
     marginRight: 2,
     padding: 3,
   },
-  img: { borderRadius: "50%", marginBottom: "1rem", width: "100%", height: "250px" },
+  img: { borderRadius: "50%", marginBottom: "5rem", width: "50%", height: "150px" },
   userForm: {
     width: "75%",
     padding: 3,
@@ -68,7 +72,9 @@ export default function AddUser(props) {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const [role, setRole] = useState("");
+  const [img, setImg] = useState({});
   const [file, setFile] = useState("");
+  const [per, setPer] = useState(null);
   const [show, setShow] = useState(false);
 
   const formik = useFormik({
@@ -86,13 +92,54 @@ export default function AddUser(props) {
       role: role,
     },
     validationSchema: validation,
-    onSubmit: (values, { resetForm, setSubmitting }) => {
-      dispatch(submitUserRequest({ values }));
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      const res = await createUserWithEmailAndPassword(authInstance, values.email, values.password);
+      await setDoc(doc(db, "users", res.user.uid), {
+        ...values,
+        avatar: img.image,
+        timeStamp: serverTimestamp(),
+      });
       setShow(true);
       setSubmitting(false);
       resetForm();
     },
   });
+
+  useEffect(() => {
+    const uploadFile = () => {
+      const storageRef = ref(storage, `users/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPer(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImg((prev) => ({ ...prev, image: downloadURL }));
+          });
+        }
+      );
+    };
+
+    file && uploadFile();
+  }, [file]);
 
   return (
     <div>
@@ -107,9 +154,30 @@ export default function AddUser(props) {
             alt="avatar"
             style={style.img}
           />
-          <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+
+          <label htmlFor="icon-button-file">
+            <input
+              id="icon-button-file"
+              type="file"
+              style={{ display: "none" }}
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <Button
+              aria-label="upload picture"
+              component="span"
+              variant="outlined"
+              startIcon={<UploadFileIcon />}
+            >
+              Upload image
+            </Button>
+          </label>
         </Box>
-        <Box className="user__form" sx={style.userForm} component="form" onSubmit={formik.handleSubmit}>
+        <Box
+          className="user__form"
+          sx={style.userForm}
+          component="form"
+          onSubmit={formik.handleSubmit}
+        >
           <div className="admin__form">
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -144,7 +212,7 @@ export default function AddUser(props) {
             </Grid>
 
             <Grid container spacing={2}>
-              <Grid item xs={8}>
+              <Grid item xs={6}>
                 <TextField
                   size="small"
                   variant="outlined"
@@ -158,51 +226,6 @@ export default function AddUser(props) {
                   error={formik.touched.email && formik.errors.email ? true : false}
                 />
               </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  label="Identify"
-                  name="identify"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.identify}
-                  helperText={formik.touched.identify && formik.errors.identify}
-                  error={formik.touched.identify && formik.errors.identify ? true : false}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  label="Address"
-                  name="address"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.address}
-                  helperText={formik.touched.address && formik.errors.address}
-                  error={formik.touched.address && formik.errors.address ? true : false}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  label="Gender"
-                  name="gender"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.gender}
-                  helperText={formik.touched.gender && formik.errors.gender}
-                  error={formik.touched.gender && formik.errors.gender ? true : false}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   size="small"
@@ -223,7 +246,66 @@ export default function AddUser(props) {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
-                  size="small"                  
+                  size="small"
+                  variant="outlined"
+                  label="Identify"
+                  name="identify"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.identify}
+                  helperText={formik.touched.identify && formik.errors.identify}
+                  error={formik.touched.identify && formik.errors.identify ? true : false}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  label="Gender"
+                  name="gender"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.gender}
+                  helperText={formik.touched.gender && formik.errors.gender}
+                  error={formik.touched.gender && formik.errors.gender ? true : false}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  label="Address"
+                  name="address"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.address}
+                  helperText={formik.touched.address && formik.errors.address}
+                  error={formik.touched.address && formik.errors.address ? true : false}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  label="Education"
+                  name="education"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.education}
+                  helperText={formik.touched.education && formik.errors.education}
+                  error={formik.touched.education && formik.errors.education ? true : false}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  size="small"
                   variant="outlined"
                   required
                   select
@@ -262,7 +344,7 @@ export default function AddUser(props) {
           <Grid container spacing={2} mt={1}>
             <Grid item xs={6}>
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="success" type="submit">
+                <Button variant="contained" color="success" type="submit" disabled={per !== null && per < 100}>
                   Submit
                 </Button>
                 <Link to="/admin/users">

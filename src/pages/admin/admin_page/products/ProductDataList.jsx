@@ -2,6 +2,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
+  GridFooter,
+  GridFooterContainer,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
@@ -43,8 +45,6 @@ export default function ProductDataList() {
   const [rows, setRows] = useState([]);
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  console.log(rows);
 
   const columns = [
     { field: "id", headerName: "ID" },
@@ -92,7 +92,7 @@ export default function ProductDataList() {
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
-            <Link to={`/admin/customers/${params.row.id}`}>
+            <Link to={`/admin/products/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
             <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
@@ -125,9 +125,27 @@ export default function ProductDataList() {
     );
   };
 
+  const CustomFooter = () => {
+    return (
+      <GridFooterContainer>
+        <Button
+          sx={{ display: arrIds.length > 0 ? "block" : "none", ...style.btnDelete }}
+          style={{ marginLeft: "2rem", padding: "5px" }}
+          onClick={() => {
+            handleDeleteSelected(arrIds);
+          }}
+        >
+          Delete All Selected
+        </Button>
+
+        <GridFooter />
+      </GridFooterContainer>
+    );
+  };
+
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "customers", id));
+      await deleteDoc(doc(db, "products", id));
 
       deleteUser(user)
         .then((res) => {
@@ -146,7 +164,7 @@ export default function ProductDataList() {
   const handleDeleteSelected = (ids) => {
     try {
       for (let id of ids) {
-        deleteDoc(doc(db, "customers", id));
+        deleteDoc(doc(db, "products", id));
       }
 
       setRows(rows.filter((row) => !arrIds.includes(row.id)));
@@ -161,7 +179,6 @@ export default function ProductDataList() {
       const list = [];
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-        console.log(querySnapshot);
         querySnapshot.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
         });
@@ -184,8 +201,7 @@ export default function ProductDataList() {
             rows={rows}
             columns={columns.concat(columnActions)}
             density="compact"
-            pageSize={10}
-            rowsPerPageOptions={[10]}
+            autoPageSize
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {
@@ -193,6 +209,7 @@ export default function ProductDataList() {
             }}
             components={{
               Toolbar: CustomToolbar,
+              Footer: CustomFooter,
             }}
           />
         </Box>

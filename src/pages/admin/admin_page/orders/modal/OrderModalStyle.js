@@ -8,7 +8,7 @@ const title = {
 };
 
 const statusColors = {
-  Successed: "#689f38",
+  Successful: "#689f38",
   Pending: "#0288d1",
   Failed: "#c2185b",
 };

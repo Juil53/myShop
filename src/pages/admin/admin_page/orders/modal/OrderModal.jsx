@@ -110,13 +110,13 @@ const OrderModal = () => {
                     }}
                   >
                     <MenuItem
-                      value="Successed"
+                      value="Successful"
                       sx={{
-                        color: statusColors.Successed ?? "#000",
+                        color: statusColors.Successful ?? "#000",
                         fontWeight: 700,
                       }}
                     >
-                      <StatusIcons status="Successed" />
+                      <StatusIcons status="Successful" />
                     </MenuItem>
                     <MenuItem
                       value="Failed"

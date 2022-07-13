@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Button, Grid, MenuItem, Paper, Stack, TextField, Typography, Box } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, Grid, MenuItem, Paper, Stack, TextField } from "@mui/material";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectUserInfo } from "../../../../store/users/selector";
-import { getUserRequest, updateUserInfoRequest } from "../../../../store/users/usersSlice";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
+import { db } from "../../../../service/auth";
 
 //MODAL SELECT ROLE
 const roles = [
@@ -28,17 +27,12 @@ const style = {
 };
 
 const UserEdit = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();  
   const params = useParams();
-  const userInfo = useSelector((state) => selectUserInfo(state, params.id));
+  const [data, setData] = useState({});
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    dispatch(getUserRequest());
-  }, []);
-
   const [role, setRole] = useState("");
+
   const [state, setState] = useState({
     firstname: "",
     lastname: "",
@@ -54,20 +48,20 @@ const UserEdit = () => {
   });
 
   useEffect(() => {
-    if (userInfo) {
+    if (data) {
       setState({
-        firstname: userInfo.firstname,
-        lastname: userInfo.lastname,
-        password: userInfo.password,
-        email: userInfo.email,
-        address: userInfo.address,
-        gender: userInfo.gender,
-        education: userInfo.education,
-        identify: userInfo.identify,
-        phonenumber: userInfo.phonenumber,
-        avatar: userInfo.avatar,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        password: data.password,
+        email: data.email,
+        address: data.address,
+        gender: data.gender,
+        education: data.education,
+        identify: data.identify,
+        phonenumber: data.phonenumber,
+        avatar: data.avatar,
       });
-      setRole(userInfo.role);
+      setRole(data.role);
     } else {
       setState({
         firstname: "",
@@ -83,7 +77,7 @@ const UserEdit = () => {
       });
       setRole("");
     }
-  }, [userInfo]);
+  }, [data]);
 
   const handleOnChange = (event) => {
     const { name, value } = event.target;
@@ -94,11 +88,25 @@ const UserEdit = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (userInfo !== null)
-      return dispatch(updateUserInfoRequest({ state, id: userInfo.id })), setShow(true);
+    const userRef = doc(db,'users',params.id)
+    await updateDoc(userRef,state)
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const docRef = doc(db, "users", params.id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setData(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div>

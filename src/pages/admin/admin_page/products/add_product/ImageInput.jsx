@@ -4,7 +4,7 @@ import { useFormikContext } from "formik";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import PreviewImg from "../PreviewImg";
 
-export default function ImageInput() {
+export default function ImageInput({data}) {
   const [files, setFiles] = useState([]);
   const { setFieldValue } = useFormikContext();
 
@@ -41,7 +41,7 @@ export default function ImageInput() {
         </label>
       </Stack>
 
-      <PreviewImg files={files} />
+      <PreviewImg files={files} data={data}/>
     </>
   );
 }

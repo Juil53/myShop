@@ -2,6 +2,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
+  GridFooter,
+  GridFooterContainer,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
@@ -133,6 +135,24 @@ export default function CustomerList({ data }) {
     );
   };
 
+  const CustomFooter = () => {
+    return (
+      <GridFooterContainer>
+        <Button
+          sx={{ display: arrIds.length > 0 ? "block" : "none", ...style.btnDelete }}
+          style={{ marginLeft: "2rem", padding: "5px" }}
+          onClick={() => {
+            handleDeleteSelected(arrIds);
+          }}
+        >
+          Delete All Selected
+        </Button>
+
+        <GridFooter />
+      </GridFooterContainer>
+    );
+  };
+
   const handleData = (importData) => {
     setRows([...rows, ...importData]);
   };
@@ -160,7 +180,6 @@ export default function CustomerList({ data }) {
       for (let id of ids) {
         deleteDoc(doc(db, "customers", id));
       }
-
       setRows(rows.filter((row) => !arrIds.includes(row.id)));
     } catch (error) {
       console.log(error);
@@ -211,6 +230,7 @@ export default function CustomerList({ data }) {
             }}
             components={{
               Toolbar: CustomToolbar,
+              Footer: CustomFooter,
             }}
           />
         </Box>

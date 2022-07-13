@@ -6,6 +6,8 @@ import { IconButton } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteProductRequest, getProductPaginationRequest } from "../../../../store/admin_product/productSlice";
 import { selectStatus } from "../../../../store/admin_product/selector";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../../../service/auth";
 
 const ProductDelete = ({ product, page }) => {
   const [open, setOpen] = useState(false);
@@ -26,6 +28,8 @@ const ProductDelete = ({ product, page }) => {
     }
     setOpen(false);
   };
+
+  
 
   return (
     <>
