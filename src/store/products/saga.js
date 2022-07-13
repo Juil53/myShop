@@ -88,7 +88,10 @@ export function* fetchBestSellProducts() {
   }
 }
 
-export function* searchProduct({ name }) {
+export function* searchProduct({ payload }) {
+  const { name } = payload;
+  console.log(name);
+
   try {
     const result = yield call(APIv2.getAll, "products");
 

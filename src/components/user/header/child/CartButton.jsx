@@ -1,7 +1,10 @@
 import { utils } from "../../../../utils";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartButton = (props) => {
   const { data } = props;
+
+  const navigate = useNavigate();
 
   const createMoreInfo = (data) => {
     if (data && data.length && data.length > 0) {
@@ -17,7 +20,9 @@ const CartButton = (props) => {
             <img src={v.image} alt="" />
           </div>
           <div className="info">
-            <a className="name">{v.name}</a>
+            <Link className="name" to={"/product/" + v.id}>
+              {v.name}
+            </Link>
             <div className="more-info">
               {Object.values(v.optionSelected) &&
                 createMoreInfo(Object.values(v.optionSelected))}
@@ -33,11 +38,16 @@ const CartButton = (props) => {
       ));
     }
   };
+
+  const handlePayment = () => {
+    navigate(`/payment`);
+  };
+
   return (
     <div className="nav-btn cart-btn">
-      <a href="/cart">
+      <Link to="/cart">
         <i className="fa-solid fa-cart-shopping"></i>
-      </a>
+      </Link>
       <span className="product-quantity">
         {data.productList && data.productList.length}
       </span>
@@ -53,7 +63,9 @@ const CartButton = (props) => {
                 {utils.priceBreak(data.totalAmount)}₫
               </div>
             </div>
-            <div className="payment-btn button-style">Payment</div>
+            <div className="payment-btn button-style" onClick={handlePayment}>
+              Payment
+            </div>
           </div>
         ) : (
           <div className="empty-cart">

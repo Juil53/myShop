@@ -48,7 +48,7 @@ export function* getCart() {
             }
           });
           kq.productList = [...productLocal];
-          kq.totalAmount = utils.calTotal(cart);
+          kq.totalAmount = utils.calTotal(kq);
           newCart.productList = [...productLocal];
           newCart.totalAmount = kq.totalAmount;
 

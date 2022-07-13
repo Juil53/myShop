@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  constant,
-  LOADING_STATUS,
-  POPUP,
-  USER_ACTIONS,
-} from "../../../../constants";
+import { constant, LOADING_STATUS, POPUP } from "../../../../constants";
 import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
 import {
