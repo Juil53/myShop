@@ -1,56 +1,49 @@
+import { useEffect, useState } from "react";
+
+import Address from "../../../components/address/Address";
+import InputField from "../../../components/input_field/InputField";
 import { utils } from "../../../utils";
 
 const Payment = () => {
+  const [address, setAddress] = useState({});
+  const [name, setName] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [detail, setDetail] = useState();
+
+  useEffect(() => {
+    console.log(address);
+  });
+
   return (
-    <div className="payment-page">
+    <div className="payment_page">
       <div className="title">Payment</div>
-      <div className="payment-container row">
-        <div className="delivery-info">
+      <div className="payment_container row">
+        <div className="delivery_info">
           <div className="name">Delivery Information</div>
-          <div className="detail-info">
-            <input
-              id="email"
-              className="field-input"
-              placeholder=" "
-              autoComplete="off"
-            />
-            <label htmlFor="email" className="field-name">
-              Email
-            </label>
-          </div>
-          <div className="detail-info">
-            <input
-              id="name"
-              className="field-input"
-              placeholder=" "
-              autoComplete="off"
-            />
-            <label htmlFor="name" className="field-name">
-              Name
-            </label>
-          </div>
-          <div className="detail-info">
-            <input
-              id="phone"
-              className="field-input"
-              placeholder=" "
-              autoComplete="off"
-            />
-            <label htmlFor="phone" className="field-name">
-              Phone number
-            </label>
-          </div>
-          <div className="detail-info">
-            <input
-              id="address"
-              className="field-input"
-              placeholder=" "
-              autoComplete="off"
-            />
-            <label htmlFor="address" className="field-name">
-              Address
-            </label>
-          </div>
+          <InputField
+            title="Name"
+            id="delivery_info-name"
+            onChange={setName}
+            required
+            type="name"
+            currentValue={name}
+          />
+          <InputField
+            title="Phone number"
+            id="delivery_info-phone_number"
+            onChange={setPhoneNumber}
+            required
+            type="phone"
+            currentValue={phoneNumber}
+          />
+          <InputField
+            title="Address"
+            id="delivery_info-address"
+            onChange={setDetail}
+            required
+            currentValue={detail}
+          />
+          <Address changeCurrentAddress={setAddress} />
         </div>
       </div>
     </div>

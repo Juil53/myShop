@@ -15,10 +15,14 @@ const User = (props) => {
     navigate("/home");
   }
 
+  const handleUser = () => {
+    navigate("/user");
+  };
+
   return (
     <>
       <div className="nav-btn user-btn">
-        <div className="user">
+        <div className="user" onClick={handleUser}>
           <div className="image">
             <img src={data.image} alt="" />
           </div>

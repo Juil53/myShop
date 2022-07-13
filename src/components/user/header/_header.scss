@@ -808,7 +808,7 @@
           //WHEN CART NOT EMPTY
           .cart-dropdown-content {
             min-width: 38rem;
-            max-height: 50rem;
+            max-height: 45rem;
             background-color: $whiteColor;
             padding: 1.5rem 2.4rem;
             line-height: normal;
@@ -920,6 +920,18 @@
         top: 10rem;
       }
     }
+
+    .header__nav {
+      .header__nav-right {
+        .cart-btn:hover {
+          .cart-dropdown-container {
+            visibility: hidden;
+            opacity: 0;
+            top: 10rem;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -989,6 +1001,18 @@
         top: 10rem;
       }
     }
+
+    .header__nav {
+      .header__nav-right {
+        .cart-btn:hover {
+          .cart-dropdown-container {
+            visibility: hidden;
+            opacity: 0;
+            top: 10rem;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -1054,6 +1078,18 @@
         visibility: hidden;
         opacity: 0;
         top: 10rem;
+      }
+    }
+
+    .header__nav {
+      .header__nav-right {
+        .cart-btn:hover {
+          .cart-dropdown-container {
+            visibility: hidden;
+            opacity: 0;
+            top: 10rem;
+          }
+        }
       }
     }
   }

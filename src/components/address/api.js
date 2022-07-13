@@ -1,4 +1,4 @@
-import api from "../../../../service";
+import api from "../../service";
 
 const LOCALTION_BASE_URL = "https://tiki.vn/api/v2/directory";
 

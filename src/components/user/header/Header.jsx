@@ -105,20 +105,20 @@ export default function Header() {
               <Link to="/product">Product</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <Link to="/">About</Link>
+              <Link to="/about">About</Link>
             </div>
             <div className="dropdown-menu-btn">
               <Link to="/">News</Link>
             </div>
             <div className="dropdown-menu-btn">
-              <Link to="/">Map</Link>
+              <Link to="/map">Map</Link>
             </div>
           </div>
         </div>
         <SearchBar />
         <div className="header-phone__right">
           <div className="nav-btn login-btn">
-            {client?.status === LOADING_STATUS.SUCCESS ? (
+            {client?.status === LOADING_STATUS.SUCCESS && token ? (
               <Link to="/user">
                 <i className="fa-solid fa-user" />
               </Link>
@@ -129,9 +129,9 @@ export default function Header() {
             )}
           </div>
           <div className="nav-btn cart-btn">
-            <a href="/cart">
+            <Link to="/cart">
               <i className="fa-solid fa-cart-shopping" />
-            </a>
+            </Link>
             <span className="product-quantity">1</span>
           </div>
         </div>
