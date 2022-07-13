@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { getRegions, getDistricts, getWards } from "./api";
+
 const Address = (props) => {
   const { currentAddress, changeCurrentAddress } = props;
 
@@ -13,6 +14,7 @@ const Address = (props) => {
   const [disableDistrict, setDisableDistrict] = useState(true);
   const [disableWard, setDisableWard] = useState(true);
 
+  //when changing province
   const onChangeRegion = ({ target }) => {
     setDisableDistrict(true);
     setDisableWard(true);
@@ -31,6 +33,7 @@ const Address = (props) => {
     setWards([]);
   };
 
+  //when changing district
   const onChangeDistrict = async ({ target }) => {
     setDisableWard(true);
 
@@ -46,6 +49,7 @@ const Address = (props) => {
     setWards([]);
   };
 
+  //when changing ward
   const onChangeWard = async ({ target }) => {
     const wardIndex = target.value;
     const ward = wards[wardIndex];
