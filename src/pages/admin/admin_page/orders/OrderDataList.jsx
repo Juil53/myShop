@@ -65,8 +65,8 @@ const OrderDataList = () => {
     {
       field: "address",
       headerName: "Address",
-      width: 300,
       headerAlign: "center",
+      flex:2,
       renderCell: (params) => {
         return <Typography>{params.row.address.location}</Typography>;
       },

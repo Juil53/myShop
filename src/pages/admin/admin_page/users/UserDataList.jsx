@@ -29,65 +29,54 @@ const style = {
   cellStatus: {
     width: "100%",
     textAlign: "center",
-    "&.silver": {
+    "&.Staff": {
       backgroundColor: "rgba(0, 128, 0, 0.2)",
       color: "green",
     },
-    "&.gold": {
+    "&.Admin": {
       backgroundColor: "rgba(218, 165, 32, 0.2)",
       color: "goldenrod",
-    },
-    "&.diamond": {
-      backgroundColor: "#539ec633",
-      color: "blue",
     },
   },
 };
 
-export default function CustomerList({ data }) {
+export default function UserDataList() {
   const [rows, setRows] = useState([]);
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const columns = [
-    { field: "id", headerName: "ID", flex:0.5 },
+    { field: "id", headerName: "ID" },
     {
       field: "image",
       headerName: "Avatar",
-      flex:0.5,
       renderCell: (params) => {
         return (
           <div>
-            <img src={params.row.image} style={style.image} />
+            <img src={params.row.avatar} style={style.image} />
           </div>
         );
       },
     },
-    { field: "displayName", headerName: "Full Name", flex:1.5 },
-    { field: "email", headerName: "Email", flex:1 },
-    { field: "phoneNumber", headerName: "Phone Number", flex:1 },
     {
-      field: "address",
-      headerName: "Address",
-      flex:2.5,
-      renderCell: (params) => {
-        return params.row.addressList.map((add, index) => (
-          <div>
-            <Typography>
-              {add.address.detail}, {add.address.district.name}, {add.address.region.name}
-            </Typography>
-          </div>
-        ));
-      },
+      field: "displayName",
+      headerName: "Full Name",
+      width:200,
+      valueGetter: (params) => `${params.row.firstname || ""} ${params.row.lastname || ""}`,
     },
+    { field: "gender", headerName: "Gender",width:100 },
+    { field: "identify", headerName: "Identify Number",width:150 },
+    { field: "email", headerName: "Email",width:200 },
+    { field: "phonenumber", headerName: "Phone Number",width:150 },
+    { field: "education", headerName: "Education",width:250 },
+    { field: "address", headerName: "Address",width:300 },
     {
-      field: "rank",
-      headerName: "Rank",
-      flex:1,
+      field: "role",
+      headerName: "Role",
       renderCell: (params) => {
         return (
-          <Typography className={`${params.row.rank}`} sx={style.cellStatus}>
-            {params.row.rank?.toUpperCase()}
+          <Typography className={`${params.row.role}`} sx={style.cellStatus}>
+            {params.row.role}
           </Typography>
         );
       },
@@ -98,11 +87,11 @@ export default function CustomerList({ data }) {
     {
       field: "action",
       headerName: "Actions",
-      flex:1,
+      width:150,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
-            <Link to={`/admin/customers/${params.row.id}`}>
+            <Link to={`/admin/users/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
             <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
@@ -124,13 +113,6 @@ export default function CustomerList({ data }) {
           <GridToolbarDensitySelector />
           <GridToolbarExport />
         </GridToolbarContainer>
-        <IconButton
-          onClick={() => {
-            handleDeleteSelected(arrIds);
-          }}
-        >
-          <DeleteIcon color="error" />
-        </IconButton>
       </Grid>
     );
   };
@@ -153,13 +135,9 @@ export default function CustomerList({ data }) {
     );
   };
 
-  const handleData = (importData) => {
-    setRows([...rows, ...importData]);
-  };
-
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "customers", id));
+      await deleteDoc(doc(db, "users", id));
 
       deleteUser(user)
         .then((res) => {
@@ -178,27 +156,21 @@ export default function CustomerList({ data }) {
   const handleDeleteSelected = (ids) => {
     try {
       for (let id of ids) {
-        deleteDoc(doc(db, "customers", id));
+        deleteDoc(doc(db, "users", id));
       }
+
       setRows(rows.filter((row) => !arrIds.includes(row.id)));
     } catch (error) {
       console.log(error);
     }
   };
 
-  //reload page when import data
-  useEffect(() => {
-    if (data.length > 0) {
-      handleData(data);
-    }
-  }, [data]);
-
   //call docs from collection
   useEffect(() => {
     const fetchData = async () => {
       const list = [];
       try {
-        const querySnapshot = await getDocs(collection(db, "customers"));
+        const querySnapshot = await getDocs(collection(db, "users"));
         querySnapshot.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
         });

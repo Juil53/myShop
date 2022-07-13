@@ -8,17 +8,14 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
-import {
-  getAllProductRequest,
-  getCategoriesRequest,
-  getOptionsRequest,
-} from "../../../../store/admin_product/productSlice";
-import { selectProductInfo } from "../../../../store/admin_product/selector";
+import { db, storage } from "../../../../service/auth";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import AttributeInput from "./add_product/AttributeInput";
 import CategoriesInput from "./add_product/CategoriesInput";
@@ -26,14 +23,26 @@ import ImageInput from "./add_product/ImageInput";
 
 export default function EditProduct() {
   const params = useParams();
-  const dispatch = useDispatch();
-  const info = useSelector((state) => selectProductInfo(state, params.id));
+  // const dispatch = useDispatch();
+  const [data, setData] = useState({});
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    dispatch(getOptionsRequest());
-    dispatch(getCategoriesRequest());
-    dispatch(getAllProductRequest());
+    // dispatch(getOptionsRequest());
+    // dispatch(getCategoriesRequest());
+    // dispatch(getAllProductRequest());
+
+    const fetchData = async () => {
+      const docRef = doc(db, "products", params.id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setData(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    };
+    fetchData();
   }, []);
 
   return (
@@ -42,25 +51,44 @@ export default function EditProduct() {
         Edit Product
       </Typography>
 
-      {info && (
+      {data && (
         <Formik
           initialValues={{
-            name: info.name || "",
-            brand: info.brand || "",
-            attributes: info.attributes || [],
-            categories: info.categories || [],
-            desc: info.desc || "",
-            status: info.status || "",
-            image: null,
-            available: info.available || "",
-            priceBeforeDiscount: info.priceBeforeDiscount || 0,
-            priceAfterDiscount: info.priceAfterDiscount || 0,
-            isHot: info.isHot || false,
-            isNew: info.isNew || false,
+            name: data.name || "",
+            brand: data.brand || "",
+            attributes: data.attributes || [],
+            categories: data.categories || [],
+            desc: data.desc || "",
+            status: data.status || "",
+            image: data.image || [],
+            available: data.available || "",
+            priceBeforeDiscount: data.priceBeforeDiscount || 0,
+            priceAfterDiscount: data.priceAfterDiscount || 0,
+            isHot: data.isHot || false,
+            isNew: data.isNew || false,
           }}
           enableReinitialize
           onSubmit={async (values, { resetForm }) => {
-            console.log(values);
+            const tempUrl = [];
+
+            try {
+              for (let file of values.image) {
+                const imageRef = ref(storage, `images/${file.name}`);
+                await uploadBytes(imageRef, file);
+                const url = await getDownloadURL(imageRef);
+                tempUrl.push(url);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+
+            const editedValues = {
+              ...values,
+              image: tempUrl,
+            };
+            
+            const productRef = doc(db, "products", params.id);
+            await updateDoc(productRef, editedValues);
             setShow(true);
           }}
         >
@@ -146,7 +174,7 @@ export default function EditProduct() {
 
                 {/* Image */}
                 <Grid item xs={6}>
-                  <ImageInput />
+                  <ImageInput data={data} />
                 </Grid>
 
                 {/* Hot */}

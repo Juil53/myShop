@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import { db, user } from "../../../../service/auth";
+import { formatter } from "../../../../utils";
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
@@ -29,32 +30,27 @@ const style = {
   cellStatus: {
     width: "100%",
     textAlign: "center",
-    "&.silver": {
+    "&.Available": {
       backgroundColor: "rgba(0, 128, 0, 0.2)",
       color: "green",
     },
-    "&.gold": {
-      backgroundColor: "rgba(218, 165, 32, 0.2)",
-      color: "goldenrod",
-    },
-    "&.diamond": {
-      backgroundColor: "#539ec633",
-      color: "blue",
+    "&.None": {
+      backgroundColor: "rgba(255, 0, 0, 0.2)",
+      color: "crimson",
     },
   },
 };
 
-export default function CustomerList({ data }) {
+export default function ProductDataList() {
   const [rows, setRows] = useState([]);
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const columns = [
-    { field: "id", headerName: "ID", flex:0.5 },
+    { field: "id", headerName: "ID" },
     {
       field: "image",
-      headerName: "Avatar",
-      flex:0.5,
+      headerName: "Image",
       renderCell: (params) => {
         return (
           <div>
@@ -63,31 +59,25 @@ export default function CustomerList({ data }) {
         );
       },
     },
-    { field: "displayName", headerName: "Full Name", flex:1.5 },
-    { field: "email", headerName: "Email", flex:1 },
-    { field: "phoneNumber", headerName: "Phone Number", flex:1 },
+    { field: "name", headerName: "Product Name", flex: 2.5 },
+    { field: "desc", headerName: "Description", flex: 2 },
+    { field: "brand", headerName: "Brand", flex: 1.2 },
+    { field: "available", headerName: "Quantity", flex: 0.8 },
     {
-      field: "address",
-      headerName: "Address",
-      flex:2.5,
+      field: "priceBeforeDiscount",
+      headerName: "Price",
       renderCell: (params) => {
-        return params.row.addressList.map((add, index) => (
-          <div>
-            <Typography>
-              {add.address.detail}, {add.address.district.name}, {add.address.region.name}
-            </Typography>
-          </div>
-        ));
+        return <Typography>{formatter.format(params.row.priceBeforeDiscount)}</Typography>;
       },
     },
     {
-      field: "rank",
-      headerName: "Rank",
-      flex:1,
+      field: "status",
+      headerName: "Status",
+      flex: 1,
       renderCell: (params) => {
         return (
-          <Typography className={`${params.row.rank}`} sx={style.cellStatus}>
-            {params.row.rank?.toUpperCase()}
+          <Typography className={`${params.row.status}`} sx={style.cellStatus}>
+            {params.row.status}
           </Typography>
         );
       },
@@ -98,11 +88,11 @@ export default function CustomerList({ data }) {
     {
       field: "action",
       headerName: "Actions",
-      flex:1,
+      flex: 1,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
-            <Link to={`/admin/customers/${params.row.id}`}>
+            <Link to={`/admin/products/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
             <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
@@ -153,13 +143,9 @@ export default function CustomerList({ data }) {
     );
   };
 
-  const handleData = (importData) => {
-    setRows([...rows, ...importData]);
-  };
-
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "customers", id));
+      await deleteDoc(doc(db, "products", id));
 
       deleteUser(user)
         .then((res) => {
@@ -178,27 +164,21 @@ export default function CustomerList({ data }) {
   const handleDeleteSelected = (ids) => {
     try {
       for (let id of ids) {
-        deleteDoc(doc(db, "customers", id));
+        deleteDoc(doc(db, "products", id));
       }
+
       setRows(rows.filter((row) => !arrIds.includes(row.id)));
     } catch (error) {
       console.log(error);
     }
   };
 
-  //reload page when import data
-  useEffect(() => {
-    if (data.length > 0) {
-      handleData(data);
-    }
-  }, [data]);
-
   //call docs from collection
   useEffect(() => {
     const fetchData = async () => {
       const list = [];
       try {
-        const querySnapshot = await getDocs(collection(db, "customers"));
+        const querySnapshot = await getDocs(collection(db, "products"));
         querySnapshot.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
         });
@@ -221,8 +201,7 @@ export default function CustomerList({ data }) {
             rows={rows}
             columns={columns.concat(columnActions)}
             density="compact"
-            pageSize={10}
-            rowsPerPageOptions={[10]}
+            autoPageSize
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {

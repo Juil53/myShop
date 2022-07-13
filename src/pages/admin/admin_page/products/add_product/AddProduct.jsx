@@ -1,30 +1,24 @@
-import React, { useEffect,useState } from "react";
 import {
-  Box,
-  Grid,
-  Paper,
-  Typography,
-  Button,
-  Stack,
-  Switch,
-  FormControlLabel,
+  Box, Button, FormControlLabel, Grid,
+  Paper, Stack,
+  Switch, Typography
 } from "@mui/material";
-import ImageInput from "./ImageInput";
-import AttributeInput from "./AttributeInput";
-import CategoriesInput from "./CategoriesInput";
-import { Link, useNavigate } from "react-router-dom";
-import { Field, Formik, Form } from "formik";
-import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
-import { useDispatch } from "react-redux";
-import { storage } from "../../../../../service/auth";
+import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
+import { db, storage } from "../../../../../service/auth";
 import {
   getCategoriesRequest,
-  getOptionsRequest,
-  submitProductRequest,
+  getOptionsRequest
 } from "../../../../../store/admin_product/productSlice";
-import OptionsInput from "./OptionsInput";
-import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
+import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
+import AttributeInput from "./AttributeInput";
+import CategoriesInput from "./CategoriesInput";
+import ImageInput from "./ImageInput";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
@@ -76,11 +70,10 @@ export default function AddProduct() {
             ...values,
             image: tempUrl,
           };
+          await addDoc(collection(db, "products"), editedValues);
 
-          console.log(editedValues);
-
-          dispatch(submitProductRequest(editedValues));
           setShow(true);
+          navigate("/admin/products")
           resetForm();
         }}
       >
@@ -204,9 +197,9 @@ export default function AddProduct() {
             </Grid>
 
             {/* Options */}
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <OptionsInput />
-            </Grid>
+            </Grid> */}
 
             {/* Attribute */}
             <Grid item xs={12}>

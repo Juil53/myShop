@@ -9,6 +9,7 @@ import { selectCategories } from "../../../../store/admin_product/selector";
 import { getCategoriesRequest } from "../../../../store/admin_product/productSlice";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import ProductList from "./ProductList";
+import ProductDataList from "./ProductDataList";
 
 function ProductManagement() {
   const pages = [
@@ -96,7 +97,9 @@ function ProductManagement() {
       </Grid>
 
       <Box>
-        <ProductList filterOptions={filterOptions} />
+        {/* <ProductList filterOptions={filterOptions} /> */}
+
+        <ProductDataList/>
       </Box>
     </>
   );
