@@ -26,9 +26,20 @@ const SearchProduct = () => {
   const mainCate = searchParams.get("category") || "";
   const subCate = searchParams.get("subCate") || "";
   const sortCate = searchParams.get("sort");
+
+  const query = searchParams.get("query");
+  const { searchResult } = useSelector(productSelector);
+
+  useEffect(() => {
+    if (query && searchResult.status === LOADING_STATUS.IDLE) {
+      dispatch(productActions.searchProductRequest({ name: query }));
+    }
+  });
+
   const dataFilter = useSelector((state) =>
     selectProduct(state, mainCate, subCate, sortCate)
   );
+
   const array = [
     {
       id: "/home",

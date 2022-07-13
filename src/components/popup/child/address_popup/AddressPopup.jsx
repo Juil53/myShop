@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  constant,
-  LOADING_STATUS,
-  POPUP,
-  USER_ACTIONS,
-} from "../../../../constants";
+import { constant, LOADING_STATUS, POPUP } from "../../../../constants";
 import { clientSelector } from "../../../../store/clients/selector";
 import { actions } from "../../../../store/page/slice";
 import {
@@ -16,10 +11,10 @@ import {
 } from "../../../../validation/validateInputField";
 
 import InputField from "../../../input_field/InputField";
-import { getRegions, getDistricts, getWards } from "./api";
 import { randomIntFromInterval } from "../../../../utils";
 import localStorage from "../../../../service/localStorage";
 import { clientActions } from "../../../../store/clients/slice";
+import Address from "../../../address/Address";
 
 const AddressPopup = (props) => {
   const {
@@ -36,14 +31,7 @@ const AddressPopup = (props) => {
 
   const [isDefault, setDefault] = useState(currentAddress?.default || false);
 
-  const [regions, setRegions] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [wards, setWards] = useState([]);
-
   const [address, setAddress] = useState({});
-
-  const [disableDistrict, setDisableDistrict] = useState(true);
-  const [disableWard, setDisableWard] = useState(true);
 
   const [name, setName] = useState(currentAddress?.name || "");
   const [phoneNumber, setPhoneNumber] = useState(
@@ -51,6 +39,7 @@ const AddressPopup = (props) => {
   );
   const [add, setAdd] = useState(currentAddress?.address?.detail || "");
 
+  //default address
   const handleSetDefault = () => {
     if (isDefault) {
       return setDefault(false);
@@ -58,84 +47,6 @@ const AddressPopup = (props) => {
       return setDefault(true);
     }
   };
-
-  const onChangeRegion = ({ target }) => {
-    setDisableDistrict(true);
-    setDisableWard(true);
-
-    const regionIndex = target.value;
-    const region = regions[regionIndex];
-    const newAddress = { ...address };
-
-    newAddress.region = { ...region };
-    newAddress.district = null;
-    newAddress.ward = null;
-
-    setAddress(newAddress);
-    setDistricts([]);
-    setWards([]);
-  };
-
-  const onChangeDistrict = async ({ target }) => {
-    setDisableWard(true);
-
-    const districtIndex = target.value;
-    const district = districts[districtIndex];
-    const newAddress = { ...address };
-
-    newAddress.district = { ...district };
-    newAddress.ward = null;
-
-    setAddress(newAddress);
-    setWards([]);
-  };
-
-  const onChangeWard = async ({ target }) => {
-    const wardIndex = target.value;
-    const ward = wards[wardIndex];
-    const newAddress = { ...address };
-
-    newAddress.ward = { ...ward };
-
-    setAddress(newAddress);
-  };
-
-  useEffect(() => {
-    (async () => {
-      const regions = await getRegions();
-      setRegions(regions);
-    })(); // IIF
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const regionId = address?.region?.id;
-
-      if (regionId) {
-        const districts = await getDistricts(regionId);
-        setDistricts(districts);
-        setDisableDistrict(false);
-      }
-    })();
-  }, [address?.region?.id]);
-
-  useEffect(() => {
-    (async () => {
-      const districtId = address?.district?.id;
-
-      if (districtId) {
-        const wards = await getWards(districtId);
-        setWards(wards);
-        setDisableWard(false);
-      }
-    })();
-  }, [address?.district?.id]);
-
-  useEffect(() => {
-    if (currentAddress) {
-      setAddress(currentAddress.address);
-    }
-  }, []);
 
   useEffect(() => {
     if (client.updateStatus === LOADING_STATUS.LOADING && click) {
@@ -324,56 +235,10 @@ const AddressPopup = (props) => {
             required
             currentValue={add}
           />
-          <div className="address_field row">
-            <select onChange={onChangeRegion} name="Province" id="province">
-              <option value="" hidden>
-                {currentAddress
-                  ? currentAddress?.address?.region?.name
-                  : "Select province"}
-              </option>
-              {regions.map((r, i) => (
-                <option key={r.id} value={i}>
-                  {r.name}
-                </option>
-              ))}
-            </select>
-            <select
-              onChange={onChangeDistrict}
-              name="District"
-              id="district"
-              disabled={disableDistrict}
-            >
-              <option value="" hidden>
-                {currentAddress &&
-                currentAddress?.address?.district?.id === address?.district?.id
-                  ? currentAddress?.address?.district?.name
-                  : "Select district"}
-              </option>
-              {districts.map((d, i) => (
-                <option key={d.id} value={i}>
-                  {d.name}
-                </option>
-              ))}
-            </select>
-            <select
-              name="Ward"
-              id="ward"
-              disabled={disableWard}
-              onChange={onChangeWard}
-            >
-              <option value="" hidden>
-                {currentAddress &&
-                currentAddress?.address?.ward?.id === address?.ward?.id
-                  ? currentAddress?.address?.ward?.name
-                  : "Select ward"}
-              </option>
-              {wards.map((w, i) => (
-                <option key={w.id} value={i}>
-                  {w.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <Address
+            changeCurrentAddress={setAddress}
+            currentAddress={currentAddress?.address}
+          />
           {!currentAddress?.default && (
             <div className="is_default">
               <input
