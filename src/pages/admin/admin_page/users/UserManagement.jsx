@@ -7,6 +7,7 @@ import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { loginAdmin, selectUserKeyword } from "../../../../store/users/selector";
 import { getKeyword } from "../../../../store/users/usersSlice";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
+import UserDataList from "./UserDataList";
 import { UserList } from "./UserList";
 
 const user__search = {
@@ -75,7 +76,8 @@ function UserManagement() {
           </Box>
 
           <Box>
-            <UserList keyword={keyword} />
+            {/* <UserList keyword={keyword} /> */}
+            <UserDataList/>
           </Box>
         </>
       )}
