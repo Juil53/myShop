@@ -25,9 +25,25 @@ const CustomerAdding = ({ inputs }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);      
+      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
       await setDoc(doc(db, "customers", res.user.uid), {
         ...data,
+        addressList: [
+          {
+            address: {
+              detail: data.address,
+              district: {
+                name: "Default",
+              },
+              region: {
+                name: "Default",
+              },
+              ward: {
+                name: "Default",
+              },
+            },
+          },
+        ],
         timeStamp: serverTimestamp(),
       });
       //navigate to previous page
@@ -68,7 +84,7 @@ const CustomerAdding = ({ inputs }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, img: downloadURL }));
+            setData((prev) => ({ ...prev, image: downloadURL }));
           });
         }
       );
