@@ -3,13 +3,14 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { handleIncreaseUser, handleNewUser } from "./logic";
+import { handleIncreaseItem, handleNewItem } from "./logic";
 
-const WidgetUser = ({ users }) => {
+const WidgetCustomer = ({ customers }) => {
+
   let [data, setData] = useState(() => {
     return {
-      title: "NEW USERS",
-      link: "See more users",
+      title: "NEW CUSTOMERS",
+      link: "See all customers",
       amount: 10,
       icon: (
         <PersonOutlinedIcon
@@ -25,9 +26,9 @@ const WidgetUser = ({ users }) => {
   });
 
   useEffect(() => {
-    const newUsers = handleNewUser(users);
-    const percentIncrease = handleIncreaseUser(newUsers);
-    setData({ ...data, amount: newUsers,increase:percentIncrease });
+    const newCustomers = handleNewItem(customers);
+    const percentIncrease = handleIncreaseItem(newCustomers);
+    setData({ ...data, amount: newCustomers,increase:percentIncrease });
   }, []);
 
   const cardStyle = {
@@ -54,7 +55,7 @@ const WidgetUser = ({ users }) => {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <ArrowUpwardOutlinedIcon color="success" />
-            <Typography>{data?.increase}</Typography>
+            <Typography>{data?.increase}%</Typography>
           </Box>
         </Box>
         <Typography sx={{ fontSize: "3.5rem", fontWeight: "500" }} color="text.primary">
@@ -73,4 +74,4 @@ const WidgetUser = ({ users }) => {
   );
 };
 
-export default WidgetUser;
+export default WidgetCustomer;

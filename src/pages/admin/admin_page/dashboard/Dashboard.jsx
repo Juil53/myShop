@@ -1,22 +1,33 @@
 import { Box, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Chart from "../../../../components/admin/Chart";
 import Progress from "../../../../components/admin/Progress";
-import WidgetUser from "../../../../components/admin/widget/WidgetUser";
-import WidgetProduct from "../../../../components/admin/widget/WidgetProduct"
+import WidgetCustomer from "../../../../components/admin/widget/WidgetCustomer";
+import WidgetEarning from "../../../../components/admin/widget/WidgetEarning";
+import WidgetOrder from "../../../../components/admin/widget/WidgetOrder";
+import WidgetProduct from "../../../../components/admin/widget/WidgetProduct";
 import Loading from "../../../../components/loading/Loading";
 import fb from "../../../../service/db";
-import WidgetOrder from "../../../../components/admin/widget/WidgetOrder";
-import WidgetEarning from "../../../../components/admin/widget/WidgetEarning";
+import { getOrderRequest } from "../../../../store/orders/orderSlice";
+import { selectOrderData } from "../../../../store/orders/selector";
 
 function Dashboard() {
+  const dispatch = useDispatch();
+  const ordersData = useSelector(selectOrderData);
   const [loading, setLoading] = useState(true);
-  const [users,setUsers] = useState([])
+  const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [orders,setOrders] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fb.getAll("users");
-      setUsers(data)
+      const customersData = await fb.getAll("customers");
+      const productsData = await fb.getAll("products");
+      dispatch(getOrderRequest());
+      setCustomers(customersData);
+      setProducts(productsData);
+      setOrders(ordersData)
       setLoading(false);
     };
     fetchData();
@@ -30,22 +41,22 @@ function Dashboard() {
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <WidgetUser users={users}/>
+              <WidgetCustomer customers={customers} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetProduct  />
+              <WidgetProduct products={products} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetOrder type="order" />
+              <WidgetOrder orders={orders} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetEarning type="profit" />
+              <WidgetEarning orders={orders} />
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
-              <Progress />
+              <Progress orders={orders}/>
             </Grid>
             <Grid item xs={12} md={12} lg={8}>
-              <Chart aspect={2 / 1} title="PROFIT & REVENUE" />
+              <Chart aspect={2 / 1} title="PROFIT & REVENUE" customers={customers}/>
             </Grid>
           </Grid>
         </Box>

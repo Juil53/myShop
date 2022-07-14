@@ -1,14 +1,17 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { handleIncreaseRevenue, handleRevenue } from "./logic";
+import { formatter } from "../../../utils/index";
+import { Link } from "react-router-dom";
 
-const WidgetEarning = () => {
+const WidgetEarning = ({ orders }) => {
   let [data, setData] = useState(() => {
     return {
-      title: "EARNINGS",
+      title: "REVENUE",
       link: "View detail",
-      amount: 1000,
+      amount: 2400000,
       icon: (
         <MonetizationOnOutlinedIcon
           style={{
@@ -21,6 +24,17 @@ const WidgetEarning = () => {
       ),
     };
   });
+
+  useEffect(() => {
+    const revenue = handleRevenue(orders);
+    const percentIncrease = handleIncreaseRevenue(revenue.month);
+    setData({
+      ...data,
+      revenueMonth: revenue.month,
+      revenueDay: revenue.day,
+      increase: percentIncrease,
+    });
+  }, []);
 
   const cardStyle = {
     transform: "translateY(0)",
@@ -46,17 +60,19 @@ const WidgetEarning = () => {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <ArrowUpwardOutlinedIcon color="success" />
-            <Typography>20%</Typography>
+            <Typography>{data?.increase}%</Typography>
           </Box>
         </Box>
         <Typography sx={{ fontSize: "3.5rem", fontWeight: "500" }} color="text.primary">
-          {data.amount}
+          {formatter.format(data.revenueMonth)}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
-        <Button size="small" color="info">
-          {data.link}
-        </Button>
+        <Link to="/admin/orders">
+          <Button size="small" color="info">
+            {data.link}
+          </Button>
+        </Link>
         {data.icon}
       </CardActions>
     </Card>

@@ -1,12 +1,14 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import StoreIcon from "@mui/icons-material/Store";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { handleIncreaseOrders, handleNewItem } from "./logic";
 
-const WidgetOrder = () => {
+const WidgetOrder = ({ orders }) => {
   let [data, setData] = useState(() => {
     return {
-      title: "ORDERS",
+      title: "NEW ORDERS",
       link: "View all orders",
       amount: 11,
       icon: (
@@ -21,6 +23,12 @@ const WidgetOrder = () => {
       ),
     };
   });
+
+  useEffect(() => {
+    const newOrders = handleNewItem(orders);
+    const percentIncrease = handleIncreaseOrders(newOrders);
+    setData({ ...data, amount: newOrders, increase: percentIncrease });
+  }, []);
 
   const cardStyle = {
     transform: "translateY(0)",
@@ -46,7 +54,7 @@ const WidgetOrder = () => {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <ArrowUpwardOutlinedIcon color="success" />
-            <Typography>20%</Typography>
+            <Typography>{data.increase}</Typography>
           </Box>
         </Box>
         <Typography sx={{ fontSize: "3.5rem", fontWeight: "500" }} color="text.primary">
@@ -54,9 +62,11 @@ const WidgetOrder = () => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
-        <Button size="small" color="info">
-          {data.link}
-        </Button>
+        <Link to="/admin/orders">
+          <Button size="small" color="info">
+            {data.link}
+          </Button>
+        </Link>
         {data.icon}
       </CardActions>
     </Card>

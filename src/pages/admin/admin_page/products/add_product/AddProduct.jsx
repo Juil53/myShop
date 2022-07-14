@@ -1,9 +1,14 @@
 import {
-  Box, Button, FormControlLabel, Grid,
-  Paper, Stack,
-  Switch, Typography
+  Box,
+  Button,
+  FormControlLabel,
+  Grid,
+  Paper,
+  Stack,
+  Switch,
+  Typography,
 } from "@mui/material";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -13,7 +18,7 @@ import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
 import { db, storage } from "../../../../../service/auth";
 import {
   getCategoriesRequest,
-  getOptionsRequest
+  getOptionsRequest,
 } from "../../../../../store/admin_product/productSlice";
 import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
 import AttributeInput from "./AttributeInput";
@@ -70,10 +75,13 @@ export default function AddProduct() {
             ...values,
             image: tempUrl,
           };
-          await addDoc(collection(db, "products"), editedValues);
+          await addDoc(collection(db, "products"), {
+            ...editedValues,
+            timeStamp: serverTimestamp(),
+          });
 
           setShow(true);
-          navigate("/admin/products")
+          navigate("/admin/products");
           resetForm();
         }}
       >
@@ -206,27 +214,11 @@ export default function AddProduct() {
               <AttributeInput />
             </Grid>
 
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-              marginTop={2}
-              paddingLeft={2}
-            >
-              <Button
-                variant="contained"
-                color="success"
-                type="submit"
-                size="small"
-              >
+            <Stack direction="row" alignItems="center" spacing={1} marginTop={2} paddingLeft={2}>
+              <Button variant="contained" color="success" type="submit" size="small">
                 Submit
               </Button>
-              <Button
-                variant="contained"
-                color="error"
-                type="submit"
-                size="small"
-              >
+              <Button variant="contained" color="error" type="submit" size="small">
                 Reset
               </Button>
               <Link to="/admin/products">

@@ -1,12 +1,14 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { handleIncreaseItem, handleIncreaseProducts, handleNewItem } from "./logic";
 
-const WidgetProduct = () => {
+const WidgetProduct = ({ products }) => {
   let [data, setData] = useState(() => {
     return {
-      title: "PRODUCTS",
+      title: "NEW PRODUCTS",
       link: "View all products",
       amount: 20,
       icon: (
@@ -21,6 +23,12 @@ const WidgetProduct = () => {
       ),
     };
   });
+
+  useEffect(() => {
+    const newProducts = handleNewItem(products);
+    const percentIncrease = handleIncreaseProducts(newProducts);
+    setData({ ...data, amount: newProducts, increase: percentIncrease });
+  }, []);
 
   const cardStyle = {
     transform: "translateY(0)",
@@ -46,7 +54,7 @@ const WidgetProduct = () => {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <ArrowUpwardOutlinedIcon color="success" />
-            <Typography>20%</Typography>
+            <Typography>{data.increase}</Typography>
           </Box>
         </Box>
         <Typography sx={{ fontSize: "3.5rem", fontWeight: "500" }} color="text.primary">
@@ -54,9 +62,11 @@ const WidgetProduct = () => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
-        <Button size="small" color="info">
-          {data.link}
-        </Button>
+        <Link to={"/admin/products"}>
+          <Button size="small" color="info">
+            {data.link}
+          </Button>
+        </Link>
         {data.icon}
       </CardActions>
     </Card>
