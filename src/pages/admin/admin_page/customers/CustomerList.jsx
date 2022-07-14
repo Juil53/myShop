@@ -87,7 +87,7 @@ export default function CustomerList({ data }) {
       renderCell: (params) => {
         return (
           <Typography>
-            {params.row.timeStamp?.toDate().toDateString()}
+            {params.row.timeStamp}
           </Typography>
         );
       },

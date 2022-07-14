@@ -1,8 +1,9 @@
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Box, Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authInstance, db, storage } from "../../../../service/auth";
@@ -44,7 +45,7 @@ const CustomerAdding = ({ inputs }) => {
             },
           },
         ],
-        timeStamp: serverTimestamp(),
+        timeStamp: moment().format("MM DD YYYY"),
       });
       //navigate to previous page
       navigate(-1);

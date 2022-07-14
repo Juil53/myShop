@@ -6,11 +6,12 @@ import {
   Paper,
   Stack,
   Switch,
-  Typography,
+  Typography
 } from "@mui/material";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Field, Form, Formik } from "formik";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
 import { db, storage } from "../../../../../service/auth";
 import {
   getCategoriesRequest,
-  getOptionsRequest,
+  getOptionsRequest
 } from "../../../../../store/admin_product/productSlice";
 import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
 import AttributeInput from "./AttributeInput";
@@ -77,7 +78,7 @@ export default function AddProduct() {
           };
           await addDoc(collection(db, "products"), {
             ...editedValues,
-            timeStamp: serverTimestamp(),
+            timeStamp: moment().format("MM DD YYYY"),
           });
 
           setShow(true);

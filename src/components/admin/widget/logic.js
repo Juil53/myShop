@@ -7,8 +7,9 @@ const day = new Date().getDate();
 
 export const handleNewItem = (data) => {
   const newItemThisMonth = [];
+
   data?.forEach((item, index) => {
-    const itemCreatedAt = item.timeStamp?.toDate().getMonth() + 1;
+    const itemCreatedAt = new Date(item.timeStamp).getMonth() + 1;
     if (itemCreatedAt === month) {
       newItemThisMonth.push(item);
     }

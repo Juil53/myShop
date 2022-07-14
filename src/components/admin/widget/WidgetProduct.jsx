@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { handleIncreaseItem, handleIncreaseProducts, handleNewItem } from "./logic";
 
 const WidgetProduct = ({ products }) => {
+
   let [data, setData] = useState(() => {
     return {
       title: "NEW PRODUCTS",

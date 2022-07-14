@@ -49,7 +49,7 @@ const Chart = ({ aspect, title, customers }) => {
   useEffect(() => {
     const newCustomers = handleNewItem(customers);
     const percentIncrease = handleIncreaseItem(newCustomers);
-    console.log(percentIncrease);
+    // console.log(percentIncrease);
     // setData([...data, { name: "July", revenue: 160, newCustomer: percentIncrease }]);
     // const currentArray = data.slice(0, 1);
     // setData([...currentArray, { name: "July", revenue: 160, newCustomer: percentIncrease }]);
