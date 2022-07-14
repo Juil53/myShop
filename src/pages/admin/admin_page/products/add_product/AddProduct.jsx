@@ -1,11 +1,17 @@
 import {
-  Box, Button, FormControlLabel, Grid,
-  Paper, Stack,
-  Switch, Typography
+  Box,
+  Button,
+  FormControlLabel,
+  Grid,
+  Paper,
+  Stack,
+  Switch,
+  Typography
 } from "@mui/material";
 import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Field, Form, Formik } from "formik";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -70,10 +76,13 @@ export default function AddProduct() {
             ...values,
             image: tempUrl,
           };
-          await addDoc(collection(db, "products"), editedValues);
+          await addDoc(collection(db, "products"), {
+            ...editedValues,
+            timeStamp: moment().format("MM DD YYYY"),
+          });
 
           setShow(true);
-          navigate("/admin/products")
+          navigate("/admin/products");
           resetForm();
         }}
       >
@@ -206,27 +215,11 @@ export default function AddProduct() {
               <AttributeInput />
             </Grid>
 
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-              marginTop={2}
-              paddingLeft={2}
-            >
-              <Button
-                variant="contained"
-                color="success"
-                type="submit"
-                size="small"
-              >
+            <Stack direction="row" alignItems="center" spacing={1} marginTop={2} paddingLeft={2}>
+              <Button variant="contained" color="success" type="submit" size="small">
                 Submit
               </Button>
-              <Button
-                variant="contained"
-                color="error"
-                type="submit"
-                size="small"
-              >
+              <Button variant="contained" color="error" type="submit" size="small">
                 Reset
               </Button>
               <Link to="/admin/products">

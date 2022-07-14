@@ -1,8 +1,10 @@
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Box, Button, Grid, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useFormik } from "formik";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,7 +13,6 @@ import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { authInstance, db, storage } from "../../../../service/auth";
 import { selectLoading } from "../../../../store/users/selector";
 import { validation } from "../../../../validation/Validation";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 // SELECT ROLE
 
@@ -97,7 +98,7 @@ export default function AddUser(props) {
       await setDoc(doc(db, "users", res.user.uid), {
         ...values,
         avatar: img.image,
-        timeStamp: serverTimestamp(),
+        timeStamp: moment().format("MM DD YYYY"),
       });
       setShow(true);
       setSubmitting(false);

@@ -1,8 +1,9 @@
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Box, Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authInstance, db, storage } from "../../../../service/auth";
@@ -25,10 +26,26 @@ const CustomerAdding = ({ inputs }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);      
+      const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
       await setDoc(doc(db, "customers", res.user.uid), {
         ...data,
-        timeStamp: serverTimestamp(),
+        addressList: [
+          {
+            address: {
+              detail: data.address,
+              district: {
+                name: "Default",
+              },
+              region: {
+                name: "Default",
+              },
+              ward: {
+                name: "Default",
+              },
+            },
+          },
+        ],
+        timeStamp: moment().format("MM DD YYYY"),
       });
       //navigate to previous page
       navigate(-1);
@@ -68,7 +85,7 @@ const CustomerAdding = ({ inputs }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, img: downloadURL }));
+            setData((prev) => ({ ...prev, image: downloadURL }));
           });
         }
       );
