@@ -10,15 +10,14 @@ import WidgetProduct from "../../../../components/admin/widget/WidgetProduct";
 import Loading from "../../../../components/loading/Loading";
 import fb from "../../../../service/db";
 import { getOrderRequest } from "../../../../store/orders/orderSlice";
-import { selectOrderData } from "../../../../store/orders/selector";
+import { selectLoading, selectOrderData } from "../../../../store/orders/selector";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const ordersData = useSelector(selectOrderData);
-  const [loading, setLoading] = useState(true);
+  const loading = useSelector(selectLoading);
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
-  const [orders,setOrders] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,8 +26,6 @@ function Dashboard() {
       dispatch(getOrderRequest());
       setCustomers(customersData);
       setProducts(productsData);
-      setOrders(ordersData)
-      setLoading(false);
     };
     fetchData();
   }, []);
@@ -47,16 +44,21 @@ function Dashboard() {
               <WidgetProduct products={products} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetOrder orders={orders} />
+              <WidgetOrder orders={ordersData} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetEarning orders={orders} />
+              <WidgetEarning orders={ordersData} />
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
-              <Progress orders={orders}/>
+              <Progress orders={ordersData} />
             </Grid>
             <Grid item xs={12} md={12} lg={8}>
-              <Chart aspect={2 / 1} title="PROFIT & REVENUE" customers={customers}/>
+              <Chart
+                aspect={2 / 1}
+                title="REVENUE & CUSTOMERS"
+                customers={customers}
+                orders={ordersData}
+              />
             </Grid>
           </Grid>
         </Box>

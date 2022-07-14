@@ -1,7 +1,7 @@
 const CURRENT_USERS = 2;
 const CURRENT_PRODUCTS = 20;
 const CURRENT_ORDERS = 9;
-const CURRENT_REVENUE = 800000;
+const CURRENT_REVENUE = 1000000;
 const month = new Date().getMonth() + 1;
 const day = new Date().getDate();
 
@@ -22,8 +22,8 @@ export const handleRevenue = (orders) => {
   const ordersThisDay = [];
   const revenue = {
     month: 0,
-    day:0,
-  }
+    day: 0,
+  };
 
   //convert order date str to Date
   const convertedOrder = orders.map((order) => {
@@ -38,13 +38,22 @@ export const handleRevenue = (orders) => {
   });
 
   //Revenue
-  revenue.month = ordersThisMonth.reduce((total, order, index) => total + order.totalAfterDiscount, 0);
+  revenue.month = ordersThisMonth.reduce(
+    (total, order, index) => total + order.totalAfterDiscount,
+    0
+  );
   revenue.day = ordersThisDay.reduce((total, order, index) => total + order.totalAfterDiscount, 0);
-  return revenue
+  return revenue;
 };
 
+export const handleSixMonthData = (data, thisMonth) => {
+  data.splice(0, 1);
+  data.splice(data.length, 0, thisMonth);
+  return data;
+};
 
 export const handleIncreaseItem = (newItems) => (newItems / CURRENT_USERS) * 100;
 export const handleIncreaseProducts = (newItems) => (newItems / CURRENT_PRODUCTS) * 100 + `%`;
 export const handleIncreaseOrders = (newItems) => (newItems / CURRENT_ORDERS) * 100 + `%`;
-export const handleIncreaseRevenue = (newItems) => (newItems - CURRENT_REVENUE) / CURRENT_REVENUE * 100;
+export const handleIncreaseRevenue = (newItems) =>
+  Math.round(((newItems - CURRENT_REVENUE) / CURRENT_REVENUE) * 100);

@@ -8,51 +8,52 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
-import { handleIncreaseItem, handleNewItem } from "./widget/logic";
+import { handleIncreaseItem, handleIncreaseRevenue, handleNewItem, handleRevenue, handleSixMonthData } from "./widget/logic";
 
-const Chart = ({ aspect, title, customers }) => {
+const Chart = ({ aspect, title, customers,orders }) => {
+  
   const [data, setData] = useState([
     {
       name: "January",
       revenue: 70,
-      newCustomer: 1,
+      customer: 1,
     },
     {
       name: "Febuary",
       revenue: 40,
-      newCustomer: 12,
+      customer: 12,
     },
     {
       name: "March",
       revenue: 90,
-      newCustomer: 5,
+      customer: 5,
     },
     {
       name: "April",
       revenue: 50,
-      newCustomer: 7,
+      customer: 7,
     },
     {
       name: "May",
       revenue: 70,
-      newCustomer: 2,
+      customer: 2,
     },
     {
       name: "June",
       revenue: 20,
-      newCustomer: 3,
+      customer: 3,
     },
   ]);
 
   useEffect(() => {
     const newCustomers = handleNewItem(customers);
     const percentIncrease = handleIncreaseItem(newCustomers);
-    // console.log(percentIncrease);
-    // setData([...data, { name: "July", revenue: 160, newCustomer: percentIncrease }]);
-    // const currentArray = data.slice(0, 1);
-    // setData([...currentArray, { name: "July", revenue: 160, newCustomer: percentIncrease }]);
+    const monthlyRevenue = handleRevenue(orders)
+    const percentIncreaseRevenue = handleIncreaseRevenue(monthlyRevenue.month)
+    const newData = handleSixMonthData(data, { name: "July", revenue: percentIncreaseRevenue, customer: percentIncrease });
+    setData(newData)
   }, []);
 
   return (
@@ -76,7 +77,7 @@ const Chart = ({ aspect, title, customers }) => {
           <Tooltip />
           <Legend />
           <Bar dataKey="revenue" fill="orange" />
-          <Bar dataKey="newCustomer" fill="#133f63" />
+          <Bar dataKey="customer" fill="#133f63" />
         </BarChart>
       </ResponsiveContainer>
     </Box>
