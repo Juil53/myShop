@@ -12,21 +12,26 @@ export function* getCart() {
     const cart = localStorage.get("cart");
     const token = localStorage.get("token");
 
+    //signed in
     if (token) {
       const uid = getUserId();
       const kq = yield call(APIv2.get, "carts", `cart${uid}`);
 
+      //client has firestore cart
       if (kq) {
         const newCart = {
           totalAmount: 0,
           productList: [],
         };
+
         if (!cart) {
+          //client not have local cart
           newCart.totalAmount = kq.totalAmount;
           newCart.productList = [...kq.productList];
 
           localStorage.set("cart", newCart);
         } else {
+          //client has local cart
           const productLocal = [...cart.productList];
           const productData = [...kq.productList];
 
@@ -57,6 +62,7 @@ export function* getCart() {
         }
         yield put(actions.fetchCartSuccess(newCart));
       } else {
+        //client has local cart but not firestore cart
         const uid = getUserId();
 
         if (cart) {
@@ -71,6 +77,7 @@ export function* getCart() {
         }
       }
     } else if (cart) {
+      //not sign in
       yield put(actions.fetchCartSuccess(cart));
     }
   } catch (err) {

@@ -39,3 +39,9 @@ export const selectStatus = (state) => {
   const { status } = order;
   return status;
 };
+
+export const orderAddress = (state) => {
+  const { order = {} } = state || {};
+  const { orderAddress } = order;
+  return orderAddress;
+};

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LOADING_STATUS } from "../../constants";
 
 const orderSlice = createSlice({
   name: "order",
@@ -12,6 +13,10 @@ const orderSlice = createSlice({
     isOpen: false,
     keyword: null,
     status: false,
+    orderAddress: {
+      status: LOADING_STATUS.IDLE,
+      address: {},
+    },
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -67,7 +72,9 @@ const orderSlice = createSlice({
 
       const orderList = [...state.orderData];
       if (action.payload.id) {
-        const index = orderList.findIndex((order) => order.id === action.payload.id);
+        const index = orderList.findIndex(
+          (order) => order.id === action.payload.id
+        );
         if (index !== -1) {
           //Edit
           orderList[index] = action.payload;
@@ -104,6 +111,10 @@ const orderSlice = createSlice({
     resetStatus(state) {
       state.status = false;
     },
+
+    setOrderAddress: (state, action) => {
+      state.orderAddress.address = action.payload;
+    },
   },
 });
 
@@ -126,6 +137,7 @@ export const {
   deleteOrderSuccess,
   deleteOrderFailed,
   resetStatus,
+  setOrderAddress,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;
