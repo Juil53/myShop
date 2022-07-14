@@ -27,23 +27,23 @@
         margin-top: 1rem;
         font-size: 1.4rem;
         align-items: center;
+        width: 100%;
 
         .img {
-          width: 8rem;
-          height: 8rem;
-          padding: 0.5rem;
+          width: 10%;
+          height: 10%;
           border-radius: 0.5rem;
-          border: 1px solid $mainColor;
           position: relative;
 
           img {
             width: 100%;
+            border: 1px solid $mainColor;
             height: 100%;
           }
         }
 
         .info {
-          max-width: 60rem;
+          width: 80%;
           flex-direction: column;
           text-align: center;
 
@@ -62,7 +62,8 @@
         }
 
         .price {
-          margin-left: 1rem;
+          width: 10%;
+          padding-left: 1rem;
         }
       }
     }
@@ -70,7 +71,6 @@
 
   .sub {
     margin-left: 2rem;
-    //border-left: 1px solid $grayColor-1;
     width: 30%;
     padding-left: 1rem;
 
@@ -84,25 +84,28 @@
       .address {
         font-size: 1.4rem;
 
-        .address__main-info {
-          font-weight: 600;
-          width: 100%;
+        .address__info {
+          .address__main-info {
+            font-weight: 600;
+            width: 100%;
 
-          .name {
-            padding-right: 1rem;
+            .name {
+              padding-right: 1rem;
+            }
+
+            .phone {
+              padding: 0 1rem;
+              border-left: 1px solid $grayColor-1;
+            }
           }
 
-          .phone {
-            padding: 0 1rem;
-            border-left: 1px solid $grayColor-1;
+          .address__detail-info {
+            color: $grayColor-3;
           }
-        }
-
-        .address__detail-info {
-          color: $grayColor-3;
         }
 
         .address__function {
+          margin-top: 1rem;
           display: flex;
           justify-content: flex-end;
 

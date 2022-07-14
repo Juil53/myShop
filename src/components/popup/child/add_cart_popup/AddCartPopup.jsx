@@ -8,11 +8,12 @@ import { selectCart } from "../../../../store/cart/selectors";
 import { actions } from "../../../../store/page/slice";
 import CartItem from "./CartItem";
 import { useNavigate } from "react-router-dom";
+import { navigate } from "../../../../utils/routing";
 
 const AddCartPopup = (props) => {
   const { closePopup, data } = props;
 
-  const navigate = useNavigate();
+  const navigator = useNavigate();
   const dispatch = useDispatch();
 
   const cart = useSelector(selectCart);
@@ -67,7 +68,7 @@ const AddCartPopup = (props) => {
   };
 
   const handlePayment = () => {
-    navigate(`/payment`);
+    navigate(dispatch, navigator, `/payment`);
   };
 
   return (

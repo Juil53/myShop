@@ -96,7 +96,6 @@ export function* signupUser({ payload }) {
   const rs = yield call(signup, email, password);
 
   if (rs && !rs.code) {
-    user.id = rs.id;
     user.image = "https://i.ibb.co/4pGF0yV/default-user.png";
 
     const data = {
@@ -128,7 +127,7 @@ export function* getUserInfo() {
     if (userID) {
       const rs = yield call(APIv2.get, "customers", userID);
       if (rs) {
-        const data = { ...rs };
+        const data = { ...rs, id: userID };
 
         yield put(clientActions.getUserInfo(data));
       }
@@ -144,6 +143,7 @@ export function* updateInfo({ payload }) {
 
       if (rs) {
         const newData = yield call(APIv2.get, "customers", uid);
+        newData.id = uid;
         yield put(clientActions.updateSuccess(newData));
       }
     } catch (e) {
