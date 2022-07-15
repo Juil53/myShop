@@ -45,3 +45,9 @@ export const orderAddress = (state) => {
   const { orderAddress } = order;
   return orderAddress;
 };
+
+export const addOrder = (state) => {
+  const { order = {} } = state || {};
+  const { addOrder } = order;
+  return addOrder;
+};

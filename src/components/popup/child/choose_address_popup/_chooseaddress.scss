@@ -8,12 +8,12 @@
     font-weight: 600;
   }
 
-  .choose-address__section {
-    margin-top: 1rem;
+  .choose-address__title {
+    font-size: 1.6rem;
+    padding-top: 1rem;
+  }
 
-    .choose-address__title {
-      font-size: 1.6rem;
-    }
+  .choose-address__section {
 
     .choose-address__error {
       color: red;

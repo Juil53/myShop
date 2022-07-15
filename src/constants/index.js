@@ -3,29 +3,19 @@ export const constant = {
   validName: "valid",
   longName: "long",
   shortName: "short",
-  //loading status
-  IDLE: "IDLE",
-  SUCCESS: "SUCCESS",
-  LOADING: "LOADING",
-  FAIL: "FAIL",
 
   // base url
   API_URL: "http://localhost:3000",
-  //pop up
-  NO_POPUP: "NO_POPUP",
-  CHANGE_POPUP: "CHANGE_POPUP",
-  PRODUCT_INFO_POPUP: "PRODUCT_INFO_POPUP",
-  //product
-  GET_PRODUCTS_SUCCESS: "GET_PRODUCTS_SUCCESS",
-  GET_PRODUCTS_FAILURE: "GET_PRODUCTS_FAILURE",
+
   //language
   ENG: "ENG",
   VI: "VI",
   CHANGE_LANGUAGE: "CHANGE_LANGUAGE",
-  //category
-  GET_CATEGORY_SUCCESS: "GET_CATEGORY_SUCCESS",
-  //home
-  GET_HOME_SUCCESS: "GET_HOME_SUCCESS",
+
+  //order status
+  pending: "Pending",
+  succeed: "Succeed",
+  cancel: "Cancel",
 };
 
 export const LOADING_STATUS = {

@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
 import { actions } from "../../../store/page/slice";
 import { utils } from "../../../utils";
+import { constant } from "../../../constants";
 import { selectCart } from "../../../store/cart/selectors";
 import { actions as cartActions } from "../../../store/cart/slice";
 import localStorage from "../../../service/localStorage";
 import Loading from "../../../components/loading/Loading";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
-import { orderAddress } from "../../../store/orders/selector";
+import { addOrder, orderAddress } from "../../../store/orders/selector";
 import { clientData } from "../../../store/clients/selector";
-import { setOrderAddress } from "../../../store/orders/orderSlice";
+import {
+  addOrderRequest,
+  setOrderAddress,
+} from "../../../store/orders/orderSlice";
 
 const Payment = () => {
   const currentAddress = useSelector(orderAddress);
@@ -19,18 +24,30 @@ const Payment = () => {
   const [deliveryAddress, setDeliveryAddress] = useState();
 
   const dispatch = useDispatch();
+  const navigator = useNavigate();
+
   const cart = useSelector(selectCart);
   const client = useSelector(clientData);
   const token = localStorage.get("token");
 
-  const [shippingFee, setShippingFee] = useState("10000");
-  const [discount, setDiscount] = useState("0");
+  const order = useSelector(addOrder);
+
+  const [shippingFee, setShippingFee] = useState(10000);
+  const [discount, setDiscount] = useState(0);
+
+  //calculate amount
+  const calAmount = (notional, shipping, discount) => {
+    return parseInt(notional) + parseInt(shipping) - parseInt(discount);
+  };
+
+  const [amount, setAmount] = useState(0);
 
   const [isShowProducts, setIsShowProduct] = useState(false);
 
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
   useEffect(() => {
+    console.log("update payment component");
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch(cartActions.fetchCartRequest());
     }
@@ -38,7 +55,25 @@ const Payment = () => {
     if (token && client.status === LOADING_STATUS.IDLE) {
       dispatch({ type: USER_ACTIONS.GET_USER_INFO });
     }
-  }, []);
+  }, [cart.status]);
+
+  useEffect(() => {
+    setAmount(calAmount(cart.data.totalAmount, shippingFee, discount));
+
+    if (order.status === LOADING_STATUS.LOADING) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else if (order.status === LOADING_STATUS.SUCCESS) {
+      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+      dispatch(
+        actions.activePopup({
+          type: POPUP.MESSAGE_POPUP,
+          data: "Order successfully. Thank you ",
+        })
+      );
+    }
+
+    setDeliveryAddress(currentAddress.address);
+  });
 
   useEffect(() => {
     if (token && client.status === LOADING_STATUS.SUCCESS) {
@@ -51,10 +86,6 @@ const Payment = () => {
     }
     setDeliveryAddress(currentAddress.address);
   }, [client.status, token]);
-
-  useEffect(() => {
-    setDeliveryAddress(currentAddress.address);
-  });
 
   //actions
   const changePaymentMethod = (method) => {
@@ -77,7 +108,7 @@ const Payment = () => {
     );
   };
 
-  //render
+  //render product list, product list of order
   const createOptionItem = (data) => {
     if (data && data.length && data.length > 0) {
       return data.map((v, i) => <span key={"option" + i}> {v} </span>);
@@ -118,8 +149,50 @@ const Payment = () => {
     }
   };
 
-  const calAmount = (notional, shipping, discount) => {
-    return parseInt(notional) + parseInt(shipping) - parseInt(discount);
+  //order
+  const handleOrder = () => {
+    const error = document.querySelector(".order-infor__error");
+    error.textContent = "";
+
+    if (!deliveryAddress || Object.keys(deliveryAddress).length <= 0) {
+      error.textContent = "Select delivery address";
+    } else {
+      const date =
+        new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+
+      const newOrder = {
+        date: date,
+        items: [...cart.data.productList],
+        totalAmount: amount,
+        shippingMethod: {
+          shippingFee: shippingFee,
+          shippingMethod: "",
+        },
+        status: constant.pending,
+        deliveryAddress: deliveryAddress,
+      };
+
+      //payment method
+      if (paymentMethod === "cash") {
+        newOrder.paymentMethod = "Cash(COD)";
+      } else {
+        //stripe
+      }
+
+      //Client info
+      if (token) {
+        console.log(client.info);
+        newOrder.uid = client.info.id;
+        newOrder.email = client.info.email;
+      }
+
+      console.log(newOrder);
+      dispatch(addOrderRequest({ order: newOrder }));
+    }
+  };
+
+  const handleContinueShopping = () => {
+    navigator("/product");
   };
 
   return (
@@ -247,15 +320,16 @@ const Payment = () => {
                   </div>
                   <div className="order-infor__amount row">
                     <div className="price__title">Amount</div>
-                    <div className="value">
-                      {utils.priceBreak(
-                        calAmount(cart.data.totalAmount, shippingFee, discount)
-                      )}
-                      ₫
-                    </div>
+                    <div className="value">{utils.priceBreak(amount)}₫</div>
                   </div>
+                  <div className="order-infor__error"></div>
                   <div className="order-infor__function">
-                    <button className="button-style order-btn">Order</button>
+                    <button
+                      className="button-style order-btn"
+                      onClick={handleOrder}
+                    >
+                      Order
+                    </button>
                   </div>
                 </div>
               </div>
@@ -263,7 +337,19 @@ const Payment = () => {
           </div>
         </div>
       ) : (
-        <div>Chua co gio hang</div>
+        <div className="payment-page no-cart">
+          <div className="no-cart__img">
+            <img src="/img/empty_cart.png" alt="" />
+          </div>
+          <div className="no-cart__content">
+            You have no product in your cart
+          </div>
+          <div className="no-cart__function">
+            <button className="button-style" onClick={handleContinueShopping}>
+              Continue shopping
+            </button>
+          </div>
+        </div>
       )}
     </>
   );

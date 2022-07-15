@@ -61,24 +61,26 @@ export function* getCart() {
           localStorage.set("cart", newCart);
         }
         yield put(actions.fetchCartSuccess(newCart));
-      } else {
+      } else if (cart) {
         //client has local cart but not firestore cart
         const uid = getUserId();
 
-        if (cart) {
-          const newCart = {
-            uid: uid,
-            productList: cart.productList,
-            totalAmount: cart.totalAmount,
-          };
+        const newCart = {
+          uid: uid,
+          productList: cart.productList,
+          totalAmount: cart.totalAmount,
+        };
 
-          yield call(APIv2.set, "carts", `cart${uid}`, newCart);
-          yield put(actions.fetchCartSuccess(newCart));
-        }
+        yield call(APIv2.set, "carts", `cart${uid}`, newCart);
+        yield put(actions.fetchCartSuccess(newCart));
+      } else {
+        yield put(actions.fetchCartSuccess());
       }
     } else if (cart) {
       //not sign in
       yield put(actions.fetchCartSuccess(cart));
+    } else {
+      yield put(actions.fetchCartSuccess());
     }
   } catch (err) {
     yield put(actions.fetchCartFail());

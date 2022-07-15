@@ -23,7 +23,11 @@ const cartSlice = createSlice({
 
     fetchCartSuccess: (state, action) => {
       state.status = LOADING_STATUS.SUCCESS;
-      state.data = action.payload;
+
+      //except client have no item in cart
+      if (action.payload) {
+        state.data = action.payload;
+      }
     },
 
     fetchCartFail: (state) => {
@@ -41,6 +45,15 @@ const cartSlice = createSlice({
     updateCart: (state, action) => {
       state.data = handleUpdateCart(state.data, action.payload);
       state.update = LOADING_STATUS.SUCCESS;
+    },
+
+    clearCart: (state) => {
+      state.status = LOADING_STATUS.IDLE;
+      state.data = {
+        productList: [],
+        totalAmount: 0,
+      };
+      state.update = LOADING_STATUS.IDLE;
     },
   },
 });
