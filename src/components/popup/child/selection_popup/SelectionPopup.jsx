@@ -32,7 +32,7 @@ const SelectionPopup = (props) => {
   return (
     <div className="modal center">
       <div className="selection-popup">
-        <div className="title">
+        <div className="selection-popup__title">
           <i className="fa-solid fa-circle-question"></i>
         </div>
         <div className="message">{message}</div>

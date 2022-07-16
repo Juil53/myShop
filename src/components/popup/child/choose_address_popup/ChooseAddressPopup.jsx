@@ -14,24 +14,32 @@ import { clientData } from "../../../../store/clients/selector";
 
 const ChooseAddressPopup = ({ closePopup, data }) => {
   const { currentAddress } = data;
-  const [address, setAddress] = useState(currentAddress);
+  const [address, setAddress] = useState();
 
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(currentAddress?.name || "");
-  const [phoneNumber, setPhoneNumber] = useState(
-    currentAddress?.phoneNumber || ""
-  );
-  const [detail, setDetail] = useState(currentAddress?.address?.detail || "");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [detail, setDetail] = useState();
 
   const token = localStorage.get("token");
   const client = useSelector(clientData);
+
+  const [isShowAdd, setIsShowAdd] = useState(token ? false : true);
 
   useEffect(() => {
     if (token && client.status === LOADING_STATUS.IDLE) {
       dispatch({ type: USER_ACTIONS.GET_USER_INFO });
     }
   }, []);
+
+  const handleShowAdd = () => {
+    if (isShowAdd) {
+      return setIsShowAdd(false);
+    } else {
+      return setIsShowAdd(true);
+    }
+  };
 
   const handleAddAddress = () => {
     const error = document.querySelector(".choose-address__error");
@@ -96,6 +104,48 @@ const ChooseAddressPopup = ({ closePopup, data }) => {
     }
   };
 
+  const renderAddOneAddress = () => {
+    return (
+      <div className="choose-address__section">
+        <div className="row">
+          <InputField
+            title="Full name"
+            id="add_new_address-name"
+            onChange={setName}
+            required
+            type="name"
+            currentValue={name}
+          />
+          <InputField
+            title="Phone number"
+            id="add_new_address-phone_number"
+            onChange={setPhoneNumber}
+            required
+            type="phoneNumber"
+            currentValue={phoneNumber}
+          />
+        </div>
+        <InputField
+          title="Address"
+          id="add_new_address-address"
+          onChange={setDetail}
+          required
+          currentValue={detail}
+        />
+        <Address changeCurrentAddress={setAddress} />
+        <div className="choose-address__error"></div>
+        <div className="choose-address__function">
+          <button className="cancel-btn" onClick={closePopup}>
+            Cancel
+          </button>
+          <button className="button-style" onClick={handleAddAddress}>
+            Add
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="modal center">
       <div className="choose-address">
@@ -124,47 +174,22 @@ const ChooseAddressPopup = ({ closePopup, data }) => {
             )}
           </div>
         )}
-        <div className="choose-address__section">
-          <div className="choose-address__title">Add one</div>
-          <div className="row">
-            <InputField
-              title="Full name"
-              id="add_new_address-name"
-              onChange={setName}
-              required
-              type="name"
-              currentValue={name}
-            />
-            <InputField
-              title="Phone number"
-              id="add_new_address-phone_number"
-              onChange={setPhoneNumber}
-              required
-              type="phoneNumber"
-              currentValue={phoneNumber}
-            />
+        {token ? (
+          <div className="choose-address__section">
+            <div className="choose-address__title content row">
+              Do you want to use other address?
+              <button className="" onClick={handleShowAdd}>
+                Click here
+              </button>
+            </div>
+            {isShowAdd && renderAddOneAddress()}
           </div>
-          <InputField
-            title="Address"
-            id="add_new_address-address"
-            onChange={setDetail}
-            required
-            currentValue={detail}
-          />
-          <Address
-            changeCurrentAddress={setAddress}
-            currentAddress={currentAddress?.address}
-          />
-          <div className="choose-address__error"></div>
-          <div className="choose-address__function">
-            <button className="cancel-btn" onClick={closePopup}>
-              Cancel
-            </button>
-            <button className="button-style" onClick={handleAddAddress}>
-              Add
-            </button>
-          </div>
-        </div>
+        ) : (
+          <>
+            <div className="choose-address__title">Add one</div>
+            {renderAddOneAddress()}
+          </>
+        )}
       </div>
     </div>
   );

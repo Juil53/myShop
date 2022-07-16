@@ -14,8 +14,14 @@ const orderSlice = createSlice({
     keyword: null,
     status: false,
     orderAddress: {
-      status: LOADING_STATUS.IDLE,
       address: {},
+    },
+    addOrder: {
+      status: LOADING_STATUS.IDLE,
+    },
+    orderByClient: {
+      status: LOADING_STATUS.IDLE,
+      data: [],
     },
   },
   reducers: {
@@ -115,6 +121,18 @@ const orderSlice = createSlice({
     setOrderAddress: (state, action) => {
       state.orderAddress.address = action.payload;
     },
+
+    addOrderRequest: (state) => {
+      state.addOrder.status = LOADING_STATUS.LOADING;
+    },
+
+    addOrderSuccess: (state) => {
+      state.addOrder.status = LOADING_STATUS.SUCCESS;
+    },
+
+    addOrderFail: (state) => {
+      state.addOrder.status = LOADING_STATUS.FAIL;
+    },
   },
 });
 
@@ -138,6 +156,9 @@ export const {
   deleteOrderFailed,
   resetStatus,
   setOrderAddress,
+  addOrderRequest,
+  addOrderSuccess,
+  addOrderFail,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;
