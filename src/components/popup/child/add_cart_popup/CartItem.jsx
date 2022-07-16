@@ -16,7 +16,6 @@ const CartItem = (props) => {
     newProduct.quantity = number;
 
     if (number !== 0) {
-      console.log(newProduct);
       dispatch(cartActions.updateCartRequest({ product: newProduct }));
     } else {
       actionDelete();

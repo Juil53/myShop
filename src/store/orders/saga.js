@@ -11,12 +11,12 @@ import {
   getOrderPaginationFailed,
   getOrderPaginationSuccess,
   getOrderSuccess,
-  resetStatus,
   submitOrderFailed,
   submitOrderSuccess,
 } from "./orderSlice";
 import localStorage from "../../service/localStorage";
 import { actions as cartActions } from "../cart/slice";
+import { toast } from "react-toastify";
 
 //GET ORDER DATA
 export function* actGetOrder() {
@@ -68,8 +68,6 @@ export function* actDeleteOrder(action) {
 
 //add order
 export function* addOrder({ payload: { order } }) {
-  console.log("call add order");
-
   const rs = yield call(APIv2.add, "orders", order);
 
   if (rs) {
@@ -77,10 +75,67 @@ export function* addOrder({ payload: { order } }) {
       yield call(APIv2.del, "carts", `cart${order.uid}`);
     }
 
+    //decrease product quantity
+    const products = [...order.items];
+
+    for (let i = 0; i < products.length; i++) {
+      const updatedProduct = {};
+      console.log(products[i].id);
+
+      if (
+        products[i].optionSelected &&
+        Object.keys(products[i].optionSelected).length > 0
+      ) {
+        //product has option
+        const product = yield call(APIv2.get, "products", products[i].id);
+
+        //update quantity of selected option
+        const configurableProducts = [...product.configurableProducts];
+        const newConfigurableProducts = [];
+
+        configurableProducts.forEach((v) => {
+          const { available, selected, ...others } = v;
+
+          if (
+            JSON.stringify(others) ===
+            JSON.stringify(products[i].optionSelected)
+          ) {
+            const updatedConfigurableProduct = {
+              available: available - products[i].quantity,
+              ...others,
+            };
+            if (selected) {
+              updatedConfigurableProduct.selected = true;
+            }
+            newConfigurableProducts.push(updatedConfigurableProduct);
+          } else {
+            newConfigurableProducts.push(v);
+          }
+        });
+
+        updatedProduct.configurableProducts = [...newConfigurableProducts];
+        updatedProduct.available = product.available - products[i].quantity;
+      } else {
+        updatedProduct.available = products[i].available - products[i].quantity;
+      }
+
+      yield call(APIv2.update, "products", updatedProduct, products[i].id);
+    }
+
     localStorage.remove("cart");
     yield put(cartActions.clearCart());
 
     yield put(addOrderSuccess());
+
+    yield call(toast.success, "Order successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } else {
     yield put(addOrderFail());
   }

@@ -34,8 +34,13 @@ const cartSlice = createSlice({
       state.status = LOADING_STATUS.FAIL;
     },
 
-    fetchAddCart: (state, action) => {
+    fetchAddCartRequest: (state) => {
+      state.update = LOADING_STATUS.LOADING;
+    },
+
+    fetchAddCartSuccess: (state, action) => {
       state.data = handleAddCart(state.data, action.payload);
+      state.update = LOADING_STATUS.SUCCESS;
     },
 
     updateCartRequest: (state) => {

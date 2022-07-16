@@ -17,9 +17,12 @@ import {
   addOrderRequest,
   setOrderAddress,
 } from "../../../store/orders/orderSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Payment = () => {
   const currentAddress = useSelector(orderAddress);
+  const [click, setClick] = useState(false);
 
   const [deliveryAddress, setDeliveryAddress] = useState();
 
@@ -47,7 +50,6 @@ const Payment = () => {
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
   useEffect(() => {
-    console.log("update payment component");
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch(cartActions.fetchCartRequest());
     }
@@ -60,16 +62,11 @@ const Payment = () => {
   useEffect(() => {
     setAmount(calAmount(cart.data.totalAmount, shippingFee, discount));
 
-    if (order.status === LOADING_STATUS.LOADING) {
+    if (order.status === LOADING_STATUS.LOADING && click) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
-    } else if (order.status === LOADING_STATUS.SUCCESS) {
+    } else if (order.status === LOADING_STATUS.SUCCESS && click) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
-      dispatch(
-        actions.activePopup({
-          type: POPUP.MESSAGE_POPUP,
-          data: "Order successfully. Thank you ",
-        })
-      );
+      setClick(false);
     }
 
     setDeliveryAddress(currentAddress.address);
@@ -151,6 +148,7 @@ const Payment = () => {
 
   //order
   const handleOrder = () => {
+    setClick(true);
     const error = document.querySelector(".order-infor__error");
     error.textContent = "";
 
@@ -181,12 +179,10 @@ const Payment = () => {
 
       //Client info
       if (token) {
-        console.log(client.info);
         newOrder.uid = client.info.id;
         newOrder.email = client.info.email;
       }
 
-      console.log(newOrder);
       dispatch(addOrderRequest({ order: newOrder }));
     }
   };
@@ -197,6 +193,7 @@ const Payment = () => {
 
   return (
     <>
+      <ToastContainer />
       {cart.status === LOADING_STATUS.IDLE ||
       cart.status === LOADING_STATUS.LOADING ? (
         <Loading />

@@ -131,7 +131,7 @@ export default function ProductInfoPopup(props) {
       product.optionSelected = { ...currentOption };
     }
 
-    dispatch(cartActions.fetchAddCart({ product: product }));
+    dispatch(cartActions.fetchAddCartRequest({ product: product }));
 
     dispatch(
       actions.activePopup({
