@@ -62,7 +62,8 @@ export default function ProductDataList() {
     },
     { field: "name", headerName: "Product Name", width:450 },
     { field: "desc", headerName: "Description", width:300 },
-    { field: "brand", headerName: "Brand", width:250,align: "center", },
+    { field: "brand", headerName: "Brand", width:250,align: "center", headerAlign: "center",},
+    { field: "timeStamp", headerName: "Created At", width:250,align: "center", headerAlign: "center",},
     { field: "available", headerName: "Quantity", width:80,align: "center", },
     {
       field: "priceBeforeDiscount",
@@ -119,13 +120,6 @@ export default function ProductDataList() {
           <GridToolbarDensitySelector />
           <GridToolbarExport />
         </GridToolbarContainer>
-        <IconButton
-          onClick={() => {
-            handleDeleteSelected(arrIds);
-          }}
-        >
-          <DeleteIcon color="error" />
-        </IconButton>
       </Grid>
     );
   };

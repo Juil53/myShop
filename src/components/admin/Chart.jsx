@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { handleIncreaseItem, handleIncreaseRevenue, handleNewItem, handleRevenue, handleSixMonthData } from "./widget/logic";
 
-const Chart = ({ aspect, title, customers,orders }) => {
+const Chart = ({ aspect, title, customers,orders,month }) => {
   
   const [data, setData] = useState([
     {
@@ -48,7 +48,7 @@ const Chart = ({ aspect, title, customers,orders }) => {
   ]);
 
   useEffect(() => {
-    const newCustomers = handleNewItem(customers);
+    const newCustomers = handleNewItem(customers,month);
     const percentIncrease = handleIncreaseItem(newCustomers);
     const monthlyRevenue = handleRevenue(orders)
     const percentIncreaseRevenue = handleIncreaseRevenue(monthlyRevenue.month)

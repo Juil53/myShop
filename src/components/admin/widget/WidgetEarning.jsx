@@ -6,7 +6,7 @@ import { handleIncreaseRevenue, handleRevenue } from "./logic";
 import { formatter } from "../../../utils/index";
 import { Link } from "react-router-dom";
 
-const WidgetEarning = ({ orders }) => {
+const WidgetEarning = ({ orders,month }) => {
   let [data, setData] = useState(() => {
     return {
       title: "REVENUE",
@@ -26,7 +26,7 @@ const WidgetEarning = ({ orders }) => {
   });
 
   useEffect(() => {
-    const revenue = handleRevenue(orders);
+    const revenue = handleRevenue(orders,month);
     const percentIncrease = handleIncreaseRevenue(revenue.month);
     setData({
       ...data,

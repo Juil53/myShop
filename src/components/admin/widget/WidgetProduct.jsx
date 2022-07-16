@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { handleIncreaseItem, handleIncreaseProducts, handleNewItem } from "./logic";
 
-const WidgetProduct = ({ products }) => {
+const WidgetProduct = ({ products,month }) => {
 
   let [data, setData] = useState(() => {
     return {
@@ -26,7 +26,7 @@ const WidgetProduct = ({ products }) => {
   });
 
   useEffect(() => {
-    const newProducts = handleNewItem(products);
+    const newProducts = handleNewItem(products,month);
     const percentIncrease = handleIncreaseProducts(newProducts);
     setData({ ...data, amount: newProducts, increase: percentIncrease });
   }, []);

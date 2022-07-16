@@ -128,13 +128,6 @@ export default function CustomerList({ data }) {
           <GridToolbarDensitySelector />
           <GridToolbarExport />
         </GridToolbarContainer>
-        <IconButton
-          onClick={() => {
-            handleDeleteSelected(arrIds);
-          }}
-        >
-          <DeleteIcon color="error" />
-        </IconButton>
       </Grid>
     );
   };
