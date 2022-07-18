@@ -8,6 +8,7 @@ import {
   TableRow,
   TextField,
   Toolbar,
+  Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { NavLink } from "react-router-dom";
@@ -28,15 +29,15 @@ const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
-  color:'#fff',
+  color: "#fff",
   transition: "all 200ms ease",
   "&:hover": {
     "&.MuiButtonBase-root": {
       color: theme.palette.primary.dark,
       fontWeight: 900,
       borderLeft: "8px solid",
-      backgroundColor:"#fff",
-      borderColor: '#fff',
+      backgroundColor: "#fff",
+      borderColor: "#fff",
     },
     "& .MuiTypography-root": {
       fontWeight: 900,
@@ -54,7 +55,7 @@ const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
 const CustomeNavlink = styled(NavLink)(({ theme }) => ({
   "&.active > div": {
     color: theme.palette.primary.main,
-    backgroundColor:'#fff',
+    backgroundColor: "#fff",
     "& .MuiTypography-root": {
       fontSize: "1.8rem",
       fontWeight: 900,
