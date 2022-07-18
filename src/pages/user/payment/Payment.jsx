@@ -76,6 +76,7 @@ const Payment = () => {
   useEffect(() => {
     if (token && client.status === LOADING_STATUS.SUCCESS) {
       const { addressList } = client.info;
+
       if (addressList && addressList.length > 0) {
         const defaultAddress = addressList.find((v) => v.default);
 
@@ -86,6 +87,7 @@ const Payment = () => {
   }, [client.status, token]);
 
   useEffect(() => {
+    if (cart.status !== LOADING_STATUS.SUCCESS) return;
     const encryptedId = params.get("extraData");
     const orderId = params.get("orderId");
 
@@ -96,7 +98,7 @@ const Payment = () => {
       const newOrder = {
         date: date,
         items: [...cart.data.productList],
-        totalAmount: amount,
+        totalAmount: calAmount(cart.data.totalAmount, shippingFee, discount),
         shippingMethod: {
           shippingFee: shippingFee,
           shippingMethod: "",
@@ -114,11 +116,9 @@ const Payment = () => {
         name: "Momo",
         status: "Paid",
       };
-
-      console.log(newOrder);
       dispatch(addOrderRequest({ orderId, encryptedId, order: newOrder }));
     }
-  }, [params.get("extraData")]);
+  }, [params.get("extraData"), cart.status]);
 
   useEffect(() => {
     //set delivery address
