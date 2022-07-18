@@ -94,7 +94,8 @@ export function* addCart({ payload: { product } }) {
 
     if (token) {
       const uid = getUserId();
-      const rs = yield call(APIv2.get, "carts", `cart${uid}`) || {};
+      let rs = yield call(APIv2.get, "carts", `cart${uid}`);
+      rs = rs || {};
 
       const currentCart = {};
       if (cart) {
@@ -117,6 +118,7 @@ export function* addCart({ payload: { product } }) {
 
       yield call(APIv2.set, "carts", `cart${uid}`, newData);
     }
+
     yield put(actions.fetchAddCartSuccess({ product }));
   } catch (err) {
     console.log(err);

@@ -51,3 +51,9 @@ export const addOrder = (state) => {
   const { addOrder } = order;
   return addOrder;
 };
+
+export const payUrl = (state) => {
+  const { order = {} } = state || {};
+  const { payUrl } = order;
+  return payUrl;
+};

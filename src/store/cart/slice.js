@@ -58,6 +58,7 @@ const cartSlice = createSlice({
         productList: [],
         totalAmount: 0,
       };
+      console.log("clear cart");
       state.update = LOADING_STATUS.IDLE;
     },
   },
