@@ -1,5 +1,5 @@
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Chart from "../../../../components/admin/Chart";
 import MonthChart from "../../../../components/admin/MonthChart";
@@ -8,33 +8,32 @@ import WidgetCustomer from "../../../../components/admin/widget/WidgetCustomer";
 import WidgetEarning from "../../../../components/admin/widget/WidgetEarning";
 import WidgetOrder from "../../../../components/admin/widget/WidgetOrder";
 import WidgetProduct from "../../../../components/admin/widget/WidgetProduct";
-import Loading from "../../../../components/loading/Loading";
-import fb from "../../../../service/db";
+import { getAllProductRequest } from "../../../../store/admin_product/productSlice";
+import { selectAllProduct } from "../../../../store/admin_product/selector";
+import { selectCustomers } from "../../../../store/clients/selector";
+import { clientActions } from "../../../../store/clients/slice";
 import { getOrderRequest } from "../../../../store/orders/orderSlice";
 import { selectLoading, selectOrderData } from "../../../../store/orders/selector";
 import { months } from "./date";
+import Loading from "./../../../../components/loading/Loading";
 
-function Dashboard() {
+const Dashboard = () => {
   const dispatch = useDispatch();
   const ordersData = useSelector(selectOrderData);
+  const customersData = useSelector(selectCustomers);
+  const productsData = useSelector(selectAllProduct);
   const loading = useSelector(selectLoading);
-  const [customers, setCustomers] = useState([]);
-  const [products, setProducts] = useState([]);
   const [month, setMonth] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const customersData = await fb.getAll("customers");
-      const productsData = await fb.getAll("products");
-      dispatch(getOrderRequest());
-      setCustomers(customersData);
-      setProducts(productsData);
-    };
-    fetchData();
-  }, [month]);
+    dispatch(clientActions.getCustomersRequest());
+    dispatch(getAllProductRequest());
+    dispatch(getOrderRequest());
+  }, []);
 
   const handleChange = async (event) => {
-    setMonth(event.target.value);
+    event.preventDefault()
+    setMonth(event.target.value)
   };
 
   return (
@@ -68,10 +67,10 @@ function Dashboard() {
 
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <WidgetCustomer customers={customers} month={month} />
+              <WidgetCustomer customers={customersData} month={month} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetProduct products={products} month={month} />
+              <WidgetProduct products={productsData} month={month} />
             </Grid>
             <Grid item xs={3}>
               <WidgetOrder orders={ordersData} />
@@ -87,7 +86,7 @@ function Dashboard() {
                 <MonthChart
                   aspect={2 / 1}
                   title="REVENUE & CUSTOMERS"
-                  customers={customers}
+                  customers={customersData}
                   orders={ordersData}
                   month={month}
                 />
@@ -95,7 +94,7 @@ function Dashboard() {
                 <Chart
                   aspect={2 / 1}
                   title="REVENUE & CUSTOMERS"
-                  customers={customers}
+                  customers={customersData}
                   orders={ordersData}
                 />
               )}
@@ -105,6 +104,6 @@ function Dashboard() {
       )}
     </div>
   );
-}
+};
 
 export default Dashboard;

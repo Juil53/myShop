@@ -18,8 +18,6 @@ const Progress = ({ orders, month }) => {
 
   useEffect(() => {
     const revenue = handleRevenue(orders, month);
-    console.log(revenue);
-
     const percentIncrease = handleIncreaseRevenue(revenue.month);
     setData({
       ...data,
@@ -27,7 +25,7 @@ const Progress = ({ orders, month }) => {
       revenueDay: revenue.day,
       increase: percentIncrease,
     });
-  }, []);
+  }, [month]);
 
   return (
     <Box

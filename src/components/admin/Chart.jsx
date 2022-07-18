@@ -8,12 +8,17 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
-import { handleIncreaseItem, handleIncreaseRevenue, handleNewItem, handleRevenue, handleSixMonthData } from "./widget/logic";
+import {
+  handleIncreaseItem,
+  handleIncreaseRevenue,
+  handleNewItem,
+  handleRevenue,
+  handleSixMonthData,
+} from "./widget/logic";
 
-const Chart = ({ aspect, title, customers,orders,month }) => {
-  
+const Chart = ({ aspect, title, customers, orders, month }) => {
   const [data, setData] = useState([
     {
       name: "January",
@@ -48,13 +53,17 @@ const Chart = ({ aspect, title, customers,orders,month }) => {
   ]);
 
   useEffect(() => {
-    const newCustomers = handleNewItem(customers,month);
+    const newCustomers = handleNewItem(customers, month);
     const percentIncrease = handleIncreaseItem(newCustomers);
-    const monthlyRevenue = handleRevenue(orders)
-    const percentIncreaseRevenue = handleIncreaseRevenue(monthlyRevenue.month)
-    const newData = handleSixMonthData(data, { name: "July", revenue: percentIncreaseRevenue, customer: percentIncrease });
-    setData(newData)
-  }, []);
+    const monthlyRevenue = handleRevenue(orders,month);
+    const percentIncreaseRevenue = handleIncreaseRevenue(monthlyRevenue.month);
+    const newData = handleSixMonthData(data, {
+      name: "July",
+      revenue: percentIncreaseRevenue,
+      customer: percentIncrease,
+    });
+    setData(newData);
+  }, [month]);
 
   return (
     <Box component={Paper} elevation={8} padding={2}>
