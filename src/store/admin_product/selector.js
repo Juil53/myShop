@@ -16,7 +16,7 @@ export const selectLoading = (state) => {
   return loading;
 };
 
-export const selectAllProduct = (state, filterOptions) => {
+export const selectAllProduct = (state, filterOptions = "") => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
   let temp = [];

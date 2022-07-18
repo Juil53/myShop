@@ -3,7 +3,6 @@ const CURRENT_PRODUCTS = 20;
 const CURRENT_ORDERS = 9;
 const CURRENT_REVENUE = 150000;
 const CURRENT_MONTH = new Date().getMonth() + 1;
-const day = new Date().getDate();
 
 export const handleNewItem = (data, option) => {
   const newItemThisMonth = [];
@@ -19,12 +18,11 @@ export const handleNewItem = (data, option) => {
   return newItemThisMonth.length;
 };
 
-export const handleRevenue = (orders, option) => {
+export const handleRevenue = (orders, month) => {
   const ordersThisMonth = [];
-  const ordersThisDay = [];
   const revenue = {
     month: 0,
-    day: 0,
+    date: [],
   };
 
   //convert order date str to Date
@@ -34,22 +32,25 @@ export const handleRevenue = (orders, option) => {
 
   convertedOrder.forEach((order) => {
     const orderCreatedAtMonth = order.date.getMonth() + 1;
-    if (option !== 0 && orderCreatedAtMonth === option) {
+    if (month !== 0 && orderCreatedAtMonth === month) {
       ordersThisMonth.push(order);
-    } else if (!option && orderCreatedAtMonth === CURRENT_MONTH) {
+    } else if (!month && orderCreatedAtMonth === CURRENT_MONTH) {
       ordersThisMonth.push(order);
     }
-    // const orderCreatedAtDate = order.date.getDate();
-    // orderCreatedAtMonth === CURRENT_MONTH && ordersThisMonth.push(order);
-    // orderCreatedAtDate === day && ordersThisDay.push(order);
   });
 
-  //Revenue
+  const sortedOrders = ordersThisMonth.sort((a, b) => Number(a.date) - Number(b.date));
+
+  sortedOrders.forEach((order) => {
+    const date = order.date.getDate();
+    revenue.date.push({ date, revenue: order.totalAfterDiscount });
+  });
+
+  //Month Revenue
   revenue.month = ordersThisMonth.reduce(
     (total, order, index) => total + order.totalAfterDiscount,
     0
   );
-  revenue.day = ordersThisDay.reduce((total, order, index) => total + order.totalAfterDiscount, 0);
   return revenue;
 };
 
@@ -67,7 +68,6 @@ export const handleDateOfMonth = (month) => {
   for (let i = 0; i < daysInMonth; i++) {
     date.push(i + 1);
   }
-
   return date;
 };
 

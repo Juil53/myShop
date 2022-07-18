@@ -9,6 +9,9 @@ const initialState = {
   },
   updateStatus: LOADING_STATUS.IDLE,
   updateMsg: "",
+  customers: [],
+  error: null,
+  loading: false,
 };
 
 const clientSlice = createSlice({
@@ -83,8 +86,7 @@ const clientSlice = createSlice({
 
     signupFail: (state, action) => {
       state.status = LOADING_STATUS.FAIL;
-      if (action.payload === "auth/email-already-in-use")
-        state.msg = "Email already in use";
+      if (action.payload === "auth/email-already-in-use") state.msg = "Email already in use";
     },
 
     getUserInfo: (state, action) => {
@@ -152,6 +154,20 @@ const clientSlice = createSlice({
           state.updateMsg = "Something went wrong. Please try again";
           break;
       }
+    },
+
+    getCustomersRequest(state) {
+      state.loading = true;
+    },
+
+    getCustomersSuccess(state, action) {
+      state.loading = false;
+      state.customers = action.payload;
+    },
+
+    getCustomersFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });

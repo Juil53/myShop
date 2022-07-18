@@ -1,51 +1,19 @@
 import { Box, Paper, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
+  Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis,
+  YAxis
 } from "recharts";
-import { handleConvertNumberToMonth } from "./widget/logic";
+import { handleDateOfMonth, handleRevenue } from "./widget/logic";
 
 const MonthChart = ({ aspect, title, customers, orders, month }) => {
-  const [data, setData] = useState([
-    {
-      name: "Month",
-      revenue: null,
-      customer: null,
-      date: [],
-    },
-  ]);
-
-  console.log(data);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const monthData = [
-      {
-        name: handleConvertNumberToMonth(month),
-        revenue: 10,
-        date: 5,
-      },
-      {
-        name: handleConvertNumberToMonth(month),
-        revenue: 5,
-        date: 10,
-      },
-      {
-        name: handleConvertNumberToMonth(month),
-        revenue: 20,
-        date: 15,
-      },
-    ];
-
-    setData(monthData);
-  }, []);
+    handleDateOfMonth(month);
+    const { date } = handleRevenue(orders, month);
+    setData(date);
+  }, [month]);
 
   return (
     <Box component={Paper} elevation={8} padding={2}>
@@ -53,25 +21,23 @@ const MonthChart = ({ aspect, title, customers, orders, month }) => {
         {title}
       </Typography>
       <ResponsiveContainer width="100%" aspect={aspect}>
-        <LineChart
+        <AreaChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 5,
+            top: 10,
             right: 30,
-            left: 20,
-            bottom: 5,
+            left: 0,
+            bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="revenue" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="customer" stroke="#82ca9d" />
-        </LineChart>
+          <Area type="monotone" dataKey="revenue" stroke="crimson" fill="crimson" />
+        </AreaChart>
       </ResponsiveContainer>
     </Box>
   );
