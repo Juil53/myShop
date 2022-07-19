@@ -1,8 +1,11 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery } from "redux-saga/effects";
 import { ROWS_PER_PAGE } from "../../constants";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
-  deleteProductFailed, deleteProductSuccess,
+  deleteProductFailed,
+  deleteProductSuccess,
+  deleteSelectedProductFailed,
+  deleteSelectedProductSuccess,
   getAllProductFailed,
   getAllProductSuccess,
   getCategoriesFailed,
@@ -12,9 +15,9 @@ import {
   getProductPaginationFailed,
   getProductPaginationSuccess,
   submitProductFailed,
-  submitProductSuccess
+  submitProductSuccess,
 } from "./productSlice";
-import fb from "../../service/db"
+import fb from "../../service/db";
 
 //GET OPTIONS
 export function* actGetOptions() {
@@ -49,13 +52,6 @@ export function* actAddProduct(action) {
 
 // GET PRODUCT
 export function* actGetAllProduct() {
-  // try {
-  //   const result = yield call(apiInstance.get, "products");
-  //   yield put(getAllProductSuccess(result));
-  // } catch (err) {
-  //   yield put(getAllProductFailed());
-  // }
-
   try {
     const result = yield call(fb.getAll, "products");
     yield put(getAllProductSuccess(result));
@@ -77,12 +73,22 @@ export function* actProductPagination(action) {
 
 // DELETE PRODUCT
 export function* actDeleteProduct(action) {
-  console.log("action",action)
   try {
-    yield call(apiInstance.delete, `products/${action.payload}`);
-    yield put(deleteProductSuccess())
+    const result = yield call(fb.del("products", action.payload));
+    yield put(deleteProductSuccess(result));
   } catch (err) {
-    yield put(deleteProductFailed())
+    yield put(deleteProductFailed());
+  }
+}
+
+// DELETE SELECTED PRODUCTS
+export function* actDeleteSelectedProduct(action) {
+  const ids = action.payload;
+  try {
+    yield all([ids.map((id) => call(fb.del("products", id)))]);
+    yield put(deleteSelectedProductSuccess());
+  } catch (err) {
+    yield put(deleteSelectedProductFailed());
   }
 }
 
@@ -93,4 +99,5 @@ export default function* adminProductSaga() {
   yield takeEvery("product/getOptionsRequest", actGetOptions);
   yield takeEvery("product/getCategoriesRequest", actGetCategories);
   yield takeEvery("product/deleteProductRequest", actDeleteProduct);
+  yield takeEvery("product/deleteSelectedProductRequest", actDeleteSelectedProduct);
 }

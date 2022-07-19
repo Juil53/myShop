@@ -1,14 +1,13 @@
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, Button, InputAdornment, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
-import { loginAdmin, selectUserKeyword } from "../../../../store/users/selector";
-import { getKeyword } from "../../../../store/users/usersSlice";
+import { Box, Button, InputAdornment, Typography } from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { loginAdmin } from "../../../../store/users/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import UserDataList from "./UserDataList";
-import { UserList } from "./UserList";
 
 const user__search = {
   display: "flex",
@@ -19,11 +18,11 @@ const user__search = {
 };
 
 function UserManagement() {
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state.user.loading);
+  const [keyword, setKeyword] = useState("");
   const user = useSelector(loginAdmin);
-  const keyword = useSelector(selectUserKeyword);
-  const handleChange = (event) => dispatch(getKeyword(event.target.value));
+  const handleChange = (event) => {
+    setKeyword(event.target.value);
+  };
 
   const pages = [
     {
@@ -36,15 +35,11 @@ function UserManagement() {
     },
   ];
 
-  const handleClearSeach = () => (
-    (document.querySelector(".search__input").value = null), dispatch(getKeyword(null))
-  );
-
   return (
     <>
       {user?.data?.role === "Admin" && (
         <>
-          <Breadcrumb pages={pages}/>
+          <Breadcrumb pages={pages} />
 
           <Typography variant="h4" fontWeight={400}>
             User Management
@@ -59,17 +54,14 @@ function UserManagement() {
                   </InputAdornment>
                 ),
               }}
-              label="Search by Email..."
+              label="Search"
               size="small"
               sx={{ minWidth: "10%" }}
+              placeholder="name, email, address, identify,..."
               onChange={handleChange}
             />
             <Link to="add">
-              <Button
-                variant="contained"
-                sx={{ width: "100px" }}
-                startIcon={<AddIcon />}
-              >
+              <Button variant="contained" sx={{ width: "100px" }} startIcon={<AddIcon />}>
                 Add
               </Button>
             </Link>
@@ -77,7 +69,7 @@ function UserManagement() {
 
           <Box>
             {/* <UserList keyword={keyword} /> */}
-            <UserDataList/>
+            <UserDataList keyword={keyword}/>
           </Box>
         </>
       )}

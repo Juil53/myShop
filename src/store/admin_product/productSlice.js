@@ -111,6 +111,18 @@ const productSlice = createSlice({
       state.status = false
     },
 
+    deleteSelectedProductRequest(state){
+      state.status = false
+    },
+
+    deleteSelectedProductSuccess(state){
+      state.status = true
+    },
+
+    deleteSelectedProductFailed(state){
+      state.status = false
+    },
+
     resetStatus(state){
       state.status = false
     }
@@ -137,6 +149,9 @@ export const {
   deleteProductRequest,
   deleteProductSuccess,
   deleteProductFailed,
+  deleteSelectedProductRequest,
+  deleteSelectedProductSuccess,
+  deleteSelectedProductFailed,
   resetStatus
 } = productSlice.actions;
 
