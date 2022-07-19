@@ -1,12 +1,17 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
-  Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis,
-  YAxis
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { handleDateOfMonth, handleRevenue } from "./widget/logic";
 
-const MonthChart = ({ aspect, title, customers, orders, month }) => {
+const MonthChart = ({ aspect, title, orders, month }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -26,15 +31,15 @@ const MonthChart = ({ aspect, title, customers, orders, month }) => {
           height={300}
           data={data}
           margin={{
-            top: 10,
-            right: 30,
+            top: 30,
+            right: 40,
             left: 0,
             bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
-          <YAxis />
+          <YAxis padding={{ top: 30 }} label={{ position: "top", angle: 0, value: "Revenue" }} />
           <Tooltip />
           <Area type="monotone" dataKey="revenue" stroke="crimson" fill="crimson" />
         </AreaChart>

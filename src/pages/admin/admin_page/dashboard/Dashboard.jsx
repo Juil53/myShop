@@ -14,8 +14,8 @@ import { selectCustomers } from "../../../../store/clients/selector";
 import { clientActions } from "../../../../store/clients/slice";
 import { getOrderRequest } from "../../../../store/orders/orderSlice";
 import { selectLoading, selectOrderData } from "../../../../store/orders/selector";
-import { months } from "./date";
 import Loading from "./../../../../components/loading/Loading";
+import { months } from "./date";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -32,8 +32,8 @@ const Dashboard = () => {
   }, []);
 
   const handleChange = async (event) => {
-    event.preventDefault()
-    setMonth(event.target.value)
+    event.preventDefault();
+    setMonth(event.target.value);
   };
 
   return (

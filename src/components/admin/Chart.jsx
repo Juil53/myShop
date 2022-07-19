@@ -22,40 +22,40 @@ const Chart = ({ aspect, title, customers, orders, month }) => {
   const [data, setData] = useState([
     {
       name: "January",
-      revenue: 70,
-      customer: 1,
+      revenue: 700,
+      customer: 100,
     },
     {
       name: "Febuary",
-      revenue: 40,
-      customer: 12,
+      revenue: 400,
+      customer: 120,
     },
     {
       name: "March",
-      revenue: 90,
-      customer: 5,
+      revenue: 350,
+      customer: 500,
     },
     {
       name: "April",
-      revenue: 50,
-      customer: 7,
+      revenue: 750,
+      customer: 100,
     },
     {
       name: "May",
-      revenue: 70,
-      customer: 2,
+      revenue: 970,
+      customer: 100,
     },
     {
       name: "June",
-      revenue: 20,
-      customer: 3,
+      revenue: 700,
+      customer: 100,
     },
   ]);
 
   useEffect(() => {
     const newCustomers = handleNewItem(customers, month);
     const percentIncrease = handleIncreaseItem(newCustomers);
-    const monthlyRevenue = handleRevenue(orders,month);
+    const monthlyRevenue = handleRevenue(orders, month);
     const percentIncreaseRevenue = handleIncreaseRevenue(monthlyRevenue.month);
     const newData = handleSixMonthData(data, {
       name: "July",

@@ -27,7 +27,6 @@ const WidgetCustomer = ({ customers,month }) => {
 
   useEffect(() => {
     const newCustomers = handleNewItem(customers,month);
-    console.log("newCustomers",newCustomers)
     const percentIncrease = handleIncreaseItem(newCustomers);
     setData({ ...data, amount: newCustomers,increase:percentIncrease });
   }, [month]);
