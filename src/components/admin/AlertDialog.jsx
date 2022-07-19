@@ -6,7 +6,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export default function AlertDialog({ open, order, user, product, handleDelete }) {
   const handleCase = () => {
-    if (user) return <span style={{ fontWeight: 700, color: "#35c0c5" }}>{user.lastname}?</span>;
+    if (user)
+      return (
+        <span style={{ fontWeight: 700, color: "#35c0c5" }}>
+          {user.firstname} {user.lastname}?
+        </span>
+      );
     if (product) return <span style={{ fontWeight: 700, color: "#35c0c5" }}>{product.name}?</span>;
     if (order) return <span style={{ fontWeight: 700, color: "#35c0c5" }}>{order.id}?</span>;
   };

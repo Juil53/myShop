@@ -47,7 +47,12 @@ const style = {
     marginRight: 2,
     padding: 3,
   },
-  img: { borderRadius: "50%", marginBottom: "5rem", width: "50%", height: "150px" },
+  img: {
+    borderRadius: "50%",
+    marginBottom: "5rem",
+    width: "50%",
+    height: "50%",
+  },
   userForm: {
     width: "75%",
     padding: 3,
@@ -102,6 +107,7 @@ export default function AddUser(props) {
       });
       setShow(true);
       setSubmitting(false);
+      setImg({})
       resetForm();
     },
   });
@@ -345,7 +351,12 @@ export default function AddUser(props) {
           <Grid container spacing={2} mt={1}>
             <Grid item xs={6}>
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="success" type="submit" disabled={per !== null && per < 100}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  disabled={per !== null && per < 100}
+                >
                   Submit
                 </Button>
                 <Link to="/admin/users">

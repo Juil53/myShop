@@ -24,27 +24,26 @@ import fb from "../../service/db";
 //GET USER DATA
 export function* actGetUser() {
   try {
-    const result = yield call(apiInstance.get, "users");
+    const result = yield call(fb.getAll, "users");
     yield put(getUserSuccess(result));
-  } catch (err) {
-    console.log(err);
-    yield put(getUserFailed());
+  } catch (error) {
+    yield put(getUserFailed(error));
   }
 }
 
 // GET USER DATA PAGINATION
-export function* actGetUserPagination(action) {
-  const { page } = action.payload;
-  try {
-    const result = yield call(
-      apiInstance.get,
-      `users?_page=${page}&_limit=${ROWS_PER_PAGE}`
-    );
-    yield put(getUserPaginationSuccess(result));
-  } catch (err) {
-    yield put(getUserPaginationFailed());
-  }
-}
+// export function* actGetUserPagination(action) {
+//   const { page } = action.payload;
+//   try {
+//     const result = yield call(
+//       apiInstance.get,
+//       `users?_page=${page}&_limit=${ROWS_PER_PAGE}`
+//     );
+//     yield put(getUserPaginationSuccess(result));
+//   } catch (err) {
+//     yield put(getUserPaginationFailed());
+//   }
+// }
 
 // ADD USER
 export function* actAddUser(action) {
@@ -67,10 +66,12 @@ export function* actAddUser(action) {
 
 // DELETE USER
 export function* actDeleteUser(action) {
+  console.log(action.payload);
   try {
-    yield call(fb.del("users", action.payload));
+    yield call(fb.del, "users", action.payload);
     yield put(deleteUserSuccess());
   } catch (err) {
+    console.log(err);
     yield put(deleteUserFailed(err));
   }
 }
@@ -78,11 +79,7 @@ export function* actDeleteUser(action) {
 // UPDATE USER
 export function* actUpdateUserInfo(action) {
   try {
-    const result = yield call(
-      apiInstance.put,
-      `users/${action.payload.id}`,
-      action.payload.state
-    );
+    const result = yield call(fb.update, `users/${action.payload.id}`, action.payload.state);
     yield put(submitUserSuccess(result));
   } catch (err) {
     console.log(err);
@@ -125,7 +122,7 @@ export function* signout() {
 
 export default function* userSaga() {
   yield takeEvery("users/getUserRequest", actGetUser);
-  yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
+  // yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("users/deleteUserRequest", actDeleteUser);
   yield takeEvery("users/updateUserInfoRequest", actUpdateUserInfo);

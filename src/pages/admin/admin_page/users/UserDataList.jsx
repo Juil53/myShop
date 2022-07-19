@@ -12,10 +12,16 @@ import {
 import { deleteUser } from "firebase/auth";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import AlertDialog from "../../../../components/admin/AlertDialog";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Loading from "../../../../components/loading/Loading";
 import { db, user } from "../../../../service/auth";
-import UserDelete from "./UserDelete"
+import { selectLoading, selectStatus, selectUserData } from "../../../../store/users/selector";
+import { deleteUserRequest, getUserRequest } from "../../../../store/users/usersSlice";
+import UserDelete from "./UserDelete";
+import { resetStatus } from "../../../../store/users/usersSlice";
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
@@ -41,9 +47,13 @@ const style = {
 };
 
 export default function UserDataList({ keyword }) {
-  const [rows, setRows] = useState([]);
+  const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
   const [arrIds, setArrIds] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const loading = useSelector(selectLoading);
+  const usersData = useSelector(selectUserData);
+  const deleteStatus = useSelector(selectStatus);
+
   const keys = ["firstname", "lastname", "email", "address", "identify"];
 
   const columns = [
@@ -97,10 +107,7 @@ export default function UserDataList({ keyword }) {
             <Link to={`/admin/users/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
-            {/* <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
-              Delete
-            </Button> */}
-            <UserDelete userId={params.row.id} user={params.row}/>
+            <UserDelete userId={params.row.id} user={params.row} setShow={setShow} />
           </Box>
         );
       },
@@ -140,33 +147,12 @@ export default function UserDataList({ keyword }) {
     );
   };
 
-  //Delete 1 row
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "users", id));
-
-      deleteUser(user)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      setRows(rows.filter((item) => item.id !== id));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   //Delete selected rows
   const handleDeleteSelected = (ids) => {
     try {
       for (let id of ids) {
         deleteDoc(doc(db, "users", id));
       }
-
-      setRows(rows.filter((row) => !arrIds.includes(row.id)));
     } catch (error) {
       console.log(error);
     }
@@ -179,23 +165,12 @@ export default function UserDataList({ keyword }) {
 
   //Call docs from collection
   useEffect(() => {
-    const fetchData = async () => {
-      const list = [];
-      try {
-        const querySnapshot = await getDocs(collection(db, "users"));
-        querySnapshot.forEach((doc) => {
-          list.push({ id: doc.id, ...doc.data() });
-        });
-        setRows(list);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, [rows]);
+    dispatch(getUserRequest());
+  }, []);
 
-  
+  useEffect(() => {
+    dispatch(resetStatus());
+  }, [deleteStatus]);
 
   return (
     <>
@@ -204,7 +179,7 @@ export default function UserDataList({ keyword }) {
       ) : (
         <Box component={Paper} elevation={2} style={style.table}>
           <DataGrid
-            rows={handleSearch(rows)}
+            rows={handleSearch(usersData)}
             columns={columns.concat(columnActions)}
             density="compact"
             pageSize={10}
@@ -218,6 +193,7 @@ export default function UserDataList({ keyword }) {
               Footer: CustomFooter,
             }}
           />
+          <SimpleSnackbar show={show} setShow={setShow} type="delete" />
         </Box>
       )}
     </>

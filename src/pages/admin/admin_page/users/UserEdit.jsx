@@ -27,11 +27,14 @@ const style = {
 };
 
 const UserEdit = () => {
+  console.log("render")
   const navigate = useNavigate();  
   const params = useParams();
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
   const [role, setRole] = useState("");
+
+  console.log(show)
 
   const [state, setState] = useState({
     firstname: "",
@@ -43,12 +46,13 @@ const UserEdit = () => {
     gender: "",
     education: "",
     identify: "",
-    role: "",
+    role: "Staff",
     avatar: "",
   });
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       setState({
         firstname: data.firstname,
         lastname: data.lastname,
@@ -75,7 +79,7 @@ const UserEdit = () => {
         phonenumber: "",
         avatar: "",
       });
-      setRole("");
+      setRole("Staff");
     }
   }, [data]);
 
@@ -92,6 +96,7 @@ const UserEdit = () => {
     event.preventDefault();
     const userRef = doc(db,'users',params.id)
     await updateDoc(userRef,state)
+    setShow(true)    
   };
 
   useEffect(() => {
