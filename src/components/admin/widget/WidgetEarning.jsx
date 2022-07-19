@@ -6,10 +6,11 @@ import { handleIncreaseRevenue, handleRevenue } from "./logic";
 import { formatter } from "../../../utils/index";
 import { Link } from "react-router-dom";
 
-const WidgetEarning = ({ orders }) => {
+const WidgetEarning = ({ orders,month }) => {
+
   let [data, setData] = useState(() => {
     return {
-      title: "REVENUE",
+      title: "MONTHLY REVENUE",
       link: "View detail",
       amount: 2400000,
       icon: (
@@ -26,7 +27,7 @@ const WidgetEarning = ({ orders }) => {
   });
 
   useEffect(() => {
-    const revenue = handleRevenue(orders);
+    const revenue = handleRevenue(orders,month);
     const percentIncrease = handleIncreaseRevenue(revenue.month);
     setData({
       ...data,
@@ -34,7 +35,7 @@ const WidgetEarning = ({ orders }) => {
       revenueDay: revenue.day,
       increase: percentIncrease,
     });
-  }, []);
+  }, [month]);
 
   const cardStyle = {
     transform: "translateY(0)",

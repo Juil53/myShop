@@ -7,7 +7,7 @@ import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
 import { handleIncreaseRevenue, handleRevenue } from "./widget/logic";
 import { formatter } from "../../utils";
 
-const Progress = ({ orders }) => {
+const Progress = ({ orders, month }) => {
   let [data, setData] = useState({
     revenueMonth: 75,
     revenueDay: 500,
@@ -17,7 +17,7 @@ const Progress = ({ orders }) => {
   });
 
   useEffect(() => {
-    const revenue = handleRevenue(orders);
+    const revenue = handleRevenue(orders, month);
     const percentIncrease = handleIncreaseRevenue(revenue.month);
     setData({
       ...data,
@@ -25,7 +25,7 @@ const Progress = ({ orders }) => {
       revenueDay: revenue.day,
       increase: percentIncrease,
     });
-  }, []);
+  }, [month]);
 
   return (
     <Box
@@ -37,7 +37,7 @@ const Progress = ({ orders }) => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height:'100%'
+        height: "100%",
       }}
     >
       <Box
@@ -62,10 +62,10 @@ const Progress = ({ orders }) => {
       <Box sx={{ position: "relative", display: "inline-flex" }}>
         <CircularProgress
           variant="determinate"
-          value={data.increase}
-          size={150}
-          color="info"
-          thickness={2}
+          value={data.increase > 100 ? data.increase - 100 : 0}
+          size={170}
+          color="success"
+          thickness={3}
         />
         <Box
           sx={{
@@ -79,14 +79,39 @@ const Progress = ({ orders }) => {
             justifyContent: "center",
           }}
         >
-          <Typography variant="caption" component="div" color="info.main" sx={{ fontSize: "4rem" }}>
-            {data.increase}%
-          </Typography>
+          <CircularProgress
+            variant="determinate"
+            value={data.increase > 100 ? 100 : data.increase}
+            size={150}
+            color="warning"
+            thickness={3}
+          />
+          <Box
+            sx={{
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              position: "absolute",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              variant="caption"
+              component="div"
+              color="info.main"
+              sx={{ fontSize: "4rem" }}
+            >
+              {data.increase}%
+            </Typography>
+          </Box>
         </Box>
       </Box>
 
       <Typography component="p" color="text.disabled" sx={{ fontSize: "2rem", marginTop: 2 }}>
-        Total sale made Today & Month
+        Total sale made this Month
       </Typography>
 
       <Typography
@@ -94,7 +119,7 @@ const Progress = ({ orders }) => {
         color="text.primary"
         sx={{ fontSize: "2.5rem", fontWeight: "500", marginTop: 2 }}
       >
-        {formatter.format(data.revenueDay)} / {formatter.format(data.revenueMonth)}
+        {formatter.format(data.revenueMonth)}
       </Typography>
 
       <Typography
@@ -105,7 +130,7 @@ const Progress = ({ orders }) => {
         Previous transactions processing. Last payments may not be included.
       </Typography>
 
-      <Box sx={{ width: "100%", textAlign: "center"}}>
+      <Box sx={{ width: "100%", textAlign: "center" }}>
         <Grid container>
           <Grid item xs={4}>
             <Typography component="p" color="text.disabled" sx={{ fontSize: "2rem" }}>

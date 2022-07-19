@@ -50,11 +50,11 @@ export default function CustomerList({ data }) {
   const [loading, setLoading] = useState(true);
 
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
+    { field: "id", headerName: "ID" },
     {
       field: "image",
       headerName: "Avatar",
-      flex: 0.5,
+      width:100,
       renderCell: (params) => {
         return (
           <div>
@@ -69,33 +69,24 @@ export default function CustomerList({ data }) {
     {
       field: "address",
       headerName: "Address",
-      flex: 2.5,
+      width:250,
       renderCell: (params) => {
-        return params.row.addressList.map((add, index) => (
-          <div key={index}>
-            <Typography>
-              {add.address.detail}, {add.address.district.name}, {add.address.region.name}
-            </Typography>
-          </div>
-        ));
+        return <Typography>{params.row.homeAddress}</Typography>;
       },
     },
     {
       field: "timeStamp",
       headerName: "Created At",
-      flex: 1,
+      width:150,
       renderCell: (params) => {
-        return (
-          <Typography>
-            {params.row.timeStamp}
-          </Typography>
-        );
+        return <Typography>{params.row.timeStamp}</Typography>;
       },
     },
     {
       field: "rank",
       headerName: "Rank",
-      flex: 1,
+      headerAlign: "center",
+      width:100,
       renderCell: (params) => {
         return (
           <Typography className={`${params.row.rank}`} sx={style.cellStatus}>
@@ -110,7 +101,8 @@ export default function CustomerList({ data }) {
     {
       field: "action",
       headerName: "Actions",
-      flex: 1,
+      headerAlign: "center",
+      width:150,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
@@ -136,13 +128,6 @@ export default function CustomerList({ data }) {
           <GridToolbarDensitySelector />
           <GridToolbarExport />
         </GridToolbarContainer>
-        <IconButton
-          onClick={() => {
-            handleDeleteSelected(arrIds);
-          }}
-        >
-          <DeleteIcon color="error" />
-        </IconButton>
       </Grid>
     );
   };

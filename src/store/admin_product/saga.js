@@ -14,6 +14,7 @@ import {
   submitProductFailed,
   submitProductSuccess
 } from "./productSlice";
+import fb from "../../service/db"
 
 //GET OPTIONS
 export function* actGetOptions() {
@@ -48,11 +49,18 @@ export function* actAddProduct(action) {
 
 // GET PRODUCT
 export function* actGetAllProduct() {
+  // try {
+  //   const result = yield call(apiInstance.get, "products");
+  //   yield put(getAllProductSuccess(result));
+  // } catch (err) {
+  //   yield put(getAllProductFailed());
+  // }
+
   try {
-    const result = yield call(apiInstance.get, "products");
+    const result = yield call(fb.getAll, "products");
     yield put(getAllProductSuccess(result));
-  } catch (err) {
-    yield put(getAllProductFailed());
+  } catch (error) {
+    yield put(getAllProductFailed(error));
   }
 }
 

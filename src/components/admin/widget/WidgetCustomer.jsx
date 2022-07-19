@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { handleIncreaseItem, handleNewItem } from "./logic";
 
-const WidgetCustomer = ({ customers }) => {
+const WidgetCustomer = ({ customers,month }) => {
 
   let [data, setData] = useState(() => {
     return {
@@ -26,10 +26,10 @@ const WidgetCustomer = ({ customers }) => {
   });
 
   useEffect(() => {
-    const newCustomers = handleNewItem(customers);
+    const newCustomers = handleNewItem(customers,month);
     const percentIncrease = handleIncreaseItem(newCustomers);
     setData({ ...data, amount: newCustomers,increase:percentIncrease });
-  }, []);
+  }, [month]);
 
   const cardStyle = {
     transform: "translateY(0)",
@@ -63,7 +63,7 @@ const WidgetCustomer = ({ customers }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
-        <Link to="/admin/users">
+        <Link to="/admin/customers">
           <Button size="small" color="info">
             {data.link}
           </Button>

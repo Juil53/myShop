@@ -3,9 +3,9 @@ import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { handleIncreaseItem, handleIncreaseProducts, handleNewItem } from "./logic";
+import { handleIncreaseProducts, handleNewItem } from "./logic";
 
-const WidgetProduct = ({ products }) => {
+const WidgetProduct = ({ products,month }) => {
 
   let [data, setData] = useState(() => {
     return {
@@ -26,10 +26,10 @@ const WidgetProduct = ({ products }) => {
   });
 
   useEffect(() => {
-    const newProducts = handleNewItem(products);
+    const newProducts = handleNewItem(products,month);
     const percentIncrease = handleIncreaseProducts(newProducts);
     setData({ ...data, amount: newProducts, increase: percentIncrease });
-  }, []);
+  }, [month]);
 
   const cardStyle = {
     transform: "translateY(0)",

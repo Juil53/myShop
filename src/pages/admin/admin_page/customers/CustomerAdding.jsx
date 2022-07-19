@@ -29,22 +29,7 @@ const CustomerAdding = ({ inputs }) => {
       const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
       await setDoc(doc(db, "customers", res.user.uid), {
         ...data,
-        addressList: [
-          {
-            address: {
-              detail: data.address,
-              district: {
-                name: "Default",
-              },
-              region: {
-                name: "Default",
-              },
-              ward: {
-                name: "Default",
-              },
-            },
-          },
-        ],
+        homeAddress:data.address,
         timeStamp: moment().format("MM DD YYYY"),
       });
       //navigate to previous page

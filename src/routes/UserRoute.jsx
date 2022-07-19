@@ -10,7 +10,7 @@ import CartPage from "../pages/user/cart_page/CartPage";
 import Payment from "../pages/user/payment/Payment";
 import UserPage from "../pages/user/user_page/UserPage";
 import About from "../pages/user/about/About";
-import Map from "../pages/user/map/Map";
+import MyMap from "../pages/user/map/MyMap";
 
 function UserRoutes() {
   return (
@@ -23,7 +23,7 @@ function UserRoutes() {
         <Route path="sign" element={<SigninSignup />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="payment" element={<Payment />} />
-        <Route path="map" element={<Map />} />
+        <Route path="map" element={<MyMap />} />
         <Route path="about" element={<About />} />
         <Route path="user/*" element={<UserPage />} />
       </Route>

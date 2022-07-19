@@ -10,50 +10,60 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { handleIncreaseItem, handleNewItem } from "./widget/logic";
+import {
+  handleIncreaseItem,
+  handleIncreaseRevenue,
+  handleNewItem,
+  handleRevenue,
+  handleSixMonthData,
+} from "./widget/logic";
 
-const Chart = ({ aspect, title, customers }) => {
+const Chart = ({ aspect, title, customers, orders, month }) => {
   const [data, setData] = useState([
     {
       name: "January",
-      revenue: 70,
-      newCustomer: 1,
+      revenue: 700,
+      customer: 100,
     },
     {
       name: "Febuary",
-      revenue: 40,
-      newCustomer: 12,
+      revenue: 400,
+      customer: 120,
     },
     {
       name: "March",
-      revenue: 90,
-      newCustomer: 5,
+      revenue: 350,
+      customer: 500,
     },
     {
       name: "April",
-      revenue: 50,
-      newCustomer: 7,
+      revenue: 750,
+      customer: 100,
     },
     {
       name: "May",
-      revenue: 70,
-      newCustomer: 2,
+      revenue: 970,
+      customer: 100,
     },
     {
       name: "June",
-      revenue: 20,
-      newCustomer: 3,
+      revenue: 700,
+      customer: 100,
     },
   ]);
 
   useEffect(() => {
-    const newCustomers = handleNewItem(customers);
+    const newCustomers = handleNewItem(customers, month);
     const percentIncrease = handleIncreaseItem(newCustomers);
-    // console.log(percentIncrease);
-    // setData([...data, { name: "July", revenue: 160, newCustomer: percentIncrease }]);
-    // const currentArray = data.slice(0, 1);
-    // setData([...currentArray, { name: "July", revenue: 160, newCustomer: percentIncrease }]);
-  }, []);
+    const monthlyRevenue = handleRevenue(orders, month);
+    const percentIncreaseRevenue = handleIncreaseRevenue(monthlyRevenue.month);
+    const newData = handleSixMonthData(data, {
+      name: "July",
+      revenue: percentIncreaseRevenue,
+      customer: percentIncrease,
+    });
+    setData(newData);
+  }, [month]);
 
   return (
     <Box component={Paper} elevation={8} padding={2}>
@@ -76,7 +86,7 @@ const Chart = ({ aspect, title, customers }) => {
           <Tooltip />
           <Legend />
           <Bar dataKey="revenue" fill="orange" />
-          <Bar dataKey="newCustomer" fill="#133f63" />
+          <Bar dataKey="customer" fill="#133f63" />
         </BarChart>
       </ResponsiveContainer>
     </Box>

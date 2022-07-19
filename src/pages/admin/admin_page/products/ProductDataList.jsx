@@ -58,14 +58,19 @@ export default function ProductDataList() {
           </div>
         );
       },
+      width:100
     },
-    { field: "name", headerName: "Product Name", flex: 2.5 },
-    { field: "desc", headerName: "Description", flex: 2 },
-    { field: "brand", headerName: "Brand", flex: 1.2 },
-    { field: "available", headerName: "Quantity", flex: 0.8 },
+    { field: "name", headerName: "Product Name", width:450 },
+    { field: "desc", headerName: "Description", width:300 },
+    { field: "brand", headerName: "Brand", width:250,align: "center", headerAlign: "center",},
+    { field: "timeStamp", headerName: "Created At", width:250,align: "center", headerAlign: "center",},
+    { field: "available", headerName: "Quantity", width:80,align: "center", },
     {
       field: "priceBeforeDiscount",
       headerName: "Price",
+      headerAlign: "center",
+      align:"right",
+      width:150,
       renderCell: (params) => {
         return <Typography>{formatter.format(params.row.priceBeforeDiscount)}</Typography>;
       },
@@ -73,7 +78,7 @@ export default function ProductDataList() {
     {
       field: "status",
       headerName: "Status",
-      flex: 1,
+      width:150,
       renderCell: (params) => {
         return (
           <Typography className={`${params.row.status}`} sx={style.cellStatus}>
@@ -88,7 +93,8 @@ export default function ProductDataList() {
     {
       field: "action",
       headerName: "Actions",
-      flex: 1,
+      headerAlign: "center",
+      width:150,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
@@ -114,13 +120,6 @@ export default function ProductDataList() {
           <GridToolbarDensitySelector />
           <GridToolbarExport />
         </GridToolbarContainer>
-        <IconButton
-          onClick={() => {
-            handleDeleteSelected(arrIds);
-          }}
-        >
-          <DeleteIcon color="error" />
-        </IconButton>
       </Grid>
     );
   };

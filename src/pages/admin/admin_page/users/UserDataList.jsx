@@ -73,6 +73,7 @@ export default function UserDataList() {
     {
       field: "role",
       headerName: "Role",
+      headerAlign: "center",
       renderCell: (params) => {
         return (
           <Typography className={`${params.row.role}`} sx={style.cellStatus}>
@@ -88,6 +89,7 @@ export default function UserDataList() {
       field: "action",
       headerName: "Actions",
       width:150,
+      headerAlign: "center",
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>

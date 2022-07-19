@@ -12,6 +12,7 @@ import {
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 import { getUserId } from "../../utils/auth";
+import { connectStorageEmulator } from "firebase/storage";
 
 export function* signinWithEmailAndPassword({ payload }) {
   const { email, password } = payload;
@@ -170,6 +171,15 @@ export function* updatePassword({ payload }) {
   }
 }
 
+export function* getCustomers() {
+  try {
+    const result = yield call(APIv2.getAll, "customers");
+    yield put(clientActions.getCustomersSuccess(result));
+  } catch (error) {
+    yield put(clientActions.getCustomersFailed(error));
+  }
+}
+
 export default function* clientSaga() {
   yield takeEvery("clients/signinRequest", signinWithEmailAndPassword);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
@@ -179,4 +189,5 @@ export default function* clientSaga() {
   yield takeEvery(USER_ACTIONS.GET_USER_INFO, getUserInfo);
   yield takeEvery("clients/updateRequest", updateInfo);
   yield takeEvery("clients/updatePasswordRequest", updatePassword);
+  yield takeEvery("clients/getCustomersRequest", getCustomers);
 }
