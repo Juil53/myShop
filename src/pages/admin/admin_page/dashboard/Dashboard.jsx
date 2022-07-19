@@ -31,7 +31,7 @@ const Dashboard = () => {
     dispatch(getOrderRequest());
   }, []);
 
-  const handleChange = async (event) => {
+  const handleChange = (event) => {
     event.preventDefault();
     setMonth(event.target.value);
   };

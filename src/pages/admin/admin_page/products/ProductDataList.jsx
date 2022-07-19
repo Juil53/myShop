@@ -153,7 +153,7 @@ export default function ProductDataList({ keyword,filterOptions }) {
   };
 
   //Delete 1 row
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     dispatch(deleteProductRequest(id))
     dispatch(getAllProductRequest())
   };

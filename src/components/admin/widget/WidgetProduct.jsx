@@ -29,7 +29,7 @@ const WidgetProduct = ({ products,month }) => {
     const newProducts = handleNewItem(products,month);
     const percentIncrease = handleIncreaseProducts(newProducts);
     setData({ ...data, amount: newProducts, increase: percentIncrease });
-  }, [month]);
+  }, [products,month]);
 
   const cardStyle = {
     transform: "translateY(0)",

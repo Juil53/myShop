@@ -1,5 +1,4 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
   GridFooter,
@@ -8,7 +7,7 @@ import {
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridToolbarFilterButton,
+  GridToolbarFilterButton
 } from "@mui/x-data-grid";
 import { deleteUser } from "firebase/auth";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";

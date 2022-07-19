@@ -69,7 +69,7 @@ function UserManagement() {
 
           <Box>
             {/* <UserList keyword={keyword} /> */}
-            <UserDataList keyword={keyword}/>
+            <UserDataList keyword={keyword} />
           </Box>
         </>
       )}

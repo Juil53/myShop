@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authInstance, db } from "../../../../service/auth";
@@ -47,11 +48,16 @@ const CustomerManagement = () => {
         // Add import Data to Authen
         const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password);
         // Add import Data to collection with id doc from auth
-        await setDoc(doc(db, "customers", res.user.uid), { ...item, id: res.user.uid });
+        await setDoc(doc(db, "customers", res.user.uid), {
+          ...item,
+          id: res.user.uid,
+          timeStamp: moment().format("MM DD YYYY"),
+        });
       }
+      console.log("import successful")
     } catch (error) {
       alert(error);
-      console.log(error.message)
+      console.log(error.message);
     }
   };
 

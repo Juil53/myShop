@@ -19,6 +19,7 @@ import {
 import { signinAuth, signup, signoutAuth } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 import APIv2 from "../../service/db";
+import fb from "../../service/db";
 
 //GET USER DATA
 export function* actGetUser() {
@@ -67,7 +68,7 @@ export function* actAddUser(action) {
 // DELETE USER
 export function* actDeleteUser(action) {
   try {
-    yield call(apiInstance.delete, `users/${action.payload}`);
+    yield call(fb.del("users", action.payload));
     yield put(deleteUserSuccess());
   } catch (err) {
     yield put(deleteUserFailed(err));

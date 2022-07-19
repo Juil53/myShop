@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { handleIncreaseItem, handleNewItem } from "./logic";
 
 const WidgetCustomer = ({ customers,month }) => {
-
+  console.log(customers,month);
   let [data, setData] = useState(() => {
     return {
       title: "NEW CUSTOMERS",
@@ -29,7 +29,7 @@ const WidgetCustomer = ({ customers,month }) => {
     const newCustomers = handleNewItem(customers,month);
     const percentIncrease = handleIncreaseItem(newCustomers);
     setData({ ...data, amount: newCustomers,increase:percentIncrease });
-  }, [month]);
+  }, [customers,month]);
 
   const cardStyle = {
     transform: "translateY(0)",

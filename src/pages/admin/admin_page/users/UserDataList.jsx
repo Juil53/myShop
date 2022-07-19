@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import { db, user } from "../../../../service/auth";
+import UserDelete from "./UserDelete"
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
@@ -96,9 +97,10 @@ export default function UserDataList({ keyword }) {
             <Link to={`/admin/users/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
-            <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
+            {/* <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
               Delete
-            </Button>
+            </Button> */}
+            <UserDelete userId={params.row.id} user={params.row}/>
           </Box>
         );
       },
@@ -191,7 +193,7 @@ export default function UserDataList({ keyword }) {
       }
     };
     fetchData();
-  }, []);
+  }, [rows]);
 
   
 
@@ -208,7 +210,6 @@ export default function UserDataList({ keyword }) {
             pageSize={10}
             rowsPerPageOptions={[10]}
             checkboxSelection
-            disableSelectionOnClick
             onSelectionModelChange={(ids) => {
               setArrIds(ids);
             }}
