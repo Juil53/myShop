@@ -90,8 +90,10 @@ const Payment = () => {
     if (cart.status !== LOADING_STATUS.SUCCESS) return;
     const encryptedId = params.get("extraData");
     const orderId = params.get("orderId");
+    const message = params.get("message");
+    console.log(message);
 
-    if (encryptedId && orderId) {
+    if (encryptedId && orderId && message === "Successful.") {
       const date =
         new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
 
@@ -131,6 +133,11 @@ const Payment = () => {
   useEffect(() => {
     if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
       window.location.href = payURL.data;
+    } else if (payURL.status === LOADING_STATUS.LOADING) {
+      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+    } else if (payURL.status === LOADING_STATUS.FAIL) {
+      document.querySelector(".order-infor__error").textContent =
+        "Somethings went wrong. Please try again";
     }
   });
 
