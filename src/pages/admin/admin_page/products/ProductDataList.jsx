@@ -1,5 +1,4 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
   GridFooter,
@@ -8,14 +7,16 @@ import {
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridToolbarFilterButton,
+  GridToolbarFilterButton
 } from "@mui/x-data-grid";
-import { deleteUser } from "firebase/auth";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
-import { db, user } from "../../../../service/auth";
+import { db } from "../../../../service/auth";
+import { deleteProductRequest, getAllProductRequest } from "../../../../store/admin_product/productSlice";
+import { selectAllProduct, selectLoading } from "../../../../store/admin_product/selector";
 import { formatter } from "../../../../utils";
 
 const style = {
@@ -41,10 +42,12 @@ const style = {
   },
 };
 
-export default function ProductDataList() {
-  const [rows, setRows] = useState([]);
+export default function ProductDataList({ keyword,filterOptions }) {
+  const dispatch = useDispatch()
   const [arrIds, setArrIds] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const loading = useSelector(selectLoading)
+  const productsData = useSelector((state)=>selectAllProduct(state,filterOptions))
+  const keys = ["name", "brand", "status"];
 
   const columns = [
     { field: "id", headerName: "ID" },
@@ -58,19 +61,25 @@ export default function ProductDataList() {
           </div>
         );
       },
-      width:100
+      width: 100,
     },
-    { field: "name", headerName: "Product Name", width:450 },
-    { field: "desc", headerName: "Description", width:300 },
-    { field: "brand", headerName: "Brand", width:250,align: "center", headerAlign: "center",},
-    { field: "timeStamp", headerName: "Created At", width:250,align: "center", headerAlign: "center",},
-    { field: "available", headerName: "Quantity", width:80,align: "center", },
+    { field: "name", headerName: "Product Name", width: 450 },
+    { field: "desc", headerName: "Description", width: 300 },
+    { field: "brand", headerName: "Brand", width: 250, align: "center", headerAlign: "center" },
+    {
+      field: "timeStamp",
+      headerName: "Created At",
+      width: 250,
+      align: "center",
+      headerAlign: "center",
+    },
+    { field: "available", headerName: "Quantity", width: 80, align: "center" },
     {
       field: "priceBeforeDiscount",
       headerName: "Price",
       headerAlign: "center",
-      align:"right",
-      width:150,
+      align: "right",
+      width: 150,
       renderCell: (params) => {
         return <Typography>{formatter.format(params.row.priceBeforeDiscount)}</Typography>;
       },
@@ -78,7 +87,7 @@ export default function ProductDataList() {
     {
       field: "status",
       headerName: "Status",
-      width:150,
+      width: 150,
       renderCell: (params) => {
         return (
           <Typography className={`${params.row.status}`} sx={style.cellStatus}>
@@ -94,7 +103,7 @@ export default function ProductDataList() {
       field: "action",
       headerName: "Actions",
       headerAlign: "center",
-      width:150,
+      width: 150,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "5px" }}>
@@ -110,7 +119,7 @@ export default function ProductDataList() {
     },
   ];
 
-  //add header density,filter,export,column
+  //Add header density,filter,export,column
   const CustomToolbar = () => {
     return (
       <Grid container justifyContent="space-between" mb={1}>
@@ -124,6 +133,7 @@ export default function ProductDataList() {
     );
   };
 
+  //Add footer delete selected rows button
   const CustomFooter = () => {
     return (
       <GridFooterContainer>
@@ -142,53 +152,35 @@ export default function ProductDataList() {
     );
   };
 
+  //Delete 1 row
   const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "products", id));
-
-      deleteUser(user)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      setRows(rows.filter((item) => item.id !== id));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(deleteProductRequest(id))
+    dispatch(getAllProductRequest())
   };
 
+  //Delete selected rows
   const handleDeleteSelected = (ids) => {
     try {
       for (let id of ids) {
         deleteDoc(doc(db, "products", id));
       }
-
-      setRows(rows.filter((row) => !arrIds.includes(row.id)));
     } catch (error) {
       console.log(error);
     }
+
+    // dispatch(deleteSelectedProductRequest(ids))
+    dispatch(getAllProductRequest())
+  };
+  
+  //HandleSearch
+  const handleSearch = (data) => {
+    return data.filter((item) => keys.some((key) => item[key].toLowerCase().includes(keyword)));
   };
 
-  //call docs from collection
+  //Call docs from collection
   useEffect(() => {
-    const fetchData = async () => {
-      const list = [];
-      try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        querySnapshot.forEach((doc) => {
-          list.push({ id: doc.id, ...doc.data() });
-        });
-        setRows(list);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(getAllProductRequest())
+  }, [filterOptions]);
 
   return (
     <>
@@ -197,7 +189,7 @@ export default function ProductDataList() {
       ) : (
         <Box component={Paper} elevation={2} style={style.table}>
           <DataGrid
-            rows={rows}
+            rows={handleSearch(productsData)}
             columns={columns.concat(columnActions)}
             density="compact"
             autoPageSize

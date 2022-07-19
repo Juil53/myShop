@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { Autocomplete, Box, Button, Grid, InputAdornment, Stack, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, InputAdornment, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
-import { selectCategories } from "../../../../store/admin_product/selector";
-import { getCategoriesRequest } from "../../../../store/admin_product/productSlice";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
-import ProductList from "./ProductList";
+import { getCategoriesRequest } from "../../../../store/admin_product/productSlice";
+import { selectCategories } from "../../../../store/admin_product/selector";
+import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import ProductDataList from "./ProductDataList";
 
 function ProductManagement() {
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+  const [selectedFilter, setSelectedFilter] = useState([]);
+  const [keyword, setKeyword] = useState("");
+
+  const filterOptions = selectedFilter.map((selected, index) => {
+    return Object.values(selected)[0];
+  });
+
+  const handleChange = (event) => {
+    setKeyword(event.target.value);
+  };
+
   const pages = [
     {
       name: "Admin",
@@ -22,13 +34,6 @@ function ProductManagement() {
       url: "/admin/products",
     },
   ];
-  const dispatch = useDispatch();
-  const categories = useSelector(selectCategories);
-  const [selectedFilter, setSelectedFilter] = useState([]);
-
-  const filterOptions = selectedFilter.map((selected, index) => {
-    return Object.values(selected)[0];
-  });
 
   useEffect(() => {
     dispatch(getCategoriesRequest());
@@ -53,8 +58,10 @@ function ProductManagement() {
                     </InputAdornment>
                   ),
                 }}
-                label="Search by Name"
+                label="Search"
                 size="small"
+                placeholder="name, brand, status,..."
+                onChange={handleChange}
               />
             </Grid>
 
@@ -85,11 +92,7 @@ function ProductManagement() {
 
         <Grid item xs={1} textAlign="right">
           <Link to="add">
-            <Button
-              variant="contained"
-              sx={{ width: "100%" }}
-              startIcon={<AddIcon />}
-            >
+            <Button variant="contained" startIcon={<AddIcon />}>
               Add
             </Button>
           </Link>
@@ -99,7 +102,7 @@ function ProductManagement() {
       <Box>
         {/* <ProductList filterOptions={filterOptions} /> */}
 
-        <ProductDataList/>
+        <ProductDataList filterOptions={filterOptions} keyword={keyword} />
       </Box>
     </>
   );

@@ -1,5 +1,4 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
   GridFooter,
@@ -40,10 +39,11 @@ const style = {
   },
 };
 
-export default function UserDataList() {
+export default function UserDataList({ keyword }) {
   const [rows, setRows] = useState([]);
   const [arrIds, setArrIds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const keys = ["firstname", "lastname", "email", "address", "identify"];
 
   const columns = [
     { field: "id", headerName: "ID" },
@@ -61,15 +61,15 @@ export default function UserDataList() {
     {
       field: "displayName",
       headerName: "Full Name",
-      width:200,
+      width: 200,
       valueGetter: (params) => `${params.row.firstname || ""} ${params.row.lastname || ""}`,
     },
-    { field: "gender", headerName: "Gender",width:100 },
-    { field: "identify", headerName: "Identify Number",width:150 },
-    { field: "email", headerName: "Email",width:200 },
-    { field: "phonenumber", headerName: "Phone Number",width:150 },
-    { field: "education", headerName: "Education",width:250 },
-    { field: "address", headerName: "Address",width:300 },
+    { field: "gender", headerName: "Gender", width: 100 },
+    { field: "identify", headerName: "Identify Number", width: 150 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "phonenumber", headerName: "Phone Number", width: 150 },
+    { field: "education", headerName: "Education", width: 250 },
+    { field: "address", headerName: "Address", width: 300 },
     {
       field: "role",
       headerName: "Role",
@@ -88,7 +88,7 @@ export default function UserDataList() {
     {
       field: "action",
       headerName: "Actions",
-      width:150,
+      width: 150,
       headerAlign: "center",
       renderCell: (params) => {
         return (
@@ -105,7 +105,7 @@ export default function UserDataList() {
     },
   ];
 
-  //add header density,filter,export,column
+  //Add header density,filter,export,column
   const CustomToolbar = () => {
     return (
       <Grid container justifyContent="space-between" mb={1}>
@@ -119,6 +119,7 @@ export default function UserDataList() {
     );
   };
 
+  //Add footer delete Selected rows button
   const CustomFooter = () => {
     return (
       <GridFooterContainer>
@@ -137,6 +138,7 @@ export default function UserDataList() {
     );
   };
 
+  //Delete 1 row
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "users", id));
@@ -155,6 +157,7 @@ export default function UserDataList() {
     }
   };
 
+  //Delete selected rows
   const handleDeleteSelected = (ids) => {
     try {
       for (let id of ids) {
@@ -167,7 +170,12 @@ export default function UserDataList() {
     }
   };
 
-  //call docs from collection
+  //HandleSearch
+  const handleSearch = (data) => {
+    return data.filter((item) => keys.some((key) => item[key].toLowerCase().includes(keyword)));
+  };
+
+  //Call docs from collection
   useEffect(() => {
     const fetchData = async () => {
       const list = [];
@@ -185,6 +193,8 @@ export default function UserDataList() {
     fetchData();
   }, []);
 
+  
+
   return (
     <>
       {loading ? (
@@ -192,7 +202,7 @@ export default function UserDataList() {
       ) : (
         <Box component={Paper} elevation={2} style={style.table}>
           <DataGrid
-            rows={rows}
+            rows={handleSearch(rows)}
             columns={columns.concat(columnActions)}
             density="compact"
             pageSize={10}
