@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { LOADING_STATUS, POPUP } from "../../../constants";
 import { actions as cartActions } from "../../../store/cart/slice";
@@ -107,9 +108,9 @@ const CartPage = () => {
                   </span>
                 </div>
                 <div className="payment-container row">
-                  <a className="payment-btn button-style" href="/payment">
+                  <Link className="payment-btn button-style" to="/payment">
                     Payment
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="cart-phone-mode">
@@ -136,9 +137,9 @@ const CartPage = () => {
                   </span>
                 </div>
                 <div className="payment-container row">
-                  <a className="payment-btn button-style" href="/payment">
+                  <Link className="payment-btn button-style" to="/payment">
                     Payment
-                  </a>
+                  </Link>
                 </div>
               </div>
             </>
@@ -146,9 +147,9 @@ const CartPage = () => {
             <div className="no-cart">
               <img src="/img/empty_cart.png" alt="" />
               <div className="text">Your cart is empty</div>
-              <a href="home" className="button-style keep-shopping-btn">
+              <Link to="/home" className="button-style keep-shopping-btn">
                 Keep shopping
-              </a>
+              </Link>
             </div>
           )}
         </div>

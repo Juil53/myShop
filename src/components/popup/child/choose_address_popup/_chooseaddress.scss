@@ -1,0 +1,76 @@
+.choose-address {
+  background-color: $whiteColor;
+  padding: 2rem;
+  border-radius: 0.5rem;
+
+  .choose-address__header {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .choose-address__title {
+    font-size: 1.6rem;
+    padding-top: 1rem;
+  }
+
+  .choose-address__title.content {
+    font-size: 1.4rem;
+    color: $grayColor-3;
+
+    button {
+      background-color: transparent;
+      padding-left: 1rem;
+      color: $mainColor;
+    }
+  }
+
+  .choose-address__section {
+
+    .choose-address__error {
+      color: red;
+      font-size: 1.2rem;
+      text-align: right;
+    }
+
+    .choose-address__function {
+      padding: 1rem 0;
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        padding: 0.8rem 2rem;
+      }
+
+      .cancel-btn {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  .choose-address__section.choose {
+    .no-address {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .row {
+      margin-top: 1rem;
+      margin-left: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    select {
+      padding: 1rem;
+      border: 1px solid $grayColor-3;
+      border-radius: 0.5rem;
+      color: $grayColor-3;
+      width: 50rem;
+    }
+
+    .confirm-btn {
+      margin-left: 1rem;
+      padding: 1rem;
+    }
+  }
+}

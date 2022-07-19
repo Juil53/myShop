@@ -66,10 +66,6 @@ const LeftImageSlider = (props) => {
   }
 
   function createMainSlider(data) {
-    if (!data) {
-      return <></>;
-    }
-
     if (typeof data === "string") {
       return (
         <Slider
@@ -78,11 +74,12 @@ const LeftImageSlider = (props) => {
           ref={(slider1) => setMainSlider(slider1)}
         >
           <div className="img-container">
-            <img src={data} alt="" />
+            <img src={data || `/img/default_product.jpg`} alt="" />
           </div>
         </Slider>
       );
     }
+
     return (
       <Slider
         {...settingsMainSlider}
@@ -91,7 +88,7 @@ const LeftImageSlider = (props) => {
       >
         {data.map((v) => (
           <div className="img-container" key={v}>
-            <img src={v} alt="" />
+            <img src={v || `/img/default_product.jpg`} alt="" />
           </div>
         ))}
       </Slider>

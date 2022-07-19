@@ -12,6 +12,7 @@ import SelectionPopup from "./child/selection_popup/SelectionPopup";
 import WaitingPopup from "./child/waiting_popup/WaitingPopup";
 import AddressPopup from "./child/address_popup/AddressPopup";
 import SuccessPopup from "./child/success_popup/SuccessPopup";
+import ChooseAddressPopup from "./child/choose_address_popup/ChooseAddressPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -53,6 +54,14 @@ export default function Popup() {
       case POPUP.MESSAGE_POPUP:
         return (
           <SuccessPopup closePopup={() => handleClosePopup(type)} data={data} />
+        );
+
+      case POPUP.CHOOSE_ADDRESS_POPUP:
+        return (
+          <ChooseAddressPopup
+            closePopup={() => handleClosePopup(type)}
+            data={data}
+          />
         );
 
       default:

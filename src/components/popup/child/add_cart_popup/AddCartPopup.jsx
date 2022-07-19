@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LOADING_STATUS, POPUP } from "../../../../constants";
 import { actions as cartActions } from "../../../../store/cart/slice";
@@ -7,10 +7,15 @@ import { clone, utils } from "../../../../utils";
 import { selectCart } from "../../../../store/cart/selectors";
 import { actions } from "../../../../store/page/slice";
 import CartItem from "./CartItem";
+import { useNavigate } from "react-router-dom";
+import { navigate } from "../../../../utils/routing";
 
 const AddCartPopup = (props) => {
   const { closePopup, data } = props;
+
+  const navigator = useNavigate();
   const dispatch = useDispatch();
+
   const cart = useSelector(selectCart);
   const { productList = [], totalAmount } = cart.data;
 
@@ -18,10 +23,14 @@ const AddCartPopup = (props) => {
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch(cartActions.fetchCartRequest());
     } else {
-      if (productList.length === 0) {
+      if (
+        cart.data.productList.length === 0 &&
+        cart.update !== LOADING_STATUS.LOADING
+      ) {
         closePopup();
       }
     }
+
     if (cart.update === LOADING_STATUS.LOADING) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (cart.update === LOADING_STATUS.SUCCESS) {
@@ -60,6 +69,10 @@ const AddCartPopup = (props) => {
         );
       });
     }
+  };
+
+  const handlePayment = () => {
+    navigate(dispatch, navigator, `/payment`);
   };
 
   return (
@@ -103,7 +116,9 @@ const AddCartPopup = (props) => {
           <button className="back-btn" onClick={closePopup}>
             Back
           </button>
-          <button className="button-style order-btn">Order</button>
+          <button className="button-style order-btn" onClick={handlePayment}>
+            Payment
+          </button>
         </div>
       </div>
     </div>

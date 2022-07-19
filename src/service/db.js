@@ -25,8 +25,7 @@ const update = async (collectionName = "", data = null, id = "") => {
 
 const del = async (collectionName, id) => {
   try {
-    const result = await deleteDoc(doc(db, collectionName, id));
-    console.log(result);
+    await deleteDoc(doc(db, collectionName, id));
   } catch (e) {
     console.log(e);
   }
@@ -70,7 +69,11 @@ const get = async (collectionName = "", id = "") => {
   try {
     const result = await getDoc(doc(db, collectionName, id));
     if (result.exists()) {
-      return result.data();
+      const data = {
+        id: id,
+        ...result.data(),
+      };
+      return data;
     } else {
       return null;
     }

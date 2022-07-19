@@ -241,7 +241,7 @@ const ProductDetail = () => {
       product.optionSelected = { ...currentOption };
     }
 
-    dispatch(cartActions.fetchAddCart({ product: product }));
+    dispatch(cartActions.fetchAddCartRequest({ product: product }));
 
     dispatch(
       actions.activePopup({

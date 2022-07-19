@@ -1,0 +1,16 @@
+.address_container {
+  width: 100%;
+
+  select {
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid $grayColor;
+    color: $grayColor-3;
+    border-radius: 4px;
+    width: 18rem;
+  }
+
+  option {
+    padding: 0.5rem;
+  }
+}

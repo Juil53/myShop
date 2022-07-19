@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LOADING_STATUS } from "../../constants";
 
 const orderSlice = createSlice({
   name: "order",
@@ -12,6 +13,20 @@ const orderSlice = createSlice({
     isOpen: false,
     keyword: null,
     status: false,
+    orderAddress: {
+      address: {},
+    },
+    addOrder: {
+      status: LOADING_STATUS.IDLE,
+    },
+    orderByClient: {
+      status: LOADING_STATUS.IDLE,
+      data: [],
+    },
+    payUrl: {
+      status: LOADING_STATUS.IDLE,
+      data: "",
+    },
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -67,7 +82,9 @@ const orderSlice = createSlice({
 
       const orderList = [...state.orderData];
       if (action.payload.id) {
-        const index = orderList.findIndex((order) => order.id === action.payload.id);
+        const index = orderList.findIndex(
+          (order) => order.id === action.payload.id
+        );
         if (index !== -1) {
           //Edit
           orderList[index] = action.payload;
@@ -104,6 +121,35 @@ const orderSlice = createSlice({
     resetStatus(state) {
       state.status = false;
     },
+
+    setOrderAddress: (state, action) => {
+      state.orderAddress.address = action.payload;
+    },
+
+    addOrderRequest: (state) => {
+      state.addOrder.status = LOADING_STATUS.LOADING;
+    },
+
+    addOrderSuccess: (state) => {
+      state.addOrder.status = LOADING_STATUS.SUCCESS;
+    },
+
+    addOrderFail: (state) => {
+      state.addOrder.status = LOADING_STATUS.FAIL;
+    },
+
+    getPayUrlRequest: (state) => {
+      state.payUrl.status = LOADING_STATUS.LOADING;
+    },
+
+    getPayUrlSuccess: (state, { payload: { payUrl } }) => {
+      state.payUrl.status = LOADING_STATUS.SUCCESS;
+      state.payUrl.data = payUrl;
+    },
+
+    getPayUrlFail: (state) => {
+      state.payUrl.status = LOADING_STATUS.FAIL;
+    },
   },
 });
 
@@ -126,6 +172,13 @@ export const {
   deleteOrderSuccess,
   deleteOrderFailed,
   resetStatus,
+  setOrderAddress,
+  addOrderRequest,
+  addOrderSuccess,
+  addOrderFail,
+  getPayUrlRequest,
+  getPayUrlSuccess,
+  getPayUrlFail,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

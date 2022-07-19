@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Quantity = (props) => {
   const { value, available, changeValue, type, quantity, updateItem } = props;
   const [number, setNumber] = useState(parseInt(value));
+
+  useEffect(() => {
+    setNumber(value);
+  }, [value]);
 
   function handleDecrease() {
     if (number - 1 > 0) {

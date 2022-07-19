@@ -4,7 +4,7 @@ import localStorage from "../../service/localStorage";
 import APIv2 from "../../service/db";
 import { actions } from "./slice";
 import { utils } from "../../utils";
-import { handleUpdateCart } from "./help";
+import { handleAddCart, handleUpdateCart } from "./help";
 import { getUserId } from "../../utils/auth";
 
 export function* getCart() {
@@ -12,21 +12,26 @@ export function* getCart() {
     const cart = localStorage.get("cart");
     const token = localStorage.get("token");
 
+    //signed in
     if (token) {
       const uid = getUserId();
       const kq = yield call(APIv2.get, "carts", `cart${uid}`);
 
+      //client has firestore cart
       if (kq) {
         const newCart = {
           totalAmount: 0,
           productList: [],
         };
+
         if (!cart) {
+          //client not have local cart
           newCart.totalAmount = kq.totalAmount;
           newCart.productList = [...kq.productList];
 
           localStorage.set("cart", newCart);
         } else {
+          //client has local cart
           const productLocal = [...cart.productList];
           const productData = [...kq.productList];
 
@@ -48,7 +53,7 @@ export function* getCart() {
             }
           });
           kq.productList = [...productLocal];
-          kq.totalAmount = utils.calTotal(cart);
+          kq.totalAmount = utils.calTotal(kq);
           newCart.productList = [...productLocal];
           newCart.totalAmount = kq.totalAmount;
 
@@ -56,32 +61,68 @@ export function* getCart() {
           localStorage.set("cart", newCart);
         }
         yield put(actions.fetchCartSuccess(newCart));
-      } else {
+      } else if (cart) {
+        //client has local cart but not firestore cart
         const uid = getUserId();
 
-        if (cart) {
-          const newCart = {
-            uid: uid,
-            productList: cart.productList,
-            totalAmount: cart.totalAmount,
-          };
+        const newCart = {
+          uid: uid,
+          productList: cart.productList,
+          totalAmount: cart.totalAmount,
+        };
 
-          yield call(APIv2.set, "carts", `cart${uid}`, newCart);
-          yield put(actions.fetchCartSuccess(newCart));
-        }
+        yield call(APIv2.set, "carts", `cart${uid}`, newCart);
+        yield put(actions.fetchCartSuccess(newCart));
+      } else {
+        yield put(actions.fetchCartSuccess());
       }
     } else if (cart) {
+      //not sign in
       yield put(actions.fetchCartSuccess(cart));
+    } else {
+      yield put(actions.fetchCartSuccess());
     }
   } catch (err) {
     yield put(actions.fetchCartFail());
   }
 }
 
-export function* addCart({ product }) {
+export function* addCart({ payload: { product } }) {
   try {
-    yield put(actions.fetchAddCart({ product }));
-  } catch (err) {}
+    const token = localStorage.get("token");
+    const cart = localStorage.get("cart");
+
+    if (token) {
+      const uid = getUserId();
+      let rs = yield call(APIv2.get, "carts", `cart${uid}`);
+      rs = rs || {};
+
+      const currentCart = {};
+      if (cart) {
+        currentCart.productList = [...cart.productList];
+        currentCart.totalAmount = cart.totalAmount;
+      } else {
+        currentCart.productList = [];
+        currentCart.totalAmount = 0;
+      }
+
+      const newCart = handleAddCart(currentCart, { product });
+
+      rs.totalAmount = newCart.totalAmount;
+      rs.productList = newCart.productList;
+
+      const { id, ...others } = rs;
+      const newData = {
+        ...others,
+      };
+
+      yield call(APIv2.set, "carts", `cart${uid}`, newData);
+    }
+
+    yield put(actions.fetchAddCartSuccess({ product }));
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export function* updateCart(action) {
@@ -99,7 +140,12 @@ export function* updateCart(action) {
       rs.totalAmount = newCart.totalAmount;
       rs.productList = newCart.productList;
 
-      yield call(APIv2.update, "carts", rs, `cart${uid}`);
+      const { id, ...others } = rs;
+      const newData = {
+        ...others,
+      };
+
+      yield call(APIv2.update, "carts", newData, `cart${uid}`);
     }
     yield put(actions.updateCart({ product }));
   } catch (e) {}
@@ -107,6 +153,6 @@ export function* updateCart(action) {
 
 export default function* root() {
   yield takeEvery("cart/fetchCartRequest", getCart);
-  yield takeEvery("cart/fetchAddCart", addCart);
+  yield takeEvery("cart/fetchAddCartRequest", addCart);
   yield takeEvery("cart/updateCartRequest", updateCart);
 }
