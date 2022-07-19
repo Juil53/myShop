@@ -23,10 +23,14 @@ const AddCartPopup = (props) => {
     if (cart.status === LOADING_STATUS.IDLE) {
       dispatch(cartActions.fetchCartRequest());
     } else {
-      if (productList.length === 0) {
+      if (
+        cart.data.productList.length === 0 &&
+        cart.update !== LOADING_STATUS.LOADING
+      ) {
         closePopup();
       }
     }
+
     if (cart.update === LOADING_STATUS.LOADING) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (cart.update === LOADING_STATUS.SUCCESS) {

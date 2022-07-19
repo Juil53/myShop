@@ -1,6 +1,7 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import apiInstance from "../../utils/axios/axiosInstance";
+import APIv1 from "../../service";
 import APIv2 from "../../service/db";
 import {
   addOrderFail,
@@ -13,6 +14,9 @@ import {
   getOrderSuccess,
   submitOrderFailed,
   submitOrderSuccess,
+  getPayUrlRequest,
+  getPayUrlFail,
+  getPayUrlSuccess,
 } from "./orderSlice";
 import localStorage from "../../service/localStorage";
 import { actions as cartActions } from "../cart/slice";
@@ -66,62 +70,36 @@ export function* actDeleteOrder(action) {
   }
 }
 
+// get payUrl
+
+export function* getPayUrl({ payload: { amount, orderId } }) {
+  try {
+    const { payUrl } = yield call(APIv1.post, {
+      baseUrl: "http://192.168.40.6:3002/api/payment",
+      query: {
+        amount,
+        orderId,
+      },
+    });
+
+    if (payUrl) {
+      yield put(getPayUrlSuccess({ payUrl }));
+    } else {
+      yield put(getPayUrlFail());
+    }
+  } catch (err) {
+    yield put(getPayUrlFail());
+  }
+}
+
 //add order
-export function* addOrder({ payload: { order } }) {
-  const rs = yield call(APIv2.add, "orders", order);
+export function* addOrder({ payload: { order, orderId, encryptedId } }) {
+  const { success } = yield call(APIv1.post, {
+    baseUrl: "http://192.168.40.6:3002/api/orders",
+    query: { orderId, encryptedId, order },
+  });
 
-  if (rs) {
-    if (order.uid) {
-      yield call(APIv2.del, "carts", `cart${order.uid}`);
-    }
-
-    //decrease product quantity
-    const products = [...order.items];
-
-    for (let i = 0; i < products.length; i++) {
-      const updatedProduct = {};
-      console.log(products[i].id);
-
-      if (
-        products[i].optionSelected &&
-        Object.keys(products[i].optionSelected).length > 0
-      ) {
-        //product has option
-        const product = yield call(APIv2.get, "products", products[i].id);
-
-        //update quantity of selected option
-        const configurableProducts = [...product.configurableProducts];
-        const newConfigurableProducts = [];
-
-        configurableProducts.forEach((v) => {
-          const { available, selected, ...others } = v;
-
-          if (
-            JSON.stringify(others) ===
-            JSON.stringify(products[i].optionSelected)
-          ) {
-            const updatedConfigurableProduct = {
-              available: available - products[i].quantity,
-              ...others,
-            };
-            if (selected) {
-              updatedConfigurableProduct.selected = true;
-            }
-            newConfigurableProducts.push(updatedConfigurableProduct);
-          } else {
-            newConfigurableProducts.push(v);
-          }
-        });
-
-        updatedProduct.configurableProducts = [...newConfigurableProducts];
-        updatedProduct.available = product.available - products[i].quantity;
-      } else {
-        updatedProduct.available = products[i].available - products[i].quantity;
-      }
-
-      yield call(APIv2.update, "products", updatedProduct, products[i].id);
-    }
-
+  if (success) {
     localStorage.remove("cart");
     yield put(cartActions.clearCart());
 
@@ -137,6 +115,16 @@ export function* addOrder({ payload: { order } }) {
       progress: undefined,
     });
   } else {
+    yield call(toast.warning, "Order fail!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
     yield put(addOrderFail());
   }
 }
@@ -147,4 +135,5 @@ export default function* adminOrderSaga() {
   yield takeEvery("order/updateOrderDetail", actUpdateOrderStatus);
   yield takeEvery("order/deleteOrderRequest", actDeleteOrder);
   yield takeEvery("order/addOrderRequest", addOrder);
+  yield takeLatest("order/getPayUrlRequest", getPayUrl);
 }
