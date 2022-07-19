@@ -2,7 +2,6 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import apiInstance from "../../utils/axios/axiosInstance";
 import APIv1 from "../../service";
-import APIv2 from "../../service/db";
 import {
   addOrderFail,
   addOrderSuccess,
@@ -14,7 +13,6 @@ import {
   getOrderSuccess,
   submitOrderFailed,
   submitOrderSuccess,
-  getPayUrlRequest,
   getPayUrlFail,
   getPayUrlSuccess,
 } from "./orderSlice";
@@ -75,7 +73,7 @@ export function* actDeleteOrder(action) {
 export function* getPayUrl({ payload: { amount, orderId } }) {
   try {
     const { payUrl } = yield call(APIv1.post, {
-      baseUrl: "http://192.168.40.6:3002/api/payment",
+      baseUrl: "http://192.168.1.143:3002/api/payment",
       query: {
         amount,
         orderId,
@@ -95,7 +93,7 @@ export function* getPayUrl({ payload: { amount, orderId } }) {
 //add order
 export function* addOrder({ payload: { order, orderId, encryptedId } }) {
   const { success } = yield call(APIv1.post, {
-    baseUrl: "http://192.168.40.6:3002/api/orders",
+    baseUrl: "http://192.168.1.143:3002/api/orders",
     query: { orderId, encryptedId, order },
   });
 
