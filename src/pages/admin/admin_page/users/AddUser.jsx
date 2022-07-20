@@ -107,7 +107,7 @@ export default function AddUser(props) {
       });
       setShow(true);
       setSubmitting(false);
-      setImg({})
+      setImg("")
       resetForm();
     },
   });

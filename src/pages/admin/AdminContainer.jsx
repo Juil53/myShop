@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Routes } from "react-router-dom";
+import { Routes, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Box } from "@mui/material";
-import MyDrawer from "../../components/admin/Drawer"
+import MyDrawer from "../../components/admin/Drawer";
 
 import Signin from "./signin_admin/Signin";
 import { loginAdmin } from "../../store/users/selector";
@@ -11,6 +11,7 @@ import { renderRouteAdmin } from "../../routes/AdminRoute";
 import { LOADING_STATUS, POPUP } from "../../constants";
 import Popup from "../../components/popup/Popup";
 import { actions } from "../../store/page/slice";
+import localStorage from "../../service/localStorage";
 
 const content = {
   flexGrow: 1,
@@ -24,6 +25,8 @@ const content = {
 export default function AdminContainer() {
   const loginData = useSelector(loginAdmin);
   const dispatch = useDispatch();
+  const navigator = useNavigate();
+  const token = localStorage.get("admin");
 
   useEffect(() => {
     if (loginData.status === LOADING_STATUS.SUCCESS) {
@@ -33,7 +36,7 @@ export default function AdminContainer() {
 
   return (
     <>
-      {loginData.status !== LOADING_STATUS.SUCCESS ? (
+      {loginData.status !== LOADING_STATUS.SUCCESS && !token ? (
         <Signin />
       ) : (
         <Box sx={{ display: "flex" }}>

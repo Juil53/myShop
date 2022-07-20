@@ -1,25 +1,12 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 
-import { ROWS_PER_PAGE } from "../../constants";
-import apiInstance from "../../utils/axios/axiosInstance";
-import {
-  getUserFailed,
-  getUserPaginationFailed,
-  getUserPaginationSuccess,
-  getUserSuccess,
-  submitUserFailed,
-  submitUserSuccess,
-  signinAdminFail,
-  signinAdminSuccess,
-  signinAdminRequest,
-  deleteUserSuccess,
-  deleteUserFailed,
-  signoutAdmin,
-} from "./usersSlice";
-import { signinAuth, signup, signoutAuth } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
-import APIv2 from "../../service/db";
-import fb from "../../service/db";
+import { signinAuth, signoutAuth, signup } from "../../service/auth";
+import { default as APIv2, default as fb } from "../../service/db";
+import {
+  deleteUserFailed, deleteUserSuccess, getUserFailed, getUserSuccess, signinAdminFail, signinAdminRequest, signinAdminSuccess, signoutAdmin, submitUserFailed,
+  submitUserSuccess
+} from "./usersSlice";
 
 //GET USER DATA
 export function* actGetUser() {
@@ -66,12 +53,10 @@ export function* actAddUser(action) {
 
 // DELETE USER
 export function* actDeleteUser(action) {
-  console.log(action.payload);
   try {
     yield call(fb.del, "users", action.payload);
     yield put(deleteUserSuccess());
   } catch (err) {
-    console.log(err);
     yield put(deleteUserFailed(err));
   }
 }
@@ -82,7 +67,6 @@ export function* actUpdateUserInfo(action) {
     const result = yield call(fb.update, `users/${action.payload.id}`, action.payload.state);
     yield put(submitUserSuccess(result));
   } catch (err) {
-    console.log(err);
     yield put(submitUserFailed());
   }
 }
@@ -122,10 +106,10 @@ export function* signout() {
 
 export default function* userSaga() {
   yield takeEvery("users/getUserRequest", actGetUser);
-  // yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("users/deleteUserRequest", actDeleteUser);
   yield takeEvery("users/updateUserInfoRequest", actUpdateUserInfo);
+  // yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
   yield takeEvery(USER_ACTIONS.ADMIN_SIGNIN, signinAdmin);
   yield takeEvery(USER_ACTIONS.ADMIN_SIGNOUT, signout);
 }

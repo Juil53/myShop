@@ -77,7 +77,8 @@ export function* actDeleteProduct(action) {
     const result = yield call(fb.del("products", action.payload));
     yield put(deleteProductSuccess(result));
   } catch (err) {
-    yield put(deleteProductFailed());
+    console.log(err)
+    yield put(deleteProductFailed(err));
   }
 }
 

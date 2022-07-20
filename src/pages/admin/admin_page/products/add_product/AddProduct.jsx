@@ -28,7 +28,7 @@ import ImageInput from "./ImageInput";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function AddProduct() {
           });
 
           setShow(true);
-          navigate("/admin/products");
+          // navigate("/admin/products");
           resetForm();
         }}
       >

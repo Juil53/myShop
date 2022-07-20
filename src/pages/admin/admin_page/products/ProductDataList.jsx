@@ -13,11 +13,14 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Loading from "../../../../components/loading/Loading";
 import { db } from "../../../../service/auth";
-import { deleteProductRequest, getAllProductRequest } from "../../../../store/admin_product/productSlice";
-import { selectAllProduct, selectLoading } from "../../../../store/admin_product/selector";
+import { deleteProductRequest, getAllProductRequest, resetStatus } from "../../../../store/admin_product/productSlice";
+import { selectAllProduct, selectLoading, selectStatus } from "../../../../store/admin_product/selector";
 import { formatter } from "../../../../utils";
+import ProductDelete from "./ProductDelete";
+
 
 const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
@@ -45,8 +48,10 @@ const style = {
 export default function ProductDataList({ keyword,filterOptions }) {
   const dispatch = useDispatch()
   const [arrIds, setArrIds] = useState([]);
+  const [show, setShow] = useState(false);
   const loading = useSelector(selectLoading)
   const productsData = useSelector((state)=>selectAllProduct(state,filterOptions))
+  const deleteStatus = useSelector(selectStatus);
   const keys = ["name", "brand", "status"];
 
   const columns = [
@@ -110,9 +115,7 @@ export default function ProductDataList({ keyword,filterOptions }) {
             <Link to={`/admin/products/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
-            <Button sx={style.btnDelete} onClick={() => handleDelete(params.row.id)}>
-              Delete
-            </Button>
+            <ProductDelete product={params.row} setShow={setShow}/>
           </Box>
         );
       },
@@ -152,12 +155,6 @@ export default function ProductDataList({ keyword,filterOptions }) {
     );
   };
 
-  //Delete 1 row
-  const handleDelete = (id) => {
-    dispatch(deleteProductRequest(id))
-    dispatch(getAllProductRequest())
-  };
-
   //Delete selected rows
   const handleDeleteSelected = (ids) => {
     try {
@@ -167,7 +164,6 @@ export default function ProductDataList({ keyword,filterOptions }) {
     } catch (error) {
       console.log(error);
     }
-
     // dispatch(deleteSelectedProductRequest(ids))
     dispatch(getAllProductRequest())
   };
@@ -180,7 +176,12 @@ export default function ProductDataList({ keyword,filterOptions }) {
   //Call docs from collection
   useEffect(() => {
     dispatch(getAllProductRequest())
-  }, [filterOptions]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllProductRequest())
+    dispatch(resetStatus());
+  }, [filterOptions,deleteStatus]);
 
   return (
     <>
@@ -194,7 +195,6 @@ export default function ProductDataList({ keyword,filterOptions }) {
             density="compact"
             autoPageSize
             checkboxSelection
-            disableSelectionOnClick
             onSelectionModelChange={(ids) => {
               setArrIds(ids);
             }}
@@ -203,6 +203,7 @@ export default function ProductDataList({ keyword,filterOptions }) {
               Footer: CustomFooter,
             }}
           />
+          <SimpleSnackbar show={show} setShow={setShow} type="delete"/>
         </Box>
       )}
     </>

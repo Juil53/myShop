@@ -182,8 +182,7 @@ export default function UserDataList({ keyword }) {
             rows={handleSearch(usersData)}
             columns={columns.concat(columnActions)}
             density="compact"
-            pageSize={10}
-            rowsPerPageOptions={[10]}
+            autoPageSize
             checkboxSelection
             onSelectionModelChange={(ids) => {
               setArrIds(ids);

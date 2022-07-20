@@ -92,6 +92,10 @@ const UserEdit = () => {
     });
   };
 
+  const handleSelect = (event) => {
+    setRole(event.target.value)
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const userRef = doc(db,'users',params.id)

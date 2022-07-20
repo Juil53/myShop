@@ -1,11 +1,18 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { handleIncreaseItem, handleNewItem } from "./logic";
 
-const WidgetCustomer = ({ customers,month }) => {
+const WidgetCustomer = ({ customers, month }) => {
   let [data, setData] = useState(() => {
     return {
       title: "NEW CUSTOMERS",
@@ -25,10 +32,10 @@ const WidgetCustomer = ({ customers,month }) => {
   });
 
   useEffect(() => {
-    const newCustomers = handleNewItem(customers,month);
+    const newCustomers = handleNewItem(customers, month);
     const percentIncrease = handleIncreaseItem(newCustomers);
-    setData({ ...data, amount: newCustomers,increase:percentIncrease });
-  }, [customers,month]);
+    setData({ ...data, amount: newCustomers, increase: percentIncrease });
+  }, [customers, month]);
 
   const cardStyle = {
     transform: "translateY(0)",
@@ -43,7 +50,13 @@ const WidgetCustomer = ({ customers,month }) => {
   return (
     <Card elevation={5} sx={cardStyle}>
       <CardContent>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography
             sx={{ fontSize: "2rem", fontWeight: "400" }}
             color="text.secondary"
@@ -57,7 +70,10 @@ const WidgetCustomer = ({ customers,month }) => {
             <Typography>{data?.increase}%</Typography>
           </Box>
         </Box>
-        <Typography sx={{ fontSize: "3.5rem", fontWeight: "500" }} color="text.primary">
+        <Typography
+          sx={{ fontSize: "3.5rem", fontWeight: "500" }}
+          color="text.primary"
+        >
           {data.amount}
         </Typography>
       </CardContent>
