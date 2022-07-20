@@ -11,12 +11,16 @@ import {
   getUsersSuccess,
   getUserSuccess,
   signinAdminFail,
-  signinAdminRequest,
   signinAdminSuccess,
+  deleteUserSuccess,
+  deleteUserFailed,
   signoutAdmin,
-  submitUserFailed,
-  submitUserSuccess,
+  getLoginUserInfo,
 } from "./usersSlice";
+import { signinAuth, signup, signoutAuth } from "../../service/auth";
+import { USER_ACTIONS } from "../../constants";
+import APIv2 from "../../service/db";
+import { getUserId } from "../../utils/decode";
 
 //GET USER DATA
 export function* actGetUsers() {
@@ -91,9 +95,7 @@ export function* actUpdateUserInfo(action) {
   }
 }
 
-export function* signinAdmin({ password, email }) {
-  yield put(signinAdminRequest());
-
+export function* signinAdmin({ payload: { password, email } }) {
   const rs = yield call(signinAuth, email, password);
 
   if (!rs.code) {
@@ -101,11 +103,7 @@ export function* signinAdmin({ password, email }) {
 
     const data = {
       token: rs.accessToken,
-      info: {
-        displayName: user.lastname,
-        image: user.avatar || "https://i.ibb.co/4pGF0yV/default-user.png",
-        ...user,
-      },
+      info: { ...user },
     };
 
     const approveRoles = ["Admin", "Staff"];
@@ -116,6 +114,16 @@ export function* signinAdmin({ password, email }) {
     }
   } else {
     yield put(signinAdminFail(rs.code));
+  }
+}
+
+export function* getAdminInfo() {
+  const id = getUserId("admin");
+  if (id) {
+    const user = yield call(APIv2.get, "users", id);
+    console.log(user);
+
+    yield put(getLoginUserInfo(user));
   }
 }
 
@@ -130,7 +138,7 @@ export default function* userSaga() {
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("users/deleteUserRequest", actDeleteUser);
   yield takeEvery("users/updateUserInfoRequest", actUpdateUserInfo);
-  // yield takeEvery("users/getUserPaginationRequest", actGetUserPagination);
-  yield takeEvery(USER_ACTIONS.ADMIN_SIGNIN, signinAdmin);
+  yield takeEvery("users/signinAdminRequest", signinAdmin);
   yield takeEvery(USER_ACTIONS.ADMIN_SIGNOUT, signout);
+  yield takeEvery("users/getLoginUserInfoRequest", getAdminInfo);
 }
