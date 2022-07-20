@@ -52,6 +52,7 @@ const clientSlice = createSlice({
           break;
 
         case "User not found":
+        case "auth/user-not-found":
           state.msg = "User not found";
           break;
 
@@ -86,7 +87,8 @@ const clientSlice = createSlice({
 
     signupFail: (state, action) => {
       state.status = LOADING_STATUS.FAIL;
-      if (action.payload === "auth/email-already-in-use") state.msg = "Email already in use";
+      if (action.payload === "auth/email-already-in-use")
+        state.msg = "Email already in use";
     },
 
     getUserInfo: (state, action) => {
