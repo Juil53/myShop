@@ -36,7 +36,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin } from "../../store/users/selector";
-import { USER_ACTIONS } from "../../constants"
+import { LOADING_STATUS, USER_ACTIONS } from "../../constants";
+import { getLoginUserInfoRequest } from "../../store/users/usersSlice";
+import localStorage from "../../service/localStorage";
 
 const drawerWidth = "25rem";
 
@@ -114,10 +116,18 @@ function MyDrawer() {
     setPopper((previousOpen) => !previousOpen);
   };
 
+  const token = localStorage.get("admin");
+
   const canBeOpen = popper && Boolean(anchorEl);
   const id = canBeOpen ? "transition-popper" : undefined;
 
   const user = useSelector(loginAdmin);
+
+  React.useEffect(() => {
+    if (user.status === LOADING_STATUS.IDLE && token) {
+      dispatch(getLoginUserInfoRequest());
+    }
+  });
 
   const itemList = [
     {
@@ -183,145 +193,154 @@ function MyDrawer() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <MyAppBar position="fixed" open={open} elevation={1}>
-        <CustomizeToolbar sx={{ backgroundColor: "#f6f7f9" }}>
-          <Grid container justifyContent="space-between">
-            <Grid item></Grid>
-            <Grid item>
-              <Stack spacing={3} direction="row" alignItems="center">
-                <Avatar
-                  alt="Remy Sharp"
-                  src={user?.data?.image}
-                  sx={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "50%",
-                    border: "2px solid",
-                    borderColor: "primary.main",
-                    cursor: "pointer",
-                    opacity: 0.8,
-                    transition: "all 200ms",
-                    "&:hover": {
-                      opacity: 1,
-                    },
-                  }}
-                  onClick={handleClick}
-                />
+    <>
+      {token && user.status === LOADING_STATUS.SUCCESS ? (
+        <Box sx={{ display: "flex" }}>
+          <MyAppBar position="fixed" open={open} elevation={1}>
+            <CustomizeToolbar sx={{ backgroundColor: "#f6f7f9" }}>
+              <Grid container justifyContent="space-between">
+                <Grid item></Grid>
+                <Grid item>
+                  <Stack spacing={3} direction="row" alignItems="center">
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={user?.data?.avatar}
+                      sx={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        border: "2px solid",
+                        borderColor: "primary.main",
+                        cursor: "pointer",
+                        opacity: 0.8,
+                        transition: "all 200ms",
+                        "&:hover": {
+                          opacity: 1,
+                        },
+                      }}
+                      onClick={handleClick}
+                    />
 
-                <Badge badgeContent={4} color="error">
-                  <MailIcon color="primary"/>
-                </Badge>
+                    <Badge badgeContent={4} color="error">
+                      <MailIcon color="primary" />
+                    </Badge>
 
-                <Popper id={id} open={popper} anchorEl={anchorEl} transition>
-                  {({ TransitionProps }) => (
-                    <Fade {...TransitionProps} timeout={200}>
-                      <Stack
-                        sx={{ mt: 1, mr: 3, p: 1, textAlign: "left" }}
-                        as={Paper}
-                        elevation={2}
-                      >
-                        <Button>
-                          {user?.data?.displayName}
-                        </Button>
-                        <Button
-                          onClick={handleSignout}
-                          endIcon={<LogoutIcon />}
-                        >
-                          Log out
-                        </Button>
-                      </Stack>
-                    </Fade>
-                  )}
-                </Popper>
-              </Stack>
-            </Grid>
-          </Grid>
-        </CustomizeToolbar>
-      </MyAppBar>
+                    <Popper
+                      id={id}
+                      open={popper}
+                      anchorEl={anchorEl}
+                      transition
+                    >
+                      {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={200}>
+                          <Stack
+                            sx={{ mt: 1, mr: 3, p: 1, textAlign: "left" }}
+                            as={Paper}
+                            elevation={2}
+                          >
+                            <Button>{user?.data?.lastname}</Button>
+                            <Button
+                              onClick={handleSignout}
+                              endIcon={<LogoutIcon />}
+                            >
+                              Log out
+                            </Button>
+                          </Stack>
+                        </Fade>
+                      )}
+                    </Popper>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </CustomizeToolbar>
+          </MyAppBar>
 
-      <NewDrawer
-        variant="permanent"
-        open={open}
-        sx={{ "& .MuiDrawer-paper": { backgroundColor: "primary.main" } }}
-      >
-        <Grid
-          container
-          direction="column"
-          sx={{ height: "100%" }}
-          justifyContent="space-between"
-        >
-          <Grid item>
-            <Grid item>
-              <Toolbar
-                className="adminToolbar"
-                sx={{ paddingLeft: { xs: "16px" } }}
-              >
-                {open ? (
-                  <img
-                    src="/img/logomyShopwhite.png"
-                    alt="logo"
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                ) : (
-                  <StoreIcon sx={{ color: "#fff" }} />
-                )}
-              </Toolbar>
-            </Grid>
-            <Divider />
-            <Grid item>
-              <List>
-                {user?.data?.role === "Admin"
-                  ? itemList_admin.map((item, index) => {
-                      const { text, icon, href } = item;
-                      return (
-                        <CustomeNavlink to={href} key={index}>
-                          <CustomizedListItemButton>
-                            <ListItemIcon sx={{ color: "#fff" }}>
-                              {icon}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                          </CustomizedListItemButton>
-                          <Divider />
-                        </CustomeNavlink>
-                      );
-                    })
-                  : itemList.map((item, index) => {
-                      const { text, icon, href } = item;
-                      return (
-                        <CustomeNavlink to={href} key={index}>
-                          <CustomizedListItemButton>
-                            <ListItemIcon sx={{ color: "#fff" }}>
-                              {icon}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                          </CustomizedListItemButton>
-                          <Divider />
-                        </CustomeNavlink>
-                      );
-                    })}
-              </List>
-            </Grid>
-          </Grid>
-
-          <Grid item>
-            <DrawerHeader
-              sx={{ justifyContent: open ? "flex-end" : "flex-start" }}
+          <NewDrawer
+            variant="permanent"
+            open={open}
+            sx={{ "& .MuiDrawer-paper": { backgroundColor: "primary.main" } }}
+          >
+            <Grid
+              container
+              direction="column"
+              sx={{ height: "100%" }}
+              justifyContent="space-between"
             >
-              {!open ? (
-                <IconButton onClick={handleDrawerOpen}>
-                  <ChevronRightIcon sx={{ color: "#fff" }} />
-                </IconButton>
-              ) : (
-                <IconButton onClick={handleDrawerClose}>
-                  <ChevronLeftIcon sx={{ color: "#fff" }} />
-                </IconButton>
-              )}
-            </DrawerHeader>
-          </Grid>
-        </Grid>
-      </NewDrawer>
-    </Box>
+              <Grid item>
+                <Grid item>
+                  <Toolbar
+                    className="adminToolbar"
+                    sx={{ paddingLeft: { xs: "16px" } }}
+                  >
+                    {open ? (
+                      <img
+                        src="/img/logomyShopwhite.png"
+                        alt="logo"
+                        style={{ width: "100%", height: "100%" }}
+                      />
+                    ) : (
+                      <StoreIcon sx={{ color: "#fff" }} />
+                    )}
+                  </Toolbar>
+                </Grid>
+                <Divider />
+                <Grid item>
+                  <List>
+                    {user?.data?.role === "Admin"
+                      ? itemList_admin.map((item, index) => {
+                          const { text, icon, href } = item;
+                          return (
+                            <CustomeNavlink to={href} key={index}>
+                              <CustomizedListItemButton>
+                                <ListItemIcon sx={{ color: "#fff" }}>
+                                  {icon}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                              </CustomizedListItemButton>
+                              <Divider />
+                            </CustomeNavlink>
+                          );
+                        })
+                      : itemList.map((item, index) => {
+                          const { text, icon, href } = item;
+                          return (
+                            <CustomeNavlink to={href} key={index}>
+                              <CustomizedListItemButton>
+                                <ListItemIcon sx={{ color: "#fff" }}>
+                                  {icon}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                              </CustomizedListItemButton>
+                              <Divider />
+                            </CustomeNavlink>
+                          );
+                        })}
+                  </List>
+                </Grid>
+              </Grid>
+
+              <Grid item>
+                <DrawerHeader
+                  sx={{ justifyContent: open ? "flex-end" : "flex-start" }}
+                >
+                  {!open ? (
+                    <IconButton onClick={handleDrawerOpen}>
+                      <ChevronRightIcon sx={{ color: "#fff" }} />
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={handleDrawerClose}>
+                      <ChevronLeftIcon sx={{ color: "#fff" }} />
+                    </IconButton>
+                  )}
+                </DrawerHeader>
+              </Grid>
+            </Grid>
+          </NewDrawer>
+        </Box>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 

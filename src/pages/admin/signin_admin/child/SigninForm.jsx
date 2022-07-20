@@ -5,6 +5,7 @@ import InputField from "../../../../components/input_field/InputField";
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../../constants";
 import { actions } from "../../../../store/page/slice";
 import { loginAdmin } from "../../../../store/users/selector";
+import { signinAdminRequest } from "../../../../store/users/usersSlice";
 
 import { checkEmailFormat } from "../../../../utils";
 
@@ -18,12 +19,14 @@ const SigninForm = () => {
   useEffect(() => {
     if (adminLogin.status === LOADING_STATUS.LOADING) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+      console.log("loading");
     } else if (
       adminLogin.data &&
       Object.keys(adminLogin.data).length !== 0 &&
       adminLogin.status === LOADING_STATUS.SUCCESS
     ) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+      console.log("success");
     } else if (adminLogin.status === LOADING_STATUS.FAIL) {
       dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
       const errorMsg = document.getElementById("signin-error-msg");
@@ -41,11 +44,7 @@ const SigninForm = () => {
       if (!checkEmailFormat(email)) {
         errorMsg.textContent = "Invalid email";
       } else {
-        dispatch({
-          type: USER_ACTIONS.ADMIN_SIGNIN,
-          email: email,
-          password: password,
-        });
+        dispatch(signinAdminRequest({ password, email }));
       }
     }
   };
