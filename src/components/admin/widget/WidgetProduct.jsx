@@ -1,12 +1,18 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { handleIncreaseProducts, handleNewItem } from "./logic";
 
-const WidgetProduct = ({ products,month }) => {
-
+const WidgetProduct = ({ products, month }) => {
   let [data, setData] = useState(() => {
     return {
       title: "NEW PRODUCTS",
@@ -26,10 +32,10 @@ const WidgetProduct = ({ products,month }) => {
   });
 
   useEffect(() => {
-    const newProducts = handleNewItem(products,month);
+    const newProducts = handleNewItem(products, month);
     const percentIncrease = handleIncreaseProducts(newProducts);
     setData({ ...data, amount: newProducts, increase: percentIncrease });
-  }, [month]);
+  }, [products, month]);
 
   const cardStyle = {
     transform: "translateY(0)",
@@ -44,7 +50,13 @@ const WidgetProduct = ({ products,month }) => {
   return (
     <Card elevation={5} sx={cardStyle}>
       <CardContent>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography
             sx={{ fontSize: "2rem", fontWeight: "400" }}
             color="text.secondary"
@@ -58,7 +70,10 @@ const WidgetProduct = ({ products,month }) => {
             <Typography>{data.increase}</Typography>
           </Box>
         </Box>
-        <Typography sx={{ fontSize: "3.5rem", fontWeight: "500" }} color="text.primary">
+        <Typography
+          sx={{ fontSize: "3.5rem", fontWeight: "500" }}
+          color="text.primary"
+        >
           {data.amount}
         </Typography>
       </CardContent>

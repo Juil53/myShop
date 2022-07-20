@@ -21,7 +21,10 @@ const MyMap = () => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
   });
   const center1 = useMemo(() => ({ lat: 10.853742, lng: 106.628392 }), []);
-  const center2 = useMemo(() => ({ lat: 21.021934837783704, lng: 105.83507484472274 }), []);
+  const center2 = useMemo(
+    () => ({ lat: 21.021934837783704, lng: 105.83507484472274 }),
+    []
+  );
   return (
     <div>
       {isLoaded ? (
@@ -32,7 +35,11 @@ const MyMap = () => {
           <Typography variant="h2" mt={2} gutterBottom>
             Map
           </Typography>
-          <GoogleMap zoom={5} center={center1} mapContainerClassName="map-container">
+          <GoogleMap
+            zoom={15}
+            center={center1}
+            mapContainerClassName="map-container"
+          >
             <Marker position={center1} />
             <Marker position={center2} />
           </GoogleMap>
