@@ -48,10 +48,10 @@ export const selectProductPagination = (state, filterOptions) => {
   return productsPagination;
 };
 
-export const selectProductInfo = (state, id) => {
+export const selectProductInfo = (state) => {
   const { adminProduct = {} } = state || {};
-  const { products = [] } = adminProduct;
-  return products.find((product) => product.id === id);
+  const { productInfo } = adminProduct;
+  return productInfo
 };
 
 export const selectStatus = (state) => {

@@ -4,14 +4,33 @@ import { USER_ACTIONS } from "../../constants";
 import { signinAuth, signoutAuth, signup } from "../../service/auth";
 import { default as APIv2, default as fb } from "../../service/db";
 import {
-  deleteUserFailed, deleteUserSuccess, getUserFailed, getUserSuccess, signinAdminFail, signinAdminRequest, signinAdminSuccess, signoutAdmin, submitUserFailed,
-  submitUserSuccess
+  deleteUserFailed,
+  deleteUserSuccess,
+  getUserFailed,
+  getUsersFailed,
+  getUsersSuccess,
+  getUserSuccess,
+  signinAdminFail,
+  signinAdminRequest,
+  signinAdminSuccess,
+  signoutAdmin,
+  submitUserFailed,
+  submitUserSuccess,
 } from "./usersSlice";
 
 //GET USER DATA
-export function* actGetUser() {
+export function* actGetUsers() {
   try {
     const result = yield call(fb.getAll, "users");
+    yield put(getUsersSuccess(result));
+  } catch (error) {
+    yield put(getUsersFailed(error));
+  }
+}
+
+export function* actGetUser(action) {
+  try {
+    const result = yield call(fb.get, "users", action.payload);
     yield put(getUserSuccess(result));
   } catch (error) {
     yield put(getUserFailed(error));
@@ -63,6 +82,7 @@ export function* actDeleteUser(action) {
 
 // UPDATE USER
 export function* actUpdateUserInfo(action) {
+  console.log(action);
   try {
     const result = yield call(fb.update, `users/${action.payload.id}`, action.payload.state);
     yield put(submitUserSuccess(result));
@@ -105,6 +125,7 @@ export function* signout() {
 }
 
 export default function* userSaga() {
+  yield takeEvery("users/getUsersRequest", actGetUsers);
   yield takeEvery("users/getUserRequest", actGetUser);
   yield takeEvery("users/submitUserRequest", actAddUser);
   yield takeEvery("users/deleteUserRequest", actDeleteUser);

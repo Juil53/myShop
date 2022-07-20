@@ -22,13 +22,27 @@ const usersSlice = createSlice({
   },
 
   reducers: {
+    getUsersRequest(state, action) {
+      state.loading = true;
+    },
+
+    getUsersSuccess(state, action) {
+      state.loading = false;
+      state.userData = action.payload;
+    },
+
+    getUsersFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     getUserRequest(state, action) {
       state.loading = true;
     },
 
     getUserSuccess(state, action) {
       state.loading = false;
-      state.userData = action.payload;
+      state.userInfo = action.payload;
     },
 
     getUserFailed(state, action) {
@@ -160,6 +174,9 @@ const usersSlice = createSlice({
 });
 
 export const {
+  getUsersRequest,
+  getUsersSuccess,
+  getUsersFailed,
   getUserRequest,
   getUserSuccess,
   getUserFailed,

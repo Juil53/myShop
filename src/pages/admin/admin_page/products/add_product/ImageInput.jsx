@@ -3,6 +3,8 @@ import { Button, Stack } from "@mui/material";
 import { useFormikContext } from "formik";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import PreviewImg from "../PreviewImg";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../../../service/auth";
 
 export default function ImageInput({data}) {
   const [files, setFiles] = useState([]);
@@ -11,6 +13,7 @@ export default function ImageInput({data}) {
   useEffect(() => {
     setFieldValue("image", files);
   }, [files]);
+
 
   return (
     <>

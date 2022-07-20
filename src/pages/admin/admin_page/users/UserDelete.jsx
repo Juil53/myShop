@@ -2,11 +2,8 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import AlertDialog from "../../../../components/admin/AlertDialog";
-import { deleteUserRequest, getUserRequest } from "../../../../store/users/usersSlice";
-
-const style = {
-  btnDelete: { color: "crimson", border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 },
-};
+import { deleteUserRequest, getUsersRequest } from "../../../../store/users/usersSlice";
+import { style } from "./logic";
 
 const UserDelete = ({ userId, user, setShow }) => {
   const dispatch = useDispatch();
@@ -15,7 +12,7 @@ const UserDelete = ({ userId, user, setShow }) => {
   const handleDelete = (choose) => {
     if (choose) {
       dispatch(deleteUserRequest(userId));
-      dispatch(getUserRequest());
+      dispatch(getUsersRequest());
       setShow(true)
     }
     setOpen(false);

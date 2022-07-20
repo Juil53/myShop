@@ -12,10 +12,12 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import { db, storage } from "../../../../service/auth";
+import { getProductInfo, getProductInfoRequest } from "../../../../store/admin_product/productSlice";
+import { selectProductInfo } from "../../../../store/admin_product/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import AttributeInput from "./add_product/AttributeInput";
 import CategoriesInput from "./add_product/CategoriesInput";
@@ -23,26 +25,14 @@ import ImageInput from "./add_product/ImageInput";
 
 export default function EditProduct() {
   const params = useParams();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [data, setData] = useState({});
   const [show, setShow] = useState(false);
+  const product = useSelector(selectProductInfo)  
 
   useEffect(() => {
-    // dispatch(getOptionsRequest());
-    // dispatch(getCategoriesRequest());
-    // dispatch(getAllProductRequest());
-
-    const fetchData = async () => {
-      const docRef = doc(db, "products", params.id);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        setData(docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
-    };
-    fetchData();
+    dispatch(getProductInfoRequest(params.id))
+    setData(product)
   }, []);
 
   return (
@@ -68,7 +58,7 @@ export default function EditProduct() {
             isNew: data.isNew || false,
           }}
           enableReinitialize
-          onSubmit={async (values, { resetForm }) => {
+          onSubmit={async (values) => {
             const tempUrl = [];
 
             try {

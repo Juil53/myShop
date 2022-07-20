@@ -6,77 +6,14 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useFormik } from "formik";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { authInstance, db, storage } from "../../../../service/auth";
-import { selectLoading } from "../../../../store/users/selector";
 import { validation } from "../../../../validation/Validation";
-
-// SELECT ROLE
-
-const roles = [
-  {
-    value: "Staff",
-    label: "Staff",
-  },
-  {
-    value: "Admin",
-    label: "Admin",
-  },
-];
-
-const style = {
-  container: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    margin: "auto",
-    padding: "2rem",
-    bgcolor: "background.paper",
-    boxShadow: 3,
-    borderRadius: 2,
-  },
-  imgContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "25%",
-    marginRight: 2,
-    padding: 3,
-  },
-  img: {
-    borderRadius: "50%",
-    marginBottom: "5rem",
-    width: "50%",
-    height: "50%",
-  },
-  userForm: {
-    width: "75%",
-    padding: 3,
-  },
-};
+import { pages, roles, style } from "./logic";
 
 export default function AddUser(props) {
-  const pages = [
-    {
-      name: "Admin",
-      url: "/admin",
-    },
-    {
-      name: "Users",
-      url: "/admin/users",
-    },
-    {
-      name: "Add",
-      url: "/admin/add",
-    },
-  ];
-
-  const dispatch = useDispatch();
-  const loading = useSelector(selectLoading);
   const [role, setRole] = useState("");
   const [img, setImg] = useState({});
   const [file, setFile] = useState("");
@@ -107,7 +44,7 @@ export default function AddUser(props) {
       });
       setShow(true);
       setSubmitting(false);
-      setImg("")
+      setImg("");
       resetForm();
     },
   });
@@ -368,7 +305,6 @@ export default function AddUser(props) {
             </Grid>
           </Grid>
         </Box>
-
         <SimpleSnackbar show={show} setShow={setShow} type="add" />
       </Box>
     </div>

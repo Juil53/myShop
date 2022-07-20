@@ -12,8 +12,8 @@ export const selectUserOpen = (state) => {
 
 export const selectUserInfo = (state, id) => {
   const { user = {} } = state || {};
-  const { userData = [] } = user;
-  return userData.find((user) => user.id === id);
+  const { userInfo = {} } = user;
+  return userInfo;
 };
 
 export const selectUserDataPagination = (state) => {
