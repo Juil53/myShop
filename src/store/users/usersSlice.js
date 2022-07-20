@@ -146,8 +146,13 @@ const usersSlice = createSlice({
       }
     },
 
+    getLoginUserInfoRequest: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.LOADING;
+    },
+
     getLoginUserInfo: (state, action) => {
-      state.data = action.payload;
+      state.loginAdmin.status = LOADING_STATUS.SUCCESS;
+      state.loginAdmin.data = action.payload;
     },
 
     signoutAdmin: (state) => {
@@ -182,6 +187,7 @@ export const {
   signinAdminFail,
   signinAdminSuccess,
   signinAdminRequest,
+  getLoginUserInfoRequest,
   resetStatus,
 } = usersSlice.actions;
 
