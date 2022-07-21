@@ -15,7 +15,7 @@ import { handleIncreaseProducts, handleNewItem } from "./logic";
 const WidgetProduct = ({ products, month }) => {
   let [data, setData] = useState(() => {
     return {
-      title: "NEW PRODUCTS",
+      title: "PRODUCTS",
       link: "View all products",
       amount: 20,
       icon: (

@@ -1,7 +1,4 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-
-import { USER_ACTIONS } from "../../constants";
-import { signinAuth, signoutAuth, signup } from "../../service/auth";
 import { default as APIv2, default as fb } from "../../service/db";
 import {
   deleteUserFailed,
@@ -12,14 +9,13 @@ import {
   getUserSuccess,
   signinAdminFail,
   signinAdminSuccess,
-  deleteUserSuccess,
-  deleteUserFailed,
   signoutAdmin,
   getLoginUserInfo,
+  submitUserSuccess,
+  submitUserFailed,
 } from "./usersSlice";
 import { signinAuth, signup, signoutAuth } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
-import APIv2 from "../../service/db";
 import { getUserId } from "../../utils/decode";
 
 //GET USER DATA
@@ -121,8 +117,6 @@ export function* getAdminInfo() {
   const id = getUserId("admin");
   if (id) {
     const user = yield call(APIv2.get, "users", id);
-    console.log(user);
-
     yield put(getLoginUserInfo(user));
   }
 }

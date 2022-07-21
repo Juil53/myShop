@@ -14,7 +14,7 @@ import { Field, Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
 import { db, storage } from "../../../../../service/auth";
 import {
@@ -28,7 +28,6 @@ import ImageInput from "./ImageInput";
 
 export default function AddProduct() {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   useEffect(() => {

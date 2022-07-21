@@ -10,7 +10,7 @@ const WidgetEarning = ({ orders,month }) => {
 
   let [data, setData] = useState(() => {
     return {
-      title: "MONTHLY REVENUE",
+      title: "REVENUE",
       link: "View detail",
       amount: 2400000,
       icon: (

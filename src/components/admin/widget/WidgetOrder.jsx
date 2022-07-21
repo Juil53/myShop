@@ -8,7 +8,7 @@ import { handleIncreaseOrders, handleNewItem } from "./logic";
 const WidgetOrder = ({ orders }) => {
   let [data, setData] = useState(() => {
     return {
-      title: "NEW ORDERS",
+      title: "ORDERS",
       link: "View all orders",
       amount: 11,
       icon: (

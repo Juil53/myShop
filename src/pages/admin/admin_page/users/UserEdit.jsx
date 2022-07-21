@@ -2,7 +2,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Box, Button, Grid, MenuItem, Paper, Stack, TextField } from "@mui/material";
 import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useFormik } from "formik";
+import { Field, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,37 +24,6 @@ const UserEdit = () => {
   const [file, setFile] = useState("");
   const [per, setPer] = useState(null);
   const [img, setImg] = useState({});
-
-  const formik = useFormik({
-    initialValues: {
-      firstname: '',
-      lastname: '',
-      password: '',
-      email: '',
-      address: '',
-      gender: '',
-      education: '',
-      identify: '',
-      avatar: '',
-      phonenumber: '',
-      role: '',
-    },
-    validationSchema: validation,
-    onSubmit: async (values) => {
-      await updateDoc(doc(db, "users", params.id), {
-        ...values,
-        avatar: img.image || "",
-        timeStamp: moment().format("MM DD YYYY"),
-      });
-      setShow(true);
-    },
-  });
-
-  useEffect(() => {
-    formik.values = {...formik.values, ...user};
-  }, [user])
-
-  console.log("abc");
 
   useEffect(() => {
     dispatch(getUserRequest(params.id));
@@ -105,176 +74,207 @@ const UserEdit = () => {
             Edit User
           </h1>
 
-          <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
-              <Grid item xs={6} sx={{ textAlign: "center" }}>
-                <img
-                  value={formik.values.avatar}
-                  src={file ? URL.createObjectURL(file) : formik.values.avatar}
-                  alt="avatar"
-                  style={style.img}
-                />
-                <label htmlFor="icon-button-file">
-                  <input
-                    id="icon-button-file"
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={(e) => setFile(e.target.files[0])}
-                  />
+          <Formik
+            initialValues={{
+              firstname: user.firstname || "",
+              lastname: user.lastname || "",
+              password: user.password || "",
+              email: user.email || "",
+              address: user.address || "",
+              gender: user.gender || "",
+              education: user.education || "",
+              identify: user.identify || "",
+              avatar: user.avatar || "",
+              phonenumber: user.phonenumber || "",
+              role: user.role || "Staff",
+            }}
+            validationSchema={validation}
+            enableReinitialize={true} // allow reinitialize formmik initial value and trigger re-render
+            onSubmit={async (values, { resetForm }) => {
+              await updateDoc(doc(db, "users", params.id), {
+                ...values,
+                avatar: img.image || "",
+                timeStamp: moment().format("MM DD YYYY"),
+              });
+              setShow(true);
+            }}
+          >
+            {(props) => (
+              <form onSubmit={props.handleSubmit}>
+                <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
+                  <Grid item xs={6} sx={{ textAlign: "center" }}>
+                    <img
+                      value={props.values.avatar}
+                      src={file ? URL.createObjectURL(file) : props.values.avatar}
+                      alt="avatar"
+                      style={style.img}
+                    />
+                    <label htmlFor="icon-button-file">
+                      <input
+                        id="icon-button-file"
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={(e) => setFile(e.target.files[0])}
+                      />
+                      <Button
+                        aria-label="upload picture"
+                        component="span"
+                        variant="outlined"
+                        startIcon={<UploadFileIcon />}
+                      >
+                        Upload image
+                      </Button>
+                    </label>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <div className="admin__form">
+                      <Field
+                        as={TextField}
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                        required
+                        label="First Name"
+                        name="firstname"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.firstname}
+                        helperText={props.touched.firstname && props.errors.firstname}
+                        error={props.touched.firstname && props.errors.firstname ? true : false}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Last Name"
+                        name="lastname"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.lastname}
+                        helperText={props.touched.lastname && props.errors.lastname}
+                        error={props.touched.lastname && props.errors.lastname ? true : false}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Email"
+                        name="email"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.email}
+                        helperText={props.touched.email && props.errors.email}
+                        error={props.touched.email && props.errors.email ? true : false}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Address"
+                        name="address"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.address}
+                        helperText={props.touched.address && props.errors.address}
+                        error={props.touched.address && props.errors.address ? true : false}
+                      />
+
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Gender"
+                        name="gender"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.gender}
+                        helperText={props.touched.gender && props.errors.gender}
+                        error={props.touched.gender && props.errors.gender ? true : false}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Education"
+                        name="education"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.education}
+                        helperText={props.touched.education && props.errors.education}
+                        error={props.touched.education && props.errors.education ? true : false}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Identify"
+                        name="identify"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.identify}
+                        helperText={props.touched.identify && props.errors.identify}
+                        error={props.touched.identify && props.errors.identify ? true : false}
+                      />
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        label="Phone number"
+                        name="phonenumber"
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.phonenumber}
+                        helperText={props.touched.phonenumber && props.errors.phonenumber}
+                        error={
+                          props.touched.phonenumber && props.errors.phonenumber ? true : false
+                        }
+                      />
+
+                      <TextField
+                        size="small"
+                        variant="outlined"
+                        required
+                        select
+                        label="Select Role"
+                        name="role"
+                        value={props.values.role}
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        helperText={props.touched.role && props.errors.role}
+                        error={props.touched.role && props.errors.role ? true : false}
+                      >
+                        {roles.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </Grid>
+                </Grid>
+                <Stack direction="row" spacing={1} justifyContent="center" mt={1}>
                   <Button
-                    aria-label="upload picture"
-                    component="span"
-                    variant="outlined"
-                    startIcon={<UploadFileIcon />}
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    type="submit"
+                    disabled={per !== null && per < 100}
                   >
-                    Upload image
+                    Save
                   </Button>
-                </label>
-              </Grid>
-              <Grid item xs={6}>
-                <div className="admin__form">
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    label="First Name"
-                    name="firstname"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.firstname}
-                    helperText={formik.touched.firstname && formik.errors.firstname}
-                    error={formik.touched.firstname && formik.errors.firstname ? true : false}
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    label="Last Name"
-                    name="lastname"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.lastname}
-                    helperText={formik.touched.lastname && formik.errors.lastname}
-                    error={formik.touched.lastname && formik.errors.lastname ? true : false}
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    label="Email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                    helperText={formik.touched.email && formik.errors.email}
-                    error={formik.touched.email && formik.errors.email ? true : false}
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    label="Address"
-                    name="address"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.address}
-                    helperText={formik.touched.address && formik.errors.address}
-                    error={formik.touched.address && formik.errors.address ? true : false}
-                  />
 
-                  <TextField
+                  <Button
+                    variant="contained"
                     size="small"
-                    variant="outlined"
-                    required
-                    label="Gender"
-                    name="gender"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.gender}
-                    helperText={formik.touched.gender && formik.errors.gender}
-                    error={formik.touched.gender && formik.errors.gender ? true : false}
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    label="Education"
-                    name="education"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.education}
-                    helperText={formik.touched.education && formik.errors.education}
-                    error={formik.touched.education && formik.errors.education ? true : false}
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    label="Identify"
-                    name="identify"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.identify}
-                    helperText={formik.touched.identify && formik.errors.identify}
-                    error={formik.touched.identify && formik.errors.identify ? true : false}
-                  />
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    label="Phone number"
-                    name="phonenumber"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.phonenumber}
-                    helperText={formik.touched.phonenumber && formik.errors.phonenumber}
-                    error={formik.touched.phonenumber && formik.errors.phonenumber ? true : false}
-                  />
-
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    required
-                    select
-                    label="Select Role"
-                    name="role"
-                    value={formik.values.role}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    helperText={formik.touched.role && formik.errors.role}
-                    error={formik.touched.role && formik.errors.role ? true : false}
+                    color="warning"
+                    onClick={() => navigate("/admin/users")}
                   >
-                    {roles.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </Grid>
-            </Grid>
-            <Stack direction="row" spacing={1} justifyContent="center" mt={1}>
-              <Button
-                variant="contained"
-                color="success"
-                size="small"
-                type="submit"
-                disabled={per !== null && per < 100}
-              >
-                Save
-              </Button>
-
-              <Button
-                variant="contained"
-                size="small"
-                color="warning"
-                onClick={() => navigate("/admin/users")}
-              >
-                Back
-              </Button>
-            </Stack>
-          </form>
+                    Back
+                  </Button>
+                </Stack>
+              </form>
+            )}
+          </Formik>
         </Box>
       </Box>
 
