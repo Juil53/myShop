@@ -116,7 +116,6 @@ export function* getAdminInfo() {
   const id = getUserId("admin");
   if (id) {
     const user = yield call(APIv2.get, "users", id);
-    console.log(user);
 
     yield put(getLoginUserInfo(user));
   }

@@ -1,4 +1,12 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Chart from "../../../../components/admin/Chart";
@@ -13,7 +21,10 @@ import { selectAllProduct } from "../../../../store/admin_product/selector";
 import { selectCustomers } from "../../../../store/clients/selector";
 import { clientActions } from "../../../../store/clients/slice";
 import { getOrderRequest } from "../../../../store/orders/orderSlice";
-import { selectLoading, selectOrderData } from "../../../../store/orders/selector";
+import {
+  selectLoading,
+  selectOrderData,
+} from "../../../../store/orders/selector";
 import Loading from "./../../../../components/loading/Loading";
 import { months } from "./date";
 
@@ -43,11 +54,17 @@ const Dashboard = () => {
       ) : (
         <Box>
           <Box sx={{ width: 200, marginBottom: 2 }}>
-            <Typography color="text.primary" sx={{ marginBottom: 1 }} gutterBottom>
+            <Typography
+              color="text.primary"
+              sx={{ marginBottom: 1 }}
+              gutterBottom
+            >
               FILTER
             </Typography>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Current Month</InputLabel>
+              <InputLabel id="demo-simple-select-label">
+                Current Month
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
