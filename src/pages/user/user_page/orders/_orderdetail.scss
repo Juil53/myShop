@@ -1,0 +1,28 @@
+.order-detail__container {
+  .order-detail__title {
+    font-size: 1.8rem;
+  }
+
+  .order-detail__top {
+    .date {
+      padding: 1rem 0;
+      font-size: 1.2rem;
+    }
+  }
+
+  .container.info {
+    justify-content: space-between;
+
+    .info__section {
+      padding: 1rem;
+      width: 30rem;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+      border-radius: 0.5rem;
+      font-size: 1.4rem;
+
+      .section__title {
+        font-weight: 600;
+      }
+    }
+  }
+}

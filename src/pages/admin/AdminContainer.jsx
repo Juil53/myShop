@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Box } from "@mui/material";
 import MyDrawer from "../../components/admin/Drawer";
+import { useLocation } from "react-router-dom";
 
 import Signin from "./signin_admin/Signin";
 import { loginAdmin } from "../../store/users/selector";
@@ -23,29 +24,25 @@ const content = {
 };
 
 export default function AdminContainer() {
-  const loginData = useSelector(loginAdmin);
-  const dispatch = useDispatch();
   const navigator = useNavigate();
   const token = localStorage.get("admin");
 
+  const location = useLocation();
+
   useEffect(() => {
-    if (loginData.status === LOADING_STATUS.SUCCESS) {
-      dispatch(actions.hidePopup(POPUP.WAITING_POPUP));
+    if (!token) {
+      navigator(`/admin/login?backPage=${location.pathname}`);
     }
-  });
+  }, [token]);
 
   return (
     <>
-      {loginData.status !== LOADING_STATUS.SUCCESS && !token ? (
-        <Signin />
-      ) : (
-        <Box sx={{ display: "flex" }}>
-          <MyDrawer className="sidebar" />
-          <Box className="content" component="main" sx={content}>
-            <Routes>{renderRouteAdmin()}</Routes>
-          </Box>
+      <Box sx={{ display: "flex" }}>
+        {!!token && <MyDrawer className="sidebar" />}
+        <Box className="content" component="main" sx={content}>
+          <Routes>{renderRouteAdmin(token)}</Routes>
         </Box>
-      )}
+      </Box>
       <Popup />
     </>
   );

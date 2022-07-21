@@ -182,6 +182,7 @@ function MyDrawer() {
 
   const handleSignout = () => {
     dispatch({ type: USER_ACTIONS.ADMIN_SIGNOUT });
+    window.location.reload();
   };
 
   const handleDrawerOpen = () => {
