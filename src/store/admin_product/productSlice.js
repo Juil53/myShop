@@ -8,7 +8,7 @@ const productSlice = createSlice({
     error: null,
     products: [],
     productsPagination: null,
-    productInfo: null,
+    productInfo: {},
     status:false,
     categories: [],
   },

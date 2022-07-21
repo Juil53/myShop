@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AlertDialog({ open, order, user, product, handleDelete }) {
+export default function AlertDialog({ open, order, user, product, handleDelete, customer }) {
   const handleCase = () => {
     if (user)
       return (
@@ -14,6 +14,8 @@ export default function AlertDialog({ open, order, user, product, handleDelete }
       );
     if (product) return <span style={{ fontWeight: 700, color: "#35c0c5" }}>{product.name}?</span>;
     if (order) return <span style={{ fontWeight: 700, color: "#35c0c5" }}>{order.id}?</span>;
+    if (customer)
+      return <span style={{ fontWeight: 700, color: "#35c0c5" }}>{customer.displayName}?</span>;
   };
 
   return (

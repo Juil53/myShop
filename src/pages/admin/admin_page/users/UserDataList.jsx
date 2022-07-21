@@ -13,6 +13,7 @@ export default function UserDataList({ keyword }) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [arrIds, setArrIds] = useState([]);
+  
   const loading = useSelector(selectLoading);
   const usersData = useSelector(selectUserData);
   const deleteStatus = useSelector(selectStatus);

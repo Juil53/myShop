@@ -20,3 +20,15 @@ export const selectCustomers = (state) => {
   const { customers = [] } = client;
   return customers;
 };
+
+export const selectStatus = (state) => {
+  const { client = {} } = state || [];
+  const { status } = client || false;
+  return status;
+};
+
+export const selectLoading = (state) => {
+  const { client = {} } = state || [];
+  const { loading } = client || false;
+  return loading;
+};

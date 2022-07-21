@@ -180,6 +180,25 @@ export function* getCustomers() {
   }
 }
 
+export function* getCustomer(action) {
+  try {
+    const result = yield call(APIv2.get, "customers", action.payload);
+    yield put(clientActions.getCustomerSuccess(result));
+  } catch (error) {
+    yield put(clientActions.getCustomerFailed(error));
+  }
+}
+
+// DELETE USER
+export function* actDeleteCustomer(action) {
+  try {
+    yield call(APIv2.del, "customers", action.payload);
+    yield put(clientActions.deleteCustomerSuccess());
+  } catch (err) {
+    yield put(clientActions.deleteCustomerFailed(err));
+  }
+}
+
 export default function* clientSaga() {
   yield takeEvery("clients/signinRequest", signinWithEmailAndPassword);
   yield takeEvery(USER_ACTIONS.SIGNIN_USER_WITH_FACEBOOK, signinWithFacebook);
@@ -190,4 +209,6 @@ export default function* clientSaga() {
   yield takeEvery("clients/updateRequest", updateInfo);
   yield takeEvery("clients/updatePasswordRequest", updatePassword);
   yield takeEvery("clients/getCustomersRequest", getCustomers);
+  yield takeEvery("clients/getCustomerRequest", getCustomers);
+  yield takeEvery("clients/deleteCustomerRequest", actDeleteCustomer);
 }
