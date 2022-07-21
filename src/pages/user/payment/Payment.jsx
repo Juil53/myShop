@@ -91,7 +91,6 @@ const Payment = () => {
     const encryptedId = params.get("extraData");
     const orderId = params.get("orderId");
     const message = params.get("message");
-    console.log(message);
 
     if (encryptedId && orderId && message === "Successful.") {
       const date =

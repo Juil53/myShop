@@ -25,4 +25,99 @@
       }
     }
   }
+
+  .order-detail__main {
+    margin-top: 2rem;
+
+    table,
+    th,
+    td {
+      padding: 0.5rem;
+    }
+
+    th,
+    td {
+      padding: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .table__header {
+      th {
+        padding: 2px;
+        border-bottom: 1px solid $grayColor-1;
+      }
+
+      .product-info {
+        width: 50%;
+      }
+
+      .product-price,
+      .product-notional {
+        width: 20%;
+      }
+
+      .product-quantity {
+        width: 10%;
+      }
+    }
+
+    .table__body {
+      text-align: center;
+
+      .product {
+        font-size: 1.4rem;
+
+        td {
+          border-bottom: 1px solid $grayColor-1;
+        }
+
+        .product-info {
+          .img {
+            display: block;
+            margin: 0 auto;
+            width: 8rem;
+            height: 8rem;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          .name {
+            width: 70%;
+          }
+        }
+      }
+    }
+
+    .price-container {
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: 1.4rem;
+
+      .price:not(:last-child) {
+        padding-bottom: 0.8rem;
+      }
+
+      .price {
+        justify-content: space-between;
+
+        .price__title {
+          color: $grayColor-3;
+          margin-right: 3rem;
+        }
+      }
+
+      .amount {
+        margin-top: 1rem;
+        padding: 1rem 0;
+        border-top: 1px solid $grayColor-1;
+        color: $mainColor;
+        font-size: 1.6rem;
+      }
+    }
+  }
 }

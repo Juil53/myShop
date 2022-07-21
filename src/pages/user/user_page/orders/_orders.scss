@@ -104,8 +104,16 @@
         }
       }
 
+      .item__amount {
+        padding: 1rem 0;
+        text-align: right;
+
+        span {
+          color: $grayColor-3;
+        }
+      }
+
       .item__function {
-        margin-top: 1rem;
         display: flex;
         justify-content: flex-end;
 
