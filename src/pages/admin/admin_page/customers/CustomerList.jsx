@@ -7,16 +7,16 @@ import Loading from "../../../../components/loading/Loading";
 import { selectCustomers, selectLoading, selectStatus } from "../../../../store/clients/selector";
 import { clientActions } from "../../../../store/clients/slice";
 import CustomerActions from "./CustomerActions";
-import { columns, CustomFooter, CustomToolbar, style } from "./logic";
+import { columns, CustomToolbar, style } from "./logic";
+import CustomerFooter from "./CustomerFooter";
 
 export default function CustomerList({ data }) {
-  console.log(data);
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const deleteStatus = useSelector(selectStatus);
   const customers = useSelector(selectCustomers);
 
-  const [arrIds, setArrIds] = useState([]);
+  const [ids, setIds] = useState([]);
   const [show, setShow] = useState(false);
 
   const columnActions = [
@@ -42,6 +42,9 @@ export default function CustomerList({ data }) {
   //reset status
   useEffect(() => {
     dispatch(clientActions.resetStatus());
+    if(!deleteStatus) {
+      setIds([])
+    }
   }, [deleteStatus]);
 
   return (
@@ -59,13 +62,13 @@ export default function CustomerList({ data }) {
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {
-              setArrIds(ids);
+              setIds(ids);
             }}
             components={{
               Toolbar: CustomToolbar,
-              Footer: CustomFooter,
+              Footer: CustomerFooter,
             }}
-            componentsProps={{ footer: { arrIds } }}
+            componentsProps={{ footer: { ids, setShow } }}
           />
           <SimpleSnackbar show={show} setShow={setShow} type="delete" />
         </Box>

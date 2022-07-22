@@ -87,16 +87,6 @@ export const columns = [
   },
 ];
 
-export const handleDeleteSelected = (ids) => {
-  try {
-    for (let id of ids) {
-      deleteDoc(doc(db, "customers", id));
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 //add header density,filter,export,column
 export const CustomToolbar = () => {
   return (
@@ -108,23 +98,5 @@ export const CustomToolbar = () => {
         <GridToolbarExport />
       </GridToolbarContainer>
     </Grid>
-  );
-};
-
-export const CustomFooter = ({ arrIds }) => {
-  return (
-    <GridFooterContainer>
-      <Button
-        sx={{ display: arrIds.length > 0 ? "block" : "none", ...style.btnDelete }}
-        style={{ marginLeft: "2rem", padding: "5px" }}
-        onClick={() => {
-          handleDeleteSelected(arrIds);
-        }}
-      >
-        Delete All Selected
-      </Button>
-
-      <GridFooter />
-    </GridFooterContainer>
   );
 };

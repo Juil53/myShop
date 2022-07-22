@@ -186,14 +186,17 @@ const clientSlice = createSlice({
       state.error = action.payload;
     },
     deleteCustomerRequest(state) {
+      state.loading = true;
       state.status = false;
     },
 
     deleteCustomerSuccess(state, action) {
+      state.loading = false;
       state.status = true;
     },
 
     deleteCustomerFailed(state, action) {
+      state.loading = false;
       state.status = false;
     },
 
