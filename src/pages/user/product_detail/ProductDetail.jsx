@@ -20,6 +20,7 @@ import { actions as productActions } from "../../../store/products/slice";
 import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
 import { actions as cartActions } from "../../../store/cart/slice";
+import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -79,14 +80,14 @@ const ProductDetail = () => {
     }
   });
 
-  const settings_mainSlider = {
+  const settingsMainSlider = {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
     fade: true,
   };
 
-  const settings_subSlider = {
+  const settingsSubSlider = {
     slidesToShow: 3,
     slidesToScroll: 1,
     centerMode: true,
@@ -102,7 +103,7 @@ const ProductDetail = () => {
     if (typeof data === "string") {
       return (
         <Slider
-          {...settings_mainSlider}
+          {...settingsMainSlider}
           asNavFor={subSlider}
           ref={(slider1) => setMainSlider(slider1)}
         >
@@ -114,7 +115,7 @@ const ProductDetail = () => {
     }
     return (
       <Slider
-        {...settings_mainSlider}
+        {...settingsMainSlider}
         asNavFor={subSlider}
         ref={(slider1) => setMainSlider(slider1)}
       >
@@ -134,7 +135,7 @@ const ProductDetail = () => {
 
     return (
       <Slider
-        {...settings_subSlider}
+        {...settingsSubSlider}
         asNavFor={mainSlider}
         ref={(slider2) => setSubSlider(slider2)}
       >
@@ -259,6 +260,7 @@ const ProductDetail = () => {
         <Loading />
       ) : (
         <>
+          <ScrollToTop />
           <div className="breadcumb">
             <Breadcrumb pages={array} />
           </div>
