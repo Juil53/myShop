@@ -159,15 +159,14 @@ export function* getOrderByClient() {
 }
 
 export function* getOrderById({ payload: { id } }) {
-  console(id);
-  // try {
-  //   const rs = yield call(APIv2.get, "orders", id);
-  //   if (rs) {
-  //     yield put(getOrderByIdSuccess(rs));
-  //   }
-  // } catch (err) {
-  //   yield put(getOrderByIdFail());
-  // }
+  try {
+    const rs = yield call(APIv2.get, "orders", id);
+    if (rs) {
+      yield put(getOrderByIdSuccess(rs));
+    }
+  } catch (err) {
+    yield put(getOrderByIdFail());
+  }
 }
 
 export default function* adminOrderSaga() {
