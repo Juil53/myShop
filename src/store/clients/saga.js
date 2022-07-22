@@ -209,6 +209,6 @@ export default function* clientSaga() {
   yield takeEvery("clients/updateRequest", updateInfo);
   yield takeEvery("clients/updatePasswordRequest", updatePassword);
   yield takeEvery("clients/getCustomersRequest", getCustomers);
-  yield takeEvery("clients/getCustomerRequest", getCustomers);
+  yield takeEvery("clients/getCustomerRequest", getCustomer);
   yield takeEvery("clients/deleteCustomerRequest", actDeleteCustomer);
 }

@@ -1,25 +1,23 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import {
-  GridFooter,
-  GridFooterContainer,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../../../service/auth";
+const keys = ["displayName", "email", "homeAddress", "id"];
 
 export const style = {
   table: { height: "80vh", width: "100%", margin: "2rem 0" },
   btnView: { color: "darkblue", border: "1px dotted rgba(0, 0, 139, 0.596)", padding: 0 },
   btnDelete: { color: "crimson", border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 },
   image: {
-    objectFit: "contain",
+    objectFit: "cover",
     width: "100%",
     height: "100%",
   },
+  img: { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" },
   cellStatus: {
     width: "100%",
     textAlign: "center",
@@ -36,7 +34,30 @@ export const style = {
       color: "blue",
     },
   },
+  container: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "2rem",
+    marginBottom: "2rem",
+  },
+  information: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
 };
+
+export const pages = [
+  {
+    name: "Admin",
+    url: "/admin",
+  },
+  {
+    name: "Customers",
+    url: "/admin/customers",
+  },
+];
 
 //Data columns
 export const columns = [
@@ -99,4 +120,9 @@ export const CustomToolbar = () => {
       </GridToolbarContainer>
     </Grid>
   );
+};
+
+//HandleSearch
+export const handleSearch = (data, keyword) => {
+  return data?.filter((item) => keys.some((key) => item[key]?.toLowerCase().includes(keyword)));
 };

@@ -1,21 +1,22 @@
 import { Box, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Loading from "../../../../components/loading/Loading";
 import { selectCustomers, selectLoading, selectStatus } from "../../../../store/clients/selector";
 import { clientActions } from "../../../../store/clients/slice";
 import CustomerActions from "./CustomerActions";
-import { columns, CustomToolbar, style } from "./logic";
 import CustomerFooter from "./CustomerFooter";
+import { columns, CustomToolbar, handleSearch, style } from "./logic";
 
-export default function CustomerList({ data }) {
+const CustomerList = ({ importData, save, keyword }) => {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const deleteStatus = useSelector(selectStatus);
   const customers = useSelector(selectCustomers);
 
+  const [data, setData] = useState(customers);
   const [ids, setIds] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -29,21 +30,22 @@ export default function CustomerList({ data }) {
     },
   ];
 
-  //reload page when import data
-  useEffect(() => {
-    if (data.length > 0);
-  }, [data]);
-
   //call docs from collection
   useEffect(() => {
     dispatch(clientActions.getCustomersRequest());
   }, []);
 
+  //reload page when import data
+  useEffect(() => {
+    if (importData.length > 0) setData([...customers, ...importData]);
+    if (save) dispatch(clientActions.getCustomersRequest());
+  }, [importData, save]);
+
   //reset status
   useEffect(() => {
     dispatch(clientActions.resetStatus());
-    if(!deleteStatus) {
-      setIds([])
+    if (!deleteStatus) {
+      setIds([]);
     }
   }, [deleteStatus]);
 
@@ -54,11 +56,10 @@ export default function CustomerList({ data }) {
       ) : (
         <Box component={Paper} elevation={2} style={style.table}>
           <DataGrid
-            rows={customers}
+            rows={data.length > 0 ? data : handleSearch(customers, keyword)}
             columns={columns.concat(columnActions)}
             density="compact"
-            pageSize={10}
-            rowsPerPageOptions={[10]}
+            autoPageSize
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {
@@ -75,4 +76,6 @@ export default function CustomerList({ data }) {
       )}
     </>
   );
-}
+};
+
+export default memo(CustomerList);

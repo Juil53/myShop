@@ -1,4 +1,5 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { Box, Button, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import moment from "moment";
@@ -6,19 +7,19 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authInstance, db } from "../../../../service/auth";
 import CustomerList from "./CustomerList";
-
-const style = {
-  container: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-};
+import { style } from "./logic";
 
 const CustomerManagement = () => {
   const [data, setData] = useState([]);
+  const [save, setSave] = useState(false);
   const [file, setFile] = useState();
+  const [keyword, setKeyword] = useState("");
   const fileReader = new FileReader();
+
+  //handleSearch
+  const handleKeyword = (event) => {
+    setKeyword(event.target.value);
+  };
 
   //get File
   const handleChange = (e) => {
@@ -54,7 +55,8 @@ const CustomerManagement = () => {
           timeStamp: moment().format("MM DD YYYY"),
         });
       }
-      console.log("import successful")
+      setSave(true);
+      console.log("import successful");
     } catch (error) {
       alert(error);
       console.log(error.message);
@@ -73,15 +75,30 @@ const CustomerManagement = () => {
 
   return (
     <div>
+      <Typography variant="h4" fontWeight={400}>
+        Customers Management
+      </Typography>
       <Box sx={style.container}>
-        <Typography variant="h4" fontWeight={400}>
-          Customers Management
-        </Typography>
+        <TextField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          label="Search"
+          size="small"
+          sx={{ minWidth: "10%" }}
+          placeholder="name, email, address, identify,..."
+          onChange={handleKeyword}
+        />
 
         <Stack direction="row" spacing={1}>
           <Link to="/admin/customers/add">
             <Button variant="contained">Add New</Button>
           </Link>
+
           <form>
             <label htmlFor="import">
               <input
@@ -102,7 +119,7 @@ const CustomerManagement = () => {
         </Stack>
       </Box>
 
-      <CustomerList data={data} />
+      <CustomerList importData={data} save={save} keyword={keyword} />
     </div>
   );
 };

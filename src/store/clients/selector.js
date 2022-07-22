@@ -21,6 +21,12 @@ export const selectCustomers = (state) => {
   return customers;
 };
 
+export const selectCustomer = (state) => {
+  const { client = {} } = state || [];
+  const { customer = {} } = client;
+  return customer;
+};
+
 export const selectStatus = (state) => {
   const { client = {} } = state || [];
   const { status } = client || false;

@@ -1,15 +1,12 @@
 import { Button } from "@mui/material";
 import { GridFooter, GridFooterContainer } from "@mui/x-data-grid";
-import { deleteDoc, doc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import AlertDialog from "../../../../components/admin/AlertDialog";
-import { db } from "../../../../service/auth";
 import { clientActions } from "../../../../store/clients/slice";
 import { style } from "./logic";
 
 const CustomerFooter = ({ ids, setShow }) => {
-  console.log(ids);
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);

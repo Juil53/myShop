@@ -7,10 +7,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authInstance, db, storage } from "../../../../service/auth";
-
-const style = {
-  img: { width: "150px", height: "150px", objectFit: "cover", borderRadius: "50%" },
-};
+import { style } from "./logic";
 
 const CustomerAdding = ({ inputs }) => {
   const [file, setFile] = useState("");
@@ -29,7 +26,7 @@ const CustomerAdding = ({ inputs }) => {
       const res = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
       await setDoc(doc(db, "customers", res.user.uid), {
         ...data,
-        homeAddress:data.address,
+        homeAddress: data.address,
         timeStamp: moment().format("MM DD YYYY"),
       });
       //navigate to previous page
@@ -46,6 +43,7 @@ const CustomerAdding = ({ inputs }) => {
   useEffect(() => {
     const uploadFile = () => {
       const storageRef = ref(storage, `customers/${file.name}`);
+      console.log(storageRef);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(

@@ -18,7 +18,7 @@ const MonthChart = ({ aspect, title, orders, month }) => {
     handleDateOfMonth(month);
     const { date } = handleRevenue(orders, month);
     setData(date);
-  }, [month]);
+  }, [month,orders]);
 
   return (
     <Box component={Paper} elevation={8} padding={2}>
