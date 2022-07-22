@@ -14,8 +14,11 @@ export const constant = {
 
   //order status
   pending: "Pending",
-  succeed: "Succeed",
-  cancel: "Cancel",
+  succeeded: "Succeed",
+  canceled: "Cancel",
+
+  //order tab
+  all: "All",
 };
 
 export const LOADING_STATUS = {

@@ -57,3 +57,15 @@ export const payUrl = (state) => {
   const { payUrl } = order;
   return payUrl;
 };
+
+export const orderByClient = (state) => {
+  const { order = {} } = state || {};
+  const { orderByClient } = order;
+  return orderByClient;
+};
+
+export const orderById = (state) => {
+  const { order = {} } = state || {};
+  const { orderById } = order;
+  return orderById;
+};

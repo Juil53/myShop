@@ -91,7 +91,6 @@ const Payment = () => {
     const encryptedId = params.get("extraData");
     const orderId = params.get("orderId");
     const message = params.get("message");
-    console.log(message);
 
     if (encryptedId && orderId && message === "Successful.") {
       const date =
@@ -101,6 +100,7 @@ const Payment = () => {
         date: date,
         items: [...cart.data.productList],
         totalAmount: calAmount(cart.data.totalAmount, shippingFee, discount),
+        notionalPrice: cart.data.totalAmount,
         shippingMethod: {
           shippingFee: shippingFee,
           shippingMethod: "",
@@ -219,6 +219,7 @@ const Payment = () => {
         date: date,
         items: [...cart.data.productList],
         totalAmount: amount,
+        notionalPrice: cart.data.totalAmount,
         shippingMethod: {
           shippingFee: shippingFee,
           shippingMethod: "",

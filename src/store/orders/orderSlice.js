@@ -27,6 +27,10 @@ const orderSlice = createSlice({
       status: LOADING_STATUS.IDLE,
       data: "",
     },
+    orderById: {
+      status: LOADING_STATUS.IDLE,
+      data: {},
+    },
   },
   reducers: {
     getOrderRequest(state, action) {
@@ -150,6 +154,31 @@ const orderSlice = createSlice({
     getPayUrlFail: (state) => {
       state.payUrl.status = LOADING_STATUS.FAIL;
     },
+
+    getOrderByClientRequest: (state) => {
+      state.orderByClient.status = LOADING_STATUS.LOADING;
+    },
+
+    getOrderByClientSuccess: (state, action) => {
+      state.orderByClient.status = LOADING_STATUS.SUCCESS;
+      state.orderByClient.data = action.payload;
+    },
+    getOrderByClientFail: (state) => {
+      state.orderByClient.status = LOADING_STATUS.FAIL;
+    },
+
+    getOrderByIdRequest: (state) => {
+      state.orderById.status = LOADING_STATUS.LOADING;
+    },
+
+    getOrderByIdSuccess: (state, action) => {
+      state.orderById.status = LOADING_STATUS.SUCCESS;
+      state.orderById.data = action.payload;
+    },
+    getOrderByIdFail: (state) => {
+      state.orderById.status = LOADING_STATUS.FAIL;
+      state.orderById.data = {};
+    },
   },
 });
 
@@ -179,6 +208,12 @@ export const {
   getPayUrlRequest,
   getPayUrlSuccess,
   getPayUrlFail,
+  getOrderByClientRequest,
+  getOrderByClientSuccess,
+  getOrderByClientFail,
+  getOrderByIdRequest,
+  getOrderByIdSuccess,
+  getOrderByIdFail,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

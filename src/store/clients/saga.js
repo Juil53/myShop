@@ -11,8 +11,7 @@ import {
   updatePasswordAuth,
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
-import { getUserId } from "../../utils/auth";
-import { connectStorageEmulator } from "firebase/storage";
+import { getUserId } from "../../utils/decode";
 
 export function* signinWithEmailAndPassword({ payload }) {
   const { email, password } = payload;
@@ -123,7 +122,7 @@ export function* signout() {
 
 export function* getUserInfo() {
   try {
-    const userID = getUserId();
+    const userID = getUserId("token");
 
     if (userID) {
       const rs = yield call(APIv2.get, "customers", userID);
