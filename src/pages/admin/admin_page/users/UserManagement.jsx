@@ -8,14 +8,7 @@ import { Link } from "react-router-dom";
 import { loginAdmin } from "../../../../store/users/selector";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
 import UserDataList from "./UserDataList";
-
-const user__search = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginTop: "2rem",
-  marginBottom: "2rem",
-};
+import { style } from "./logic";
 
 function UserManagement() {
   const [keyword, setKeyword] = useState("");
@@ -24,6 +17,7 @@ function UserManagement() {
     setKeyword(event.target.value);
   };
 
+  //Pages
   const pages = [
     {
       name: "Admin",
@@ -45,7 +39,7 @@ function UserManagement() {
             User Management
           </Typography>
 
-          <Box className="user__search" sx={user__search}>
+          <Box className="user__search" sx={style.user__search}>
             <TextFieldCustom
               InputProps={{
                 startAdornment: (
@@ -68,7 +62,6 @@ function UserManagement() {
           </Box>
 
           <Box>
-            {/* <UserList keyword={keyword} /> */}
             <UserDataList keyword={keyword} />
           </Box>
         </>

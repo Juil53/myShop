@@ -1,6 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
+  Box,
   Button,
   Divider,
   FormControl,
@@ -10,36 +11,32 @@ import {
   MenuItem,
   Modal,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
-import { closeModal, updateOrderDetail } from "../../../../../store/orders/orderSlice";
+import { closeModal, getOrderRequest, updateOrderDetail } from "../../../../../store/orders/orderSlice";
 import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
 import { CustomBox, CustomSelect } from "../../../../../styles/styled_components/styledComponent";
 import { statusColors, statusStyle, title } from "./OrderModalStyle";
 import StatusIcons from "./StatusIcons";
+import { formatter } from "../../../../../utils";
 
 const OrderModal = () => {
   const dispatch = useDispatch();
+
   const isOpen = useSelector(selectModalOpen);
   const orderDetail = useSelector(selectOrderDetail);
   const [order, setOrder] = useState({ status: "" });
-  const handleClose = () => dispatch(closeModal());
   const [show, setShow] = useState(false);
-
-  // Format currency
-  const formatter = new Intl.NumberFormat("vn-VN", {
-    style: "currency",
-    currency: "VND",
-  });
+  const handleClose = () => dispatch(closeModal());
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    console.log(event.target.value);
     setOrder({
       ...order,
-      [name]: value,
+      status: event.target.value,
     });
   };
 
@@ -47,6 +44,7 @@ const OrderModal = () => {
     event.preventDefault();
     if (orderDetail !== null) {
       dispatch(updateOrderDetail(order));
+      dispatch(getOrderRequest())
       dispatch(closeModal());
       setShow(true);
     }
@@ -55,12 +53,8 @@ const OrderModal = () => {
   useEffect(() => {
     if (orderDetail) {
       setOrder(orderDetail);
-    } else {
-      setOrder({
-        status: "",
-      });
     }
-  }, [orderDetail]);
+  }, []);
 
   return (
     <div>
@@ -69,8 +63,22 @@ const OrderModal = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        style={{
+          position: "absolute",
+        }}
       >
-        <CustomBox>
+        <CustomBox
+          sx={{
+            position: "absolute",
+            top: "40%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            padding: 5,
+            height: 700,
+            overflowY: "auto",
+          }}
+        >
           <Grid container justifyContent="space-between">
             <Grid item>
               <Typography variant="h4" sx={{ fontWeight: 700 }}>
@@ -85,10 +93,8 @@ const OrderModal = () => {
           </Grid>
 
           {orderDetail && (
-            <>
+            <Box sx={{}}>
               <Stack direction="row">
-                <Typography sx={statusStyle(orderDetail)}></Typography>
-
                 <FormControl sx={{ mt: 1 }}>
                   <InputLabel
                     id="demo-simple-select-label"
@@ -102,7 +108,7 @@ const OrderModal = () => {
                     id="demo-simple-select"
                     size="small"
                     label="Status"
-                    value={order.status}
+                    value={order.status || orderDetail.status}
                     onChange={handleChange}
                     sx={{
                       color: statusColors[order.status] ?? "#000",
@@ -151,9 +157,9 @@ const OrderModal = () => {
                   <Typography sx={title}>Address</Typography>
                   <Divider sx={{ my: 1 }} />
                   <Typography sx={title}>Payment Method</Typography>
+                  <Typography sx={title}>Payment Status</Typography>
                   <Typography sx={title}>Shipment Method</Typography>
                   <Typography sx={title}>Shipment Fee</Typography>
-                  <Typography sx={title}>Discount</Typography>
                   <Typography sx={title}>Total</Typography>
                   <Divider sx={{ my: 1 }} />
                   <Typography sx={title}>Items</Typography>
@@ -162,25 +168,27 @@ const OrderModal = () => {
                 <Grid item xs={9}>
                   <Divider sx={{ my: 1 }} />
                   <Typography>{orderDetail.id}</Typography>
-                  <Typography>Email</Typography>
-                  <Typography>{orderDetail.address.name}</Typography>
-                  <Typography>{orderDetail.address.phone}</Typography>
+                  <Typography>{orderDetail.email}</Typography>
+                  <Typography>{orderDetail.deliveryAddress.name}</Typography>
+                  <Typography>{orderDetail.deliveryAddress.phoneNumber}</Typography>
                   <Typography>
-                    <LocationOnIcon
-                      fontSize="small"
-                      sx={{ verticalAlign: "middle" }}
-                    />
-                    {orderDetail.address.location}
+                    <LocationOnIcon fontSize="small" sx={{ verticalAlign: "middle" }} />
+                    {orderDetail.deliveryAddress.address.detail}{" "}
+                    {orderDetail.deliveryAddress.address.district.name}{" "}
+                    {orderDetail.deliveryAddress.address.region.name}{" "}
+                    {orderDetail.deliveryAddress.address.ward.name}
                   </Typography>
                   <Divider sx={{ my: 1 }} />
-                  <Typography>{orderDetail.paymentMethod}</Typography>
-                  <Typography>{orderDetail.shipmentMethod.name}</Typography>
-                  <Typography>{formatter.format(orderDetail.shipmentMethod.fee)}</Typography>
-                  <Typography sx={title}>
-                    {orderDetail.totalBeforeDiscount - orderDetail.totalAfterDiscount}
+                  <Typography>{orderDetail.payment.name}</Typography>
+                  <Typography>{orderDetail.payment.status}</Typography>
+                  <Typography>
+                    {orderDetail.shippingMethod.shippingMethod || "Data thiếu nè"}
+                  </Typography>
+                  <Typography>
+                    {formatter.format(orderDetail.shippingMethod.shippingFee)}
                   </Typography>
                   <Typography sx={title} color="error" fontWeight={700}>
-                    {formatter.format(orderDetail.totalAfterDiscount)}
+                    {formatter.format(orderDetail.totalAmount)}
                   </Typography>
                   <Divider sx={{ my: 1 }} />
                   {orderDetail.items.map((item, index) => {
@@ -216,9 +224,9 @@ const OrderModal = () => {
                 </Grid>
               </Grid>
               <Button variant="contained" size="small" color="success" onClick={handleSubmit}>
-                Submit
+                Update
               </Button>
-            </>
+            </Box>
           )}
         </CustomBox>
       </Modal>

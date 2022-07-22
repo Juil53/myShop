@@ -1,18 +1,12 @@
-import { call, takeEvery, put } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 
-import APIv2 from "../../service/db";
-import { clientActions } from "./slice";
-import {
-  signinAuth,
-  signup,
-  signinWithGoogleAuth,
-  signinWithFacebookAuth,
-  signoutAuth,
-  updatePasswordAuth,
-} from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
+import {
+  signinAuth, signinWithFacebookAuth, signinWithGoogleAuth, signoutAuth, signup, updatePasswordAuth
+} from "../../service/auth";
+import APIv2 from "../../service/db";
 import { getUserId } from "../../utils/auth";
-import { connectStorageEmulator } from "firebase/storage";
+import { clientActions } from "./slice";
 
 export function* signinWithEmailAndPassword({ payload }) {
   const { email, password } = payload;

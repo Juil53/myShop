@@ -11,7 +11,7 @@ import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { authInstance, db, storage } from "../../../../service/auth";
 import { validation } from "../../../../validation/Validation";
-import { pages, roles, style } from "./logic";
+import { roles, style } from "./logic";
 
 export default function AddUser(props) {
   const [role, setRole] = useState("");
@@ -19,6 +19,18 @@ export default function AddUser(props) {
   const [file, setFile] = useState("");
   const [per, setPer] = useState(null);
   const [show, setShow] = useState(false);
+
+  //Pages
+  const pages = [
+    {
+      name: "Admin",
+      url: "/admin",
+    },
+    {
+      name: "Users",
+      url: "/admin/users",
+    },
+  ];
 
   const formik = useFormik({
     initialValues: {

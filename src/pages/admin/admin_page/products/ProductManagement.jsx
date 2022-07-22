@@ -100,8 +100,6 @@ function ProductManagement() {
       </Grid>
 
       <Box>
-        {/* <ProductList filterOptions={filterOptions} /> */}
-
         <ProductDataList filterOptions={filterOptions} keyword={keyword} />
       </Box>
     </>

@@ -19,11 +19,13 @@ import { months } from "./date";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  
+  const [month, setMonth] = useState("");
+
   const ordersData = useSelector(selectOrderData);
   const customersData = useSelector(selectCustomers);
   const productsData = useSelector(selectAllProduct);
   const loading = useSelector(selectLoading);
-  const [month, setMonth] = useState("");
 
   useEffect(() => {
     dispatch(clientActions.getCustomersRequest());

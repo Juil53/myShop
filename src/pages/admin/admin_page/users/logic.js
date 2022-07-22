@@ -61,6 +61,13 @@ export const style = {
     width: "75%",
     padding: 3,
   },
+  user__search: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "2rem",
+    marginBottom: "2rem",
+  },
 };
 
 //Roles
@@ -72,22 +79,6 @@ export const roles = [
   {
     value: "Admin",
     label: "Admin",
-  },
-];
-
-//Pages
-export const pages = [
-  {
-    name: "Admin",
-    url: "/admin",
-  },
-  {
-    name: "Users",
-    url: "/admin/users",
-  },
-  {
-    name: "Add",
-    url: "/admin/add",
   },
 ];
 

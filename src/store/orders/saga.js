@@ -15,18 +15,31 @@ import {
   submitOrderSuccess,
   getPayUrlFail,
   getPayUrlSuccess,
+  getOrderDetailSuccess,
+  getOrderDetailFailed,
 } from "./orderSlice";
 import localStorage from "../../service/localStorage";
 import { actions as cartActions } from "../cart/slice";
 import { toast } from "react-toastify";
+import fb from "../../service/db";
 
-//GET ORDER DATA
-export function* actGetOrder() {
+//GET ORDERS DATA
+export function* actGetOrders() {
   try {
-    const result = yield call(apiInstance.get, "orders");
+    const result = yield call(fb.getAll, "orders");
     yield put(getOrderSuccess(result));
-  } catch (err) {
-    yield put(getOrderFailed(err));
+  } catch (error) {
+    yield put(getOrderFailed(error));
+  }
+}
+
+//GET ORDERS DATA
+export function* actGetOrder(action) {
+  try {
+    const result = yield call(fb.get, "orders",action.payload.id);
+    yield put(getOrderDetailSuccess(result));
+  } catch (error) {
+    yield put(getOrderDetailFailed(error));
   }
 }
 
@@ -34,10 +47,7 @@ export function* actGetOrder() {
 export function* actGetOrderPagination(action) {
   const { page, ROWS_PER_PAGE } = action.payload;
   try {
-    const result = yield call(
-      apiInstance.get,
-      `orders?_page=${page}&_limit=${ROWS_PER_PAGE}`
-    );
+    const result = yield call(apiInstance.get, `orders?_page=${page}&_limit=${ROWS_PER_PAGE}`);
     yield put(getOrderPaginationSuccess(result));
   } catch (err) {
     yield put(getOrderPaginationFailed(err));
@@ -47,11 +57,7 @@ export function* actGetOrderPagination(action) {
 // UPDATE ORDER STATUS
 export function* actUpdateOrderStatus(action) {
   try {
-    const result = yield call(
-      apiInstance.put,
-      `orders/${action.payload.id}`,
-      action.payload
-    );
+    const result = yield call(fb.update, `orders/${action.payload.id}`, action.payload);
     yield put(submitOrderSuccess(result));
   } catch (err) {
     yield put(submitOrderFailed(err));
@@ -128,7 +134,8 @@ export function* addOrder({ payload: { order, orderId, encryptedId } }) {
 }
 
 export default function* adminOrderSaga() {
-  yield takeEvery("order/getOrderRequest", actGetOrder);
+  yield takeEvery("order/getOrderRequest", actGetOrders);
+  yield takeEvery("order/getOrderDetailRequest", actGetOrder);
   yield takeEvery("order/getOrderPaginationRequest", actGetOrderPagination);
   yield takeEvery("order/updateOrderDetail", actUpdateOrderStatus);
   yield takeEvery("order/deleteOrderRequest", actDeleteOrder);
