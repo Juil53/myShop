@@ -16,6 +16,7 @@ import Loading from "../../../components/loading/Loading";
 import ProductCard from "../../../components/user/product_card/ProductCard";
 import MainLeft from "../home_page/child/MainLeft";
 import { actions as productActions } from "../../../store/products/slice";
+import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 
 const SearchProduct = () => {
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ const SearchProduct = () => {
           <div className="breadcumb">
             <Breadcrumb pages={array} color={"#35c0c5"} />
           </div>
+          <ScrollToTop />
           <div className="home-page__main row">
             <MainLeft
               categories={categories.data}
