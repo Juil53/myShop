@@ -16,45 +16,43 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
-import { closeModal, getOrderRequest, updateOrderDetail } from "../../../../../store/orders/orderSlice";
+import {
+  closeModal,
+  getOrderRequest,
+  updateOrderDetail,
+} from "../../../../../store/orders/orderSlice";
 import { selectModalOpen, selectOrderDetail } from "../../../../../store/orders/selector";
 import { CustomBox, CustomSelect } from "../../../../../styles/styled_components/styledComponent";
-import { statusColors, statusStyle, title } from "./OrderModalStyle";
-import StatusIcons from "./StatusIcons";
 import { formatter } from "../../../../../utils";
+import { statusColors, title } from "./OrderModalStyle";
+import StatusIcons from "./StatusIcons";
 
 const OrderModal = () => {
   const dispatch = useDispatch();
 
   const isOpen = useSelector(selectModalOpen);
   const orderDetail = useSelector(selectOrderDetail);
-  const [order, setOrder] = useState({ status: "" });
+
   const [show, setShow] = useState(false);
+  const [order, setOrder] = useState({});
+
   const handleClose = () => dispatch(closeModal());
 
   const handleChange = (event) => {
-    console.log(event.target.value);
-    setOrder({
-      ...order,
-      status: event.target.value,
-    });
+    setOrder({ ...order, status: event.target.value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (orderDetail !== null) {
-      dispatch(updateOrderDetail(order));
-      dispatch(getOrderRequest())
-      dispatch(closeModal());
-      setShow(true);
-    }
+    dispatch(updateOrderDetail(order));
+    dispatch(getOrderRequest());
+    dispatch(closeModal());
+    setShow(true);
   };
 
   useEffect(() => {
-    if (orderDetail) {
-      setOrder(orderDetail);
-    }
-  }, []);
+    setOrder(orderDetail);
+  }, [orderDetail]);
 
   return (
     <div>
@@ -70,7 +68,7 @@ const OrderModal = () => {
         <CustomBox
           sx={{
             position: "absolute",
-            top: "40%",
+            top: "5S0%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
@@ -92,7 +90,7 @@ const OrderModal = () => {
             </Grid>
           </Grid>
 
-          {orderDetail && (
+          {order && (
             <Box sx={{}}>
               <Stack direction="row">
                 <FormControl sx={{ mt: 1 }}>
@@ -108,7 +106,7 @@ const OrderModal = () => {
                     id="demo-simple-select"
                     size="small"
                     label="Status"
-                    value={order.status || orderDetail.status}
+                    value={order.status}
                     onChange={handleChange}
                     sx={{
                       color: statusColors[order.status] ?? "#000",
@@ -167,31 +165,27 @@ const OrderModal = () => {
                 {/* Value */}
                 <Grid item xs={9}>
                   <Divider sx={{ my: 1 }} />
-                  <Typography>{orderDetail.id}</Typography>
-                  <Typography>{orderDetail.email}</Typography>
-                  <Typography>{orderDetail.deliveryAddress.name}</Typography>
-                  <Typography>{orderDetail.deliveryAddress.phoneNumber}</Typography>
+                  <Typography>{order.id}</Typography>
+                  <Typography>{order.email}</Typography>
+                  <Typography>{order.deliveryAddress?.name}</Typography>
+                  <Typography>{order.deliveryAddress?.phoneNumber}</Typography>
                   <Typography>
                     <LocationOnIcon fontSize="small" sx={{ verticalAlign: "middle" }} />
-                    {orderDetail.deliveryAddress.address.detail}{" "}
-                    {orderDetail.deliveryAddress.address.district.name}{" "}
-                    {orderDetail.deliveryAddress.address.region.name}{" "}
-                    {orderDetail.deliveryAddress.address.ward.name}
+                    {order.deliveryAddress?.address.detail}{" "}
+                    {order.deliveryAddress?.address.district.name}{" "}
+                    {order.deliveryAddress?.address.region.name}{" "}
+                    {order.deliveryAddress?.address.ward.name}
                   </Typography>
                   <Divider sx={{ my: 1 }} />
-                  <Typography>{orderDetail.payment.name}</Typography>
-                  <Typography>{orderDetail.payment.status}</Typography>
-                  <Typography>
-                    {orderDetail.shippingMethod.shippingMethod || "Data thiếu nè"}
-                  </Typography>
-                  <Typography>
-                    {formatter.format(orderDetail.shippingMethod.shippingFee)}
-                  </Typography>
+                  <Typography>{order.payment?.name}</Typography>
+                  <Typography>{order.payment?.status}</Typography>
+                  <Typography>{order.shippingMethod?.shippingMethod || "Data thiếu nè"}</Typography>
+                  <Typography>{formatter.format(order.shippingMethod?.shippingFee)}</Typography>
                   <Typography sx={title} color="error" fontWeight={700}>
-                    {formatter.format(orderDetail.totalAmount)}
+                    {formatter.format(order.totalAmount)}
                   </Typography>
                   <Divider sx={{ my: 1 }} />
-                  {orderDetail.items.map((item, index) => {
+                  {order.items?.map((item, index) => {
                     return (
                       <React.Fragment key={index}>
                         {item.image.map((img, index) => {

@@ -2,18 +2,16 @@ import { Box, Button, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Loading from "../../../../components/loading/Loading";
 import {
-  getOrderDetail,
   getOrderDetailRequest,
   getOrderRequest,
   openModal,
-  resetStatus,
+  resetStatus
 } from "../../../../store/orders/orderSlice";
 import { selectLoading, selectOrderData, selectStatus } from "../../../../store/orders/selector";
-import { columns, CustomToolbar, style, handleSearch } from "./logic";
+import { columns, CustomToolbar, handleSearch, style } from "./logic";
 import OrderDelete from "./OrderDelete";
 import OrderFooter from "./OrderFooter";
 
@@ -21,7 +19,6 @@ const OrderDataList = ({ keyword }) => {
   const dispatch = useDispatch();
 
   const orders = useSelector(selectOrderData);
-  console.log(orders);
   const loading = useSelector(selectLoading);
   const deleteStatus = useSelector(selectStatus);
 

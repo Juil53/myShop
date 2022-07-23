@@ -40,8 +40,8 @@ function OrderManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search by Email"
-          placeholder="Type email to search"
+          label="Search"
+          placeholder="Type email,id,address"
           size="small"
           sx={{ minWidth: "10%" }}
           onChange={handleChange}

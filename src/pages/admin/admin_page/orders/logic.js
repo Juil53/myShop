@@ -1,12 +1,10 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import {
-  GridFooter,
-  GridFooterContainer,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-  GridToolbarFilterButton,
+  GridToolbarFilterButton
 } from "@mui/x-data-grid";
 import { formatter } from "../../../../utils";
 
