@@ -20,7 +20,8 @@ import {
 //GET OPTIONS
 export function* actGetOptions() {
   try {
-    const result = yield call(apiInstance.get, "options");
+    const result = yield call(fb.getAll, "attributes");
+    console.log(result)
     yield put(getOptionsSuccess(result));
   } catch (err) {
     yield put(getOptionsFailed(err));
@@ -30,7 +31,7 @@ export function* actGetOptions() {
 //GET CATEGORIES
 export function* actGetCategories() {
   try {
-    const result = yield call(apiInstance.get, "categories");
+    const result = yield call(fb.getAll, "categories");
     yield put(getCategoriesSuccess(result));
   } catch (err) {
     yield put(getCategoriesFailed(err));

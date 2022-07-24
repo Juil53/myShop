@@ -3,9 +3,9 @@ import StoreIcon from "@mui/icons-material/Store";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { handleIncreaseOrders, handleNewItem } from "./logic";
+import { handleIncreaseOrders, handleNewItem, handleNewOrders } from "./logic";
 
-const WidgetOrder = ({ orders }) => {
+const WidgetOrder = ({ orders, month }) => {
   let [data, setData] = useState(() => {
     return {
       title: "ORDERS",
@@ -25,10 +25,10 @@ const WidgetOrder = ({ orders }) => {
   });
 
   useEffect(() => {
-    const newOrders = handleNewItem(orders);
+    const newOrders = handleNewOrders(orders, month);
     const percentIncrease = handleIncreaseOrders(newOrders);
     setData({ ...data, amount: newOrders, increase: percentIncrease });
-  }, []);
+  }, [orders, month]);
 
   const cardStyle = {
     transform: "translateY(0)",

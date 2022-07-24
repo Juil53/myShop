@@ -75,7 +75,7 @@ const Dashboard = () => {
               <WidgetProduct products={productsData} month={month} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetOrder orders={ordersData} />
+              <WidgetOrder orders={ordersData} month={month}/>
             </Grid>
             <Grid item xs={3}>
               <WidgetEarning orders={ordersData} month={month} />

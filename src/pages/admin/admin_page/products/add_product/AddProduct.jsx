@@ -32,7 +32,7 @@ export default function AddProduct() {
 
   useEffect(() => {
     dispatch(getOptionsRequest());
-    dispatch(getCategoriesRequest());
+    // dispatch(getCategoriesRequest());
   }, []);
 
   return (

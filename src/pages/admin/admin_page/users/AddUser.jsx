@@ -120,6 +120,7 @@ export default function AddUser(props) {
             />
             <Button
               aria-label="upload picture"
+              sx={{marginTop: 2}}
               component="span"
               variant="outlined"
               startIcon={<UploadFileIcon />}

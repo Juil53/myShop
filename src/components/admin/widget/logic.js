@@ -1,6 +1,6 @@
 const CURRENT_USERS = 2;
 const CURRENT_PRODUCTS = 20;
-const CURRENT_ORDERS = 9;
+const CURRENT_ORDERS = 1;
 const CURRENT_REVENUE = 150000;
 const CURRENT_MONTH = new Date().getMonth() + 1;
 
@@ -9,6 +9,20 @@ export const handleNewItem = (data, option) => {
 
   data?.forEach((item, index) => {
     const itemCreatedAt = new Date(item.timeStamp).getMonth() + 1;
+    if (option !== 0 && itemCreatedAt === option) {
+      newItemThisMonth.push(item);
+    } else if (!option && itemCreatedAt === CURRENT_MONTH) {
+      newItemThisMonth.push(item);
+    }
+  });
+  return newItemThisMonth.length;
+};
+
+export const handleNewOrders = (data, option) => {
+  const newItemThisMonth = [];
+
+  data?.forEach((item, index) => {
+    const itemCreatedAt = new Date(item.date).getMonth() + 1;
     if (option !== 0 && itemCreatedAt === option) {
       newItemThisMonth.push(item);
     } else if (!option && itemCreatedAt === CURRENT_MONTH) {
@@ -43,12 +57,12 @@ export const handleRevenue = (orders, month) => {
 
   sortedOrders.forEach((order) => {
     const date = order.date.getDate();
-    revenue.date.push({ date, revenue: order.totalAfterDiscount });
+    revenue.date.push({ date, revenue: order.totalAmount });
   });
 
   //Month Revenue
   revenue.month = ordersThisMonth.reduce(
-    (total, order, index) => total + order.totalAfterDiscount,
+    (total, order, index) => total + order.totalAmount,
     0
   );
   return revenue;
@@ -104,6 +118,6 @@ export const handleConvertNumberToMonth = (number) => {
 
 export const handleIncreaseItem = (newItems) => (newItems / CURRENT_USERS) * 100;
 export const handleIncreaseProducts = (newItems) => (newItems / CURRENT_PRODUCTS) * 100 + `%`;
-export const handleIncreaseOrders = (newItems) => (newItems / CURRENT_ORDERS) * 100 + `%`;
+export const handleIncreaseOrders = (newItems) => Math.round((newItems / CURRENT_ORDERS) * 100) + `%`;
 export const handleIncreaseRevenue = (newItems) =>
   newItems && Math.round(((newItems - CURRENT_REVENUE) / CURRENT_REVENUE) * 100);

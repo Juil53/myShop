@@ -57,7 +57,7 @@ export const columns = [
     width: 100,
   },
   { field: "name", headerName: "Product Name", width: 450 },
-  { field: "desc", headerName: "Description", width: 300 },
+  { field: "desc", headerName: "Description", width: 300,headerAlign: "center" },
   { field: "brand", headerName: "Brand", width: 250, align: "center", headerAlign: "center" },
   {
     field: "timeStamp",
@@ -80,6 +80,7 @@ export const columns = [
   {
     field: "status",
     headerName: "Status",
+    headerAlign: "center",
     width: 150,
     renderCell: (params) => {
       return (

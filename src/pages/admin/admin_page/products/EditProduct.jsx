@@ -27,6 +27,7 @@ export default function EditProduct() {
   const params = useParams();
   const dispatch = useDispatch();
   const product = useSelector(selectProductInfo);
+  console.log(product)
 
   const [show, setShow] = useState(false);
 
@@ -58,7 +59,7 @@ export default function EditProduct() {
         enableReinitialize={true}
         onSubmit={async (values) => {
           const tempUrl = [];
-
+          let editedValues;
           try {
             for (let file of values.image) {
               const imageRef = ref(storage, `images/${file.name}`);
@@ -70,10 +71,16 @@ export default function EditProduct() {
             console.log(error);
           }
 
-          const editedValues = {
-            ...values,
-            image: tempUrl,
-          };
+          if(tempUrl.length > 0){
+            editedValues = {
+              ...values,
+              image: tempUrl,
+            };
+          } else {
+            editedValues = {
+              ...values,
+            };
+          }
 
           const productRef = doc(db, "products", params.id);
           await updateDoc(productRef, editedValues);
