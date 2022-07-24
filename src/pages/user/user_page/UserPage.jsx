@@ -11,6 +11,7 @@ import { LOADING_STATUS, USER_ACTIONS } from "../../../constants";
 import Loading from "../../../components/loading/Loading";
 import localStorage from "../../../service/localStorage";
 import Orders from "./orders/Orders";
+import OrderDetail from "./orders/OrderDetail";
 
 const UserPage = () => {
   const token = localStorage.get("token");
@@ -47,6 +48,8 @@ const UserPage = () => {
         return <ChangePassword />;
       case "/user/address":
         return <AddressBook data={data?.info} status={data?.status} />;
+      case "/user/orders/view-detail":
+        return <OrderDetail />;
       default:
         return <UserInformation data={data?.info} status={data?.status} />;
     }

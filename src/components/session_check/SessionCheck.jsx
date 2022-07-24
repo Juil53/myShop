@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-// import {} from "../../store/users/saga";
-import { isTokenValid, getTokenRemainTime, getToken } from "../../utils/auth";
+import { isTokenValid, getTokenRemainTime, getToken } from "../../utils/decode";
 import { actions } from "../../store/page/slice";
 import { POPUP, USER_ACTIONS } from "../../constants";
 
@@ -13,7 +12,7 @@ const SessionCheck = () => {
     const token = getToken();
 
     if (token) {
-      const isValid = isTokenValid();
+      const isValid = isTokenValid("token");
       if (!isValid) {
         dispatch({ type: USER_ACTIONS.SIGNOUT_USER });
         dispatch(
@@ -28,7 +27,7 @@ const SessionCheck = () => {
           })
         );
       } else {
-        const remain = getTokenRemainTime();
+        const remain = getTokenRemainTime("token");
         setTimeout(() => {
           dispatch({ type: USER_ACTIONS.SIGNOUT_USER });
           dispatch(

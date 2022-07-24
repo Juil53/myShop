@@ -5,7 +5,7 @@ import APIv2 from "../../service/db";
 import { actions } from "./slice";
 import { utils } from "../../utils";
 import { handleAddCart, handleUpdateCart } from "./help";
-import { getUserId } from "../../utils/auth";
+import { getUserId } from "../../utils/decode";
 
 export function* getCart() {
   try {
@@ -14,7 +14,7 @@ export function* getCart() {
 
     //signed in
     if (token) {
-      const uid = getUserId();
+      const uid = getUserId("token");
       const kq = yield call(APIv2.get, "carts", `cart${uid}`);
 
       //client has firestore cart
@@ -63,7 +63,7 @@ export function* getCart() {
         yield put(actions.fetchCartSuccess(newCart));
       } else if (cart) {
         //client has local cart but not firestore cart
-        const uid = getUserId();
+        const uid = getUserId("token");
 
         const newCart = {
           uid: uid,
@@ -93,7 +93,7 @@ export function* addCart({ payload: { product } }) {
     const cart = localStorage.get("cart");
 
     if (token) {
-      const uid = getUserId();
+      const uid = getUserId("token");
       let rs = yield call(APIv2.get, "carts", `cart${uid}`);
       rs = rs || {};
 
@@ -133,7 +133,7 @@ export function* updateCart(action) {
     const cart = localStorage.get("cart");
 
     if (token) {
-      const uid = getUserId();
+      const uid = getUserId("token");
       const rs = yield call(APIv2.get, "carts", `cart${uid}`);
       const newCart = handleUpdateCart(cart, { product });
 

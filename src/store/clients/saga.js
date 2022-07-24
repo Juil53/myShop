@@ -4,6 +4,7 @@ import { USER_ACTIONS } from "../../constants";
 import {
   signinAuth, signinWithFacebookAuth, signinWithGoogleAuth, signoutAuth, signup, updatePasswordAuth
 } from "../../service/auth";
+
 import APIv2 from "../../service/db";
 import { getUserId } from "../../utils/auth";
 import { clientActions } from "./slice";
@@ -117,7 +118,7 @@ export function* signout() {
 
 export function* getUserInfo() {
   try {
-    const userID = getUserId();
+    const userID = getUserId("token");
 
     if (userID) {
       const rs = yield call(APIv2.get, "customers", userID);

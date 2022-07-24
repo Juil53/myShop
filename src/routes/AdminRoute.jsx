@@ -85,6 +85,12 @@ const routeAdmin = [
       import("../pages/admin/admin_page/customers/CustomerAdding")
     ),
   },
+  {
+    page: "AdminLogin",
+    exact: true,
+    path: "/login",
+    element: lazy(() => import("../pages/admin/signin_admin/Signin")),
+  },
 ];
 
 const renderRouteAdmin = () => {

@@ -2,6 +2,7 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import apiInstance from "../../utils/axios/axiosInstance";
 import APIv1 from "../../service";
+import APIv2 from "../../service/db";
 import {
   addOrderFail,
   addOrderSuccess,
@@ -133,6 +134,42 @@ export function* addOrder({ payload: { order, orderId, encryptedId } }) {
   }
 }
 
+export function* getOrderByClient() {
+  try {
+    const token = localStorage.get("token");
+
+    if (token) {
+      const uid = getUserId("token");
+      if (uid) {
+        const orders = yield call(APIv2.getAll, "orders");
+
+        if (orders) {
+          const rs = orders.filter((v) => v.uid === uid);
+
+          yield put(getOrderByClientSuccess(rs));
+        }
+      } else {
+        yield put(getOrderByClientFail("No sign in"));
+      }
+    } else {
+      yield put(getOrderByClientFail("No sign in"));
+    }
+  } catch (err) {
+    yield put(getOrderByClientFail());
+  }
+}
+
+export function* getOrderById({ payload: { id } }) {
+  try {
+    const rs = yield call(APIv2.get, "orders", id);
+    if (rs) {
+      yield put(getOrderByIdSuccess(rs));
+    }
+  } catch (err) {
+    yield put(getOrderByIdFail());
+  }
+}
+
 export default function* adminOrderSaga() {
   yield takeEvery("order/getOrderRequest", actGetOrders);
   yield takeEvery("order/getOrderDetailRequest", actGetOrder);
@@ -141,4 +178,6 @@ export default function* adminOrderSaga() {
   yield takeEvery("order/deleteOrderRequest", actDeleteOrder);
   yield takeEvery("order/addOrderRequest", addOrder);
   yield takeLatest("order/getPayUrlRequest", getPayUrl);
+  yield takeEvery("order/getOrderByClientRequest", getOrderByClient);
+  yield takeEvery("order/getOrderByIdRequest", getOrderById);
 }
