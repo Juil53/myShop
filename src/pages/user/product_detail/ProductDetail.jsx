@@ -88,7 +88,7 @@ const ProductDetail = () => {
   };
 
   const settingsSubSlider = {
-    slidesToShow: 3,
+    slidesToShow: 2,
     slidesToScroll: 1,
     centerMode: true,
     focusOnSelect: true,

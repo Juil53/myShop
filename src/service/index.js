@@ -5,17 +5,18 @@ const call = async ({
   baseUrl = c.API_URL,
   path = "",
   method = "GET",
-  headers = {},
+  headers = { "Content-Type": "application/json" },
   query = null,
 }) => {
   try {
+    const willConvertJson = headers["Content-Type"].includes("json");
+    const body = willConvertJson && query ? JSON.stringify(query) : query;
     let res = await fetch(`${baseUrl}/${path}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
-      body: query ? JSON.stringify(query) : null,
+      body,
     });
 
     await delay(1000);
@@ -25,7 +26,6 @@ const call = async ({
       throw { name: "API request error", message };
     }
     res = await res.json();
-
     return res;
   } catch (err) {
     return null;

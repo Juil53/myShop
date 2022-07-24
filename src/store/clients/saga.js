@@ -1,4 +1,4 @@
-import { call, takeEvery, put } from "redux-saga/effects";
+import { call, takeEvery, put, take } from "redux-saga/effects";
 
 import APIv2 from "../../service/db";
 import { clientActions } from "./slice";
@@ -9,9 +9,11 @@ import {
   signinWithFacebookAuth,
   signoutAuth,
   updatePasswordAuth,
+  getIdToken,
 } from "../../service/auth";
 import { USER_ACTIONS } from "../../constants";
 import { getUserId } from "../../utils/decode";
+import localStorage from "../../service/localStorage";
 
 export function* signinWithEmailAndPassword({ payload }) {
   const { email, password } = payload;
@@ -24,6 +26,7 @@ export function* signinWithEmailAndPassword({ payload }) {
       const data = {
         token: rs.accessToken,
         providerID: rs.providerId,
+        refreshToken: rs.refreshToken,
       };
 
       yield put(clientActions.signinSuccess(data));
@@ -56,6 +59,7 @@ export function* signinWithGoogle() {
       clientActions.signinSuccess({
         token: rs.accessToken,
         providerID: rs.providerId,
+        refreshToken: rs.refreshToken,
       })
     );
   } else {
@@ -84,6 +88,7 @@ export function* signinWithFacebook() {
       clientActions.signinSuccess({
         token: rs.accessToken,
         providerID: rs.providerId,
+        refreshToken: rs.refreshToken,
       })
     );
   } else {
@@ -116,10 +121,29 @@ export function* signupUser({ payload }) {
 }
 
 export function* signout() {
+  console.log("sign out call");
   yield call(signoutAuth);
   yield put(clientActions.signout());
 }
 
+export function* getRefreshToken() {
+  try {
+    const { access_token: accessToken, refresh_token: refreshToken } =
+      yield call(getIdToken);
+
+    if (accessToken) {
+      console.log(accessToken);
+      yield put(
+        clientActions.getRefreshTokenSuccess({
+          token: accessToken,
+          refreshToken,
+        })
+      );
+    } else {
+      yield call(signout);
+    }
+  } catch (e) {}
+}
 export function* getUserInfo() {
   try {
     const userID = getUserId("token");
@@ -189,4 +213,5 @@ export default function* clientSaga() {
   yield takeEvery("clients/updateRequest", updateInfo);
   yield takeEvery("clients/updatePasswordRequest", updatePassword);
   yield takeEvery("clients/getCustomersRequest", getCustomers);
+  yield takeEvery(USER_ACTIONS.GET_REFRESH_TOKEN, getRefreshToken);
 }
