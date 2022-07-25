@@ -1145,8 +1145,7 @@ ul > li {
     align-items: center;
     justify-content: space-between; }
     .header .header__top .header__top-logo {
-      width: 50%;
-      padding: 1rem; }
+      width: 50%; }
       .header .header__top .header__top-logo .img-container {
         width: 100%;
         flex-grow: 1;
@@ -1657,7 +1656,8 @@ ul > li {
     z-index: 99;
     background-color: #fff; }
     .header .header__top .header__top-logo {
-      width: 25%; }
+      width: 25%;
+      padding: 1rem; }
       .header .header__top .header__top-logo .img-container {
         width: 100%;
         padding-top: 28%; }

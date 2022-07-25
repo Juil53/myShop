@@ -2,22 +2,21 @@ import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 
-function SimpleSnackbar({ type, show, setShow, email }) {
-  console.log(email);
+function SimpleSnackbar({ type, show, setShow, severity }) {
   let message;
 
-  switch (type) {
-    case "add":
-      message = "Add Success!";
+  switch (severity?.type) {
+    case "success":
+      message = severity.message;
       break;
-    case "edit":
-      message = "Edit Success!";
-      break;
-    case "delete":
-      message = "Delete Success!";
-      break;
-    case "auth":
-      message = email;
+    // case "edit":
+    //   message = "Edit Success!";
+    //   break;
+    // case "delete":
+    //   message = "Delete Success!";
+    //   break;
+    case "error":
+      message = severity.message;
       break;
     default:
       break;
@@ -26,12 +25,8 @@ function SimpleSnackbar({ type, show, setShow, email }) {
   return (
     <div>
       <Snackbar open={show} autoHideDuration={3000} onClose={() => setShow(false)}>
-        {type === "auth" && email !== null ? (
-          <Alert severity="error">
-            <span style={{ fontWeight: 700 }}>{message} is already exist</span>
-          </Alert>
-        ) : (
-          <Alert severity="success">
+        {severity && (
+          <Alert severity={severity.type || "success"}>
             <span style={{ fontWeight: 700 }}>{message}</span>
           </Alert>
         )}

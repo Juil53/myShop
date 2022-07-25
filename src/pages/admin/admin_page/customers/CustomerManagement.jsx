@@ -12,8 +12,10 @@ import { style } from "./logic";
 
 const CustomerManagement = () => {
   const [show, setShow] = useState(false);
-  const [err, setErr] = useState("");
-  console.log(err);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
   const [data, setData] = useState([]);
   const [save, setSave] = useState(false);
   const [file, setFile] = useState();
@@ -53,12 +55,16 @@ const CustomerManagement = () => {
         // Add import Data to Authen
         const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password)
           .then(() => {
-            setErr(null);
+            setSeverity({});
           })
           .catch((error) => {
             switch (error.code) {
               case "auth/email-already-in-use":
-                setErr(item.email);
+                // setErr(item.email);
+                setSeverity({
+                  type: "error",
+                  message: item.email,
+                });
                 // alert(`Email ${item.email} is already in use`);
                 break;
               default:
@@ -135,7 +141,7 @@ const CustomerManagement = () => {
           </Button>
         </Stack>
       </Box>
-      <SimpleSnackbar type="auth" email={err} show={show} setShow={setShow} />;
+      <SimpleSnackbar severity={severity} show={show} setShow={setShow} />
       <CustomerList importData={data} save={save} keyword={keyword} />
     </div>
   );
