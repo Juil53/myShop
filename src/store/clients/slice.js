@@ -34,7 +34,6 @@ const clientSlice = createSlice({
       state.status = LOADING_STATUS.SUCCESS;
       state.data.isLoggedIn = true;
       state.msg = "Success";
-      console.log("signin success", state);
     },
 
     signinFail: (state, action) => {
