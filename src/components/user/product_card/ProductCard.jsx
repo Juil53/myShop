@@ -4,6 +4,7 @@ import { utils } from "../../../utils";
 import { POPUP } from "../../../constants";
 import { actions } from "../../../store/page/slice";
 import { useNavigate } from "react-router-dom";
+import Image from "../../image/Image";
 
 export default function ProductCard(props) {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export default function ProductCard(props) {
           }
         >
           <div className="img-container">
-            <img src={data.image} alt="" />
+            <Image showLoading={true} src={data.image} alt="" />
           </div>
           {cardDirection !== "row" && (
             <div
