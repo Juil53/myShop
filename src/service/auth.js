@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+import api from "./index";
 
 import {
   getAuth,
@@ -99,6 +100,30 @@ export const signinWithFacebookAuth = async () => {
 
     return adapter(rs);
   } catch (e) {
+    return JSON.parse(JSON.stringify(e));
+  }
+};
+
+export const getIdToken = async () => {
+  try {
+    const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
+    const apiKey = process.env.REACT_APP_FIREBASE_KEY;
+    const body = new URLSearchParams();
+    body.append("grant_type", "refresh_token");
+    body.append("refresh_token", refreshToken);
+
+    const rs = await api.post({
+      baseUrl: `https://securetoken.googleapis.com/v1`,
+      path: `token?key=${apiKey}`,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      query: body,
+    });
+    if (!rs) return {};
+    return rs;
+  } catch (e) {
+    console.log(e);
     return JSON.parse(JSON.stringify(e));
   }
 };

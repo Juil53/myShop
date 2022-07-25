@@ -5,6 +5,7 @@ import localStorage from "../../service/localStorage";
 const initialState = {
   data: {
     status: LOADING_STATUS.IDLE,
+    isLoggedIn: !!localStorage.get("token"),
     info: {},
   },
   updateStatus: LOADING_STATUS.IDLE,
@@ -30,9 +31,12 @@ const clientSlice = createSlice({
     signinSuccess: (state, action) => {
       localStorage.set("token", action.payload.token);
       localStorage.set("providerID", action.payload?.providerID);
+      localStorage.set("refreshToken", action.payload.refreshToken);
 
       state.status = LOADING_STATUS.SUCCESS;
+      state.data.isLoggedIn = true;
       state.msg = "Success";
+      console.log("signin success", state);
     },
 
     signinFail: (state, action) => {
@@ -64,13 +68,20 @@ const clientSlice = createSlice({
       }
     },
 
+    getRefreshTokenSuccess: (_, action) => {
+      localStorage.set("token", action.payload.token);
+      localStorage.set("refreshToken", action.payload.refreshToken);
+    },
+
     signout: (state) => {
       state.data.status = LOADING_STATUS.IDLE;
+      state.data.isLoggedIn = false;
       state.data.info = {};
       state.msg = "";
 
       localStorage.remove("token");
       localStorage.remove("providerID");
+      localStorage.remove("refreshToken");
 
       state.status = LOADING_STATUS.IDLE;
     },
@@ -83,8 +94,10 @@ const clientSlice = createSlice({
       state.status = LOADING_STATUS.SUCCESS;
 
       localStorage.set("token", action.payload.token);
+      localStorage.set("refreshToken", action.payload.refreshToken);
       localStorage.set("providerID", action.payload?.providerID);
       state.msg = "Success";
+      state.data.isLoggedIn = true;
     },
 
     signupFail: (state, action) => {

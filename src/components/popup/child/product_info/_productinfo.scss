@@ -298,6 +298,20 @@
           padding-top: 100%;
         }
       }
+
+      .subimg-container {
+        width: 60%;
+
+        .subimg {
+          width: 100%;
+          padding: 0 0.5rem;
+
+          .img-container {
+            width: 100%;
+            padding-top: 100%;
+          }
+        }
+      }
     }
 
     .productinfopopup__info {
@@ -343,6 +357,20 @@
       .main-img {
         width: 70%;
         overflow: hidden;
+      }
+
+      .subimg-container {
+        width: 60%;
+
+        .subimg {
+          width: 100%;
+          padding: 0 0.5rem;
+
+          .img-container {
+            width: 100%;
+            padding-top: 100%;
+          }
+        }
       }
     }
 
