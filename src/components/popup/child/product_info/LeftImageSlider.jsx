@@ -1,5 +1,6 @@
 import Slider from "react-slick";
 import { useState } from "react";
+import Image from "../../../image/Image";
 
 const LeftImageSlider = (props) => {
   const { data } = props;
@@ -57,7 +58,7 @@ const LeftImageSlider = (props) => {
         {data.map((v) => (
           <div className="subimg" key={v}>
             <div className="img-container">
-              <img src={v} alt="" />
+              <Image src={v} showLoading />
             </div>
           </div>
         ))}
@@ -74,6 +75,7 @@ const LeftImageSlider = (props) => {
           ref={(slider1) => setMainSlider(slider1)}
         >
           <div className="img-container">
+            <Image src={data || `/img/default_product.jpg`} showLoading />
             <img src={data || `/img/default_product.jpg`} alt="" />
           </div>
         </Slider>
@@ -88,7 +90,8 @@ const LeftImageSlider = (props) => {
       >
         {data.map((v) => (
           <div className="img-container" key={v}>
-            <img src={v || `/img/default_product.jpg`} alt="" />
+            <Image src={v || `/img/default_product.jpg`} showLoading />
+            {/* <img src={v || `/img/default_product.jpg`} alt="" /> */}
           </div>
         ))}
       </Slider>

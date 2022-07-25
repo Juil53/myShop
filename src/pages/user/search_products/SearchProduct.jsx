@@ -14,7 +14,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import Loading from "../../../components/loading/Loading";
 import ProductCard from "../../../components/user/product_card/ProductCard";
-import MainLeft from "../home_page/child/MainLeft";
+import MainLeft from "../home_page/MainLeft";
 import { actions as productActions } from "../../../store/products/slice";
 import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 

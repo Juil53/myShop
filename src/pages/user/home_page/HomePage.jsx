@@ -15,9 +15,9 @@ import ProductSection from "../../../components/user/product_section/ProductSect
 import NextButton from "../../../components/user/product_section/child/NextButton";
 import PreButton from "../../../components/user/product_section/child/PreButton";
 import Loading from "../../../components/loading/Loading";
-import Banner from "./child/Banner";
+import Banner from "./Banner";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
-import MainLeft from "./child/MainLeft";
+import MainLeft from "./MainLeft";
 import localStorage from "../../../service/localStorage";
 import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 
