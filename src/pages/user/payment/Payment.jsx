@@ -21,6 +21,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
+import Image from "../../../components/image/Image";
 
 const Payment = () => {
   const currentAddress = useSelector(orderAddress);
@@ -174,7 +175,7 @@ const Payment = () => {
       return data.map((v) => (
         <div className="product-item row" key={v.cartItemID}>
           <div className="img">
-            <img src={v.image} alt="" />
+            <Image src={v.image} showLoading />
           </div>
           <div className="info row">
             <div className="name">{v.name}</div>

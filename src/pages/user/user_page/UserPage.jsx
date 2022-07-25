@@ -12,6 +12,7 @@ import Loading from "../../../components/loading/Loading";
 import localStorage from "../../../service/localStorage";
 import Orders from "./orders/Orders";
 import OrderDetail from "./orders/OrderDetail";
+import Image from "../../../components/image/Image";
 
 const UserPage = () => {
   const token = localStorage.get("token");
@@ -69,7 +70,7 @@ const UserPage = () => {
           <div className="user_page-content-left">
             <div className="title row">
               <div className="img">
-                <img src={client?.info?.image} alt="" />
+                <Image src={client?.info?.image} showLoading />
               </div>
               <div className="name">
                 Welcome back <br />

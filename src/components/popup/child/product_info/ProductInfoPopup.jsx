@@ -118,7 +118,13 @@ export default function ProductInfoPopup(props) {
       ...others
     } = data;
 
-    if (priceAfterDiscount && number && number !== 0) {
+    if (
+      priceAfterDiscount &&
+      priceAfterDiscount !== 0 &&
+      number &&
+      number !== 0 &&
+      numberOfProduct > 0
+    ) {
       const product = {
         ...others,
         cartItemID: new Date().getTime(),
@@ -168,7 +174,7 @@ export default function ProductInfoPopup(props) {
             {data.priceAfterDiscount
               ? utils.priceBreak(data.priceAfterDiscount) + "₫"
               : "Update later"}
-            {data.priceAfterDiscount &&
+            {!!data.priceAfterDiscount &&
               data.priceAfterDiscount !== data.priceBeforeDiscount && (
                 <span className="price-compare">
                   {data.priceBeforeDiscount &&

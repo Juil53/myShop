@@ -1,3 +1,5 @@
+import Image from "../../../components/image/Image";
+
 export default function Banner(props) {
   const { img, name } = props;
   return (
@@ -5,7 +7,7 @@ export default function Banner(props) {
       <a href="#" className="banner-container">
         <div className="banner__img">
           <div className="img-container">
-            <img src={img} alt="" />
+            <Image src={img} showLoading />
           </div>
         </div>
         <div className="banner__name">{name}</div>

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { clone, utils } from "../../../../utils";
 import Quantity from "../../../user/quantity/Quantity";
 import { actions as cartActions } from "../../../../store/cart/slice";
+import Image from "../../../image/Image";
 
 const CartItem = (props) => {
   const { data, actionDelete } = props;
@@ -37,7 +38,7 @@ const CartItem = (props) => {
     <div className="item row">
       <div className="data product-info row">
         <div className="img">
-          <img src={data.image} alt="" />
+          <Image src={data.image} showLoading />
         </div>
         <div className="nameandmore">
           <div className="name">{data.name}</div>

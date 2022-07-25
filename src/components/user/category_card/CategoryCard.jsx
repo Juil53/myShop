@@ -39,6 +39,7 @@ export default function CategoryCard({ categories, currentCate = {} }) {
                   onClick={() => {
                     handleActiveDropdown(v.id);
                   }}
+                  className="category__btn"
                 >
                   {v.name}
                 </Link>

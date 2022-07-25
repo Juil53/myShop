@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import Quantity from "../../../components/user/quantity/Quantity";
 import { clone, utils } from "../../../utils";
 import { actions as cartActions } from "../../../store/cart/slice";
+import Image from "../../../components/image/Image";
+import { Link } from "react-router-dom";
 
 const CartRow = (props) => {
   const { data, actionDelete } = props;
@@ -31,11 +33,11 @@ const CartRow = (props) => {
     <tr className="cart-item">
       <td>
         <div className="image">
-          <img src={data.image} alt="" />
+          <Image src={data.image} showLoading />
         </div>
       </td>
       <td className="name">
-        <a href="">{data.name}</a>
+        <Link to={`/product/${data.id}`}>{data.name}</Link>
         {Object.values(data.optionSelected).length > 0 && (
           <div className="more">
             Type: {createOptionItem(Object.values(data.optionSelected))}

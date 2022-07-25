@@ -1,5 +1,6 @@
 import { utils } from "../../../../utils";
 import { Link, useNavigate } from "react-router-dom";
+import Image from "../../../image/Image";
 
 const CartButton = (props) => {
   const { data } = props;
@@ -17,7 +18,7 @@ const CartButton = (props) => {
       return data.map((v, i) => (
         <div className="product-item row" key={"product_item" + v.id + i}>
           <div className="img">
-            <img src={v.image} alt="" />
+            <Image src={v.image} showLoading />
           </div>
           <div className="info">
             <Link className="name" to={"/product/" + v.id}>

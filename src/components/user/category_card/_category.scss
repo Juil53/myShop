@@ -22,9 +22,14 @@
       background-color: transparent;
       padding: 0.5rem 0;
       font-size: 1.6rem;
+
       &:hover {
         color: $mainColor;
       }
+    }
+
+    .category__btn {
+      width: 65%;
     }
 
     a,
@@ -33,6 +38,9 @@
     }
 
     .dropdown-btn {
+      text-align: right;
+      width: 30%;
+      cursor: pointer;
       padding: 0 0.5rem;
       font-size: 1.4rem;
     }
@@ -40,7 +48,11 @@
 
   .active {
     .dropdown-btn {
-      transform: rotate(45deg);
+      i {
+        transform: rotate(45deg)
+      }
+
+      ;
     }
 
     i,
@@ -59,6 +71,7 @@
   }
 
   .categorycard__category-name:hover {
+
     a,
     i {
       color: $mainColor;
@@ -84,7 +97,9 @@
         margin-right: 0.5rem;
       }
     }
+
     .active {
+
       i,
       a {
         color: $mainColor;
@@ -92,6 +107,7 @@
     }
 
     .subcate:hover {
+
       i,
       a {
         color: $mainColor;
