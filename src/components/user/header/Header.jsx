@@ -56,6 +56,16 @@ export default function Header() {
   return (
     <React.Fragment>
       <div className="header">
+      <div className="header__nav row">
+          <HeaderNav
+            languages={languages}
+            currentPage={currentPage}
+            categories={categories}
+          />
+          <div className="header__nav-right">
+            {cart.data && <CartButton data={cart.data} />}
+          </div>
+        </div>
         <div className="header__top row">
           <div className="header__top-logo">
             <div className="img-container">
@@ -76,16 +86,6 @@ export default function Header() {
                 </div>
               </>
             )}
-          </div>
-        </div>
-        <div className="header__nav row">
-          <HeaderNav
-            languages={languages}
-            currentPage={currentPage}
-            categories={categories}
-          />
-          <div className="header__nav-right">
-            {cart.data && <CartButton data={cart.data} />}
           </div>
         </div>
       </div>

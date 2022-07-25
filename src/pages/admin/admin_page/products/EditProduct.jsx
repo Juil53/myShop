@@ -6,7 +6,7 @@ import {
   Paper,
   Stack,
   Switch,
-  Typography
+  Typography,
 } from "@mui/material";
 import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -27,7 +27,7 @@ export default function EditProduct() {
   const params = useParams();
   const dispatch = useDispatch();
   const product = useSelector(selectProductInfo);
-  console.log(product)
+  console.log(product);
 
   const [show, setShow] = useState(false);
 
@@ -71,7 +71,7 @@ export default function EditProduct() {
             console.log(error);
           }
 
-          if(tempUrl.length > 0){
+          if (tempUrl.length > 0) {
             editedValues = {
               ...values,
               image: tempUrl,
@@ -106,7 +106,7 @@ export default function EditProduct() {
               </Grid>
 
               {/* Brand */}
-              <Grid item xs={6}>
+              <Grid item xs={3}>
                 <Field
                   as={TextFieldCustom}
                   value={values.brand}
@@ -121,7 +121,7 @@ export default function EditProduct() {
               </Grid>
 
               {/* Status */}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Field
                   as={TextFieldCustom}
                   value={values.status}
@@ -135,8 +135,38 @@ export default function EditProduct() {
                 />
               </Grid>
 
+              {/* Price */}
+              <Grid item xs={3}>
+                <Field
+                  as={TextFieldCustom}
+                  value={values.priceBeforeDiscount}
+                  name="priceBeforeDiscount"
+                  type="number"
+                  InputLabelProps={{ shrink: true }}
+                  variant="outlined"
+                  label="Price Before Discount"
+                  size="small"
+                  fullWidth
+                  placeholder="100000"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Field
+                  as={TextFieldCustom}
+                  value={values.priceAfterDiscount}
+                  name="priceAfterDiscount"
+                  type="number"
+                  InputLabelProps={{ shrink: true }}
+                  variant="outlined"
+                  label="Price After Discount"
+                  size="small"
+                  fullWidth
+                  placeholder="80000"
+                />
+              </Grid>
+
               {/* Available */}
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Field
                   as={TextFieldCustom}
                   value={values.available}
@@ -151,28 +181,7 @@ export default function EditProduct() {
                 />
               </Grid>
 
-              {/* Price */}
-              <Grid item xs={4}>
-                <Field
-                  as={TextFieldCustom}
-                  value={values.priceBeforeDiscount}
-                  name="priceBeforeDiscount"
-                  type="number"
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Price"
-                  size="small"
-                  fullWidth
-                  placeholder="100000"
-                />
-              </Grid>
-
-              {/* Image */}
-              <Grid item xs={6}>
-                <ImageInput data={product.image} />
-              </Grid>
-
-              {/* Hot */}
+              {/* Hot & New */}
               <Grid item xs={3}>
                 <FormControlLabel
                   control={
@@ -181,10 +190,6 @@ export default function EditProduct() {
                   label="Hot"
                   labelPlacement="end"
                 />
-              </Grid>
-
-              {/* New */}
-              <Grid item xs={3}>
                 <FormControlLabel
                   value="end"
                   control={
@@ -193,6 +198,11 @@ export default function EditProduct() {
                   label="New"
                   labelPlacement="end"
                 />
+              </Grid>
+
+              {/* Image */}
+              <Grid item xs={6}>
+                <ImageInput data={product.image} />
               </Grid>
 
               {/* Description */}

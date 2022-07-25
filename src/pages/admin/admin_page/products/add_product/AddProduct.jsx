@@ -32,7 +32,6 @@ export default function AddProduct() {
 
   useEffect(() => {
     dispatch(getOptionsRequest());
-    // dispatch(getCategoriesRequest());
   }, []);
 
   return (
@@ -88,7 +87,7 @@ export default function AddProduct() {
         <Form>
           <Grid container spacing={2}>
             {/* Name */}
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Field
                 as={TextFieldCustom}
                 name="name"
@@ -116,7 +115,7 @@ export default function AddProduct() {
             </Grid>
 
             {/* Status */}
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Field
                 as={TextFieldCustom}
                 name="status"
@@ -126,6 +125,34 @@ export default function AddProduct() {
                 size="small"
                 fullWidth
                 placeholder="Available"
+              />
+            </Grid>
+
+            {/* Price */}
+            <Grid item xs={3}>
+              <Field
+                as={TextFieldCustom}
+                name="priceBeforeDiscount"
+                type="number"
+                InputLabelProps={{ shrink: true }}
+                variant="outlined"
+                label="Price Before Discount"
+                size="small"
+                fullWidth
+                placeholder="100000"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Field
+                as={TextFieldCustom}
+                name="priceAfterDiscount"
+                type="number"
+                InputLabelProps={{ shrink: true }}
+                variant="outlined"
+                label="Price After Discount"
+                size="small"
+                fullWidth
+                placeholder="80000"
               />
             </Grid>
 
@@ -144,23 +171,8 @@ export default function AddProduct() {
               />
             </Grid>
 
-            {/* Price */}
-            <Grid item xs={4}>
-              <Field
-                as={TextFieldCustom}
-                name="priceBeforeDiscount"
-                type="number"
-                InputLabelProps={{ shrink: true }}
-                variant="outlined"
-                label="Price"
-                size="small"
-                fullWidth
-                placeholder="100000"
-              />
-            </Grid>
-
             {/* Hot */}
-            <Grid item xs={5}>
+            <Grid item xs={3}>
               <Stack direction="row" spacing={2}>
                 <FormControlLabel
                   control={<Field as={Switch} name="isHot" color="primary" />}
