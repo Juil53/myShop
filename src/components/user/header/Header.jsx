@@ -59,7 +59,7 @@ export default function Header() {
         <div className="header__top row">
           <div className="header__top-logo">
             <div className="img-container">
-              <img src="/img/logomyShop.png" alt="" />
+              <img src="/img/logomyShop.png" alt="" style={{width:'30%',objectFit:'contain'}}/>
             </div>
           </div>
           <SearchBar />

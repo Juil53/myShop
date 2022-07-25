@@ -90,7 +90,7 @@
       }
     }
 
-    .phone-menu-btn.phone-menu-active~.dropdown-menu {
+    .phone-menu-btn.phone-menu-active ~ .dropdown-menu {
       left: 0;
     }
   }
@@ -172,7 +172,6 @@
       }
     }
   }
-
 }
 
 .header {
@@ -189,41 +188,57 @@
     justify-content: space-between;
 
     .header__top-logo {
-      width: 20%;
+      width: 50%;
       padding: 1rem;
-
       .img-container {
-        width: 70%;
-        padding-top: 20%;
+        width: 100%;
+        flex-grow: 1;
+        padding-top: 10%;
       }
     }
 
     .search-box {
       display: flex;
-      width: 45rem;
-      height: 4rem;
-      border-radius: 1.6rem;
-      border: 1px solid $grayColor;
+      flex-grow: 2;
+      width: 100%;
+      flex-direction: column;
       align-items: center;
-      transition: all ease 0.3s;
-      background-color: $whiteColor;
-
-      i {
-        flex: 1;
-        text-align: center;
-        color: $mainColor;
-        transition: all ease 0.3s;
-      }
-
-      input {
-        flex: 6;
+      .search-input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         width: 100%;
+        height: 4rem;
+        // border-radius: 4px;
+        border: 1px solid $grayColor;
+        transition: all ease 0.3s;
         background-color: $whiteColor;
+
+        // i {
+        //   flex: 1;
+        //   text-align: center;
+        //   color: $whiteColor;
+        //   transition: all ease 0.3s;
+        //   height: 4rem;
+        //   background-color: $mainColor;
+        // }
+
+        input {
+          flex: 10;
+          width: 100%;
+          font-size: 1.6rem;
+          line-height: 0.02857em;
+          background-color: $whiteColor;
+          padding: 0 10px;
+        }
       }
     }
 
     .header__top-nav {
       align-items: center;
+      flex-grow: 1;
+      justify-content: flex-end;
 
       .nav-btn {
         padding: 0 2rem;
@@ -243,7 +258,7 @@
       .user-btn {
         .user-dropdown {
           a {
-            color: $grayColor-3 ;
+            color: $grayColor-3;
 
             i {
               margin-left: 0.3rem;
@@ -260,7 +275,6 @@
       }
 
       .nav-btn:hover {
-
         a,
         i {
           color: $mainColor;
@@ -268,10 +282,9 @@
       }
 
       .user-btn:hover {
-
         i,
         span {
-          color: $mainColor
+          color: $mainColor;
         }
 
         .user-dropdown {
@@ -322,8 +335,7 @@
       visibility: hidden;
       opacity: 0;
       z-index: 5;
-      box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3),
-        0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
+      box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3), 0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
       transition: all 0.3s ease-in-out;
 
       //WHEN CART NOT EMPTY
@@ -530,8 +542,7 @@
       z-index: 5;
       min-width: 23rem;
       background-color: $whiteColor;
-      box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3),
-        0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
+      box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3), 0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
       transition: all 0.3s ease-in-out;
 
       a {
@@ -661,7 +672,6 @@
           margin-right: 0.5rem;
         }
       }
-
     }
 
     .header__nav-btn:hover {
@@ -703,7 +713,6 @@
             visibility: visible;
             opacity: 0.8;
             top: 4.5rem;
-
 
             .category-btn {
               color: $mainColor;
@@ -802,8 +811,7 @@
           visibility: hidden;
           opacity: 0;
           z-index: 5;
-          box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3),
-            0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
+          box-shadow: 0 4px 20px 0 rgba($color: #000000, $alpha: 0.3), 0 6px 20px 0 rgba($color: #000000, $alpha: 0.3);
           transition: all 0.3s ease-in-out;
 
           //WHEN CART NOT EMPTY
@@ -857,10 +865,8 @@
 
 @media only screen and (min-width: 601px) and (max-width: 699px) {
   .header {
-
     //HEADER TOP (logo, top nav)
     .header__top {
-
       .header__top-logo {
         width: 30%;
         padding: 1rem;
@@ -938,10 +944,8 @@
 
 @media only screen and (min-width: 700px) and (max-width: 767px) {
   .header {
-
     //HEADER TOP (logo, top nav)
     .header__top {
-
       .header__top-logo {
         width: 30%;
         padding: 1rem;
