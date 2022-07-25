@@ -1,42 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Slider from "react-slick";
-import Breadcrumb from "../../../components/breadcumb/BreadCumb";
-import Loading from "../../../components/loading/Loading";
 import {
   getQuantityAvailable,
   isAvailableOption,
   selectUnavailableOption,
 } from "../../../components/popup/child/product_info/helper";
-import Quantity from "../../../components/user/quantity/Quantity";
-import { POPUP } from "../../../constants";
-import { actions } from "../../../store/page/slice";
 import {
   productLoading,
   selectProductInfo,
 } from "../../../store/products/selector";
+import Quantity from "../../../components/user/quantity/Quantity";
+import { POPUP } from "../../../constants";
+import { actions } from "../../../store/page/slice";
 import { actions as productActions } from "../../../store/products/slice";
+import { actions as cartActions } from "../../../store/cart/slice";
+import Slider from "react-slick";
+import Breadcrumb from "../../../components/breadcumb/BreadCumb";
+import Loading from "../../../components/loading/Loading";
 import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
-import { actions as cartActions } from "../../../store/cart/slice";
 import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
+import { formatter } from "../../../utils";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const params = useParams();
+
   const [number, setNumber] = useState(1);
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
-  const productInfo = useSelector((state) =>
-    selectProductInfo(state, params.id)
-  );
+  
+  const productInfo = useSelector((state) => selectProductInfo(state, params.id));
   const loading = useSelector(productLoading);
+
   const { name } = productInfo;
 
   useEffect(() => {
     dispatch(productActions.getProductRequest(params.id));
-  }, []);
+  }, [params.id]);
 
   const array = [
     {
@@ -52,12 +54,6 @@ const ProductDetail = () => {
       url: "",
     },
   ];
-
-  //NUMBER FORMATTER
-  const formatter = new Intl.NumberFormat("vn-VN", {
-    style: "currency",
-    currency: "VND",
-  });
 
   const [currentOption, setCurrentOption] = useState(() => {
     const { configurableProducts = [] } = productInfo;
@@ -262,7 +258,7 @@ const ProductDetail = () => {
         <>
           <ScrollToTop />
           <div className="breadcumb">
-            <Breadcrumb pages={array} />
+            <Breadcrumb pages={array} color={"#35c0c5"}/>
           </div>
 
           <div className="product-detail row">
