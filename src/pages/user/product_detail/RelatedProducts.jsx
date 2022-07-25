@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../../../components/user/product_card/ProductCard";
 import { actions as productActions } from "../../../store/products/slice";
 import { selectProduct } from "../../../store/products/selector";
+import { Link } from "react-router-dom";
 
 const RelatedProducts = ({ product }) => {
   const dispatch = useDispatch();
@@ -15,18 +16,14 @@ const RelatedProducts = ({ product }) => {
   const handleRelatedProducts = () => {
     const { categories = [] } = product;
     const relatedProducts =
-      productList &&
-      productList?.filter((item) => item.categories?.includes(categories[0]));
-
+      productList && productList?.filter((item) => item.categories?.includes(categories[0]));
     if (relatedProducts.length > 4) {
       return relatedProducts
         .splice(0, 4)
-        .map((product, index) => (
-          <ProductCard key={`product_${index}`} data={product} />
-        ));
+        .map((product, index) => <ProductCard data={product} key={`product_${index}`} />);
     } else {
       return relatedProducts.map((product, index) => (
-        <ProductCard key={`product_${index}`} data={product} />
+        <ProductCard data={product} key={`product_${index}`} />
       ));
     }
   };

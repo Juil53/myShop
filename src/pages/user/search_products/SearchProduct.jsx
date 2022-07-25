@@ -2,14 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import { LOADING_STATUS } from "../../../constants";
-import {
-  categoriesSelector,
-  selectLoading,
-} from "../../../store/categories/selector";
-import {
-  productSelector,
-  selectProduct,
-} from "../../../store/products/selector";
+import { categoriesSelector, selectLoading } from "../../../store/categories/selector";
+import { productSelector, selectProduct } from "../../../store/products/selector";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 import Loading from "../../../components/loading/Loading";
@@ -22,14 +16,15 @@ const SearchProduct = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [title, setTitle] = useState("Default");
+
   const { categories } = useSelector(categoriesSelector);
+  const { searchResult } = useSelector(productSelector);
   const loading = useSelector(selectLoading);
+
   const mainCate = searchParams.get("category") || "";
   const subCate = searchParams.get("subCate") || "";
   const sortCate = searchParams.get("sort");
-
   const query = searchParams.get("query");
-  const { searchResult } = useSelector(productSelector);
 
   useEffect(() => {
     if (query && searchResult.status === LOADING_STATUS.IDLE) {
@@ -37,9 +32,7 @@ const SearchProduct = () => {
     }
   });
 
-  const dataFilter = useSelector((state) =>
-    selectProduct(state, mainCate, subCate, sortCate)
-  );
+  const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate, sortCate));
 
   const array = [
     {
@@ -59,24 +52,23 @@ const SearchProduct = () => {
   } = useSelector(productSelector);
 
   useEffect(() => {
-    if (
-      status === LOADING_STATUS.IDLE ||
-      newProducts.status === LOADING_STATUS.IDLE
-    ) {
+    if (status === LOADING_STATUS.IDLE || newProducts.status === LOADING_STATUS.IDLE) {
       dispatch(productActions.fetchAllProductsRequest());
       dispatch(productActions.fetchNewProductsRequest());
     }
   }, []);
 
   //RENDER CARDS
-  const handleRenderCard = (dataArr) => {
-    return dataFilter?.map((product, index) => (
-      <ProductCard
-        cardDirection="vertical"
-        data={product}
-        key={`product_${index}`}
-      />
-    ));
+  const handleRenderCard = () => {
+    if (searchResult.status === "SUCCESS") {
+      return searchResult.data.map((product, index) => (
+        <ProductCard cardDirection="vertical" data={product} key={`product_${index}`} />
+      ));
+    } else {
+      return dataFilter.map((product, index) => (
+        <ProductCard cardDirection="vertical" data={product} key={`product_${index}`} />
+      ));
+    }
   };
 
   return (

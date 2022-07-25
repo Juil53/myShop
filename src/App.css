@@ -1144,31 +1144,39 @@ ul > li {
     align-items: center;
     justify-content: space-between; }
     .header .header__top .header__top-logo {
-      width: 20%;
+      width: 50%;
       padding: 1rem; }
       .header .header__top .header__top-logo .img-container {
-        width: 70%;
-        padding-top: 20%; }
+        width: 100%;
+        flex-grow: 1;
+        padding-top: 10%; }
     .header .header__top .search-box {
       display: flex;
-      width: 45rem;
-      height: 4rem;
-      border-radius: 1.6rem;
-      border: 1px solid #cccccc;
-      align-items: center;
-      transition: all ease 0.3s;
-      background-color: #fff; }
-      .header .header__top .search-box i {
-        flex: 1;
-        text-align: center;
-        color: #35c0c5;
-        transition: all ease 0.3s; }
-      .header .header__top .search-box input {
-        flex: 6;
-        width: 100%;
-        background-color: #fff; }
-    .header .header__top .header__top-nav {
+      flex-grow: 2;
+      width: 100%;
+      flex-direction: column;
       align-items: center; }
+      .header .header__top .search-box .search-input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 4rem;
+        border: 1px solid #cccccc;
+        transition: all ease 0.3s;
+        background-color: #fff; }
+        .header .header__top .search-box .search-input input {
+          flex: 10;
+          width: 100%;
+          font-size: 1.6rem;
+          line-height: 0.02857em;
+          background-color: #fff;
+          padding: 0 10px; }
+    .header .header__top .header__top-nav {
+      align-items: center;
+      flex-grow: 1;
+      justify-content: flex-end; }
       .header .header__top .header__top-nav .nav-btn {
         padding: 0 2rem;
         transition: all ease 0.3s; }
@@ -2587,12 +2595,13 @@ img.with-loading {
     width: 70%; } }
 
 .product-detail {
-  width: 100%;
+  width: 80%;
+  margin: auto;
   padding: 3rem;
   font-size: 1.4rem; }
 
 .product-detail__img {
-  width: 40%; }
+  width: 50%; }
   .product-detail__img .img-container {
     width: 100%;
     padding-top: 100%; }
@@ -2601,7 +2610,7 @@ img.with-loading {
 
 .product-detail__info {
   margin-left: 2rem;
-  width: 60%; }
+  width: 50%; }
 
 .product-detail__brand,
 .product-detail__status {

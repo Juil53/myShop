@@ -90,7 +90,6 @@ export function* fetchBestSellProducts() {
 
 export function* searchProduct({ payload }) {
   const { name } = payload;
-  console.log(name);
 
   try {
     const result = yield call(APIv2.getAll, "products");
@@ -102,8 +101,7 @@ export function* searchProduct({ payload }) {
 
       let data = result.filter((v) =>
         removeAccents(v.name.toLowerCase()).includes(nameSearch)
-      );
-      console.log(data);
+      );      
 
       yield put(actions.searchProductSuccess(data));
     }
