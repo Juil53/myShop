@@ -12,7 +12,6 @@ const SessionCheck = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(client.isLoggedIn);
 
   useEffect(() => {
-    console.log(isLoggedIn, client.isLoggedIn, client);
     if (isLoggedIn && !client.isLoggedIn) {
       // show popup
       dispatch(
@@ -28,7 +27,6 @@ const SessionCheck = () => {
     }
 
     setIsLoggedIn(client.isLoggedIn);
-    console.log(isLoggedIn, client.isLoggedIn);
   }, [client.isLoggedIn]);
 
   useEffect(() => {
@@ -43,19 +41,7 @@ const SessionCheck = () => {
         const remain = getTokenRemainTime("token");
 
         setTimeout(() => {
-          console.log("ahihi");
           dispatch({ type: USER_ACTIONS.GET_REFRESH_TOKEN });
-          // dispatch(
-          //   actions.activePopup({
-          //     type: POPUP.SELECTION_POPUP,
-          //     data: {
-          //       actionType: "sign in",
-          //       message:
-          //         "Your session has expried. Do you want to sign in again?",
-          //       title: "Information",
-          //     },
-          //   })
-          // );
         }, remain);
       }
     }

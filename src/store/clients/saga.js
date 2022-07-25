@@ -121,7 +121,6 @@ export function* signupUser({ payload }) {
 }
 
 export function* signout() {
-  console.log("sign out call");
   yield call(signoutAuth);
   yield put(clientActions.signout());
 }
@@ -132,7 +131,6 @@ export function* getRefreshToken() {
       yield call(getIdToken);
 
     if (accessToken) {
-      console.log(accessToken);
       yield put(
         clientActions.getRefreshTokenSuccess({
           token: accessToken,

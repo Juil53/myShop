@@ -8,13 +8,11 @@ const SearchBar = () => {
   const handleSearch = () => {
     if (!searchKey) return;
     document.location.href = "/product?query=" + searchKey;
-    console.log(searchKey);
   };
 
   //Tri hoan thuc thi ham
   const debounceSearch = useCallback(
     debounce((value) => {
-      console.log(value);
       setSearchKey(value);
     }, 100),
     []
