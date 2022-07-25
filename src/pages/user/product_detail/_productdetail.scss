@@ -1,6 +1,6 @@
 .product-detail {
   width: 80%;
-  margin:auto;
+  margin: auto;
   padding: 3rem;
   font-size: 1.4rem;
 }
@@ -124,6 +124,12 @@
   span {
     padding-right: 0.5rem;
   }
+}
+
+.product-detail__error {
+  padding-bottom: 1rem;
+  color: red;
+  font-size: 1.2rem;
 }
 
 .product-detail__btn {

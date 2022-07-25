@@ -56,7 +56,7 @@ export default function Header() {
   return (
     <React.Fragment>
       <div className="header">
-      <div className="header__nav row">
+        <div className="header__nav row">
           <HeaderNav
             languages={languages}
             currentPage={currentPage}
@@ -69,7 +69,11 @@ export default function Header() {
         <div className="header__top row">
           <div className="header__top-logo">
             <div className="img-container">
-              <img src="/img/logomyShop.png" alt="" style={{width:'30%',objectFit:'contain'}}/>
+              <img
+                src="/img/logomyShop.png"
+                alt=""
+                style={{ width: "30%", objectFit: "contain" }}
+              />
             </div>
           </div>
           <SearchBar />
@@ -132,7 +136,9 @@ export default function Header() {
             <Link to="/cart">
               <i className="fa-solid fa-cart-shopping" />
             </Link>
-            <span className="product-quantity">1</span>
+            <span className="product-quantity">
+              {cart.data.productList.length || 0}
+            </span>
           </div>
         </div>
       </div>
