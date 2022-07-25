@@ -1023,7 +1023,7 @@ ul > li {
   justify-content: space-around;
   position: relative; }
   .header-phone .header__top-nav {
-    display: none; }
+    width: 40%; }
   .header-phone .dropdown-menu {
     padding: 1rem 2rem;
     text-align: center;
@@ -1175,7 +1175,7 @@ ul > li {
           background-color: #fff;
           padding: 0 10px; }
     .header .header__top .header__top-nav {
-      align-items: center;
+      width: 10%;
       flex-grow: 1;
       justify-content: flex-end; }
       .header .header__top .header__top-nav .nav-btn {
@@ -1560,7 +1560,9 @@ ul > li {
   .header {
     display: none; }
   .header-phone {
-    display: flex; } }
+    display: flex; }
+  .search-box input {
+    padding: 0 10px; } }
 
 @media only screen and (min-width: 601px) and (max-width: 699px) {
   .header .header__top .header__top-logo {
@@ -1570,7 +1572,7 @@ ul > li {
       width: 100%;
       padding-top: 28%; }
   .header .header__top .search-box {
-    width: 25rem; }
+    width: 10rem; }
   .header .user-btn {
     position: relative;
     cursor: pointer; }
@@ -1689,6 +1691,14 @@ ul > li {
       visibility: hidden;
       opacity: 0;
       top: 10rem; } }
+
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  .header {
+    font-size: 1.6rem; }
+    .header .header__top .search-box {
+      width: 80%; }
+    .header .header__top .header__top-nav {
+      width: 40%; } }
 
 @media only screen and (min-width: 1100px) {
   .header {

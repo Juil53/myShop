@@ -68,11 +68,7 @@ const SearchBar = () => {
                   {chipData.map((data) => {
                     return (
                       <ListItem key={data.key}>
-                        <Chip
-                          size="small"
-                          label={data.label}
-                          onDelete={data.label === "React" ? undefined : handleDelete(data)}
-                        />
+                        <Chip size="small" label={data.label} onDelete={handleDelete(data)} />
                       </ListItem>
                     );
                   })}
@@ -83,11 +79,12 @@ const SearchBar = () => {
               startIcon={<SearchIcon />}
               onClick={handleSearch}
               sx={{
+                display: { xs: "none", sm: "flex" },
                 backgroundColor: "secondary.dark",
                 borderRadius: 0,
-                height:'4rem',
-                padding:'0 10px',
-                minWidth:'6rem',
+                height: "4rem",
+                padding: "0 10px",
+                minWidth: "10rem",
                 color: "#fff",
                 "&:hover": {
                   backgroundColor: "secondary.dark",
