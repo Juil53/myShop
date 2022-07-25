@@ -8,7 +8,7 @@ const productSlice = createSlice({
     error: null,
     products: [],
     productsPagination: null,
-    productInfo: null,
+    productInfo: {},
     status:false,
     categories: [],
   },
@@ -95,8 +95,18 @@ const productSlice = createSlice({
       state.error = action.payload;
     },
 
-    getProductInfo(state, action) {
+    getProductInfoRequest(state, action) {
+      state.loading = true;
+    },
+
+    getProductInfoSuccess(state, action) {
+      state.loading = false;
       state.productInfo = action.payload;
+    },
+
+    getProductInfoFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
 
     deleteProductRequest(state){
@@ -142,6 +152,9 @@ export const {
   getAllProductRequest,
   getAllProductSuccess,
   getAllProductFailed,
+  getProductInfoRequest,
+  getProductInfoSuccess,
+  getProductInfoFailed,
   getProductPaginationRequest,
   getProductPaginationSuccess,
   getProductPaginationFailed,

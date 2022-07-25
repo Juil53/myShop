@@ -1,5 +1,5 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { ROWS_PER_PAGE } from "../../constants";
+import fb from "../../service/db";
 import apiInstance from "../../utils/axios/axiosInstance";
 import {
   deleteProductFailed,
@@ -12,17 +12,16 @@ import {
   getCategoriesSuccess,
   getOptionsFailed,
   getOptionsSuccess,
-  getProductPaginationFailed,
-  getProductPaginationSuccess,
-  submitProductFailed,
-  submitProductSuccess,
+  getProductInfoFailed,
+  getProductInfoSuccess, submitProductFailed,
+  submitProductSuccess
 } from "./productSlice";
-import fb from "../../service/db";
 
 //GET OPTIONS
 export function* actGetOptions() {
   try {
-    const result = yield call(apiInstance.get, "options");
+    const result = yield call(fb.getAll, "attributes");
+    console.log(result)
     yield put(getOptionsSuccess(result));
   } catch (err) {
     yield put(getOptionsFailed(err));
@@ -32,7 +31,7 @@ export function* actGetOptions() {
 //GET CATEGORIES
 export function* actGetCategories() {
   try {
-    const result = yield call(apiInstance.get, "categories");
+    const result = yield call(fb.getAll, "categories");
     yield put(getCategoriesSuccess(result));
   } catch (err) {
     yield put(getCategoriesFailed(err));
@@ -41,7 +40,6 @@ export function* actGetCategories() {
 
 //ADD PRODUCT
 export function* actAddProduct(action) {
-  const { values } = action.payload;
   try {
     const result = yield call(apiInstance.post, "products", action.payload);
     yield put(submitProductSuccess(result));
@@ -50,7 +48,7 @@ export function* actAddProduct(action) {
   }
 }
 
-// GET PRODUCT
+// GET PRODUCTS
 export function* actGetAllProduct() {
   try {
     const result = yield call(fb.getAll, "products");
@@ -60,16 +58,26 @@ export function* actGetAllProduct() {
   }
 }
 
-// GET PRODUCT DATA PAGINATION
-export function* actProductPagination(action) {
-  const { page } = action.payload;
+// GET PRODUCTS
+export function* actGetProduct(action) {
   try {
-    const result = yield call(apiInstance.get, `products?_page=${page}&_limit=${ROWS_PER_PAGE}`);
-    yield put(getProductPaginationSuccess(result));
-  } catch (err) {
-    yield put(getProductPaginationFailed(err));
+    const result = yield call(fb.get, "products",action.payload);
+    yield put(getProductInfoSuccess(result));
+  } catch (error) {
+    yield put(getProductInfoFailed(error));
   }
 }
+
+// GET PRODUCT DATA PAGINATION
+// export function* actProductPagination(action) {
+//   const { page } = action.payload;
+//   try {
+//     const result = yield call(apiInstance.get, `products?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+//     yield put(getProductPaginationSuccess(result));
+//   } catch (err) {
+//     yield put(getProductPaginationFailed(err));
+//   }
+// }
 
 // DELETE PRODUCT
 export function* actDeleteProduct(action) {
@@ -77,7 +85,8 @@ export function* actDeleteProduct(action) {
     const result = yield call(fb.del("products", action.payload));
     yield put(deleteProductSuccess(result));
   } catch (err) {
-    yield put(deleteProductFailed());
+    console.log(err)
+    yield put(deleteProductFailed(err));
   }
 }
 
@@ -93,11 +102,13 @@ export function* actDeleteSelectedProduct(action) {
 }
 
 export default function* adminProductSaga() {
+  // yield takeEvery("product/getProductPaginationRequest", actProductPagination);
   yield takeEvery("product/getAllProductRequest", actGetAllProduct);
-  yield takeEvery("product/getProductPaginationRequest", actProductPagination);
+  yield takeEvery("product/getProductInfoRequest", actGetProduct);
   yield takeEvery("product/submitProductRequest", actAddProduct);
   yield takeEvery("product/getOptionsRequest", actGetOptions);
   yield takeEvery("product/getCategoriesRequest", actGetCategories);
   yield takeEvery("product/deleteProductRequest", actDeleteProduct);
   yield takeEvery("product/deleteSelectedProductRequest", actDeleteSelectedProduct);
+
 }

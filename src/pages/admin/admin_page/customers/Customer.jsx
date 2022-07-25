@@ -1,60 +1,71 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
-import Chart from "../../../../components/admin/Chart";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import List from "../../../../components/admin/List";
+import MonthChart from "../../../../components/admin/MonthChart";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
+import { selectCustomer } from "../../../../store/clients/selector";
+import { clientActions } from "../../../../store/clients/slice";
+import { getOrderRequest } from "../../../../store/orders/orderSlice";
+import { selectOrderData } from "../../../../store/orders/selector";
+import { style, pages } from "./logic";
 
-const style = {
-  information: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  avatar: {
-    borderRadius: "50%",
-    marginBottom: "1rem",
-    width: "200px",
-    height: "200px",
-    padding: "1rem",
-  },
-};
+const CURRENT_MONTH = new Date().getMonth() + 1;
 
 const Customer = () => {
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  const customer = useSelector(selectCustomer);
+  const ordersData = useSelector(selectOrderData);
+
+  const customerBreadcrumb = [...pages, { name: customer.displayName, url: "" }];
+
+  useEffect(() => {
+    dispatch(clientActions.getCustomerRequest(params.id));
+    dispatch(getOrderRequest());
+  }, []);
+
   return (
     <Box>
-      <Grid container columnSpacing={1}>
-        <Grid component={Paper} elevation={8} item xs={5} sx={style.information}>
+      <Breadcrumb pages={customerBreadcrumb} />
+      <Grid container columnSpacing={1} marginTop={2}>
+        <Grid component={Paper} elevation={8} item xs={4} sx={style.information}>
           <Box>
-            <Typography
-              sx={{ fontSize: "2rem" }}
-              color="text.disabled"
-              textAlign="center"
-              padding={1}
-            >
-              Infomation
-            </Typography>
-            <img src="/img/default_avatar.png" alt="avatar" style={style.avatar} />
+            <img
+              src={customer.image ? customer.image : "/img/default_avatar.png"}
+              alt="avatar"
+              style={style.img}
+            />
           </Box>
 
           <Box textAlign="left">
             <Typography component="h2" sx={{ fontWeight: "700", fontSize: "2rem" }} padding={1}>
-              Jon Snow
+              {customer.displayName}
             </Typography>
             <Typography component="p" color="text.secondary" padding={1}>
-              Email: dvhnghia@gmail.com
+              Email: {customer.email}
             </Typography>
             <Typography component="p" color="text.secondary" padding={1}>
-              Phone: 0983 505 905
+              Phone: {customer.phoneNumber}
             </Typography>
             <Typography component="p" color="text.secondary" padding={1}>
-              Address: 497 Thong Nhat Street, Go Vap District, HCM city
+              Address: {customer.homeAddress}
             </Typography>
             <Typography component="p" color="text.secondary" padding={1}>
-              Country: Viet Nam
+              Rank: {customer.rank}
             </Typography>
           </Box>
         </Grid>
 
-        <Grid item xs={7}>
-          <Chart aspect={3 / 1} title="User Spending (Last 6 Months)" />
+        <Grid item xs={8}>
+          <MonthChart
+            aspect={3 / 1}
+            title="User Spending (Last 6 Months)"
+            month={CURRENT_MONTH}
+            orders={ordersData}
+          />
         </Grid>
 
         <Grid item xs={12} mt={1} component={Paper} elevation={8}>

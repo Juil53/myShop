@@ -1,43 +1,32 @@
-import React, { useState,useEffect } from "react";
+import { Button } from "@mui/material";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import AlertDialog from "../../../../components/admin/AlertDialog";
-import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { IconButton } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteProductRequest, getProductPaginationRequest } from "../../../../store/admin_product/productSlice";
-import { selectStatus } from "../../../../store/admin_product/selector";
-import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../../../service/auth";
+import { deleteProductRequest, getAllProductRequest } from "../../../../store/admin_product/productSlice";
 
-const ProductDelete = ({ product, page }) => {
+const style = {
+  btnDelete: { color: "crimson", border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 },
+};
+
+const ProductDelete = ({ product, setShow }) => {
   const [open, setOpen] = useState(false);
-  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-  const deleteStatus = useSelector(selectStatus);
-
-  useEffect(() => {
-    if (deleteStatus) {
-      setShow(true);
-    }
-  }, [deleteStatus]);
 
   const handleDelete = (choose) => {
     if (choose) {
       dispatch(deleteProductRequest(product.id));
-      dispatch(getProductPaginationRequest({ page }));
+      dispatch(getAllProductRequest())
+      setShow(true);
     }
     setOpen(false);
   };
 
-  
-
   return (
     <>
-      <IconButton size="small" color="error" onClick={() => setOpen(true)}>
-        <DeleteOutlineOutlinedIcon fontSize="inherit" />
-      </IconButton>
+      <Button sx={style.btnDelete} size="small" color="error" onClick={() => setOpen(true)}>
+        Delete
+      </Button>
       <AlertDialog open={open} handleDelete={handleDelete} product={product} />
-      <SimpleSnackbar show={show} setShow={setShow} type="delete"/>
     </>
   );
 };

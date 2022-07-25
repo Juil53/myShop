@@ -39,25 +39,6 @@ const CategoriesInput = () => {
   };
 
   const categoryChips = (categoriesRemove) => {
-    // const category = categoriesData.find((category) => categories.includes(category.id));
-    // const categoryList = category ? [...category.subCate, category] : [];
-    // const categoryListFilter = categoryList.filter((category) => categories.includes(category.id));
-    // console.log("categoryList", categoryList);
-    // console.log("categoryListFilter", categoryListFilter);
-
-    // return categoryListFilter.map((category, index) => (
-    //   <Chip
-    //     key={`category_${index}`}
-    //     label={category.name}
-    //     onDelete={() => (categoriesRemove(index), setMainCate(""))}
-    //   />
-    // ));
-
-    // if (mainCate == "") {
-    //  console.log("categories = 0")
-    //  categories.length = 0
-    // }
-
     return categories.map((category, index) => (
       <Chip
         key={`category_${index}`}

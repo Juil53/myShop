@@ -30,11 +30,13 @@ import { months } from "./date";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  
+  const [month, setMonth] = useState("");
+
   const ordersData = useSelector(selectOrderData);
   const customersData = useSelector(selectCustomers);
   const productsData = useSelector(selectAllProduct);
   const loading = useSelector(selectLoading);
-  const [month, setMonth] = useState("");
 
   useEffect(() => {
     dispatch(clientActions.getCustomersRequest());
@@ -42,7 +44,7 @@ const Dashboard = () => {
     dispatch(getOrderRequest());
   }, []);
 
-  const handleChange = async (event) => {
+  const handleChange = (event) => {
     event.preventDefault();
     setMonth(event.target.value);
   };
@@ -90,7 +92,7 @@ const Dashboard = () => {
               <WidgetProduct products={productsData} month={month} />
             </Grid>
             <Grid item xs={3}>
-              <WidgetOrder orders={ordersData} />
+              <WidgetOrder orders={ordersData} month={month}/>
             </Grid>
             <Grid item xs={3}>
               <WidgetEarning orders={ordersData} month={month} />

@@ -61,8 +61,16 @@ const orderSlice = createSlice({
       state.error = action.payload;
     },
 
-    getOrderDetail(state, action) {
+    getOrderDetailRequest(state, action) {
+      state.loading = true;
+    },
+    getOrderDetailSuccess(state, action) {
+      state.loading = false;
       state.orderDetail = action.payload;
+    },
+    getOrderDetailFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
 
     updateOrderDetail(state, action) {
@@ -86,9 +94,7 @@ const orderSlice = createSlice({
 
       const orderList = [...state.orderData];
       if (action.payload.id) {
-        const index = orderList.findIndex(
-          (order) => order.id === action.payload.id
-        );
+        const index = orderList.findIndex((order) => order.id === action.payload.id);
         if (index !== -1) {
           //Edit
           orderList[index] = action.payload;
@@ -189,7 +195,9 @@ export const {
   getOrderPaginationRequest,
   getOrderPaginationSuccess,
   getOrderPaginationFailed,
-  getOrderDetail,
+  getOrderDetailRequest,
+  getOrderDetailSuccess,
+  getOrderDetailFailed,
   updateOrderDetail,
   openModal,
   closeModal,

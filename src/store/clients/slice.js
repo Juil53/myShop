@@ -11,8 +11,10 @@ const initialState = {
   updateStatus: LOADING_STATUS.IDLE,
   updateMsg: "",
   customers: [],
+  customer: {},
   error: null,
   loading: false,
+  status: false,
 };
 
 const clientSlice = createSlice({
@@ -183,6 +185,38 @@ const clientSlice = createSlice({
     getCustomersFailed(state, action) {
       state.loading = false;
       state.error = action.payload;
+    },
+
+    getCustomerRequest(state) {
+      state.loading = true;
+    },
+
+    getCustomerSuccess(state, action) {
+      state.loading = false;
+      state.customer = action.payload;
+    },
+
+    getCustomerFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    deleteCustomerRequest(state) {
+      state.loading = true;
+      state.status = false;
+    },
+
+    deleteCustomerSuccess(state, action) {
+      state.loading = false;
+      state.status = true;
+    },
+
+    deleteCustomerFailed(state, action) {
+      state.loading = false;
+      state.status = false;
+    },
+
+    resetStatus(state) {
+      state.status = false;
     },
   },
 });

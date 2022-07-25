@@ -15,7 +15,7 @@ import { handleIncreaseProducts, handleNewItem } from "./logic";
 const WidgetProduct = ({ products, month }) => {
   let [data, setData] = useState(() => {
     return {
-      title: "NEW PRODUCTS",
+      title: "PRODUCTS",
       link: "View all products",
       amount: 20,
       icon: (
@@ -35,7 +35,7 @@ const WidgetProduct = ({ products, month }) => {
     const newProducts = handleNewItem(products, month);
     const percentIncrease = handleIncreaseProducts(newProducts);
     setData({ ...data, amount: newProducts, increase: percentIncrease });
-  }, [products, month]);
+  }, [products,month]);
 
   const cardStyle = {
     transform: "translateY(0)",

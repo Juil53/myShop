@@ -14,9 +14,9 @@ export default function OptionsInput() {
     values: { attributes },
   } = useFormikContext();
 
-  useEffect(() => {
-    dispatch(getOptionsRequest());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getOptionsRequest());
+  // }, []);
 
 
   const attributeDetail = (attributeName) => {

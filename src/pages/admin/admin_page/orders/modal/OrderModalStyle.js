@@ -9,10 +9,8 @@ const title = {
 
 const statusColors = {
   Successful: "#689f38",
-  Pending: "#0288d1",
+  Pending: "#daa520",
   Failed: "#c2185b",
 };
-
-
 
 export { statusStyle, title, statusColors };

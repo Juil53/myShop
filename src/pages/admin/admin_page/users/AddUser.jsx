@@ -6,55 +6,21 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useFormik } from "formik";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { authInstance, db, storage } from "../../../../service/auth";
-import { selectLoading } from "../../../../store/users/selector";
 import { validation } from "../../../../validation/Validation";
-
-// SELECT ROLE
-
-const roles = [
-  {
-    value: "Staff",
-    label: "Staff",
-  },
-  {
-    value: "Admin",
-    label: "Admin",
-  },
-];
-
-const style = {
-  container: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    margin: "auto",
-    padding: "2rem",
-    bgcolor: "background.paper",
-    boxShadow: 3,
-    borderRadius: 2,
-  },
-  imgContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "25%",
-    marginRight: 2,
-    padding: 3,
-  },
-  img: { borderRadius: "50%", marginBottom: "5rem", width: "50%", height: "150px" },
-  userForm: {
-    width: "75%",
-    padding: 3,
-  },
-};
+import { roles, style } from "./logic";
 
 export default function AddUser(props) {
+  const [role, setRole] = useState("");
+  const [img, setImg] = useState({});
+  const [file, setFile] = useState("");
+  const [per, setPer] = useState(null);
+  const [show, setShow] = useState(false);
+
+  //Pages
   const pages = [
     {
       name: "Admin",
@@ -64,19 +30,7 @@ export default function AddUser(props) {
       name: "Users",
       url: "/admin/users",
     },
-    {
-      name: "Add",
-      url: "/admin/add",
-    },
   ];
-
-  const dispatch = useDispatch();
-  const loading = useSelector(selectLoading);
-  const [role, setRole] = useState("");
-  const [img, setImg] = useState({});
-  const [file, setFile] = useState("");
-  const [per, setPer] = useState(null);
-  const [show, setShow] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -102,6 +56,7 @@ export default function AddUser(props) {
       });
       setShow(true);
       setSubmitting(false);
+      setImg("");
       resetForm();
     },
   });
@@ -165,6 +120,7 @@ export default function AddUser(props) {
             />
             <Button
               aria-label="upload picture"
+              sx={{marginTop: 2}}
               component="span"
               variant="outlined"
               startIcon={<UploadFileIcon />}
@@ -345,7 +301,12 @@ export default function AddUser(props) {
           <Grid container spacing={2} mt={1}>
             <Grid item xs={6}>
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="success" type="submit" disabled={per !== null && per < 100}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  disabled={per !== null && per < 100}
+                >
                   Submit
                 </Button>
                 <Link to="/admin/users">
@@ -357,7 +318,6 @@ export default function AddUser(props) {
             </Grid>
           </Grid>
         </Box>
-
         <SimpleSnackbar show={show} setShow={setShow} type="add" />
       </Box>
     </div>

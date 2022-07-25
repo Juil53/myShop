@@ -12,7 +12,9 @@ import ProductDataList from "./ProductDataList";
 
 function ProductManagement() {
   const dispatch = useDispatch();
+
   const categories = useSelector(selectCategories);
+
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [keyword, setKeyword] = useState("");
 
@@ -100,8 +102,6 @@ function ProductManagement() {
       </Grid>
 
       <Box>
-        {/* <ProductList filterOptions={filterOptions} /> */}
-
         <ProductDataList filterOptions={filterOptions} keyword={keyword} />
       </Box>
     </>

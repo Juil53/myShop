@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { Button, Stack } from "@mui/material";
 import { useFormikContext } from "formik";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { useEffect, useState } from "react";
 import PreviewImg from "../PreviewImg";
 
-export default function ImageInput({data}) {
+export default function ImageInput({ data }) {
   const [files, setFiles] = useState([]);
   const { setFieldValue } = useFormikContext();
 
@@ -30,18 +30,13 @@ export default function ImageInput({data}) {
               }
             }}
           />
-          <Button
-            variant="outlined"
-            size="small"
-            component="span"
-            startIcon={<PhotoCamera />}
-          >
+          <Button variant="outlined" size="small" component="span" startIcon={<PhotoCamera />}>
             Choose
           </Button>
         </label>
       </Stack>
 
-      <PreviewImg files={files} data={data}/>
+      <PreviewImg files={files} data={data} />
     </>
   );
 }

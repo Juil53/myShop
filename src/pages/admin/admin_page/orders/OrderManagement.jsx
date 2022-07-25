@@ -1,28 +1,15 @@
 import SearchIcon from "@mui/icons-material/Search";
-import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
-import OrderModal from "./modal/OrderModal";
-import OrderList from "./OrderList";
 import { Box, InputAdornment, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { getKeyword } from "../../../../store/orders/orderSlice";
-import { selectOrderKeyword } from "../../../../store/orders/selector";
+import { useState } from "react";
+import Breadcrumb from "../../../../components/breadcumb/BreadCumb";
 import { TextFieldCustom } from "../../../../styles/styled_components/styledComponent";
+import { style } from "./logic";
+import OrderModal from "./modal/OrderModal";
 import OrderDataList from "./OrderDataList";
 
-const style = {
-  productSearch: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "2rem",
-    marginBottom: "2rem",
-  },
-};
-
 function OrderManagement() {
-  const dispatch = useDispatch();
-  const keyword = useSelector(selectOrderKeyword);
-  const handleChange = (event) => dispatch(getKeyword(event.target.value));
+  const [keyword, setKeyword] = useState("");
+
   const pages = [
     {
       name: "Admin",
@@ -33,6 +20,10 @@ function OrderManagement() {
       url: "/admin/orders",
     },
   ];
+
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
+  };
 
   return (
     <>
@@ -49,15 +40,14 @@ function OrderManagement() {
               </InputAdornment>
             ),
           }}
-          label="Search by Email"
-          placeholder="Type email to search"
+          label="Search"
+          placeholder="Type email,id,address"
           size="small"
           sx={{ minWidth: "10%" }}
           onChange={handleChange}
         />
       </Box>
-      {/* <OrderList keyword={keyword} /> */}
-      <OrderDataList/>
+      <OrderDataList keyword={keyword} />
       <OrderModal />
     </>
   );

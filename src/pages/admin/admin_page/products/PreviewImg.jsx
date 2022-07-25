@@ -39,7 +39,7 @@ const PreviewImg = ({ files, data }) => {
   return (
     <>
       <div id="previewImg" style={style.previewImg}>
-        {data?.image?.map((src, index) => (
+        {data?.map((src, index) => (
           <div key={`previewImg_${index}`} style={style.imgContainer}>
             <img src={src} style={style.img} />
             <span style={{ width: "100px" }}>{name}</span>

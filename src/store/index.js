@@ -31,6 +31,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      serializableCheck:false,
       thunk: false,
     }).concat(sagaMiddleware),
 });

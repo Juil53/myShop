@@ -1,19 +1,19 @@
-import { Button } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import AlertDialog from "../../../../components/admin/AlertDialog";
-import { deleteUserRequest, getUsersRequest } from "../../../../store/users/usersSlice";
+import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { style } from "./logic";
+import { clientActions } from "../../../../store/clients/slice";
 
-const UserDelete = ({ userId, user, setShow }) => {
+const CustomerDelete = ({ customerId, customer, setShow }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
   const handleDelete = (choose) => {
     if (choose) {
-      dispatch(deleteUserRequest(userId));
-      dispatch(getUsersRequest());
-      setShow(true)
+      dispatch(clientActions.deleteCustomerRequest(customerId));
+      dispatch(clientActions.getCustomersRequest());
+      setShow(true);
     }
     setOpen(false);
   };
@@ -23,9 +23,9 @@ const UserDelete = ({ userId, user, setShow }) => {
       <Button sx={style.btnDelete} size="small" color="error" onClick={() => setOpen(true)}>
         Delete
       </Button>
-      <AlertDialog open={open} handleDelete={handleDelete} user={user} />
+      <AlertDialog open={open} handleDelete={handleDelete} customer={customer} />
     </>
   );
 };
 
-export default UserDelete;
+export default CustomerDelete;
