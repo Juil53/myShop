@@ -181,6 +181,7 @@
   width: 100%;
   z-index: 99;
   background-color: $whiteColor;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   //HEADER TOP (logo, top nav)
   .header__top {
@@ -210,7 +211,6 @@
         justify-content: center;
         width: 100%;
         height: 4rem;
-        // border-radius: 4px;
         border: 1px solid $grayColor;
         transition: all ease 0.3s;
         background-color: $whiteColor;

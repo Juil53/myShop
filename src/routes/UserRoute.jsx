@@ -11,6 +11,7 @@ import Payment from "../pages/user/payment/Payment";
 import UserPage from "../pages/user/user_page/UserPage";
 import About from "../pages/user/about/About";
 import MyMap from "../pages/user/map/MyMap";
+import PageNotFound from "../pages/PageNotFound";
 
 function UserRoutes() {
   return (
@@ -26,6 +27,8 @@ function UserRoutes() {
         <Route path="map" element={<MyMap />} />
         <Route path="about" element={<About />} />
         <Route path="user/*" element={<UserPage />} />
+        {/* 404 */}
+        <Route path='*' exact={true} element={<PageNotFound/>} />
       </Route>
     </Routes>
   );
