@@ -7,6 +7,7 @@ import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
 import { actions } from "../../../store/page/slice";
 import { clientActions } from "../../../store/clients/slice";
 import { uploadImage } from "../../../utils/file";
+import Image from "../../../components/image/Image";
 
 const UserInformation = (props) => {
   const { data, status } = props;
@@ -87,7 +88,7 @@ const UserInformation = (props) => {
       <div className="title">Your information</div>
       <div className="user_infor">
         <div className="user_pic">
-          <img src={previewFile ? previewFile : data.image} alt="" />
+          <Image src={previewFile ? previewFile : data.image} showLoading />
           <button className="change_pic-btn" onClick={onOpenFileSelect}>
             <i className="fa-solid fa-pen"></i>
           </button>

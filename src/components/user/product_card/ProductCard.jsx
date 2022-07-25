@@ -43,6 +43,10 @@ export default function ProductCard(props) {
           )}
         </div>
         {cardDirection !== "row" &&
+          !!data.priceAfterDiscount &&
+          data.priceAfterDiscount !== 0 &&
+          !!data.priceBeforeDiscount &&
+          data.priceBeforeDiscount !== 0 &&
           utils.discount(data.priceBeforeDiscount, data.priceAfterDiscount) >
             0 && (
             <div className="productcard__discount">
@@ -66,7 +70,7 @@ export default function ProductCard(props) {
             {data.priceAfterDiscount
               ? utils.priceBreak(data.priceAfterDiscount) + "₫"
               : "Update later"}
-            {data.priceAfterDiscount &&
+            {!!data.priceAfterDiscount &&
               data.priceAfterDiscount !== data.priceBeforeDiscount && (
                 <span className="price-compare">
                   {utils.priceBreak(data.priceBeforeDiscount)}₫

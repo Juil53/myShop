@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { USER_ACTIONS } from "../../../../constants";
 import localStorage from "../../../../service/localStorage";
+import Image from "../../../image/Image";
 
 const User = (props) => {
   const providerID = localStorage.get("providerID");
@@ -24,7 +25,7 @@ const User = (props) => {
       <div className="nav-btn user-btn">
         <div className="user" onClick={handleUser}>
           <div className="image">
-            <img src={data.image} alt="" />
+            <Image src={data.image} showLoading />
           </div>
           <div className="name">
             <span>Hi,</span>
