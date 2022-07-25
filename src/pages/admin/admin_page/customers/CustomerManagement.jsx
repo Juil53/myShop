@@ -5,11 +5,15 @@ import { doc, setDoc } from "firebase/firestore";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import { authInstance, db } from "../../../../service/auth";
 import CustomerList from "./CustomerList";
 import { style } from "./logic";
 
 const CustomerManagement = () => {
+  const [show, setShow] = useState(false);
+  const [err, setErr] = useState("");
+  console.log(err);
   const [data, setData] = useState([]);
   const [save, setSave] = useState(false);
   const [file, setFile] = useState();
@@ -47,7 +51,20 @@ const CustomerManagement = () => {
     try {
       for (let item of newData) {
         // Add import Data to Authen
-        const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password);
+        const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password)
+          .then(() => {
+            setErr(null);
+          })
+          .catch((error) => {
+            switch (error.code) {
+              case "auth/email-already-in-use":
+                setErr(item.email);
+                // alert(`Email ${item.email} is already in use`);
+                break;
+              default:
+                break;
+            }
+          });
         // Add import Data to collection with id doc from auth
         await setDoc(doc(db, "customers", res.user.uid), {
           ...item,
@@ -58,9 +75,9 @@ const CustomerManagement = () => {
       setSave(true);
       console.log("import successful");
     } catch (error) {
-      alert(error);
-      console.log(error.message);
+      console.log(error);
     }
+    setShow(true);
   };
 
   useEffect(() => {
@@ -118,7 +135,7 @@ const CustomerManagement = () => {
           </Button>
         </Stack>
       </Box>
-
+      <SimpleSnackbar type="auth" email={err} show={show} setShow={setShow} />;
       <CustomerList importData={data} save={save} keyword={keyword} />
     </div>
   );
