@@ -42,6 +42,13 @@ const ProductDetail = () => {
     dispatch(productActions.getProductRequest(params.id));
   }, [params.id]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   const array = [
     {
       name: "Home",

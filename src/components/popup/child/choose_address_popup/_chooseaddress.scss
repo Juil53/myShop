@@ -25,7 +25,6 @@
   }
 
   .choose-address__section {
-
     .choose-address__error {
       color: red;
       font-size: 1.2rem;
@@ -74,3 +73,100 @@
     }
   }
 }
+
+@media only screen and (max-width: 679px) {
+  .choose-address {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    max-width: 95%;
+    min-width: 95%;
+
+    .choose-address__header {
+      font-size: 1.8rem;
+    }
+
+    .choose-address__title {
+      font-size: 1.4rem;
+    }
+
+    .choose-address__title.content {
+      font-size: 1.2rem;
+      color: $grayColor-3;
+
+      button {
+        background-color: transparent;
+        padding-left: 1rem;
+        color: $mainColor;
+      }
+    }
+
+    .choose-address__section {
+      .row.info {
+        flex-direction: column;
+      }
+
+      .address_container {
+        select {
+          width: 90%;
+        }
+      }
+
+      .choose-address__error {
+        color: red;
+        font-size: 1.2rem;
+        text-align: right;
+      }
+
+      .choose-address__function {
+        padding: 1rem 0;
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          padding: 0.8rem 2rem;
+        }
+
+        .cancel-btn {
+          margin-right: 1rem;
+        }
+      }
+    }
+
+    .choose-address__section.choose {
+      .no-address {
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      .row {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      select {
+        padding: 1rem;
+        border: 1px solid $grayColor-3;
+        border-radius: 0.5rem;
+        color: $grayColor-3;
+        width: 30rem;
+      }
+
+      .confirm-btn {
+        margin-left: 1rem;
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 680px) and (max-width: 767px) {
+  .choose-address {
+    max-width: 95%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {}
+
+@media only screen and (min-width: 1200px) {}
