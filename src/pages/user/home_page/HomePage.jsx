@@ -56,6 +56,11 @@ export default function HomePage() {
     if (bestSellingProducts.status === LOADING_STATUS.IDLE) {
       dispatch(productActions.fetchBestSellingRequest());
     }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, []);
 
   function createBanner(data) {

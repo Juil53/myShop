@@ -1,12 +1,6 @@
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
-  const language = useSelector((state) => state.languages);
-  const footer = language.footer;
-  const footer_top_left = footer.top_footer.left;
-  const footer_top_mid = footer.top_footer.mid;
-  const footer_top_right = footer.top_footer.right;
-
   return (
     <div className="footer">
       <div className="footer__top row">
@@ -17,24 +11,24 @@ export default function Footer() {
             </div>
           </div>
           <div className="nav row">
-            <a href="#" className="nav-btn">
-              {footer_top_left.home[language.current]}
-            </a>
-            <a href="#" className="nav-btn">
-              {footer_top_left.product[language.current]}
-            </a>
-            <a href="#" className="nav-btn">
-              {footer_top_left.about[language.current]}
-            </a>
-            <a href="#" className="nav-btn">
-              {footer_top_left.news[language.current]}
-            </a>
-            <a href="#" className="nav-btn">
-              {footer_top_left.map[language.current]}
-            </a>
-            <a href="#" className="nav-btn">
-              {footer_top_left.contact[language.current]}
-            </a>
+            <Link to="/" className="nav-btn">
+              Home
+            </Link>
+            <Link to="/product" className="nav-btn">
+              Product
+            </Link>
+            <Link to="/about" className="nav-btn">
+              About
+            </Link>
+            <Link to="/news" className="nav-btn">
+              News
+            </Link>
+            <Link to="/map" className="nav-btn">
+              Map
+            </Link>
+            <Link to="/contact" className="nav-btn">
+              Contact
+            </Link>
           </div>
         </div>
         <div className="footer__top-mid">
@@ -43,7 +37,8 @@ export default function Footer() {
               <i className="fa-solid fa-location-dot"></i>
             </div>
             <div className="info-content">
-              {footer_top_mid.address[language.current]}
+              Room 16 Hall 8 Quang Trung software city, Tan Chanh Hiep ward, 12
+              Dictrict, Ho Chi Minh City
             </div>
           </div>
           <div className="info row phone">
@@ -61,13 +56,12 @@ export default function Footer() {
         </div>
         <div className="footer__top-right">
           <div className="about">
-            <div className="title">
-              {footer_top_right.about.title[language.current]}
-            </div>
+            <div className="title">About us</div>
             <div
               className="about-content"
               dangerouslySetInnerHTML={{
-                __html: footer_top_right.about.content[language.current],
+                __html:
+                  "Breshka clothes is top VietNam brand fashion. <br /> Modern shopping type - Convenient, Safe payment - Easy",
               }}
             ></div>
           </div>
@@ -87,7 +81,9 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="footer__source">© {footer.source[language.current]}</div>
+      <div className="footer__source">
+        © Copyright belong to Breshka Viet Nam
+      </div>
     </div>
   );
 }

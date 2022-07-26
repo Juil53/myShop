@@ -39,6 +39,13 @@ const UserPage = () => {
     }
   });
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [pathname]);
+
   const createContentRight = (data) => {
     switch (pathname) {
       case "/user/orders":

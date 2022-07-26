@@ -65,6 +65,13 @@ const Payment = () => {
   }, [cart.status]);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  useEffect(() => {
     if (order.status === LOADING_STATUS.LOADING && click) {
       dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
     } else if (order.status === LOADING_STATUS.SUCCESS && click) {

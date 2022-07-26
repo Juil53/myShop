@@ -1,7 +1,6 @@
 // import { combineReducers, applyMiddleware } from "redux";
 // import thunk from "redux-thunk";
 import { configureStore } from "@reduxjs/toolkit";
-import { languages } from "./languages/reducer";
 import createSagaMiddleware from "redux-saga";
 
 import orderReducer from "./orders/orderSlice";
@@ -20,7 +19,6 @@ let sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     products,
-    languages,
     categories,
     page,
     cart,
@@ -31,7 +29,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck:false,
+      serializableCheck: false,
       thunk: false,
     }).concat(sagaMiddleware),
 });
