@@ -16,11 +16,17 @@ import ProductDelete from "./ProductDelete";
 
 export default function ProductDataList({ keyword, filterOptions }) {
   const dispatch = useDispatch();
-  const [arrIds, setArrIds] = useState([]);
-  const [show, setShow] = useState(false);
+
   const loading = useSelector(selectLoading);
   const productsData = useSelector((state) => selectAllProduct(state, filterOptions));
   const deleteStatus = useSelector(selectStatus);
+
+  const [arrIds, setArrIds] = useState([]);
+  const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   const columnActions = [
     {
@@ -34,7 +40,7 @@ export default function ProductDataList({ keyword, filterOptions }) {
             <Link to={`/admin/products/edit/${params.row.id}`}>
               <Button sx={style.btnView}>View</Button>
             </Link>
-            <ProductDelete product={params.row} setShow={setShow} />
+            <ProductDelete product={params.row} setShow={setShow} setSeverity={setSeverity}/>
           </Box>
         );
       },
@@ -71,7 +77,7 @@ export default function ProductDataList({ keyword, filterOptions }) {
             }}
             componentsProps={{ footer: {arrIds} }}
           />
-          <SimpleSnackbar show={show} setShow={setShow} type="delete" />
+          <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
         </Box>
       )}
     </>

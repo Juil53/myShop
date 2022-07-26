@@ -56,6 +56,7 @@ export const style = {
   img: {
     width: "250px",
     height: "250px",
+    objectFit:'contain'
   },
   userForm: {
     width: "75%",

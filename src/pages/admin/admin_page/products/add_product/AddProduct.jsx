@@ -29,6 +29,10 @@ import ImageInput from "./ImageInput";
 export default function AddProduct() {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   useEffect(() => {
     dispatch(getOptionsRequest());
@@ -80,7 +84,10 @@ export default function AddProduct() {
           });
 
           setShow(true);
-          // navigate("/admin/products");
+          setSeverity({
+            type:'success',
+            message:`Add ${values.name} Successful!`
+          })
           resetForm();
         }}
       >
@@ -242,7 +249,7 @@ export default function AddProduct() {
           </Grid>
         </Form>
       </Formik>
-      <SimpleSnackbar show={show} setShow={setShow} type="add" />
+      <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
     </Box>
   );
 }

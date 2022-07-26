@@ -11,12 +11,19 @@ import { columns, CustomFooter, CustomToolbar, handleSearch, style } from "./log
 
 export default function UserDataList({ keyword }) {
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
-  const [arrIds, setArrIds] = useState([]);
   
   const loading = useSelector(selectLoading);
   const usersData = useSelector(selectUserData);
   const deleteStatus = useSelector(selectStatus);
+
+  const [show, setShow] = useState(false);
+  const [arrIds, setArrIds] = useState([]);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
+  
+  
 
   const columnActions = [
     {
@@ -24,7 +31,7 @@ export default function UserDataList({ keyword }) {
       headerName: "Actions",
       width: 150,
       headerAlign: "center",
-      renderCell: (params) => <ColumnActions setShow={setShow} params={params} />,
+      renderCell: (params) => <ColumnActions setShow={setShow} params={params} setSeverity={setSeverity}/>,
     },
   ];
 
@@ -58,7 +65,7 @@ export default function UserDataList({ keyword }) {
             }}
             componentsProps={{ footer: { arrIds } }}
           />
-          <SimpleSnackbar show={show} setShow={setShow} type="delete" />
+          <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
         </Box>
       )}
     </>

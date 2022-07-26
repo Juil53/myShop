@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import { LOADING_STATUS } from "../../../constants";
-import {
-  categoriesSelector,
-  selectLoading,
-} from "../../../store/categories/selector";
+import { categoriesSelector, selectLoading } from "../../../store/categories/selector";
 import {
   productSelector,
   selectProduct,
+  selectSearchProduct,
 } from "../../../store/products/selector";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
@@ -30,16 +28,17 @@ const SearchProduct = () => {
   const mainCate = searchParams.get("category") || "";
   const subCate = searchParams.get("subCate") || "";
   const sortCate = searchParams.get("sort");
-  const query = searchParams.get("query");
+  const query = searchParams.get("query") || "";
 
   useEffect(() => {
-    if (query && searchResult.status === LOADING_STATUS.IDLE) {
+    if (query !== "" && searchResult.status === LOADING_STATUS.IDLE) {
       dispatch(productActions.searchProductRequest({ name: query }));
     }
   });
 
-  const dataFilter = useSelector((state) =>
-    selectProduct(state, mainCate, subCate, sortCate)
+  const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate, sortCate));
+  const searchResultFilter = useSelector((state) =>
+    selectSearchProduct(state, mainCate, subCate, sortCate)
   );
 
   const array = [
@@ -54,6 +53,7 @@ const SearchProduct = () => {
       url: "",
     },
   ];
+
   const {
     allProducts: { data, status },
     newProducts,
@@ -72,12 +72,8 @@ const SearchProduct = () => {
   //RENDER CARDS
   const handleRenderCard = () => {
     if (searchResult.status === "SUCCESS") {
-      return searchResult.data.map((product, index) => (
-        <ProductCard
-          cardDirection="vertical"
-          data={product}
-          key={`product_${index}`}
-        />
+      return searchResultFilter.map((product, index) => (
+        <ProductCard cardDirection="vertical" data={product} key={`product_${index}`} />
       ));
     } else {
       return dataFilter.map((product, index) => (
@@ -105,6 +101,7 @@ const SearchProduct = () => {
               categories={categories.data}
               data={newProducts.data}
               currentCate={{ mainCate, subCate }}
+              keyword={query}
             />
             <div className="home-page__main-right">
               <h2>ALL PRODUCTS</h2>
@@ -118,7 +115,7 @@ const SearchProduct = () => {
                     <ul>
                       <li>
                         <Link
-                          to={`?category=${mainCate}&subcate=${subCate}&sort=default`}
+                          to={`?query=${query}&?category=${mainCate}&subcate=${subCate}&sort=default`}
                           onClick={() => setTitle("Default")}
                         >
                           Default
@@ -126,7 +123,7 @@ const SearchProduct = () => {
                       </li>
                       <li>
                         <Link
-                          to={`?category=${mainCate}&subcate=${subCate}&sort=asc`}
+                          to={`?query=${query}&?category=${mainCate}&subcate=${subCate}&sort=asc`}
                           onClick={() => setTitle("Price Asc")}
                         >
                           Price Asc
@@ -134,7 +131,7 @@ const SearchProduct = () => {
                       </li>
                       <li>
                         <Link
-                          to={`?category=${mainCate}&subcate=${subCate}&sort=des`}
+                          to={`?query=${query}&?category=${mainCate}&subcate=${subCate}&sort=des`}
                           onClick={() => setTitle("Price Des")}
                         >
                           Price Des
@@ -142,7 +139,7 @@ const SearchProduct = () => {
                       </li>
                       <li>
                         <Link
-                          to={`?category=${mainCate}&subcate=${subCate}&sort=az`}
+                          to={`?query=${query}&?category=${mainCate}&subcate=${subCate}&sort=az`}
                           onClick={() => setTitle("A -> Z")}
                         >
                           A to Z
@@ -150,7 +147,7 @@ const SearchProduct = () => {
                       </li>
                       <li>
                         <Link
-                          to={`?category=${mainCate}&subcate=${subCate}&sort=za`}
+                          to={`?query=${query}&?category=${mainCate}&subcate=${subCate}&sort=za`}
                           onClick={() => setTitle("Z -> A")}
                         >
                           Z to A

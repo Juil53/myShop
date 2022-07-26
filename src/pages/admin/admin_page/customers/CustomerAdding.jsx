@@ -6,13 +6,20 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import { authInstance, db, storage } from "../../../../service/auth";
 import { style } from "./logic";
 
 const CustomerAdding = ({ inputs }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
+  const [show, setShow] = useState(false);
   const [per, setPer] = useState(null);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
+
   const navigate = useNavigate();
 
   const handleInput = (e) => {
@@ -28,12 +35,16 @@ const CustomerAdding = ({ inputs }) => {
         ...data,
         homeAddress: data.address,
         timeStamp: moment().format("MM DD YYYY"),
+      });      
+      setSeverity({
+        type: "success",
+        message: "Add Success",
       });
-      //navigate to previous page
-      navigate(-1);
     } catch (error) {
       alert(error.message);
     }
+    setData({})
+    setShow(true)
   };
 
   const handleChange = (e) => {
@@ -154,6 +165,7 @@ const CustomerAdding = ({ inputs }) => {
           </Box>
         </Grid>
       </Grid>
+      <SimpleSnackbar severity={severity} show={show} setShow={setShow}/>
     </Box>
   );
 };

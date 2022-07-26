@@ -5,11 +5,17 @@ import { doc, setDoc } from "firebase/firestore";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import SimpleSnackbar from "../../../../components/admin/SimpleSnackbar";
 import { authInstance, db } from "../../../../service/auth";
 import CustomerList from "./CustomerList";
 import { style } from "./logic";
 
 const CustomerManagement = () => {
+  const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
   const [data, setData] = useState([]);
   const [save, setSave] = useState(false);
   const [file, setFile] = useState();
@@ -47,7 +53,19 @@ const CustomerManagement = () => {
     try {
       for (let item of newData) {
         // Add import Data to Authen
-        const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password);
+        const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password)
+          .catch((error) => {
+            switch (error.code) {
+              case "auth/email-already-in-use":
+                setSeverity({
+                  type: "error",
+                  message: item.email,
+                });
+                break;
+              default:
+                break;
+            }
+          });
         // Add import Data to collection with id doc from auth
         await setDoc(doc(db, "customers", res.user.uid), {
           ...item,
@@ -55,12 +73,16 @@ const CustomerManagement = () => {
           timeStamp: moment().format("MM DD YYYY"),
         });
       }
+      //Show snackbar after add to fb store
+      setSeverity({
+        type: "success",
+        message: "Imported Successful",
+      });
       setSave(true);
-      console.log("import successful");
     } catch (error) {
-      alert(error);
-      console.log(error.message);
+      console.log(error);
     }
+    setShow(true);
   };
 
   useEffect(() => {
@@ -118,7 +140,7 @@ const CustomerManagement = () => {
           </Button>
         </Stack>
       </Box>
-
+      <SimpleSnackbar severity={severity} show={show} setShow={setShow} />
       <CustomerList importData={data} save={save} keyword={keyword} />
     </div>
   );

@@ -24,6 +24,10 @@ const OrderDataList = ({ keyword }) => {
 
   const [show, setShow] = useState(false);
   const [ids, setIds] = useState([]);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   const columnActions = [
     {
@@ -37,7 +41,7 @@ const OrderDataList = ({ keyword }) => {
               <Button sx={style.btnView} onClick={() => handleGetOrderDetail(params.row)}>
                 View
               </Button>
-            <OrderDelete orderId={params.row.id} order={params.row} style={style} />
+            <OrderDelete orderId={params.row.id} order={params.row} style={style} setSeverity={setSeverity}/>
           </Box>
         );
       },
@@ -84,7 +88,7 @@ const OrderDataList = ({ keyword }) => {
           />
         </Box>
       )}
-      <SimpleSnackbar show={show} setShow={setShow} type="delete" />
+      <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
     </>
   );
 };

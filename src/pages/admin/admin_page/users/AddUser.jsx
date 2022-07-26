@@ -19,6 +19,10 @@ export default function AddUser(props) {
   const [file, setFile] = useState("");
   const [per, setPer] = useState(null);
   const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   //Pages
   const pages = [
@@ -55,8 +59,12 @@ export default function AddUser(props) {
         timeStamp: moment().format("MM DD YYYY"),
       });
       setShow(true);
+      setSeverity({
+        type:'success',
+        message:`Add ${values.email} Successful!`
+      })
       setSubmitting(false);
-      setImg("");
+      setFile("")
       resetForm();
     },
   });
@@ -318,7 +326,7 @@ export default function AddUser(props) {
             </Grid>
           </Grid>
         </Box>
-        <SimpleSnackbar show={show} setShow={setShow} type="add" />
+        <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
       </Box>
     </div>
   );

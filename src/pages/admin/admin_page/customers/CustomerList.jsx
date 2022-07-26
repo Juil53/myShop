@@ -19,6 +19,10 @@ const CustomerList = ({ importData, save, keyword }) => {
   const [data, setData] = useState(customers);
   const [ids, setIds] = useState([]);
   const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   const columnActions = [
     {
@@ -26,7 +30,7 @@ const CustomerList = ({ importData, save, keyword }) => {
       headerName: "Actions",
       headerAlign: "center",
       width: 150,
-      renderCell: (params) => <CustomerActions setShow={setShow} params={params} />,
+      renderCell: (params) => <CustomerActions setShow={setShow} params={params} setSeverity={setSeverity}/>,
     },
   ];
 
@@ -37,8 +41,12 @@ const CustomerList = ({ importData, save, keyword }) => {
 
   //reload page when import data
   useEffect(() => {
+    //Import
     if (importData.length > 0) setData([...customers, ...importData]);
-    if (save) dispatch(clientActions.getCustomersRequest());
+    //Save Import
+    if (save){
+      dispatch(clientActions.getCustomersRequest())
+    };
   }, [importData, save]);
 
   //reset status
@@ -71,7 +79,7 @@ const CustomerList = ({ importData, save, keyword }) => {
             }}
             componentsProps={{ footer: { ids, setShow } }}
           />
-          <SimpleSnackbar show={show} setShow={setShow} type="delete" />
+          <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
         </Box>
       )}
     </>

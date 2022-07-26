@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { style } from "./logic";
 import { clientActions } from "../../../../store/clients/slice";
 
-const CustomerDelete = ({ customerId, customer, setShow }) => {
+const CustomerDelete = ({ customerId, customer, setShow, setSeverity }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -13,6 +13,10 @@ const CustomerDelete = ({ customerId, customer, setShow }) => {
     if (choose) {
       dispatch(clientActions.deleteCustomerRequest(customerId));
       dispatch(clientActions.getCustomersRequest());
+      setSeverity({
+        type: "success",
+        message: "Deleted succesful",
+      });
       setShow(true);
     }
     setOpen(false);

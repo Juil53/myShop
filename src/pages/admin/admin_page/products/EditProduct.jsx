@@ -30,6 +30,10 @@ export default function EditProduct() {
   console.log(product);
 
   const [show, setShow] = useState(false);
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   useEffect(() => {
     dispatch(getProductInfoRequest(params.id));
@@ -84,6 +88,10 @@ export default function EditProduct() {
 
           const productRef = doc(db, "products", params.id);
           await updateDoc(productRef, editedValues);
+          setSeverity({
+            type:'success',
+            message:`Edit product ${product.id} successful!`
+          })
           setShow(true);
         }}
       >
@@ -249,7 +257,7 @@ export default function EditProduct() {
           </Form>
         )}
       </Formik>
-      <SimpleSnackbar show={show} setShow={setShow} type="edit" />
+      <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
     </Box>
   );
 }

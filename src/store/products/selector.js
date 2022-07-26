@@ -38,6 +38,39 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
   const { products = {} } = state || {};
   const { allProducts = {} } = products;
   const { data = [] } = allProducts;
+
+  const dataMainCate = data.filter((product) =>
+    product.categories?.includes(mainCate)
+  );
+  const dataSubCate = data.filter((product) =>
+    product.categories?.includes(subCate)
+  );
+
+  if (mainCate == "" && subCate == "") {
+    if (!sortCate) {
+      return data;
+    }
+    return handleSort(data, sortCate);
+  } else if (mainCate && subCate == "") {
+    if (!sortCate) {
+      return handleSort(dataMainCate);
+    }
+    return handleSort(dataMainCate, sortCate);
+  } else if (mainCate && subCate) {
+    if (!sortCate) {
+      return handleSort(dataSubCate);
+    }
+    return handleSort(dataSubCate, sortCate);
+  }
+
+  return data;
+};
+
+export const selectSearchProduct = (state, mainCate, subCate, sortCate) => {
+  const { products = {} } = state || {};
+  const { searchResult = {} } = products;
+  const { data = [] } = searchResult;
+  
   const dataMainCate = data.filter((product) =>
     product.categories?.includes(mainCate)
   );

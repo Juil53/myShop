@@ -2,18 +2,22 @@ import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 
-export default function SimpleSnackbar({ type, show, setShow }) {
+function SimpleSnackbar({ type, show, setShow, severity }) {
+  console.log(severity);
   let message;
 
-  switch (type) {
-    case "add":
-      message = "Add Success!";
+  switch (severity?.type) {
+    case "success":
+      message = severity.message;
       break;
-    case "edit":
-      message = "Edit Success!";
+    case "warning":
+      message = severity.message;
       break;
-    case "delete":
-      message = "Delete Success!";
+    case "info":
+      message = severity.message;
+      break;
+    case "error":
+      message = severity.message;
       break;
     default:
       break;
@@ -21,11 +25,14 @@ export default function SimpleSnackbar({ type, show, setShow }) {
 
   return (
     <div>
-      <Snackbar open={show} autoHideDuration={2000} onClose={() => setShow(false)}>
-        <Alert severity="success">
-          <span style={{ fontWeight: 700 }}>{message}</span>
-        </Alert>
+      <Snackbar open={show} autoHideDuration={3000} onClose={() => setShow(false)}>
+        {severity && (
+          <Alert severity={severity.type || "success"}>
+            <span style={{ fontWeight: 700 }}>{message}</span>
+          </Alert>
+        )}
       </Snackbar>
     </div>
   );
 }
+export default React.memo(SimpleSnackbar);
