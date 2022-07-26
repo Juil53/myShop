@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams, createSearchParams } from "react-router-dom";
 
 export default function CategoryCard({ categories, currentCate = {} }) {
   const { mainCate: mainCateUrl, subCate: subCateUrl } = currentCate;
   const [active, setActive] = useState([mainCateUrl]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
 
   if (!active.includes(mainCateUrl)) {
     const newActive = [...active];
@@ -35,7 +37,13 @@ export default function CategoryCard({ categories, currentCate = {} }) {
                 }
               >
                 <Link
-                  to={`/product?category=${v.id}`}
+                  to={
+                    query !== ""
+                      ? {
+                          pathname: `/product?query=${query}&?category=${v.id}`,
+                        }
+                      : { pathname: `/product?category=${v.id}` }
+                  }
                   onClick={() => {
                     handleActiveDropdown(v.id);
                   }}
@@ -55,9 +63,7 @@ export default function CategoryCard({ categories, currentCate = {} }) {
               {v.subCate && (
                 <div
                   className={
-                    active.includes(v.id)
-                      ? "subcate-dropdown subcate-active"
-                      : "subcate-dropdown"
+                    active.includes(v.id) ? "subcate-dropdown subcate-active" : "subcate-dropdown"
                   }
                 >
                   {createSubCateDropdown(v.subCate, v.id)}
@@ -73,13 +79,16 @@ export default function CategoryCard({ categories, currentCate = {} }) {
   function createSubCateDropdown(data, mainCateID) {
     return data.map((v) => {
       return (
-        <div
-          className={v.id === subCateUrl ? "subcate active" : "subcate"}
-          key={v.id}
-        >
+        <div className={v.id === subCateUrl ? "subcate active" : "subcate"} key={v.id}>
           <i className="fa-solid fa-star"></i>
           <Link
-            to={`/product?category=${mainCateID}&subCate=${v.id}`}
+            to={
+              query !== ""
+                ? { pathname: `/product?query=${query}?category=${mainCateID}&subCate=${v.id}` }
+                : {
+                    pathname: `/product?category=${mainCateID}&subCate=${v.id}`,
+                  }
+            }
             onClick={() => {
               handleActiveDropdown(v.id);
             }}

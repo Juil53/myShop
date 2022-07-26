@@ -14,7 +14,7 @@ const ListItem = styled("li")(({ theme }) => ({
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const [searchKey, setSearchKey] = useState(null);
+  const [searchKey, setSearchKey] = useState(null)  
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query");
 
