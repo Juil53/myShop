@@ -54,18 +54,13 @@ const CustomerManagement = () => {
       for (let item of newData) {
         // Add import Data to Authen
         const res = await createUserWithEmailAndPassword(authInstance, item.email, item.password)
-          .then(() => {
-            setSeverity({});
-          })
           .catch((error) => {
             switch (error.code) {
               case "auth/email-already-in-use":
-                // setErr(item.email);
                 setSeverity({
                   type: "error",
                   message: item.email,
                 });
-                // alert(`Email ${item.email} is already in use`);
                 break;
               default:
                 break;
@@ -78,8 +73,12 @@ const CustomerManagement = () => {
           timeStamp: moment().format("MM DD YYYY"),
         });
       }
+      //Show snackbar after add to fb store
+      setSeverity({
+        type: "success",
+        message: "Imported Successful",
+      });
       setSave(true);
-      console.log("import successful");
     } catch (error) {
       console.log(error);
     }

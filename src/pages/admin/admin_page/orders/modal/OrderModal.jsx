@@ -35,6 +35,10 @@ const OrderModal = () => {
 
   const [show, setShow] = useState(false);
   const [order, setOrder] = useState({});
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   const handleClose = () => dispatch(closeModal());
 
@@ -47,6 +51,10 @@ const OrderModal = () => {
     dispatch(updateOrderDetail(order));
     dispatch(getOrderRequest());
     dispatch(closeModal());
+    setSeverity({
+      type: "success",
+      message: `Edit Order ${orderDetail.id} Successful`,
+    });
     setShow(true);
   };
 
@@ -224,7 +232,7 @@ const OrderModal = () => {
           )}
         </CustomBox>
       </Modal>
-      <SimpleSnackbar show={show} setShow={setShow} type="edit" />
+      <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
     </div>
   );
 };

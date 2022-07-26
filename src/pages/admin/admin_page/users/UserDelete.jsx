@@ -5,7 +5,7 @@ import AlertDialog from "../../../../components/admin/AlertDialog";
 import { deleteUserRequest, getUsersRequest } from "../../../../store/users/usersSlice";
 import { style } from "./logic";
 
-const UserDelete = ({ userId, user, setShow }) => {
+const UserDelete = ({ userId, user, setShow, setSeverity }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -13,7 +13,11 @@ const UserDelete = ({ userId, user, setShow }) => {
     if (choose) {
       dispatch(deleteUserRequest(userId));
       dispatch(getUsersRequest());
-      setShow(true)
+      setShow(true);
+      setSeverity({
+        type: "success",
+        message: `Deleted ${user.firstname} ${user.lastname} successful!`,
+      });
     }
     setOpen(false);
   };

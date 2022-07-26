@@ -24,6 +24,10 @@ const UserEdit = () => {
   const [file, setFile] = useState("");
   const [per, setPer] = useState(null);
   const [img, setImg] = useState({});
+  const [severity, setSeverity] = useState({
+    type: "",
+    message: "",
+  });
 
   useEffect(() => {
     dispatch(getUserRequest(params.id));
@@ -93,9 +97,13 @@ const UserEdit = () => {
             onSubmit={async (values, { resetForm }) => {
               await updateDoc(doc(db, "users", params.id), {
                 ...values,
-                avatar: img.image || "",
+                avatar: img.image || user.avatar,
                 timeStamp: moment().format("MM DD YYYY"),
               });
+              setSeverity({
+                type:'success',
+                message:`Edited ${user.firstname} ${user.lastname} successful!`
+              })
               setShow(true);
             }}
           >
@@ -278,7 +286,7 @@ const UserEdit = () => {
         </Box>
       </Box>
 
-      <SimpleSnackbar show={show} setShow={setShow} type="edit" />
+      <SimpleSnackbar show={show} setShow={setShow} severity={severity} />
     </div>
   );
 };

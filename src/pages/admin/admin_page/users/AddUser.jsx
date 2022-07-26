@@ -61,10 +61,10 @@ export default function AddUser(props) {
       setShow(true);
       setSeverity({
         type:'success',
-        message:'Add Success'
+        message:`Add ${values.email} Successful!`
       })
       setSubmitting(false);
-      setImg("");
+      setFile("")
       resetForm();
     },
   });

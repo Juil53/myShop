@@ -3,18 +3,19 @@ import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 
 function SimpleSnackbar({ type, show, setShow, severity }) {
+  console.log(severity);
   let message;
 
   switch (severity?.type) {
     case "success":
       message = severity.message;
       break;
-    // case "edit":
-    //   message = "Edit Success!";
-    //   break;
-    // case "delete":
-    //   message = "Delete Success!";
-    //   break;
+    case "warning":
+      message = severity.message;
+      break;
+    case "info":
+      message = severity.message;
+      break;
     case "error":
       message = severity.message;
       break;

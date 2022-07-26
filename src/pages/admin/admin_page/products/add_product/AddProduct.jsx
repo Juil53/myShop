@@ -86,7 +86,7 @@ export default function AddProduct() {
           setShow(true);
           setSeverity({
             type:'success',
-            message:'Add Success'
+            message:`Add ${values.name} Successful!`
           })
           resetForm();
         }}

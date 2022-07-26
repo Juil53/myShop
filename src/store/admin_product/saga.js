@@ -82,7 +82,7 @@ export function* actGetProduct(action) {
 // DELETE PRODUCT
 export function* actDeleteProduct(action) {
   try {
-    const result = yield call(fb.del("products", action.payload));
+    const result = yield call(fb.del,"products", action.payload);
     yield put(deleteProductSuccess(result));
   } catch (err) {
     console.log(err)

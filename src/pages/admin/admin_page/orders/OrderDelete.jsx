@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import AlertDialog from "../../../../components/admin/AlertDialog";
 import { deleteOrderRequest, getOrderRequest, resetStatus } from "../../../../store/orders/orderSlice";
 
-const OrderDelete = ({ orderId, order ,style}) => {
+const OrderDelete = ({ orderId, order ,style,setSeverity}) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -16,6 +16,10 @@ const OrderDelete = ({ orderId, order ,style}) => {
         dispatch(resetStatus())
       },2000)
     }
+    setSeverity({
+      type:'success',
+      message:'Order Deleted Successful'
+    })
     setOpen(false);
   };
 
