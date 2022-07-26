@@ -30,8 +30,10 @@ const ProductDetail = () => {
   const [number, setNumber] = useState(1);
   const [mainSlider, setMainSlider] = useState();
   const [subSlider, setSubSlider] = useState();
-  
-  const productInfo = useSelector((state) => selectProductInfo(state, params.id));
+
+  const productInfo = useSelector((state) =>
+    selectProductInfo(state, params.id)
+  );
   const loading = useSelector(productLoading);
 
   const { name } = productInfo;
@@ -216,6 +218,8 @@ const ProductDetail = () => {
   }
 
   function handleAddCart() {
+    const error = document.querySelector(".product-detail__error");
+    error.textContent = "";
     const {
       configurableProducts = [],
       configurableOptions = [],
@@ -224,30 +228,42 @@ const ProductDetail = () => {
       ...others
     } = productInfo;
 
-    const product = {
-      ...others,
-      cartItemID: new Date().getTime(),
-      priceAfterDiscount,
-      optionSelected: {},
-      quantity: number,
-      totalPrice: number * priceAfterDiscount,
-      available: numberOfProduct,
-    };
+    if (
+      (configurableOptions &&
+        configurableOptions.length > 0 &&
+        !Object.keys(currentOption)) ||
+      Object.keys(currentOption).length <= 0
+    ) {
+      error.textContent = "Select option";
+    } else {
+      if (priceAfterDiscount === 0 || numberOfProduct <= 0) {
+        error.textContent = "Product is not available";
+      } else {
+        const product = {
+          ...others,
+          cartItemID: new Date().getTime(),
+          priceAfterDiscount,
+          optionSelected: {},
+          quantity: number,
+          totalPrice: number * priceAfterDiscount,
+          available: numberOfProduct,
+        };
 
-    if (Object.keys(currentOption).length !== 0) {
-      product.optionSelected = { ...currentOption };
+        if (Object.keys(currentOption).length !== 0) {
+          product.optionSelected = { ...currentOption };
+        }
+
+        dispatch(cartActions.fetchAddCartRequest({ product: product }));
+        dispatch(
+          actions.activePopup({
+            type: POPUP.ADD_CART_POPUP,
+            data: {
+              ...productInfo,
+            },
+          })
+        );
+      }
     }
-
-    dispatch(cartActions.fetchAddCartRequest({ product: product }));
-
-    dispatch(
-      actions.activePopup({
-        type: POPUP.ADD_CART_POPUP,
-        data: {
-          ...productInfo,
-        },
-      })
-    );
   }
 
   return (
@@ -258,7 +274,7 @@ const ProductDetail = () => {
         <>
           <ScrollToTop />
           <div className="breadcumb">
-            <Breadcrumb pages={array} color={"#35c0c5"}/>
+            <Breadcrumb pages={array} color={"#35c0c5"} />
           </div>
 
           <div className="product-detail row">
@@ -333,7 +349,7 @@ const ProductDetail = () => {
                     <span key={`cate_${index}`}>{cate}</span>
                   ))}
               </div>
-
+              <div className="product-detail__error"></div>
               <div className="product-detail__btn row">
                 <button className="button button-style" onClick={handleAddCart}>
                   Add to cart
