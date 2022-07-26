@@ -24,10 +24,6 @@ const OrderDetail = () => {
     }
   }, [params]);
 
-  useEffect(() => {
-    console.log(order);
-  });
-
   const createProduct = (data) => {
     if (data && data.length > 0) {
       return data.map((v) => (

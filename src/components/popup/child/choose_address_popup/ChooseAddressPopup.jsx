@@ -14,7 +14,7 @@ import { clientData } from "../../../../store/clients/selector";
 
 const ChooseAddressPopup = ({ closePopup, data }) => {
   const { currentAddress } = data;
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState(currentAddress);
 
   const dispatch = useDispatch();
 
@@ -107,7 +107,7 @@ const ChooseAddressPopup = ({ closePopup, data }) => {
   const renderAddOneAddress = () => {
     return (
       <div className="choose-address__section">
-        <div className="row">
+        <div className="row info">
           <InputField
             title="Full name"
             id="add_new_address-name"
@@ -159,6 +159,7 @@ const ChooseAddressPopup = ({ closePopup, data }) => {
                   name="Address"
                   id="address"
                   onChange={handleChangeAddressOption}
+                  value={address.id}
                 >
                   {renderAddressOption(client.info.addressList)}
                 </select>
