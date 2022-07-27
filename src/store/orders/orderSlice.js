@@ -23,10 +23,6 @@ const orderSlice = createSlice({
       status: LOADING_STATUS.IDLE,
       data: [],
     },
-    payUrl: {
-      status: LOADING_STATUS.IDLE,
-      data: "",
-    },
     orderById: {
       status: LOADING_STATUS.IDLE,
       data: {},
@@ -151,19 +147,6 @@ const orderSlice = createSlice({
       state.addOrder.status = LOADING_STATUS.FAIL;
     },
 
-    getPayUrlRequest: (state) => {
-      state.payUrl.status = LOADING_STATUS.LOADING;
-    },
-
-    getPayUrlSuccess: (state, { payload: { payUrl } }) => {
-      state.payUrl.status = LOADING_STATUS.SUCCESS;
-      state.payUrl.data = payUrl;
-    },
-
-    getPayUrlFail: (state) => {
-      state.payUrl.status = LOADING_STATUS.FAIL;
-    },
-
     getOrderByClientRequest: (state) => {
       state.orderByClient.status = LOADING_STATUS.LOADING;
     },
@@ -216,9 +199,6 @@ export const {
   addOrderRequest,
   addOrderSuccess,
   addOrderFail,
-  getPayUrlRequest,
-  getPayUrlSuccess,
-  getPayUrlFail,
   getOrderByClientRequest,
   getOrderByClientSuccess,
   getOrderByClientFail,
