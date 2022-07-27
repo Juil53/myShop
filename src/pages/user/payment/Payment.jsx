@@ -16,11 +16,9 @@ import { clientData } from "../../../store/clients/selector";
 import {
   addOrderRequest,
   setOrderAddress,
-  getPayUrlRequest,
 } from "../../../store/orders/orderSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { v4 as uuidv4 } from "uuid";
 import Image from "../../../components/image/Image";
 
 const Payment = () => {
@@ -102,16 +100,16 @@ const Payment = () => {
     setAmount(calAmount(cart.data.totalAmount, shippingFee, discount));
   });
 
-  useEffect(() => {
-    if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
-      window.location.href = payURL.data;
-    } else if (payURL.status === LOADING_STATUS.LOADING) {
-      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
-    } else if (payURL.status === LOADING_STATUS.FAIL) {
-      document.querySelector(".order-infor__error").textContent =
-        "Somethings went wrong. Please try again";
-    }
-  });
+  // useEffect(() => {
+  //   if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
+  //     window.location.href = payURL.data;
+  //   } else if (payURL.status === LOADING_STATUS.LOADING) {
+  //     dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+  //   } else if (payURL.status === LOADING_STATUS.FAIL) {
+  //     document.querySelector(".order-infor__error").textContent =
+  //       "Somethings went wrong. Please try again";
+  //   }
+  // });
 
   //actions
   const changePaymentMethod = (method) => {

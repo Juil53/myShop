@@ -90,7 +90,7 @@
       }
     }
 
-    .phone-menu-btn.phone-menu-active ~ .dropdown-menu {
+    .phone-menu-btn.phone-menu-active~.dropdown-menu {
       left: 0;
     }
   }
@@ -190,6 +190,7 @@
 
     .header__top-logo {
       width: 50%;
+
       .img-container {
         width: 100%;
         flex-grow: 1;
@@ -203,6 +204,7 @@
       width: 100%;
       flex-direction: column;
       align-items: center;
+
       .search-input {
         display: flex;
         flex-direction: row;
@@ -274,6 +276,7 @@
       }
 
       .nav-btn:hover {
+
         a,
         i {
           color: $mainColor;
@@ -281,6 +284,7 @@
       }
 
       .user-btn:hover {
+
         i,
         span {
           color: $mainColor;
@@ -503,8 +507,8 @@
       align-items: center;
 
       .image {
-        width: 5rem;
-        height: 5rem;
+        width: 4rem;
+        height: 4rem;
 
         img {
           width: 100%;
@@ -870,11 +874,12 @@
 
 @media only screen and (min-width: 601px) and (max-width: 699px) {
   .header {
+
     //HEADER TOP (logo, top nav)
     .header__top {
       .header__top-logo {
         width: 30%;
-        padding:1rem;
+        padding: 1rem;
 
         .img-container {
           width: 100%;
@@ -897,8 +902,8 @@
         flex-direction: column;
 
         .image {
-          width: 3rem;
-          height: 3rem;
+          width: 2rem;
+          height: 2rem;
 
           img {
             width: 100%;
@@ -949,11 +954,12 @@
 
 @media only screen and (min-width: 700px) and (max-width: 767px) {
   .header {
+
     //HEADER TOP (logo, top nav)
     .header__top {
       .header__top-logo {
         width: 30%;
-        padding:1rem;
+        padding: 1rem;
 
         .img-container {
           width: 100%;
@@ -976,8 +982,8 @@
         flex-direction: column;
 
         .image {
-          width: 3rem;
-          height: 3rem;
+          width: 2.5rem;
+          height: 2.5rem;
 
           img {
             width: 100%;
@@ -1039,7 +1045,7 @@
     .header__top {
       .header__top-logo {
         width: 25%;
-        padding:1rem;
+        padding: 1rem;
 
         .img-container {
           width: 100%;
@@ -1109,11 +1115,13 @@
 @media only screen and (min-width: 1024px) and (max-width:1200px) {
   .header {
     font-size: 1.6rem;
+
     .header__top {
       .search-box {
         width: 80%;
       }
-      .header__top-nav{
+
+      .header__top-nav {
         width: 40%;
       }
     }

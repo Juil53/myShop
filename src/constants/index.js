@@ -15,7 +15,7 @@ export const constant = {
   //order status
   pending: "Pending",
   successful: "Successful",
-  canceled: "Cancel",
+  canceled: "Canceled",
 
   //order tab
   all: "All",

@@ -1,6 +1,11 @@
 .order-detail__container {
   .order-detail__title {
     font-size: 1.8rem;
+    font-weight: 600;
+
+    span {
+      color: $mainColor;
+    }
   }
 
   .order-detail__top {
@@ -22,6 +27,14 @@
 
       .section__title {
         font-weight: 600;
+      }
+
+      .section__content {
+        color: $grayColor-3;
+
+        span {
+          font-weight: 600;
+        }
       }
     }
   }

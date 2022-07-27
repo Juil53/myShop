@@ -131,7 +131,7 @@ export function* addOrder({ payload: { order } }) {
 
     yield call(toast.success, "Order successfully!", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -144,7 +144,7 @@ export function* addOrder({ payload: { order } }) {
   } else {
     yield call(toast.warning, "Order fail!", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

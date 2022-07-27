@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import Image from "../../../../components/image/Image";
 import Loading from "../../../../components/loading/Loading";
 import LoadingFail from "../../../../components/loading_fail/LoadingFail";
 import { LOADING_STATUS } from "../../../../constants";
@@ -30,7 +31,7 @@ const OrderDetail = () => {
         <tr className="product" key={v.cartItemID}>
           <td className="row product-info">
             <div className="img">
-              <img src={v.image} alt="" />
+              <Image src={v.image} showLoading />
             </div>
             <div className="name">{v.name}</div>
           </td>
@@ -82,21 +83,29 @@ const OrderDetail = () => {
               <div className="info__section">
                 <div className="section__title">Delivery address</div>
                 <div className="section__content">
-                  <div className="name">Name: {deliveryAddress.name}</div>
+                  <div className="name">
+                    <span>Name: </span>
+                    {deliveryAddress.name}
+                  </div>
                   <div className="address">
-                    Address: {deliveryAddress.address.detail},{" "}
+                    <span>Address: </span>
+                    {deliveryAddress.address.detail},{" "}
                     {deliveryAddress.address.ward.name},{" "}
                     {deliveryAddress.address.district.name},{" "}
                     {deliveryAddress.address.region.name}
                   </div>
                   <div className="phone">
-                    Phone number: {deliveryAddress.phoneNumber}
+                    <span>Phone number:</span> {deliveryAddress.phoneNumber}
                   </div>
                 </div>
               </div>
               <div className="info__section">
                 <div className="section__title">Payment method</div>
                 <div className="section__content">{payment.name}</div>
+                <div className="section__content">
+                  <span>Status: </span>
+                  {payment.status}
+                </div>
               </div>
             </div>
           </div>
