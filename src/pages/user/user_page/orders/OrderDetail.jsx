@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import Image from "../../../../components/image/Image";
 import Loading from "../../../../components/loading/Loading";
 import LoadingFail from "../../../../components/loading_fail/LoadingFail";
-import { LOADING_STATUS } from "../../../../constants";
+import { constant, LOADING_STATUS } from "../../../../constants";
 import {
   getOrderByClientRequest,
   getOrderByIdRequest,
@@ -74,8 +74,14 @@ const OrderDetail = () => {
       return (
         <div className="order-detail__container">
           <div className="order-detail__title">
-            Order detail <span>#{id}</span>
-            <span> - {status}</span>
+            Order detail <span className="id">#{id}</span> -{" "}
+            {status === constant.pending ? (
+              <span className="pending-color">{status}</span>
+            ) : status === constant.successful ? (
+              <span className="successful-color">{status}</span>
+            ) : (
+              <span className="failed-color">{status}</span>
+            )}
           </div>
           <div className="order-detail__top">
             <div className="container date">Ngày đặt hàng: {date}</div>
@@ -104,7 +110,11 @@ const OrderDetail = () => {
                 <div className="section__content">{payment.name}</div>
                 <div className="section__content">
                   <span>Status: </span>
-                  {payment.status}
+                  {payment.status === constant.paid ? (
+                    <span className="paid">{payment.status}</span>
+                  ) : (
+                    <span className="waiting">{payment.status}</span>
+                  )}
                 </div>
               </div>
             </div>
