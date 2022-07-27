@@ -94,7 +94,9 @@ const orderSlice = createSlice({
 
       const orderList = [...state.orderData];
       if (action.payload.id) {
-        const index = orderList.findIndex((order) => order.id === action.payload.id);
+        const index = orderList.findIndex(
+          (order) => order.id === action.payload.id
+        );
         if (index !== -1) {
           //Edit
           orderList[index] = action.payload;
@@ -142,6 +144,7 @@ const orderSlice = createSlice({
 
     addOrderSuccess: (state) => {
       state.addOrder.status = LOADING_STATUS.SUCCESS;
+      state.orderById.status = LOADING_STATUS.IDLE;
     },
 
     addOrderFail: (state) => {

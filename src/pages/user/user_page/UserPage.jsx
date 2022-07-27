@@ -13,6 +13,7 @@ import localStorage from "../../../service/localStorage";
 import Orders from "./orders/Orders";
 import OrderDetail from "./orders/OrderDetail";
 import Image from "../../../components/image/Image";
+import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 
 const UserPage = () => {
   const token = localStorage.get("token");
@@ -72,6 +73,7 @@ const UserPage = () => {
       <div className="breadcums">
         <BreadCumb pages={array} />
       </div>
+      <ScrollToTop />
       {token ? (
         <div className="user_page-content row">
           <div className="user_page-content-left">

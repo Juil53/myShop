@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Image from "../../../../components/image/Image";
 import { utils } from "../../../../utils";
 
 const OrderItem = ({ data }) => {
@@ -15,7 +16,7 @@ const OrderItem = ({ data }) => {
       return data.map((v) => (
         <div className="product row" key={v.cartItemID}>
           <div className="img">
-            <img src={v.image} alt="" />
+            <Image src={v.image} showLoading />
           </div>
           <div className="info row">
             <div className="name">{v.name}</div>

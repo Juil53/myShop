@@ -16,11 +16,9 @@ import { clientData } from "../../../store/clients/selector";
 import {
   addOrderRequest,
   setOrderAddress,
-  getPayUrlRequest,
 } from "../../../store/orders/orderSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { v4 as uuidv4 } from "uuid";
 import Image from "../../../components/image/Image";
 
 const Payment = () => {
@@ -95,42 +93,6 @@ const Payment = () => {
   }, [client.status, token]);
 
   useEffect(() => {
-    if (cart.status !== LOADING_STATUS.SUCCESS) return;
-    const encryptedId = params.get("extraData");
-    const orderId = params.get("orderId");
-    const message = params.get("message");
-
-    if (encryptedId && orderId && message === "Successful.") {
-      const date =
-        new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
-
-      const newOrder = {
-        date: date,
-        items: [...cart.data.productList],
-        totalAmount: calAmount(cart.data.totalAmount, shippingFee, discount),
-        notionalPrice: cart.data.totalAmount,
-        shippingMethod: {
-          shippingFee: shippingFee,
-          shippingMethod: "",
-        },
-        status: constant.pending,
-        deliveryAddress: deliveryAddress,
-      };
-
-      if (token) {
-        newOrder.uid = client.info.id;
-        newOrder.email = client.info.email;
-      }
-
-      newOrder.payment = {
-        name: "Momo",
-        status: "Paid",
-      };
-      dispatch(addOrderRequest({ orderId, encryptedId, order: newOrder }));
-    }
-  }, [params.get("extraData"), cart.status]);
-
-  useEffect(() => {
     //set delivery address
     setDeliveryAddress(currentAddress.address);
 
@@ -138,16 +100,16 @@ const Payment = () => {
     setAmount(calAmount(cart.data.totalAmount, shippingFee, discount));
   });
 
-  useEffect(() => {
-    if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
-      window.location.href = payURL.data;
-    } else if (payURL.status === LOADING_STATUS.LOADING) {
-      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
-    } else if (payURL.status === LOADING_STATUS.FAIL) {
-      document.querySelector(".order-infor__error").textContent =
-        "Somethings went wrong. Please try again";
-    }
-  });
+  // useEffect(() => {
+  //   if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
+  //     window.location.href = payURL.data;
+  //   } else if (payURL.status === LOADING_STATUS.LOADING) {
+  //     dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
+  //   } else if (payURL.status === LOADING_STATUS.FAIL) {
+  //     document.querySelector(".order-infor__error").textContent =
+  //       "Somethings went wrong. Please try again";
+  //   }
+  // });
 
   //actions
   const changePaymentMethod = (method) => {
@@ -236,35 +198,27 @@ const Payment = () => {
         deliveryAddress: deliveryAddress,
       };
 
-      //create uuid
-      const orderId = uuidv4();
-
       //payment method
       if (paymentMethod === "cash") {
         newOrder.payment = {
           name: "Cash(COD)",
           status: "Waiting for payment",
         };
-
-        //Client info
-        if (token) {
-          newOrder.uid = client.info.id;
-          newOrder.email = client.info.email;
-        }
-
-        dispatch(addOrderRequest({ orderId, order: newOrder }));
       } else {
-        //momo
-        dispatch(
-          getPayUrlRequest({
-            amount: newOrder.totalAmount,
-            orderId,
-          })
-        );
-        // newOrder.payment = {
-        //   name: "Momo",
-        // };
+        newOrder.payment = {
+          name: "Momo",
+          status: "Waiting for payment",
+        };
       }
+
+      //Client info
+      if (token) {
+        newOrder.uid = client.info.id;
+        newOrder.email = client.info.email;
+      }
+
+      console.log(newOrder);
+      dispatch(addOrderRequest({ order: newOrder }));
     }
   };
 
