@@ -87,34 +87,6 @@ export function* actDeleteOrder(action) {
   }
 }
 
-// get payUrl
-
-export function* getPayUrl({ payload: { amount, orderId } }) {
-  console.log("pay url");
-  try {
-    console.log("pay url 1");
-    const { payUrl } = yield call(APIv1.post, {
-      baseUrl: "http://192.168.40.6:3002/api/payment",
-      query: {
-        amount,
-        orderId,
-      },
-    });
-
-    console.log("pay url 2");
-    if (payUrl) {
-      yield put(getPayUrlSuccess({ payUrl }));
-    } else {
-      yield put(getPayUrlFail());
-    }
-
-    console.log("success");
-  } catch (err) {
-    console.log(err);
-    yield put(getPayUrlFail());
-  }
-}
-
 //add order
 export function* addOrder({ payload: { order } }) {
   const { success, payUrl, error } = yield call(APIv1.post, {
@@ -199,7 +171,6 @@ export default function* adminOrderSaga() {
   yield takeEvery("order/updateOrderDetail", actUpdateOrderStatus);
   yield takeEvery("order/deleteOrderRequest", actDeleteOrder);
   yield takeEvery("order/addOrderRequest", addOrder);
-  yield takeLatest("order/getPayUrlRequest", getPayUrl);
   yield takeEvery("order/getOrderByClientRequest", getOrderByClient);
   yield takeEvery("order/getOrderByIdRequest", getOrderById);
 }

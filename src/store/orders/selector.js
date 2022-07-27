@@ -52,12 +52,6 @@ export const addOrder = (state) => {
   return addOrder;
 };
 
-export const payUrl = (state) => {
-  const { order = {} } = state || {};
-  const { payUrl } = order;
-  return payUrl;
-};
-
 export const orderByClient = (state) => {
   const { order = {} } = state || {};
   const { orderByClient } = order;
