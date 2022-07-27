@@ -1,0 +1,80 @@
+.address_popup-container {
+  background-color: $whiteColor;
+  padding: 2rem;
+  border-radius: 0.5rem;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .form {
+    margin-top: 2rem;
+
+    .is_default {
+      margin-left: 1rem;
+
+      label {
+        margin-left: 1rem;
+        font-size: 1.4rem;
+      }
+    }
+
+    .address_error-msg {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 1rem;
+      font-size: 1.4rem;
+      color: red;
+    }
+
+    .function {
+      margin-top: 2rem;
+      margin-right: 1rem;
+      justify-content: flex-end;
+
+      button {
+        padding: 1rem 0;
+        width: 15rem;
+      }
+
+      .add-btn {
+        margin-left: 1.5rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .address_popup-container {
+    min-width: 90%;
+
+    .form {
+      margin-top: 2rem;
+
+      .address_field {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .address_popup-container {
+    min-width: 90%;
+
+    .form {
+      margin-top: 2rem;
+
+      .address_field {
+        width: 100%;
+        flex-direction: column;
+
+        select {
+          width: 70%;
+        }
+      }
+    }
+  }
+}

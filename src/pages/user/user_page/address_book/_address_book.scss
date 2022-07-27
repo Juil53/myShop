@@ -1,0 +1,57 @@
+.address_management-container {
+  .title {
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  .add_address {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid $grayColor-1 ;
+
+    button {
+      padding: 1rem;
+    }
+  }
+
+  .address_list {
+    .no_address {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .address_item {
+      padding: 2rem 1rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid $grayColor-1;
+
+      .address_content {
+        margin-top: 1rem;
+
+        .default {
+          padding-left: 1rem;
+          font-size: 1.1rem;
+          color: $green;
+          font-weight: 400;
+        }
+      }
+
+      .function {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          margin-right: 1rem;
+          padding: 0.5rem;
+          background-color: transparent;
+          color: $mainColor;
+        }
+
+        .delete-btn {
+          color: red;
+        }
+      }
+    }
+  }
+}

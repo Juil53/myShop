@@ -1,5 +1,10 @@
-@import "./child/ProductInfo/productinfo";
-@import "./child/AddCartPopup/addcart";
+@import "./child/add_cart_popup/addcart";
+@import "./child/product_info/productinfo";
+@import "./child/selection_popup/selection";
+@import "./child/waiting_popup/waiting";
+@import "./child/address_popup/address";
+@import "./child/success_popup/successpopup";
+@import "./child/choose_address_popup/chooseaddress";
 
 //POP UP BUTTON
 .popup__cancel-btn {

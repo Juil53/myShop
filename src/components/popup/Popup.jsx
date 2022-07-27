@@ -6,8 +6,13 @@ import { pageSelector } from "../../store/page/selector";
 import { actions } from "../../store/page/slice";
 import { POPUP } from "../../constants";
 
-import ProductInfoPopup from "./child/ProductInfo/ProductInfoPopup";
-import AddCartPopup from "./child/AddCartPopup/AddCartPopup";
+import ProductInfoPopup from "./child/product_info/ProductInfoPopup";
+import AddCartPopup from "./child/add_cart_popup/AddCartPopup";
+import SelectionPopup from "./child/selection_popup/SelectionPopup";
+import WaitingPopup from "./child/waiting_popup/WaitingPopup";
+import AddressPopup from "./child/address_popup/AddressPopup";
+import SuccessPopup from "./child/success_popup/SuccessPopup";
+import ChooseAddressPopup from "./child/choose_address_popup/ChooseAddressPopup";
 
 export default function Popup() {
   const { popup } = useSelector(pageSelector);
@@ -24,10 +29,41 @@ export default function Popup() {
             data={data}
           />
         );
+
       case POPUP.ADD_CART_POPUP:
         return (
           <AddCartPopup closePopup={() => handleClosePopup(type)} data={data} />
         );
+
+      case POPUP.SELECTION_POPUP:
+        return (
+          <SelectionPopup
+            closePopup={() => handleClosePopup(type)}
+            data={data}
+          />
+        );
+
+      case POPUP.WAITING_POPUP:
+        return <WaitingPopup />;
+
+      case POPUP.ADD_ADDRESS_POPUP:
+        return (
+          <AddressPopup closePopup={() => handleClosePopup(type)} data={data} />
+        );
+
+      case POPUP.MESSAGE_POPUP:
+        return (
+          <SuccessPopup closePopup={() => handleClosePopup(type)} data={data} />
+        );
+
+      case POPUP.CHOOSE_ADDRESS_POPUP:
+        return (
+          <ChooseAddressPopup
+            closePopup={() => handleClosePopup(type)}
+            data={data}
+          />
+        );
+
       default:
         return <></>;
     }

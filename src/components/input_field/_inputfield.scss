@@ -1,0 +1,100 @@
+.input_field {
+  margin: 1rem;
+  margin-bottom: 3rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: $whiteColor;
+  border: 1px $grayColor-3 solid;
+  min-width: 30rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  padding: 0 0.5rem;
+
+  label {
+    left: 1rem;
+    top: 0.8rem;
+    position: absolute;
+    box-sizing: border-box;
+    color: $grayColor;
+    z-index: 1;
+    font-size: 1em;
+    transition: all 200ms ease-in;
+  }
+
+  .showpass {
+    margin-left: 1rem;
+    color: $grayColor;
+  }
+
+  input {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 0.94em 0.5em;
+    height: 4rem;
+    background-color: $whiteColor;
+    color: #333;
+  }
+
+  input:focus~label,
+  input:not(:placeholder-shown)~label {
+    top: -1.2rem;
+    left: 0.8rem;
+    color: $mainColor;
+    font-size: 1.4rem;
+    background-color: $whiteColor;
+  }
+
+  input:not(:focus)~label {
+    color: $grayColor;
+  }
+}
+
+.input_field:focus-within,
+.input_field:hover {
+  border: 1px solid $mainColor;
+  box-shadow: 0 0 0 1px #66afe9;
+
+  .showpass {
+    color: $mainColor;
+  }
+}
+
+.input_field[data-error] {
+  border: 1px solid red;
+
+  label {
+    color: red;
+  }
+
+  .showpass {
+    color: red;
+  }
+
+  input:not(:focus)~label {
+    color: red;
+  }
+
+  input:focus~label,
+  input:not(:placeholder-shown)~label {
+    color: red;
+  }
+}
+
+
+.input_field[data-error]:hover,
+.input_field[data-error]:focus-within {
+  border: 1px solid red;
+  box-shadow: 0 0 0 1px red;
+}
+
+.input_field::after {
+  position: absolute;
+  content: attr(data-error);
+  font-size: 1.1rem;
+  color: red;
+  top: 4.5rem;
+  left: 2rem;
+  width: 120%;
+}

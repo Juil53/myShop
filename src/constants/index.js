@@ -1,27 +1,28 @@
 export const constant = {
-  //loading status
-  IDLE: "IDLE",
-  SUCCESS: "SUCCESS",
-  LOADING: "LOADING",
-  FAIL: "FAIL",
+  //check name
+  validName: "valid",
+  longName: "long",
+  shortName: "short",
 
   // base url
   API_URL: "http://localhost:3000",
-  //pop up
-  NO_POPUP: "NO_POPUP",
-  CHANGE_POPUP: "CHANGE_POPUP",
-  PRODUCT_INFO_POPUP: "PRODUCT_INFO_POPUP",
-  //product
-  GET_PRODUCTS_SUCCESS: "GET_PRODUCTS_SUCCESS",
-  GET_PRODUCTS_FAILURE: "GET_PRODUCTS_FAILURE",
+
   //language
   ENG: "ENG",
   VI: "VI",
   CHANGE_LANGUAGE: "CHANGE_LANGUAGE",
-  //category
-  GET_CATEGORY_SUCCESS: "GET_CATEGORY_SUCCESS",
-  //home
-  GET_HOME_SUCCESS: "GET_HOME_SUCCESS",
+
+  //order status
+  pending: "Pending",
+  successful: "Successful",
+  failed: "Failed",
+
+  //payment status
+  waiting: "Waiting for payment",
+  paid: "Paid",
+
+  //order tab
+  all: "All",
 };
 
 export const LOADING_STATUS = {
@@ -29,6 +30,7 @@ export const LOADING_STATUS = {
   LOADING: "LOADING",
   SUCCESS: "SUCCESS",
   FAIL: "FAIL",
+  UPDATING: "UPDATING",
 };
 
 export const PAGE_ACTIONS = {
@@ -39,6 +41,11 @@ export const POPUP = {
   NO_POPUP: "NO_POPUP",
   PRODUCT_INFO_POPUP: "PRODUCT_INFO_POPUP",
   ADD_CART_POPUP: "ADD_CART_POPUP",
+  SELECTION_POPUP: "SELECTION_POPUP",
+  WAITING_POPUP: "WAITING_POPUP",
+  ADD_ADDRESS_POPUP: "ADD_ADDRESS_POPUP",
+  MESSAGE_POPUP: "MESSAGE_POPUP",
+  CHOOSE_ADDRESS_POPUP: "CHOOSE_ADDRESS_POPUP",
 };
 
 export const PRODUCT_ACTIONS = {
@@ -51,8 +58,29 @@ export const PRODUCT_ACTIONS = {
 
 export const CATEGORY_ACTIONS = {
   GET_ALL_CATEGORIES: "GET_ALL_CATEGORIES",
+  GET_SELECTED_CATEGORY: "GET_SELECTED_CATEGORY",
+  GET_SELECTED_SUB_CATEGORY: "GET_SELECTED_SUB_CATEGORY",
 };
 
 export const CART_ACTIONS = {
   GET_CART: "GET_CART",
+  ADD_CART: "ADD_CART",
+  UPDATE_CART: "UPDATE_CART",
+  DELETE_CART: "DELETE_CART",
 };
+
+export const USER_ACTIONS = {
+  GET_REFRESH_TOKEN: "GET_REFRESH_TOKEN",
+  GET_USER_INFO: "GET_USER_INFO",
+  SIGNUP_USER: "SIGNUP_USER",
+  SIGNIN_USER_WITH_GOOGLE: "SIGNIN_USER_WITH_GOOGLE",
+  SIGNIN_USER_WITH_FACEBOOK: "SIGNIN_USER_WITH_FACEBOOK",
+  ADMIN_SIGNIN: "ADMIN_SIGNIN",
+  SIGNOUT_USER: "SIGNOUT_USER",
+  UPDATE_USER_INFO: "UPDATE_USER_INFO",
+  UPDATE_USER_PASSWORD: "UPDATE_USER_PASSWORD",
+  ADMIN_SIGNOUT: "ADMIN_SIGNOUT",
+  ADMIN_GET_INFO: "ADMIN_GET_INFO",
+};
+
+export const ROWS_PER_PAGE = 10;

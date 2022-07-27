@@ -1,12 +1,14 @@
 import {
+  Box,
   Drawer,
   ListItemButton,
   Pagination,
-  TableCell,
+  Select,
   TableHead,
   TableRow,
   TextField,
   Toolbar,
+  Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { NavLink } from "react-router-dom";
@@ -15,66 +17,51 @@ const drawerWidth = "25rem";
 //Styled Component
 const CustomizedTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
-    color: theme.palette.secondary.main,
-    // border: "1px solid",
+    color: theme.palette.primary.main,
   },
 }));
 
 const CustomizeTableRow = styled(TableRow)(({ theme }) => ({
   transition: "all 100ms",
   "& .MuiTableCell-root": {
-    padding:5,
+    padding: 5,
   },
-  // "&:hover": {
-  //   backgroundColor: theme.palette.secondary.main,
-  //   "& .MuiTableCell-root": {
-  //     color: "#fff",
-  //   },
-  // },
-
-  // "&:last-child td, &:last-child th": {
-  //   border: "1px solid gray !important",
-  // },
-}));
-
-const CustomizeTableCell = styled(TableCell)(({ theme }) => ({
-  // border: "1px solid gray",
-  // padding: 5,
 }));
 
 const CustomizedListItemButton = styled(ListItemButton)(({ theme }) => ({
+  color: "#fff",
   transition: "all 200ms ease",
   "&:hover": {
     "&.MuiButtonBase-root": {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
       fontWeight: 900,
       borderLeft: "8px solid",
-      borderColor: theme.palette.secondary.dark,
+      backgroundColor: "#fff",
+      borderColor: "#fff",
     },
     "& .MuiTypography-root": {
       fontWeight: 900,
     },
     "& .MuiListItemIcon-root": {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
     },
   },
 }));
 
 const CustomizeToolbar = styled(Toolbar)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.dark,
+  backgroundColor: theme.palette.primary.dark,
 }));
 
 const CustomeNavlink = styled(NavLink)(({ theme }) => ({
   "&.active > div": {
-    color: theme.palette.secondary.dark,
-    borderLeft: "8px solid",
-    borderColor: theme.palette.secondary.dark,
+    color: theme.palette.primary.main,
+    backgroundColor: "#fff",
     "& .MuiTypography-root": {
-      fontSize: "1.7rem",
+      fontSize: "1.8rem",
       fontWeight: 900,
     },
     "& .MuiListItemIcon-root": {
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
     },
   },
 }));
@@ -85,37 +72,54 @@ const CustomDrawer = styled(Drawer)(({ theme }) => ({
     boxSizing: "border-box",
     width: drawerWidth,
   },
-  "& .MuiToolbar-root": {
-    // backgroundColor: theme.palette.secondary.dark,
-  },
 }));
 
 const TextFieldCustom = styled(TextField)(({ theme }) => ({
   "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
-    color: theme.palette.secondary.dark,
+    color: theme.palette.primary.dark,
   },
   "& .MuiOutlinedInput-root": {
     "&.Mui-focused fieldset": {
-      borderColor: theme.palette.secondary.dark,
+      borderColor: theme.palette.primary.dark,
     },
   },
 }));
 
 const CustomPagination = styled(Pagination)(({ theme }) => ({
   "& .MuiButtonBase-root.MuiPaginationItem-root.Mui-selected": {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.primary.main,
     color: "#fff",
   },
+}));
+
+const CustomSelect = styled(Select)(({ theme }) => ({
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.primary.main,
+    color: theme.palette.primary.main,
+  },
+}));
+
+const CustomBox = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: "800px",
+  overflowY: "scroll",
+  backgroundColor: theme.palette.background.paper,
+  border: "1px solid lightgray",
+  padding: "2rem",
 }));
 
 export {
   CustomizedTableHead,
   CustomizeTableRow,
-  CustomizeTableCell,
   CustomizedListItemButton,
   CustomizeToolbar,
   CustomeNavlink,
   CustomDrawer,
   TextFieldCustom,
   CustomPagination,
+  CustomSelect,
+  CustomBox,
 };

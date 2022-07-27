@@ -10,9 +10,9 @@ export const selectUserOpen = (state) => {
   return open;
 };
 
-export const selectUserInfo = (state) => {
+export const selectUserInfo = (state, id) => {
   const { user = {} } = state || {};
-  const { userInfo = [] } = user;
+  const { userInfo = {} } = user;
   return userInfo;
 };
 
@@ -28,3 +28,19 @@ export const selectUserData = (state) => {
   return userData;
 };
 
+export const loginAdmin = (state) => {
+  const { loginAdmin = {} } = state?.user || {};
+  return loginAdmin;
+};
+
+export const selectLoading = (state) => {
+  const { user = {} } = state || {};
+  const { loading } = user;
+  return loading;
+};
+
+export const selectStatus = (state) => {
+  const { user = {} } = state || {};
+  const { status } = user || false;
+  return status;
+};

@@ -53,6 +53,10 @@ const pageSlice = createSlice({
       if (index === -1) return;
       state.popup.active.splice(index, 1);
     },
+
+    hideAllPopups: (state) => {
+      state.popup.active = [];
+    },
   },
 });
 

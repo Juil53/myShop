@@ -27,3 +27,45 @@ export const selectOrderDetail = (state) => {
   const { orderDetail = {} } = order;
   return orderDetail;
 };
+
+export const selectOrderKeyword = (state) => {
+  const { order = {} } = state || {};
+  const { keyword = [] } = order;
+  return keyword;
+};
+
+export const selectStatus = (state) => {
+  const { order = {} } = state || {};
+  const { status } = order;
+  return status;
+};
+
+export const orderAddress = (state) => {
+  const { order = {} } = state || {};
+  const { orderAddress } = order;
+  return orderAddress;
+};
+
+export const addOrder = (state) => {
+  const { order = {} } = state || {};
+  const { addOrder } = order;
+  return addOrder;
+};
+
+export const payUrl = (state) => {
+  const { order = {} } = state || {};
+  const { payUrl } = order;
+  return payUrl;
+};
+
+export const orderByClient = (state) => {
+  const { order = {} } = state || {};
+  const { orderByClient } = order;
+  return orderByClient;
+};
+
+export const orderById = (state) => {
+  const { order = {} } = state || {};
+  const { orderById } = order;
+  return orderById;
+};

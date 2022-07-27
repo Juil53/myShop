@@ -1,24 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LOADING_STATUS } from "../../constants";
+import localStorage from "../../service/localStorage";
 
 const usersSlice = createSlice({
   name: "users",
+
   initialState: {
-    userData: null,
-    userDataPagination: null,
-    userInfo: null,
-    error: null,
+    userData: [],
+    userDataPagination: [],
+    userInfo: {},
+    status: false,
+    error: "",
     loading: false,
     open: false,
     keyword: null,
+    loginAdmin: {
+      status: LOADING_STATUS.IDLE,
+      data: {},
+      msg: "",
+    },
   },
+
   reducers: {
+    getUsersRequest(state, action) {
+      state.loading = true;
+    },
+
+    getUsersSuccess(state, action) {
+      state.loading = false;
+      state.userData = action.payload;
+    },
+
+    getUsersFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     getUserRequest(state, action) {
       state.loading = true;
     },
 
     getUserSuccess(state, action) {
       state.loading = false;
-      state.userData = action.payload;
+      state.userInfo = action.payload;
     },
 
     getUserFailed(state, action) {
@@ -53,10 +77,10 @@ const usersSlice = createSlice({
           (user) => user.email === action.payload.email
         );
         if (index !== -1) {
-            //Edit
+          //Edit
           userList[index] = action.payload;
         } else {
-            //Add
+          //Add
           userList.push(action.payload);
         }
       }
@@ -64,31 +88,100 @@ const usersSlice = createSlice({
       state.userData = userList;
     },
 
-    submitUserFailed(state,action){
-        state.loading = false;
-        state.error = action.payload
+    submitUserFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
 
-    getUserInfo(state,action){
-        state.userInfo = action.payload;
+    getUserInfo(state, action) {
+      state.userInfo = action.payload;
     },
 
-    openModal(state,action){
+    updateUserInfoRequest(state, action) {
+      state.loading = true;
+    },
+
+    deleteUserRequest(state) {
+      state.status = false;
+    },
+
+    deleteUserSuccess(state, action) {
+      state.status = true;
+    },
+
+    deleteUserFailed(state, action) {
+      state.status = false;
+    },
+
+    resetStatus(state) {
+      state.status = false;
+    },
+
+    openModal(state, action) {
       state.open = true;
     },
 
-    closeModal(state,action){
+    closeModal(state, action) {
       state.open = false;
     },
 
-    getKeyword(state,action){
-      state.keyword = action.payload
-    }
+    getKeyword(state, action) {
+      state.keyword = action.payload;
+    },
 
+    signinAdminRequest: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.LOADING;
+    },
+
+    signinAdminSuccess: (state, action) => {
+      state.loginAdmin.status = LOADING_STATUS.SUCCESS;
+      state.loginAdmin.data = action.payload.info;
+
+      localStorage.set("admin", action.payload.token);
+      state.loginAdmin.msg = "";
+    },
+
+    signinAdminFail: (state, action) => {
+      state.loginAdmin.status = LOADING_STATUS.FAIL;
+
+      switch (action.payload) {
+        case "auth/invalid-email":
+        case "auth/wrong-password":
+          state.loginAdmin.msg = "Invalid email or password";
+          break;
+
+        case "auth/network-request-failed":
+          state.loginAdmin.msg = "Connection error. Please try again";
+          break;
+
+        default:
+          state.loginAdmin.msg = "Something went wrong. Please try again";
+          break;
+      }
+    },
+
+    getLoginUserInfoRequest: (state) => {
+      state.loginAdmin.status = LOADING_STATUS.LOADING;
+    },
+
+    getLoginUserInfo: (state, action) => {
+      state.loginAdmin.status = LOADING_STATUS.SUCCESS;
+      state.loginAdmin.data = action.payload;
+    },
+
+    signoutAdmin: (state) => {
+      state.loginAdmin.data = null;
+      state.loginAdmin.msg = "";
+      localStorage.remove("admin");
+      state.loginAdmin.status = LOADING_STATUS.IDLE;
+    },
   },
 });
 
 export const {
+  getUsersRequest,
+  getUsersSuccess,
+  getUsersFailed,
   getUserRequest,
   getUserSuccess,
   getUserFailed,
@@ -99,9 +192,20 @@ export const {
   submitUserSuccess,
   submitUserFailed,
   getUserInfo,
+  deleteUserRequest,
+  deleteUserSuccess,
+  deleteUserFailed,
+  updateUserInfoRequest,
   openModal,
   closeModal,
-  getKeyword
+  getKeyword,
+  getLoginUserInfo,
+  signoutAdmin,
+  signinAdminFail,
+  signinAdminSuccess,
+  signinAdminRequest,
+  getLoginUserInfoRequest,
+  resetStatus,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

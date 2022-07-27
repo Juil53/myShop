@@ -1,0 +1,29 @@
+.selection-popup {
+  padding: 2rem;
+  max-width: 30rem;
+  background-color: $whiteColor;
+  border-radius: 0.5rem;
+
+  .selection-popup__title {
+    font-size: 4rem;
+    color: $mainColor;
+    text-align: center;
+  }
+
+  .message {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .function {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: space-around;
+
+    .cancel-btn,
+    .confirm-btn {
+      padding: 0.5rem 0;
+      width: 10rem;
+    }
+  }
+}

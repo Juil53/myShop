@@ -2,46 +2,53 @@ import { constant as c } from "../constants";
 import { delay } from "../utils";
 
 const call = async ({
+  baseUrl = c.API_URL,
   path = "",
   method = "GET",
-  headers = {},
+  headers = { "Content-Type": "application/json" },
   query = null,
 }) => {
   try {
-    let res = await fetch(`${c.API_URL}/${path}`, {
+    headers = headers || { "Content-Type": "application/json" };
+    const willConvertJson = headers["Content-Type"].includes("json");
+    const body = willConvertJson && query ? JSON.stringify(query) : query;
+    let res = await fetch(`${baseUrl}/${path}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
-      body: query ? JSON.stringify(query) : null,
+      body,
     });
 
-    await delay(3000);
+    await delay(1000);
 
     if (!res.ok) {
       const { message } = await res.json();
       throw { name: "API request error", message };
     }
     res = await res.json();
-
     return res;
   } catch (err) {
+    console.log(err);
     return null;
   }
 };
 
-const get = ({ path = "", headers = {} }) =>
-  call({ path, headers, method: "GET" });
+const get = ({ baseUrl = c.API_URL, path = "", headers }) =>
+  call({ baseUrl, path, headers, method: "GET" });
 
-const post = ({ path = "", headers = {}, query = {} }) =>
-  call({ path, headers, query, method: "POST" });
+const post = ({ baseUrl = c.API_URL, path = "", headers, query = {} }) =>
+  call({ baseUrl, path, headers, query, method: "POST" });
 
-const put = ({ path = "", headers = {}, query = {} }) =>
-  call({ path, headers, query, method: "PUT" });
+const put = ({ baseUrl = c.API_URL, path = "", headers, query = {} }) =>
+  call({ baseUrl, path, headers, query, method: "PUT" });
+
+const patch = ({ baseUrl = c.API_URL, path = "", headers, query = {} }) =>
+  call({ baseUrl, path, headers, query, method: "PATCH" });
 
 export default {
   get,
   post,
   put,
+  patch,
 };

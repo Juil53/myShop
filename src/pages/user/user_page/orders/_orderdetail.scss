@@ -1,0 +1,149 @@
+.order-detail__container {
+  .order-detail__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+
+    span.id {
+      color: $mainColor;
+    }
+
+    span {
+      padding: 0.3rem;
+    }
+  }
+
+  .order-detail__top {
+    .date {
+      padding: 1rem 0;
+      font-size: 1.2rem;
+    }
+  }
+
+  .container.info {
+    justify-content: space-between;
+
+    .info__section {
+      padding: 1rem;
+      width: 30rem;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+      border-radius: 0.5rem;
+      font-size: 1.4rem;
+
+      .section__title {
+        font-weight: 600;
+      }
+
+      .section__content {
+        color: $grayColor-3;
+
+        span {
+          font-weight: 600;
+        }
+
+        .waiting {
+          color: #E33C5B;
+        }
+
+        .paid {
+          color: #0C860C;
+          ;
+        }
+      }
+    }
+  }
+
+  .order-detail__main {
+    margin-top: 2rem;
+
+    table,
+    th,
+    td {
+      padding: 0.5rem;
+    }
+
+    th,
+    td {
+      padding: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .table__header {
+      th {
+        padding: 2px;
+        border-bottom: 1px solid $grayColor-1;
+      }
+
+      .product-info {
+        width: 50%;
+      }
+
+      .product-price,
+      .product-notional {
+        width: 20%;
+      }
+
+      .product-quantity {
+        width: 10%;
+      }
+    }
+
+    .table__body {
+      text-align: center;
+
+      .product {
+        font-size: 1.4rem;
+
+        td {
+          border-bottom: 1px solid $grayColor-1;
+        }
+
+        .product-info {
+          .img {
+            display: block;
+            margin: 0 auto;
+            width: 8rem;
+            height: 8rem;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          .name {
+            width: 70%;
+          }
+        }
+      }
+    }
+
+    .price-container {
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: 1.4rem;
+
+      .price:not(:last-child) {
+        padding-bottom: 0.8rem;
+      }
+
+      .price {
+        justify-content: space-between;
+
+        .price__title {
+          color: $grayColor-3;
+          margin-right: 3rem;
+        }
+      }
+
+      .amount {
+        margin-top: 1rem;
+        padding: 1rem 0;
+        border-top: 1px solid $grayColor-1;
+        color: $mainColor;
+        font-size: 1.6rem;
+      }
+    }
+  }
+}

@@ -8,8 +8,9 @@ const productSlice = createSlice({
     error: null,
     products: [],
     productsPagination: null,
-    productInfo: null,
-    categories: []
+    productInfo: {},
+    status:false,
+    categories: [],
   },
   reducers: {
     getOptionsRequest(state, action) {
@@ -46,7 +47,19 @@ const productSlice = createSlice({
 
     submitProductSuccess(state, action) {
       state.loading = false;
-      state.products = action.payload;
+      // state.products = action.payload;
+      const productList = [...state.products];
+      if (action.payload.id) {
+        const index = productList.findIndex((product) => product.id === action.payload.id);
+        if (index !== -1) {
+          //Edit
+          productList[index] = action.payload;
+        } else {
+          //Add
+          productList.push(action.payload);
+        }
+      }
+      state.products = productList;
     },
 
     submitProductFailed(state, action) {
@@ -82,9 +95,47 @@ const productSlice = createSlice({
       state.error = action.payload;
     },
 
-    getProductInfo(state, action) {
+    getProductInfoRequest(state, action) {
+      state.loading = true;
+    },
+
+    getProductInfoSuccess(state, action) {
+      state.loading = false;
       state.productInfo = action.payload;
     },
+
+    getProductInfoFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    deleteProductRequest(state){
+      state.status = false
+    },
+
+    deleteProductSuccess(state){
+      state.status = true
+    },
+
+    deleteProductFailed(state){
+      state.status = false
+    },
+
+    deleteSelectedProductRequest(state){
+      state.status = false
+    },
+
+    deleteSelectedProductSuccess(state){
+      state.status = true
+    },
+
+    deleteSelectedProductFailed(state){
+      state.status = false
+    },
+
+    resetStatus(state){
+      state.status = false
+    }
   },
 });
 
@@ -101,10 +152,20 @@ export const {
   getAllProductRequest,
   getAllProductSuccess,
   getAllProductFailed,
+  getProductInfoRequest,
+  getProductInfoSuccess,
+  getProductInfoFailed,
   getProductPaginationRequest,
   getProductPaginationSuccess,
   getProductPaginationFailed,
-  getProductInfo
+  getProductInfo,
+  deleteProductRequest,
+  deleteProductSuccess,
+  deleteProductFailed,
+  deleteSelectedProductRequest,
+  deleteSelectedProductSuccess,
+  deleteSelectedProductFailed,
+  resetStatus
 } = productSlice.actions;
 
 export default productSlice.reducer;

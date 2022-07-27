@@ -16,20 +16,46 @@ export const selectLoading = (state) => {
   return loading;
 };
 
-export const selectAllProduct = (state) => {
+export const selectAllProduct = (state, filterOptions = "") => {
   const { adminProduct = {} } = state || {};
   const { products = [] } = adminProduct;
+  let temp = [];
+  let newProducts = [];
+  if (filterOptions.length > 0) {
+    for (let i = 0; i < filterOptions.length; i++) {
+      temp = products.filter((product) => product.categories?.includes(filterOptions[i]));
+      newProducts.push(...temp);
+    }
+    return newProducts;
+  }
+
   return products;
 };
 
-export const selectProductPagination = (state) => {
+export const selectProductPagination = (state, filterOptions) => {
   const { adminProduct = {} } = state || {};
   const { productsPagination = [] } = adminProduct;
+
+  let temp = [];
+  let newProducts = [];
+  if (filterOptions.length > 0) {
+    for (let i = 0; i < filterOptions.length; i++) {
+      temp = productsPagination.filter((product) => product.categories?.includes(filterOptions[i]));
+      newProducts.push(...temp);
+    }
+    return newProducts;
+  }
   return productsPagination;
 };
 
 export const selectProductInfo = (state) => {
   const { adminProduct = {} } = state || {};
-  const { productInfo = [] } = adminProduct;
-  return productInfo;
+  const { productInfo } = adminProduct;
+  return productInfo
+};
+
+export const selectStatus = (state) => {
+  const { adminProduct = {} } = state || {};
+  const { status } = adminProduct;
+  return status;
 };
