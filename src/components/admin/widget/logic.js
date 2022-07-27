@@ -55,16 +55,17 @@ export const handleRevenue = (orders, month) => {
 
   const sortedOrders = ordersThisMonth.sort((a, b) => Number(a.date) - Number(b.date));
 
+  //Daily Revenue
   sortedOrders.forEach((order) => {
     const date = order.date.getDate();
-    revenue.date.push({ date, revenue: order.totalAmount });
+    if (order.status === "Successful") {
+      revenue.date.push({ date, revenue: order.totalAmount });
+    }
   });
 
   //Month Revenue
-  revenue.month = ordersThisMonth.reduce(
-    (total, order, index) => total + order.totalAmount,
-    0
-  );
+  const successOrdersMonth = ordersThisMonth.filter(order=>order.status === "Successful")
+  revenue.month = successOrdersMonth.reduce((total, order, index) => total + order.totalAmount, 0);  
   return revenue;
 };
 
@@ -118,6 +119,7 @@ export const handleConvertNumberToMonth = (number) => {
 
 export const handleIncreaseItem = (newItems) => (newItems / CURRENT_USERS) * 100;
 export const handleIncreaseProducts = (newItems) => (newItems / CURRENT_PRODUCTS) * 100 + `%`;
-export const handleIncreaseOrders = (newItems) => Math.round((newItems / CURRENT_ORDERS) * 100) + `%`;
+export const handleIncreaseOrders = (newItems) =>
+  Math.round((newItems / CURRENT_ORDERS) * 100) + `%`;
 export const handleIncreaseRevenue = (newItems) =>
   newItems && Math.round(((newItems - CURRENT_REVENUE) / CURRENT_REVENUE) * 100);

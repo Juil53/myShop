@@ -4,7 +4,7 @@ import { delay } from "../utils";
 const call = async ({
   baseUrl = c.API_URL,
   path = "",
-  method = "GET",
+   method = "GET",
   mode = "cors",
   headers = {
     "Content-Type": "application/json",

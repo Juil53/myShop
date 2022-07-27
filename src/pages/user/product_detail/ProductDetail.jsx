@@ -72,21 +72,6 @@ const ProductDetail = () => {
     return current;
   });
 
-  useEffect(() => {
-    if (!loading) {
-      const { configurableProducts = [] } = productInfo;
-      if (configurableProducts.length) {
-        const { available, selected, ...current } = configurableProducts.filter(
-          (p) => p.selected
-        )[0];
-
-        setCurrentOption(current);
-      } else {
-        setCurrentOption({});
-      }
-    }
-  }, [loading]);
-
   const [numberOfProduct, setNumberOfProduct] = useState(() => {
     if (productInfo.configurableOptions) {
       return getQuantityAvailable({
@@ -249,7 +234,9 @@ const ProductDetail = () => {
     } = productInfo;
 
     if (
-      configurableOptions.length > 0 &&
+      (configurableOptions &&
+        configurableOptions.length > 0 &&
+        !Object.keys(currentOption)) ||
       Object.keys(currentOption).length <= 0
     ) {
       error.textContent = "Select option";
@@ -352,11 +339,11 @@ const ProductDetail = () => {
                     value={number}
                     changeValue={setNumber}
                     type="add"
-                    available={numberOfProduct}
+                    available={productInfo.available}
                   />
                 </div>
                 <p className="right">
-                  Product Available <span>{numberOfProduct}</span>{" "}
+                  Product Available <span>{productInfo.available}</span>{" "}
                 </p>
               </div>
 
