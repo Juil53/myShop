@@ -7,6 +7,7 @@ import { actions } from "../../../../store/page/slice";
 import { clientActions } from "../../../../store/clients/slice";
 import {
   checkEmailFormat,
+  checkPassword,
   checkPhoneFormat,
 } from "../../../../validation/validateInputField";
 import InputField from "../../../../components/input_field/InputField";
@@ -55,6 +56,8 @@ const SignupForm = () => {
         errorMsg.textContent = "Invalid email. Please try again";
       } else if (!checkPhoneFormat(phoneNumber)) {
         errorMsg.textContent = "Invalid phone number. Please try again";
+      } else if (!checkPassword(password)) {
+        errorMsg.textContent = "Invalid password. Please try again";
       } else {
         const user = {
           displayName: name,

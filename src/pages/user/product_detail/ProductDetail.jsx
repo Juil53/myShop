@@ -72,6 +72,21 @@ const ProductDetail = () => {
     return current;
   });
 
+  useEffect(() => {
+    if (!loading) {
+      const { configurableProducts = [] } = productInfo;
+      if (configurableProducts.length) {
+        const { available, selected, ...current } = configurableProducts.filter(
+          (p) => p.selected
+        )[0];
+
+        setCurrentOption(current);
+      } else {
+        setCurrentOption({});
+      }
+    }
+  }, [loading]);
+
   const [numberOfProduct, setNumberOfProduct] = useState(() => {
     if (productInfo.configurableOptions) {
       return getQuantityAvailable({
@@ -234,9 +249,7 @@ const ProductDetail = () => {
     } = productInfo;
 
     if (
-      (configurableOptions &&
-        configurableOptions.length > 0 &&
-        !Object.keys(currentOption)) ||
+      configurableOptions.length > 0 &&
       Object.keys(currentOption).length <= 0
     ) {
       error.textContent = "Select option";
