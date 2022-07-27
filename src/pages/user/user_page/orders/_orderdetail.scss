@@ -3,8 +3,12 @@
     font-size: 1.8rem;
     font-weight: 600;
 
-    span {
+    span.id {
       color: $mainColor;
+    }
+
+    span {
+      padding: 0.3rem;
     }
   }
 
@@ -34,6 +38,15 @@
 
         span {
           font-weight: 600;
+        }
+
+        .waiting {
+          color: #E33C5B;
+        }
+
+        .paid {
+          color: #0C860C;
+          ;
         }
       }
     }

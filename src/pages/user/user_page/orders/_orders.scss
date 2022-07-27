@@ -1,5 +1,20 @@
 @import "./orderdetail";
 
+.pending-color {
+  background-color: #F8EDD2;
+  color: #DBA724;
+}
+
+.successful-color {
+  color: #0C860C;
+  background-color: #CCE6CC;
+}
+
+.failed-color {
+  color: #E33C5B;
+  background-color: #FFCCCC;
+}
+
 .orders {
   width: 100%;
 
@@ -53,6 +68,10 @@
         color: $grayColor-3;
         border-bottom: 1px solid $grayColor-1;
         padding-bottom: 1rem;
+
+        span {
+          padding: 0.3rem;
+        }
       }
 
       .item__products {
