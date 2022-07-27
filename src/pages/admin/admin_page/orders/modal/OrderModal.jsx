@@ -53,7 +53,7 @@ const OrderModal = () => {
     dispatch(closeModal());
     setSeverity({
       type: "success",
-      message: `Edit order ${orderDetail.id} Successful`,
+      message: `Edit Order ${orderDetail.id} Successful`,
     });
     setShow(true);
   };

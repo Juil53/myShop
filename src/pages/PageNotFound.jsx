@@ -6,7 +6,7 @@ const PageNotFound = () => {
       <div className="colorlib-notfound">
         <div className="colorlib-notfound-404">
           <h1 className="colorlib-heading">
-            <img src="../img/404.png" alt="404" style={{ width: "200px", height: "200px" }} />
+            <img src="./img/404.png" alt="404" style={{ width: "200px", height: "200px" }} />
           </h1>
         </div>
         <h2 id="colorlib_404_customizer_page_heading" className="colorlib-heading">
