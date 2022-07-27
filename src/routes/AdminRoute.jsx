@@ -75,12 +75,12 @@ const routeAdmin = [
     path: "/login",
     element: lazy(() => import("../pages/admin/signin_admin/Signin")),
   },
-  {
-    page: "404",
-    exact: true,
-    path: "*",
-    element: lazy(() => import("../pages/PageNotFound")),
-  },
+  // {
+  //   page: "404",
+  //   exact: true,
+  //   path: "*",
+  //   element: lazy(() => import("../pages/PageNotFound")),
+  // },
 ];
 
 const renderRouteAdmin = () => {
