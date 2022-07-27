@@ -81,11 +81,11 @@ const Orders = () => {
         </div>
         <div
           className={
-            currentTab === constant.succeeded
+            currentTab === constant.successful
               ? "orders__header-button active"
               : "orders__header-button"
           }
-          onClick={() => handleChangeTab(constant.succeeded, 2)}
+          onClick={() => handleChangeTab(constant.successful, 2)}
         >
           Successful orders
         </div>
