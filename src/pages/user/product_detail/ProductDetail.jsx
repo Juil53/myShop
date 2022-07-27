@@ -40,14 +40,12 @@ const ProductDetail = () => {
 
   useEffect(() => {
     dispatch(productActions.getProductRequest(params.id));
-  }, [params.id]);
 
-  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-  }, []);
+  }, [params.id]);
 
   const array = [
     {

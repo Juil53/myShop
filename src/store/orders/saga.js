@@ -21,7 +21,7 @@ import {
   getOrderByClientFail,
   getOrderByClientSuccess,
   getOrderByIdSuccess,
-  getOrderByIdFail
+  getOrderByIdFail,
 } from "./orderSlice";
 import localStorage from "../../service/localStorage";
 import { actions as cartActions } from "../cart/slice";
@@ -42,7 +42,7 @@ export function* actGetOrders() {
 //GET ORDERS DATA
 export function* actGetOrder(action) {
   try {
-    const result = yield call(fb.get, "orders",action.payload.id);
+    const result = yield call(fb.get, "orders", action.payload.id);
     yield put(getOrderDetailSuccess(result));
   } catch (error) {
     yield put(getOrderDetailFailed(error));
@@ -53,7 +53,10 @@ export function* actGetOrder(action) {
 export function* actGetOrderPagination(action) {
   const { page, ROWS_PER_PAGE } = action.payload;
   try {
-    const result = yield call(apiInstance.get, `orders?_page=${page}&_limit=${ROWS_PER_PAGE}`);
+    const result = yield call(
+      apiInstance.get,
+      `orders?_page=${page}&_limit=${ROWS_PER_PAGE}`
+    );
     yield put(getOrderPaginationSuccess(result));
   } catch (err) {
     yield put(getOrderPaginationFailed(err));
@@ -63,7 +66,11 @@ export function* actGetOrderPagination(action) {
 // UPDATE ORDER STATUS
 export function* actUpdateOrderStatus(action) {
   try {
-    const result = yield call(fb.update, `orders/${action.payload.id}`, action.payload);
+    const result = yield call(
+      fb.update,
+      `orders/${action.payload.id}`,
+      action.payload
+    );
     yield put(submitOrderSuccess(result));
   } catch (err) {
     yield put(submitOrderFailed(err));
@@ -83,30 +90,37 @@ export function* actDeleteOrder(action) {
 // get payUrl
 
 export function* getPayUrl({ payload: { amount, orderId } }) {
+  console.log("pay url");
   try {
+    console.log("pay url 1");
     const { payUrl } = yield call(APIv1.post, {
-      baseUrl: "http://192.168.1.143:3002/api/payment",
+      baseUrl: "http://192.168.40.6:3002/api/payment",
       query: {
         amount,
         orderId,
       },
     });
 
+    console.log("pay url 2");
     if (payUrl) {
       yield put(getPayUrlSuccess({ payUrl }));
     } else {
       yield put(getPayUrlFail());
     }
+
+    console.log("success");
   } catch (err) {
+    console.log(err);
     yield put(getPayUrlFail());
   }
 }
 
 //add order
-export function* addOrder({ payload: { order, orderId, encryptedId } }) {
-  const { success } = yield call(APIv1.post, {
-    baseUrl: "http://192.168.1.143:3002/api/orders",
-    query: { orderId, encryptedId, order },
+export function* addOrder({ payload: { order } }) {
+  const { success, payUrl, error } = yield call(APIv1.post, {
+    baseUrl: "https://minhln-myshop-server.herokuapp.com",
+    path: "api/orders",
+    query: { order },
   });
 
   if (success) {
@@ -123,6 +137,9 @@ export function* addOrder({ payload: { order, orderId, encryptedId } }) {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
+      onClose: () => {
+        payUrl && (window.location.href = payUrl);
+      },
     });
   } else {
     yield call(toast.warning, "Order fail!", {
