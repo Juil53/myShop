@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumb from "../../../components/breadcumb/BreadCumb";
 
 import SigninForm from "./child/SigninForm";
@@ -17,6 +17,13 @@ const SigninSignup = () => {
       url: "/sign",
     },
   ];
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [currentTab]);
 
   function handleChangeTab() {
     if (currentTab === "signin") {
