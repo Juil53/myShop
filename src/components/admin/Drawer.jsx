@@ -1,44 +1,27 @@
-import * as React from "react";
-import {
-  List,
-  ListItemText,
-  ListItemIcon,
-  Toolbar,
-  AppBar,
-  Box,
-  Divider,
-  Avatar,
-  Stack,
-  Badge,
-  styled,
-  Drawer,
-  Grid,
-  Popper,
-  Fade,
-  Paper,
-  Button,
-} from "@mui/material";
-import {
-  CustomizedListItemButton,
-  CustomizeToolbar,
-  CustomeNavlink,
-} from "../../styles/styled_components/styledComponent";
-import StoreIcon from "@mui/icons-material/Store";
-import MailIcon from "@mui/icons-material/Mail";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import IconButton from "@mui/material/IconButton";
-import LogoutIcon from "@mui/icons-material/Logout";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MailIcon from "@mui/icons-material/Mail";
+import StoreIcon from "@mui/icons-material/Store";
+import {
+  AppBar, Avatar, Badge, Box, Button, Divider, Drawer, Fade, Grid, List, ListItemIcon, ListItemText, Paper, Popper, Stack, styled, Toolbar
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAdmin } from "../../store/users/selector";
+import {
+  CustomeNavlink, CustomizedListItemButton,
+  CustomizeToolbar
+} from "../../styles/styled_components/styledComponent";
 import { LOADING_STATUS, USER_ACTIONS } from "../../constants";
-import { getLoginUserInfoRequest } from "../../store/users/usersSlice";
 import localStorage from "../../service/localStorage";
+import { loginAdmin } from "../../store/users/selector";
+import { getLoginUserInfoRequest } from "../../store/users/usersSlice";
 
 const drawerWidth = "25rem";
 
@@ -226,12 +209,7 @@ function MyDrawer() {
                       <MailIcon color="primary" />
                     </Badge>
 
-                    <Popper
-                      id={id}
-                      open={popper}
-                      anchorEl={anchorEl}
-                      transition
-                    >
+                    <Popper id={id} open={popper} anchorEl={anchorEl} transition>
                       {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={200}>
                           <Stack
@@ -240,10 +218,7 @@ function MyDrawer() {
                             elevation={2}
                           >
                             <Button>{user?.data?.lastname}</Button>
-                            <Button
-                              onClick={handleSignout}
-                              endIcon={<LogoutIcon />}
-                            >
+                            <Button onClick={handleSignout} endIcon={<LogoutIcon />}>
                               Log out
                             </Button>
                           </Stack>
@@ -269,10 +244,7 @@ function MyDrawer() {
             >
               <Grid item>
                 <Grid item>
-                  <Toolbar
-                    className="adminToolbar"
-                    sx={{ paddingLeft: { xs: "16px" } }}
-                  >
+                  <Toolbar className="adminToolbar" sx={{ paddingLeft: { xs: "16px" } }}>
                     {open ? (
                       <img
                         src="/img/logomyShopwhite.png"
@@ -293,9 +265,7 @@ function MyDrawer() {
                           return (
                             <CustomeNavlink to={href} key={index}>
                               <CustomizedListItemButton>
-                                <ListItemIcon sx={{ color: "#fff" }}>
-                                  {icon}
-                                </ListItemIcon>
+                                <ListItemIcon sx={{ color: "#fff" }}>{icon}</ListItemIcon>
                                 <ListItemText primary={text} />
                               </CustomizedListItemButton>
                               <Divider />
@@ -307,9 +277,7 @@ function MyDrawer() {
                           return (
                             <CustomeNavlink to={href} key={index}>
                               <CustomizedListItemButton>
-                                <ListItemIcon sx={{ color: "#fff" }}>
-                                  {icon}
-                                </ListItemIcon>
+                                <ListItemIcon sx={{ color: "#fff" }}>{icon}</ListItemIcon>
                                 <ListItemText primary={text} />
                               </CustomizedListItemButton>
                               <Divider />
@@ -321,9 +289,7 @@ function MyDrawer() {
               </Grid>
 
               <Grid item>
-                <DrawerHeader
-                  sx={{ justifyContent: open ? "flex-end" : "flex-start" }}
-                >
+                <DrawerHeader sx={{ justifyContent: open ? "flex-end" : "flex-start" }}>
                   {!open ? (
                     <IconButton onClick={handleDrawerOpen}>
                       <ChevronRightIcon sx={{ color: "#fff" }} />

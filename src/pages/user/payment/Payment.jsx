@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
 import { actions } from "../../../store/page/slice";
@@ -11,13 +12,12 @@ import { actions as cartActions } from "../../../store/cart/slice";
 import localStorage from "../../../service/localStorage";
 import Loading from "../../../components/loading/Loading";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
-import { addOrder, orderAddress, payUrl } from "../../../store/orders/selector";
+import { addOrder, orderAddress } from "../../../store/orders/selector";
 import { clientData } from "../../../store/clients/selector";
 import {
   addOrderRequest,
   setOrderAddress,
 } from "../../../store/orders/orderSlice";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "../../../components/image/Image";
 
@@ -26,7 +26,6 @@ const Payment = () => {
   const [click, setClick] = useState(false);
 
   const [deliveryAddress, setDeliveryAddress] = useState();
-  const [params] = useSearchParams();
 
   const dispatch = useDispatch();
   const navigator = useNavigate();
@@ -36,7 +35,6 @@ const Payment = () => {
   const token = localStorage.get("token");
 
   const order = useSelector(addOrder);
-  const payURL = useSelector(payUrl);
 
   const [shippingFee, setShippingFee] = useState(10000);
   const [discount, setDiscount] = useState(0);
@@ -99,17 +97,6 @@ const Payment = () => {
     //calculate amount
     setAmount(calAmount(cart.data.totalAmount, shippingFee, discount));
   });
-
-  // useEffect(() => {
-  //   if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
-  //     window.location.href = payURL.data;
-  //   } else if (payURL.status === LOADING_STATUS.LOADING) {
-  //     dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
-  //   } else if (payURL.status === LOADING_STATUS.FAIL) {
-  //     document.querySelector(".order-infor__error").textContent =
-  //       "Somethings went wrong. Please try again";
-  //   }
-  // });
 
   //actions
   const changePaymentMethod = (method) => {
@@ -217,7 +204,6 @@ const Payment = () => {
         newOrder.email = client.info.email;
       }
 
-      console.log(newOrder);
       dispatch(addOrderRequest({ order: newOrder }));
     }
   };
