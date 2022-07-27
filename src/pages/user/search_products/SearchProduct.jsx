@@ -36,6 +36,13 @@ const SearchProduct = () => {
     }
   });
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [searchParams])
+
   const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate, sortCate));
   const searchResultFilter = useSelector((state) =>
     selectSearchProduct(state, mainCate, subCate, sortCate)
