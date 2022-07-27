@@ -5,9 +5,7 @@ const call = async ({
   baseUrl = c.API_URL,
   path = "",
   method = "GET",
-  headers = {
-    "Content-Type": "application/json",
-  },
+  headers = { "Content-Type": "application/json" },
   query = null,
 }) => {
   try {
