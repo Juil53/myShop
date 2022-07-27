@@ -91,13 +91,13 @@ const Orders = () => {
         </div>
         <div
           className={
-            currentTab === constant.canceled
+            currentTab === constant.failed
               ? "orders__header-button active"
               : "orders__header-button"
           }
-          onClick={() => handleChangeTab(constant.canceled, 3)}
+          onClick={() => handleChangeTab(constant.failed, 3)}
         >
-          Canceled orders
+          Failed orders
         </div>
       </div>
       <div className="orders__indicator"></div>
