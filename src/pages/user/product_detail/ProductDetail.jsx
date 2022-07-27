@@ -339,11 +339,11 @@ const ProductDetail = () => {
                     value={number}
                     changeValue={setNumber}
                     type="add"
-                    available={numberOfProduct}
+                    available={productInfo.available}
                   />
                 </div>
                 <p className="right">
-                  Product Available <span>{numberOfProduct}</span>{" "}
+                  Product Available <span>{productInfo.available}</span>{" "}
                 </p>
               </div>
 

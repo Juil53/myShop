@@ -27,6 +27,7 @@ const WidgetEarning = ({ orders,month }) => {
 
   useEffect(() => {
     const revenue = handleRevenue(orders,month);
+    console.log(revenue)
     const percentIncrease = handleIncreaseRevenue(revenue.month);
     setData({
       ...data,
