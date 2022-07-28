@@ -26,7 +26,7 @@ import {
   Stack,
   styled,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import * as React from "react";
