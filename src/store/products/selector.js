@@ -46,12 +46,12 @@ export const selectProduct = (state, mainCate, subCate, sortCate) => {
     product.categories?.includes(subCate)
   );
 
-  if (mainCate == "" && subCate == "") {
+  if (mainCate === "" && subCate === "") {
     if (!sortCate) {
       return data;
     }
     return handleSort(data, sortCate);
-  } else if (mainCate && subCate == "") {
+  } else if (mainCate && subCate === "") {
     if (!sortCate) {
       return handleSort(dataMainCate);
     }
@@ -78,12 +78,12 @@ export const selectSearchProduct = (state, mainCate, subCate, sortCate) => {
     product.categories?.includes(subCate)
   );
 
-  if (mainCate == "" && subCate == "") {
+  if (mainCate === "" && subCate === "") {
     if (!sortCate) {
       return data;
     }
     return handleSort(data, sortCate);
-  } else if (mainCate && subCate == "") {
+  } else if (mainCate && subCate === "") {
     if (!sortCate) {
       return handleSort(dataMainCate);
     }

@@ -41,7 +41,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     dispatch(productActions.getProductRequest(params.id));
-
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     window.scrollTo({
       top: 0,
       behavior: "smooth",

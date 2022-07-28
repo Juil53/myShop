@@ -2,9 +2,9 @@ import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { handleIncreaseRevenue, handleRevenue } from "./logic";
-import { formatter } from "../../../utils/index";
 import { Link } from "react-router-dom";
+import { formatter } from "../../../utils/index";
+import { handleIncreaseRevenue, handleRevenue } from "./logic";
 
 const WidgetEarning = ({ orders,month }) => {
   let [data, setData] = useState(() => {
@@ -27,7 +27,6 @@ const WidgetEarning = ({ orders,month }) => {
 
   useEffect(() => {
     const revenue = handleRevenue(orders,month);
-    console.log(revenue)
     const percentIncrease = handleIncreaseRevenue(revenue.month);
     setData({
       ...data,
@@ -35,6 +34,7 @@ const WidgetEarning = ({ orders,month }) => {
       revenueDay: revenue.day,
       increase: percentIncrease,
     });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month]);
 
   const cardStyle = {
