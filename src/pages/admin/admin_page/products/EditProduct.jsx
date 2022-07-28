@@ -26,8 +26,8 @@ import ImageInput from "./add_product/ImageInput";
 export default function EditProduct() {
   const params = useParams();
   const dispatch = useDispatch();
+  
   const product = useSelector(selectProductInfo);
-  console.log(product);
 
   const [show, setShow] = useState(false);
   const [severity, setSeverity] = useState({

@@ -13,6 +13,7 @@ const style = {
     borderRadius: "5px",
     height: "100px",
     width: "100px",
+    objectFit:'cover'
   },
 };
 
