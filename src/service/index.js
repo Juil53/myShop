@@ -4,15 +4,20 @@ import { delay } from "../utils";
 const call = async ({
   baseUrl = c.API_URL,
   path = "",
-  method = "GET",
-  headers = { "Content-Type": "application/json" },
+   method = "GET",
+  mode = "cors",
+  headers = {
+    "Content-Type": "application/json",
+  },
   query = null,
 }) => {
   try {
+    headers = headers || { "Content-Type": "application/json" };
     const willConvertJson = headers["Content-Type"].includes("json");
     const body = willConvertJson && query ? JSON.stringify(query) : query;
     let res = await fetch(`${baseUrl}/${path}`, {
       method,
+      mode,
       headers: {
         ...headers,
       },
@@ -28,20 +33,21 @@ const call = async ({
     res = await res.json();
     return res;
   } catch (err) {
+    console.log(err);
     return null;
   }
 };
 
-const get = ({ baseUrl = c.API_URL, path = "", headers = {} }) =>
+const get = ({ baseUrl = c.API_URL, path = "", headers }) =>
   call({ baseUrl, path, headers, method: "GET" });
 
-const post = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
+const post = ({ baseUrl = c.API_URL, path = "", headers, query = {} }) =>
   call({ baseUrl, path, headers, query, method: "POST" });
 
-const put = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
+const put = ({ baseUrl = c.API_URL, path = "", headers, query = {} }) =>
   call({ baseUrl, path, headers, query, method: "PUT" });
 
-const patch = ({ baseUrl = c.API_URL, path = "", headers = {}, query = {} }) =>
+const patch = ({ baseUrl = c.API_URL, path = "", headers, query = {} }) =>
   call({ baseUrl, path, headers, query, method: "PATCH" });
 
 export default {

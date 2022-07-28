@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import Image from "../../../../components/image/Image";
 import { utils } from "../../../../utils";
+import { constant } from "../../../../constants";
 
 const OrderItem = ({ data }) => {
   const navigator = useNavigate();
@@ -15,7 +17,7 @@ const OrderItem = ({ data }) => {
       return data.map((v) => (
         <div className="product row" key={v.cartItemID}>
           <div className="img">
-            <img src={v.image} alt="" />
+            <Image src={v.image} showLoading />
           </div>
           <div className="info row">
             <div className="name">{v.name}</div>
@@ -37,7 +39,19 @@ const OrderItem = ({ data }) => {
   };
   return (
     <div className="orders__item">
-      <div className="item__status">{data.status}</div>
+      {data.status === constant.pending ? (
+        <div className="item__status">
+          <span className="pending-color">{data.status}</span>
+        </div>
+      ) : data.status === constant.successful ? (
+        <div className="item__status">
+          <span className="successful-color">{data.status}</span>
+        </div>
+      ) : (
+        <div className="item__status">
+          <span className="failed-color">{data.status}</span>
+        </div>
+      )}
       <div className="item__products">{createProduct(data.items)}</div>
       <div className="item__amount">
         <span>Amount: </span> {utils.priceBreak(data.totalAmount)}₫

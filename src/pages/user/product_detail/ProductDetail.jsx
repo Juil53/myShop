@@ -22,6 +22,7 @@ import ProductTabs from "./ProductTabs";
 import RelatedProducts from "./RelatedProducts";
 import ScrollToTop from "../../../components/user/scroll_to_top/ScrollToTop";
 import { formatter } from "../../../utils";
+import Image from "../../../components/image/Image";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -43,12 +44,11 @@ const ProductDetail = () => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
-  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-  }, []);
+  }, [params.id]);
 
   const array = [
     {
@@ -86,6 +86,34 @@ const ProductDetail = () => {
     }
   });
 
+  useEffect(() => {
+    if (!loading) {
+      const { configurableProducts = [] } = productInfo;
+      if (configurableProducts.length) {
+        const { available, selected, ...current } = configurableProducts.filter(
+          (p) => p.selected
+        )[0];
+        setCurrentOption(current);
+      } else {
+        setCurrentOption({});
+      }
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      if (productInfo.configurableOptions) {
+        const currentAvailable = getQuantityAvailable({
+          product: productInfo,
+          currentOption,
+        });
+        setNumberOfProduct(currentAvailable);
+      } else {
+        setNumberOfProduct(productInfo.available);
+      }
+    }
+  }, [loading, currentOption]);
+
   const settingsMainSlider = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -114,7 +142,7 @@ const ProductDetail = () => {
           ref={(slider1) => setMainSlider(slider1)}
         >
           <div className="img-container">
-            <img src={data} alt="" />
+            <Image src={data} showLoading />
           </div>
         </Slider>
       );
@@ -127,7 +155,7 @@ const ProductDetail = () => {
       >
         {data.map((v) => (
           <div className="img-container" key={v}>
-            <img src={v} alt="" />
+            <Image src={v} showLoading />
           </div>
         ))}
       </Slider>
@@ -148,7 +176,7 @@ const ProductDetail = () => {
         {data.map((v) => (
           <div className="subimg" key={v}>
             <div className="img-container">
-              <img src={v} alt="" />
+              <Image src={v} showLoading />
             </div>
           </div>
         ))}
@@ -342,11 +370,11 @@ const ProductDetail = () => {
                     value={number}
                     changeValue={setNumber}
                     type="add"
-                    available={productInfo.available}
+                    available={numberOfProduct}
                   />
                 </div>
                 <p className="right">
-                  Product Available <span>{productInfo.available}</span>{" "}
+                  Product Available <span>{numberOfProduct}</span>{" "}
                 </p>
               </div>
 

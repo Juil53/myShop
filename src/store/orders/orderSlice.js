@@ -23,10 +23,6 @@ const orderSlice = createSlice({
       status: LOADING_STATUS.IDLE,
       data: [],
     },
-    payUrl: {
-      status: LOADING_STATUS.IDLE,
-      data: "",
-    },
     orderById: {
       status: LOADING_STATUS.IDLE,
       data: {},
@@ -94,7 +90,9 @@ const orderSlice = createSlice({
 
       const orderList = [...state.orderData];
       if (action.payload.id) {
-        const index = orderList.findIndex((order) => order.id === action.payload.id);
+        const index = orderList.findIndex(
+          (order) => order.id === action.payload.id
+        );
         if (index !== -1) {
           //Edit
           orderList[index] = action.payload;
@@ -142,23 +140,11 @@ const orderSlice = createSlice({
 
     addOrderSuccess: (state) => {
       state.addOrder.status = LOADING_STATUS.SUCCESS;
+      state.orderById.status = LOADING_STATUS.IDLE;
     },
 
     addOrderFail: (state) => {
       state.addOrder.status = LOADING_STATUS.FAIL;
-    },
-
-    getPayUrlRequest: (state) => {
-      state.payUrl.status = LOADING_STATUS.LOADING;
-    },
-
-    getPayUrlSuccess: (state, { payload: { payUrl } }) => {
-      state.payUrl.status = LOADING_STATUS.SUCCESS;
-      state.payUrl.data = payUrl;
-    },
-
-    getPayUrlFail: (state) => {
-      state.payUrl.status = LOADING_STATUS.FAIL;
     },
 
     getOrderByClientRequest: (state) => {
@@ -213,9 +199,6 @@ export const {
   addOrderRequest,
   addOrderSuccess,
   addOrderFail,
-  getPayUrlRequest,
-  getPayUrlSuccess,
-  getPayUrlFail,
   getOrderByClientRequest,
   getOrderByClientSuccess,
   getOrderByClientFail,

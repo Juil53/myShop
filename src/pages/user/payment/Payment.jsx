@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { LOADING_STATUS, POPUP, USER_ACTIONS } from "../../../constants";
 import { actions } from "../../../store/page/slice";
@@ -11,16 +12,13 @@ import { actions as cartActions } from "../../../store/cart/slice";
 import localStorage from "../../../service/localStorage";
 import Loading from "../../../components/loading/Loading";
 import LoadingFail from "../../../components/loading_fail/LoadingFail";
-import { addOrder, orderAddress, payUrl } from "../../../store/orders/selector";
+import { addOrder, orderAddress } from "../../../store/orders/selector";
 import { clientData } from "../../../store/clients/selector";
 import {
   addOrderRequest,
   setOrderAddress,
-  getPayUrlRequest,
 } from "../../../store/orders/orderSlice";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { v4 as uuidv4 } from "uuid";
 import Image from "../../../components/image/Image";
 
 const Payment = () => {
@@ -28,7 +26,6 @@ const Payment = () => {
   const [click, setClick] = useState(false);
 
   const [deliveryAddress, setDeliveryAddress] = useState();
-  const [params] = useSearchParams();
 
   const dispatch = useDispatch();
   const navigator = useNavigate();
@@ -38,7 +35,6 @@ const Payment = () => {
   const token = localStorage.get("token");
 
   const order = useSelector(addOrder);
-  const payURL = useSelector(payUrl);
 
   const [shippingFee, setShippingFee] = useState(10000);
   const [discount, setDiscount] = useState(0);
@@ -95,58 +91,11 @@ const Payment = () => {
   }, [client.status, token]);
 
   useEffect(() => {
-    if (cart.status !== LOADING_STATUS.SUCCESS) return;
-    const encryptedId = params.get("extraData");
-    const orderId = params.get("orderId");
-    const message = params.get("message");
-
-    if (encryptedId && orderId && message === "Successful.") {
-      const date =
-        new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
-
-      const newOrder = {
-        date: date,
-        items: [...cart.data.productList],
-        totalAmount: calAmount(cart.data.totalAmount, shippingFee, discount),
-        notionalPrice: cart.data.totalAmount,
-        shippingMethod: {
-          shippingFee: shippingFee,
-          shippingMethod: "",
-        },
-        status: constant.pending,
-        deliveryAddress: deliveryAddress,
-      };
-
-      if (token) {
-        newOrder.uid = client.info.id;
-        newOrder.email = client.info.email;
-      }
-
-      newOrder.payment = {
-        name: "Momo",
-        status: "Paid",
-      };
-      dispatch(addOrderRequest({ orderId, encryptedId, order: newOrder }));
-    }
-  }, [params.get("extraData"), cart.status]);
-
-  useEffect(() => {
     //set delivery address
     setDeliveryAddress(currentAddress.address);
 
     //calculate amount
     setAmount(calAmount(cart.data.totalAmount, shippingFee, discount));
-  });
-
-  useEffect(() => {
-    if (payURL && payURL.status === LOADING_STATUS.SUCCESS) {
-      window.location.href = payURL.data;
-    } else if (payURL.status === LOADING_STATUS.LOADING) {
-      dispatch(actions.activePopup({ type: POPUP.WAITING_POPUP }));
-    } else if (payURL.status === LOADING_STATUS.FAIL) {
-      document.querySelector(".order-infor__error").textContent =
-        "Somethings went wrong. Please try again";
-    }
   });
 
   //actions
@@ -236,35 +185,26 @@ const Payment = () => {
         deliveryAddress: deliveryAddress,
       };
 
-      //create uuid
-      const orderId = uuidv4();
-
       //payment method
       if (paymentMethod === "cash") {
         newOrder.payment = {
           name: "Cash(COD)",
           status: "Waiting for payment",
         };
-
-        //Client info
-        if (token) {
-          newOrder.uid = client.info.id;
-          newOrder.email = client.info.email;
-        }
-
-        dispatch(addOrderRequest({ orderId, order: newOrder }));
       } else {
-        //momo
-        dispatch(
-          getPayUrlRequest({
-            amount: newOrder.totalAmount,
-            orderId,
-          })
-        );
-        // newOrder.payment = {
-        //   name: "Momo",
-        // };
+        newOrder.payment = {
+          name: "Momo",
+          status: "Waiting for payment",
+        };
       }
+
+      //Client info
+      if (token) {
+        newOrder.uid = client.info.id;
+        newOrder.email = client.info.email;
+      }
+
+      dispatch(addOrderRequest({ order: newOrder }));
     }
   };
 
