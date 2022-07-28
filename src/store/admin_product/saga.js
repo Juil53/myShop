@@ -21,7 +21,6 @@ import {
 export function* actGetOptions() {
   try {
     const result = yield call(fb.getAll, "attributes");
-    console.log(result)
     yield put(getOptionsSuccess(result));
   } catch (err) {
     yield put(getOptionsFailed(err));

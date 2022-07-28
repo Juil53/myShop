@@ -61,7 +61,7 @@ const Dashboard = () => {
               sx={{ marginBottom: 1 }}
               gutterBottom
             >
-              FILTER
+              SELECT A MONTH
             </Typography>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">

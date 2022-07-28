@@ -59,7 +59,7 @@ const SearchBar = () => {
               type="text"
               onChange={handleChangeInput}
               onKeyDown={handleKeyDown}
-              placeholder="Type product name to search"
+              placeholder="Type something to search"
             />
             {/* Chip */}
             {query && (
