@@ -207,6 +207,7 @@ const OrderModal = () => {
                                       width: "80%",
                                       marginRight: "1rem",
                                     }}
+                                    alt="product"
                                   />
                                 </Grid>
                                 <Grid item xs={9}>

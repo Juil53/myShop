@@ -20,7 +20,7 @@ export const handleSearch = (data, keyword) => {
 };
 
 export const style = {
-  table: { height: "80vh", width: "100%", margin: "2rem 0" },
+  table: { height: "70vh", width: "100%", margin: "2rem 0" },
   btnView: { color: "darkblue", border: "1px dotted rgba(0, 0, 139, 0.596)", padding: 0 },
   btnDelete: { color: "crimson", border: "1px dotted rgba(255, 0, 0, 0.596)", padding: 0 },
   image: {

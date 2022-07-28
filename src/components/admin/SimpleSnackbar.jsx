@@ -2,8 +2,7 @@ import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 
-function SimpleSnackbar({ type, show, setShow, severity }) {
-  console.log(severity);
+function SimpleSnackbar({ show, setShow, severity }) {
   let message;
 
   switch (severity?.type) {

@@ -41,7 +41,7 @@ const SearchProduct = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [searchParams])
+  }, [searchParams]);
 
   const dataFilter = useSelector((state) => selectProduct(state, mainCate, subCate, sortCate));
   const searchResultFilter = useSelector((state) =>
@@ -62,18 +62,16 @@ const SearchProduct = () => {
   ];
 
   const {
-    allProducts: { data, status },
+    allProducts: { status },
     newProducts,
   } = useSelector(productSelector);
 
   useEffect(() => {
-    if (
-      status === LOADING_STATUS.IDLE ||
-      newProducts.status === LOADING_STATUS.IDLE
-    ) {
+    if (status === LOADING_STATUS.IDLE || newProducts.status === LOADING_STATUS.IDLE) {
       dispatch(productActions.fetchAllProductsRequest());
       dispatch(productActions.fetchNewProductsRequest());
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //RENDER CARDS
@@ -84,11 +82,7 @@ const SearchProduct = () => {
       ));
     } else {
       return dataFilter.map((product, index) => (
-        <ProductCard
-          cardDirection="vertical"
-          data={product}
-          key={`product_${index}`}
-        />
+        <ProductCard cardDirection="vertical" data={product} key={`product_${index}`} />
       ));
     }
   };

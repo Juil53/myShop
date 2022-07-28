@@ -17,16 +17,14 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import SimpleSnackbar from "../../../../../components/admin/SimpleSnackbar";
 import { db, storage } from "../../../../../service/auth";
-import {
-  getCategoriesRequest,
-  getOptionsRequest
-} from "../../../../../store/admin_product/productSlice";
+import { getOptionsRequest } from "../../../../../store/admin_product/productSlice";
 import { TextFieldCustom } from "../../../../../styles/styled_components/styledComponent";
 import AttributeInput from "./AttributeInput";
 import CategoriesInput from "./CategoriesInput";
 import ImageInput from "./ImageInput";
 
 export default function AddProduct() {
+
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [severity, setSeverity] = useState({
@@ -71,7 +69,10 @@ export default function AddProduct() {
               tempUrl.push(url);
             }
           } catch (error) {
-            console.log(error);
+            setSeverity({
+              type: "error",
+              message: error,
+            });
           }
 
           const editedValues = {
@@ -85,9 +86,9 @@ export default function AddProduct() {
 
           setShow(true);
           setSeverity({
-            type:'success',
-            message:`Add ${values.name} Successful!`
-          })
+            type: "success",
+            message: `Add ${values.name} Successful!`,
+          });
           resetForm();
         }}
       >
@@ -222,11 +223,6 @@ export default function AddProduct() {
             <Grid item xs={12}>
               <CategoriesInput />
             </Grid>
-
-            {/* Options */}
-            {/* <Grid item xs={12}>
-              <OptionsInput />
-            </Grid> */}
 
             {/* Attribute */}
             <Grid item xs={12}>
