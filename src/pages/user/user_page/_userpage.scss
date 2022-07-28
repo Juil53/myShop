@@ -4,7 +4,6 @@
 .user_page-container {
   width: 90%;
   margin-left: 5%;
-  min-height: 70vh;
 
   .user_page-content {
     margin-top: 2rem;
@@ -24,6 +23,7 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
+            object-fit: cover;
           }
         }
 
@@ -116,6 +116,7 @@
               width: 100%;
               height: 100%;
               border-radius: 50%;
+              object-fit: cover;
             }
 
             .change_pic-btn {
