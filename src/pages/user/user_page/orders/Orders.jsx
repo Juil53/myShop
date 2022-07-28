@@ -18,9 +18,10 @@ const Orders = () => {
   useEffect(() => {
     if (orders.status === LOADING_STATUS.IDLE) {
       dispatch(getOrderByClientRequest());
-    } else if (orders.status == LOADING_STATUS.SUCCESS) {
+    } else if (orders.status === LOADING_STATUS.SUCCESS) {
       setCurrentData(orders.data);
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders.status]);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const Orders = () => {
     } else {
       filterOrder(currentTab, orders.data);
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTab]);
 
   const filterOrder = (status, data) => {

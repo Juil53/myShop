@@ -4,8 +4,11 @@ import { delay } from "../utils";
 const call = async ({
   baseUrl = c.API_URL,
   path = "",
-  method = "GET",
-  headers = { "Content-Type": "application/json" },
+   method = "GET",
+  mode = "cors",
+  headers = {
+    "Content-Type": "application/json",
+  },
   query = null,
 }) => {
   try {
@@ -14,6 +17,7 @@ const call = async ({
     const body = willConvertJson && query ? JSON.stringify(query) : query;
     let res = await fetch(`${baseUrl}/${path}`, {
       method,
+      mode,
       headers: {
         ...headers,
       },

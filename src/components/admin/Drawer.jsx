@@ -26,6 +26,7 @@ import {
   Stack,
   styled,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import * as React from "react";
@@ -39,6 +40,11 @@ import { LOADING_STATUS, USER_ACTIONS } from "../../constants";
 import localStorage from "../../service/localStorage";
 import { loginAdmin } from "../../store/users/selector";
 import { getLoginUserInfoRequest } from "../../store/users/usersSlice";
+import {
+  CustomeNavlink,
+  CustomizedListItemButton,
+  CustomizeToolbar
+} from "../../styles/styled_components/styledComponent";
 
 const drawerWidth = "25rem";
 
@@ -107,6 +113,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 function MyDrawer() {
   const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(true);
   const [popper, setPopper] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -198,19 +205,28 @@ function MyDrawer() {
       {token && user.status === LOADING_STATUS.SUCCESS ? (
         <Box sx={{ display: "flex" }}>
           <MyAppBar position="fixed" open={open} elevation={1}>
-            <CustomizeToolbar sx={{ backgroundColor: "#f6f7f9" }}>
+            <CustomizeToolbar
+              sx={{
+                backgroundColor: "#e6eaf3",
+                "&.MuiToolbar-root": {
+                  minHeight: "45px",
+                },
+              }}
+            >
               <Grid container justifyContent="space-between">
-                <Grid item></Grid>
+                <Grid item sx={open ? { paddingLeft: "25rem" } : { visibility: "hidden" }}>
+                  <Typography variant="h5" color="#333"></Typography>
+                </Grid>
                 <Grid item>
                   <Stack spacing={3} direction="row" alignItems="center">
                     <Avatar
                       alt="Remy Sharp"
                       src={user?.data?.avatar}
                       sx={{
-                        width: "40px",
-                        height: "40px",
+                        width: "30px",
+                        height: "30px",
                         borderRadius: "50%",
-                        border: "2px solid",
+                        border: "1px solid",
                         borderColor: "primary.main",
                         cursor: "pointer",
                         opacity: 0.8,
@@ -259,12 +275,20 @@ function MyDrawer() {
           <NewDrawer
             variant="permanent"
             open={open}
-            sx={{ "& .MuiDrawer-paper": { backgroundColor: "primary.main" } }}
+            sx={{
+              // height:'100%',
+              background:
+                "url(https://w0.peakpx.com/wallpaper/227/296/HD-wallpaper-game-of-thrones-got-jon-jon-snow-winter-is-coming-stark.jpg) center left",
+              "& .MuiDrawer-paper": {
+                backgroundColor: "primary.main",
+                opacity: 0.9,
+              },
+            }}
           >
             <Grid
               container
               direction="column"
-              sx={{ height: "100%" }}
+              sx={{ height: "100vh" }}
               justifyContent="space-between"
             >
               <Grid item>

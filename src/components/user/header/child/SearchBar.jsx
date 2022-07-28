@@ -1,12 +1,12 @@
-import React, { memo, useCallback, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import { Button } from "@mui/material";
 import Chip from "@mui/material/Chip";
+import { styled } from "@mui/material/styles";
+import React, { memo, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import { actions as productActions } from "../../../../store/products/slice";
 import { debounce } from "../../../../utils";
-import { useDispatch } from "react-redux";
-import { Button } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -14,16 +14,25 @@ const ListItem = styled("li")(({ theme }) => ({
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const [searchKey, setSearchKey] = useState(null)  
   const [searchParams, setSearchParams] = useSearchParams();
+
   const query = searchParams.get("query");
+
+  const [searchKey, setSearchKey] = useState(() => {
+    if (query) return query
+    return ""
+  });
+  const [chipData, setChipData] = useState(()=>{
+    if(searchKey){
+      return [{ key: 0, label: `${searchKey}` }]
+    }
+    return []
+  });
 
   const handleSearch = () => {
     if (!searchKey) return;
     document.location.href = "/product?query=" + searchKey;
   };
-
-  const [chipData, setChipData] = React.useState([{ key: 0, label: `${query}` }]);
 
   const handleDelete = (chipToDelete) => () => {
     dispatch(productActions.searchProductRequest({ name: "" }));
@@ -59,10 +68,10 @@ const SearchBar = () => {
               type="text"
               onChange={handleChangeInput}
               onKeyDown={handleKeyDown}
-              placeholder="Type product name to search"
+              placeholder="Type something to search"
             />
             {/* Chip */}
-            {query && (
+            {searchKey && (
               <div className="search-chip">
                 <ul style={{ display: "flex" }}>
                   {chipData.map((data) => {

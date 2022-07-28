@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
   getQuantityAvailable,
   isAvailableOption,
@@ -41,12 +41,14 @@ const ProductDetail = () => {
 
   useEffect(() => {
     dispatch(productActions.getProductRequest(params.id));
-
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }, [params.id]);
+
+  
 
   const array = [
     {

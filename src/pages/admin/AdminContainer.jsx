@@ -1,33 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Routes, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
 import { Box } from "@mui/material";
+import React, { useEffect } from "react";
+import { Routes, useLocation, useNavigate } from "react-router-dom";
 import MyDrawer from "../../components/admin/Drawer";
-import { useLocation } from "react-router-dom";
-
-import Signin from "./signin_admin/Signin";
-import { loginAdmin } from "../../store/users/selector";
-import { renderRouteAdmin } from "../../routes/AdminRoute";
-import { LOADING_STATUS, POPUP } from "../../constants";
 import Popup from "../../components/popup/Popup";
-import { actions } from "../../store/page/slice";
+import { renderRouteAdmin } from "../../routes/AdminRoute";
 import localStorage from "../../service/localStorage";
 
 const content = {
   flexGrow: 1,
   p: 3,
-  mt: 8,
+  mt: 5,
   width: "100%",
-  backgroundColor: "#f6f7f9",
+  backgroundColor: "#e6eaf3",
   height: "100vh",
 };
 
 export default function AdminContainer() {
   const navigator = useNavigate();
-  const token = localStorage.get("admin");
-
   const location = useLocation();
+  const token = localStorage.get("admin");
 
   useEffect(() => {
     if (!token) {
