@@ -1,13 +1,12 @@
-import React, { memo, useCallback, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import { Button } from "@mui/material";
 import Chip from "@mui/material/Chip";
+import { styled } from "@mui/material/styles";
+import React, { memo, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import { actions as productActions } from "../../../../store/products/slice";
 import { debounce } from "../../../../utils";
-import { useDispatch } from "react-redux";
-import { Button } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import { useEffect } from "react";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -19,9 +18,16 @@ const SearchBar = () => {
 
   const query = searchParams.get("query");
 
-  const [searchKey, setSearchKey] = useState(query);
-  console.log(searchKey);
-  const [chipData, setChipData] = useState([{ key: 0, label: `${searchKey}` }]);
+  const [searchKey, setSearchKey] = useState(() => {
+    if (query) return query
+    return ""
+  });
+  const [chipData, setChipData] = useState(()=>{
+    if(searchKey){
+      return [{ key: 0, label: `${searchKey}` }]
+    }
+    return []
+  });
 
   const handleSearch = () => {
     if (!searchKey) return;
