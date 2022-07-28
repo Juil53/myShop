@@ -40,11 +40,6 @@ import { LOADING_STATUS, USER_ACTIONS } from "../../constants";
 import localStorage from "../../service/localStorage";
 import { loginAdmin } from "../../store/users/selector";
 import { getLoginUserInfoRequest } from "../../store/users/usersSlice";
-import {
-  CustomeNavlink,
-  CustomizedListItemButton,
-  CustomizeToolbar
-} from "../../styles/styled_components/styledComponent";
 
 const drawerWidth = "25rem";
 
@@ -214,7 +209,12 @@ function MyDrawer() {
               }}
             >
               <Grid container justifyContent="space-between">
-                <Grid item sx={open ? { paddingLeft: "25rem" } : { visibility: "hidden" }}>
+                <Grid
+                  item
+                  sx={
+                    open ? { paddingLeft: "25rem" } : { visibility: "hidden" }
+                  }
+                >
                   <Typography variant="h5" color="#333"></Typography>
                 </Grid>
                 <Grid item>
