@@ -7,6 +7,7 @@ import { debounce } from "../../../../utils";
 import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useEffect } from "react";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -14,16 +15,18 @@ const ListItem = styled("li")(({ theme }) => ({
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const [searchKey, setSearchKey] = useState(null)  
   const [searchParams, setSearchParams] = useSearchParams();
+
   const query = searchParams.get("query");
+
+  const [searchKey, setSearchKey] = useState(query);
+  console.log(searchKey);
+  const [chipData, setChipData] = useState([{ key: 0, label: `${searchKey}` }]);
 
   const handleSearch = () => {
     if (!searchKey) return;
     document.location.href = "/product?query=" + searchKey;
   };
-
-  const [chipData, setChipData] = React.useState([{ key: 0, label: `${query}` }]);
 
   const handleDelete = (chipToDelete) => () => {
     dispatch(productActions.searchProductRequest({ name: "" }));
@@ -62,7 +65,7 @@ const SearchBar = () => {
               placeholder="Type something to search"
             />
             {/* Chip */}
-            {query && (
+            {searchKey && (
               <div className="search-chip">
                 <ul style={{ display: "flex" }}>
                   {chipData.map((data) => {
