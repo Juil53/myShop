@@ -9,14 +9,32 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MailIcon from "@mui/icons-material/Mail";
 import StoreIcon from "@mui/icons-material/Store";
 import {
-  AppBar, Avatar, Badge, Box, Button, Divider, Drawer, Fade, Grid, List, ListItemIcon, ListItemText, Paper, Popper, Stack, styled, Toolbar
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Fade,
+  Grid,
+  List,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Popper,
+  Stack,
+  styled,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  CustomeNavlink, CustomizedListItemButton,
-  CustomizeToolbar
+  CustomeNavlink,
+  CustomizedListItemButton,
+  CustomizeToolbar,
 } from "../../styles/styled_components/styledComponent";
 import { LOADING_STATUS, USER_ACTIONS } from "../../constants";
 import localStorage from "../../service/localStorage";
@@ -182,9 +200,14 @@ function MyDrawer() {
       {token && user.status === LOADING_STATUS.SUCCESS ? (
         <Box sx={{ display: "flex" }}>
           <MyAppBar position="fixed" open={open} elevation={1}>
-            <CustomizeToolbar sx={{ backgroundColor: "#e6eaf3","&.MuiToolbar-root": {
-              minHeight:'45px'
-            } }}>
+            <CustomizeToolbar
+              sx={{
+                backgroundColor: "#e6eaf3",
+                "&.MuiToolbar-root": {
+                  minHeight: "45px",
+                },
+              }}
+            >
               <Grid container justifyContent="space-between">
                 <Grid item sx={open ? { paddingLeft: "25rem" } : { visibility: "hidden" }}>
                   <Typography variant="h5" color="#333"></Typography>
@@ -239,7 +262,7 @@ function MyDrawer() {
           <NewDrawer
             variant="permanent"
             open={open}
-            sx={{          
+            sx={{
               // height:'100%',
               background:
                 "url(https://w0.peakpx.com/wallpaper/227/296/HD-wallpaper-game-of-thrones-got-jon-jon-snow-winter-is-coming-stark.jpg) center left",
@@ -314,7 +337,6 @@ function MyDrawer() {
                   )}
                 </DrawerHeader>
               </Grid>
-
             </Grid>
           </NewDrawer>
         </Box>

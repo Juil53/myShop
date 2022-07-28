@@ -42,13 +42,13 @@ const ProductDetail = () => {
   useEffect(() => {
     dispatch(productActions.getProductRequest(params.id));
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
-
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }, [params.id]);
+
+  
 
   const array = [
     {
