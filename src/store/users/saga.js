@@ -84,7 +84,11 @@ export function* actDeleteUser(action) {
 export function* actUpdateUserInfo(action) {
   console.log(action);
   try {
-    const result = yield call(fb.update, `users/${action.payload.id}`, action.payload.state);
+    const result = yield call(
+      fb.update,
+      `users/${action.payload.id}`,
+      action.payload.state
+    );
     yield put(submitUserSuccess(result));
   } catch (err) {
     yield put(submitUserFailed());
@@ -117,6 +121,7 @@ export function* getAdminInfo() {
   const id = getUserId("admin");
   if (id) {
     const user = yield call(APIv2.get, "users", id);
+    console.log(user);
     yield put(getLoginUserInfo(user));
   }
 }

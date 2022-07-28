@@ -4,7 +4,6 @@ let token = "";
 let decoded = null;
 
 export const getToken = (source) => {
-  if (token) return token;
   let user = localStorage.getItem(source);
   if (user) {
     user = JSON.parse(user);
@@ -14,7 +13,6 @@ export const getToken = (source) => {
 };
 
 export const decodeToken = (source) => {
-  if (decoded) return decoded;
   const t = getToken(source);
   try {
     decoded = decode(t);
