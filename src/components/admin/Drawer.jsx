@@ -9,14 +9,31 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MailIcon from "@mui/icons-material/Mail";
 import StoreIcon from "@mui/icons-material/Store";
 import {
-  AppBar, Avatar, Badge, Box, Button, Divider, Drawer, Fade, Grid, List, ListItemIcon, ListItemText, Paper, Popper, Stack, styled, Toolbar
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Fade,
+  Grid,
+  List,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Popper,
+  Stack,
+  styled,
+  Toolbar,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  CustomeNavlink, CustomizedListItemButton,
-  CustomizeToolbar
+  CustomeNavlink,
+  CustomizedListItemButton,
+  CustomizeToolbar,
 } from "../../styles/styled_components/styledComponent";
 import { LOADING_STATUS, USER_ACTIONS } from "../../constants";
 import localStorage from "../../service/localStorage";
@@ -209,7 +226,12 @@ function MyDrawer() {
                       <MailIcon color="primary" />
                     </Badge>
 
-                    <Popper id={id} open={popper} anchorEl={anchorEl} transition>
+                    <Popper
+                      id={id}
+                      open={popper}
+                      anchorEl={anchorEl}
+                      transition
+                    >
                       {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={200}>
                           <Stack
@@ -218,7 +240,10 @@ function MyDrawer() {
                             elevation={2}
                           >
                             <Button>{user?.data?.lastname}</Button>
-                            <Button onClick={handleSignout} endIcon={<LogoutIcon />}>
+                            <Button
+                              onClick={handleSignout}
+                              endIcon={<LogoutIcon />}
+                            >
                               Log out
                             </Button>
                           </Stack>
@@ -244,7 +269,10 @@ function MyDrawer() {
             >
               <Grid item>
                 <Grid item>
-                  <Toolbar className="adminToolbar" sx={{ paddingLeft: { xs: "16px" } }}>
+                  <Toolbar
+                    className="adminToolbar"
+                    sx={{ paddingLeft: { xs: "16px" } }}
+                  >
                     {open ? (
                       <img
                         src="/img/logomyShopwhite.png"
@@ -265,7 +293,9 @@ function MyDrawer() {
                           return (
                             <CustomeNavlink to={href} key={index}>
                               <CustomizedListItemButton>
-                                <ListItemIcon sx={{ color: "#fff" }}>{icon}</ListItemIcon>
+                                <ListItemIcon sx={{ color: "#fff" }}>
+                                  {icon}
+                                </ListItemIcon>
                                 <ListItemText primary={text} />
                               </CustomizedListItemButton>
                               <Divider />
@@ -277,7 +307,9 @@ function MyDrawer() {
                           return (
                             <CustomeNavlink to={href} key={index}>
                               <CustomizedListItemButton>
-                                <ListItemIcon sx={{ color: "#fff" }}>{icon}</ListItemIcon>
+                                <ListItemIcon sx={{ color: "#fff" }}>
+                                  {icon}
+                                </ListItemIcon>
                                 <ListItemText primary={text} />
                               </CustomizedListItemButton>
                               <Divider />
@@ -289,7 +321,9 @@ function MyDrawer() {
               </Grid>
 
               <Grid item>
-                <DrawerHeader sx={{ justifyContent: open ? "flex-end" : "flex-start" }}>
+                <DrawerHeader
+                  sx={{ justifyContent: open ? "flex-end" : "flex-start" }}
+                >
                   {!open ? (
                     <IconButton onClick={handleDrawerOpen}>
                       <ChevronRightIcon sx={{ color: "#fff" }} />
