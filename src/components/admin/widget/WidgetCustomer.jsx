@@ -1,16 +1,10 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { handleIncreaseItem, handleNewItem } from "./logic";
+import { style } from "./widgetStyle";
 
 const WidgetCustomer = ({ customers, month }) => {
   let [data, setData] = useState(() => {
@@ -37,47 +31,22 @@ const WidgetCustomer = ({ customers, month }) => {
     setData({ ...data, amount: newCustomers, increase: percentIncrease });
   }, [customers, month]);
 
-  const cardStyle = {
-    transform: "translateY(0)",
-    transition: "all 300ms",
-    "&:hover": {
-      cursor: "pointer",
-      boxShadow: "4px 6px 30px 1px rgba(0,0,0,0.59)",
-      transform: "translateY(-5px)",
-    },
-  };
-
   return (
-    <Card elevation={5} sx={cardStyle}>
+    <Card elevation={5} sx={style.cardStyle}>
       <CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{ fontSize: "2rem", fontWeight: "400" }}
-            color="text.secondary"
-            gutterBottom
-          >
+        <Box sx={style.container}>
+          <Typography sx={style.text} gutterBottom>
             {data.title}
           </Typography>
 
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={style.container}>
             <ArrowUpwardOutlinedIcon color="success" />
             <Typography>{data?.increase}%</Typography>
           </Box>
         </Box>
-        <Typography
-          sx={{ fontSize: "3.5rem", fontWeight: "500" }}
-          color="text.primary"
-        >
-          {data.amount}
-        </Typography>
+        <Typography sx={style.numberText}>{data.amount}</Typography>
       </CardContent>
-      <CardActions sx={{ justifyContent: "space-between" }}>
+      <CardActions sx={style.action}>
         <Link to="/admin/customers">
           <Button size="small" color="info">
             {data.link}
