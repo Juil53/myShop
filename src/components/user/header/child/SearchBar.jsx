@@ -19,14 +19,12 @@ const SearchBar = () => {
   const query = searchParams.get("query");
 
   const [searchKey, setSearchKey] = useState(() => {
-    if (query) return query
-    return ""
+    if (query) return query;
+    return "";
   });
-  const [chipData, setChipData] = useState(()=>{
-    if(searchKey){
-      return [{ key: 0, label: `${searchKey}` }]
-    }
-    return []
+  const [chipData, setChipData] = useState(() => {
+    if (searchKey) return [{ key: 0, label: `${searchKey}` }];
+    return [];
   });
 
   const handleSearch = () => {

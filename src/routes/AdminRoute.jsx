@@ -108,7 +108,7 @@ const renderRouteAdmin = () => {
         path={route.path}
         element={
           <Suspense fallback={<>...</>}>
-            <route.element inputs={customerInputs} />
+            <route.element/>
           </Suspense>
         }
       />
